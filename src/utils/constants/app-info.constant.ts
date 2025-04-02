@@ -13,6 +13,7 @@ export const APP_INFO = {
   INSTAGRAM: "https://instagram.com/nextroom_ca",
   FACEBOOK: "https://facebook.com/nextroom_ca",
   EMAIL: "support@nextroom.ca",
+  JOIN_US: "clvdq@robot.zapier.com",
 };
 
 export const IMAGES = {

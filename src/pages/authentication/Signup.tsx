@@ -197,9 +197,9 @@ const Signup = () => {
                           : ""
                       }`}
                     />
-                    <div className="flex shrink-0 items-center rounded-l-md bg-gray-100 px-3 text-base text-gray-500 outline outline-1 -outline-offset-1 outline-gray-300 sm:text-sm/6">
-                      {domain}
-                    </div>
+                    {/*<div className="flex shrink-0 items-center rounded-l-md bg-gray-100 px-3 text-base text-gray-500 outline outline-1 -outline-offset-1 outline-gray-300 sm:text-sm/6">*/}
+                    {/*  {domain}*/}
+                    {/*</div>*/}
                     {/* {!isPersonalEmail && (
                       <div className="flex shrink-0 items-center rounded-l-md bg-gray-100 px-3 text-base text-gray-500 outline outline-1 -outline-offset-1 outline-gray-300 sm:text-sm/6">
                         {domain}
