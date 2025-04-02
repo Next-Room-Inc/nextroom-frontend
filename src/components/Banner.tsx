@@ -95,8 +95,6 @@ const Modal = ({open, setOpen}: ModalProps) => {
                         </div>
                         <div className="mt-6 sm:mt-8 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-4">
                             <a
-                                target="_blank"
-                                rel="noopener"
                                 href={`mailto:${APP_INFO.JOIN_US}`}
                                 className="inline-flex w-full justify-center rounded-md bg-red-700 px-4 py-3 text-lg font-semibold text-white shadow-lg shadow-red-900 hover:bg-red-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 sm:col-start-2"
                             >
