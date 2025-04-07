@@ -15,7 +15,7 @@ export const SignupSchema = z
             .email("Invalid email format")
             .regex(
                 /^[\w.%+-]+@(uottawa\.ca|cmail\.carleton\.ca|algonquinlive\.com|collegelacite\.ca)$/i,
-                "Email must be from uottawa.ca, cmail.carleton.ca, or algonquinlive.com"
+                "Email must be from uottawa.ca, cmail.carleton.ca, collegelacite.ca or algonquinlive.com"
             ),
         password: z
             .string({message: "Password is requried"})
