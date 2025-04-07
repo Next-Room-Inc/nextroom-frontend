@@ -1,6 +1,9 @@
 import {Dialog, DialogBackdrop, DialogPanel, DialogTitle,} from "@headlessui/react";
 import {useState} from "react";
 import {APP_INFO} from "../utils/constants";
+import {useLocalStorage} from "../hooks/useLocalStorage.tsx";
+import {db} from "../firebase.ts";
+import {collection, addDoc} from 'firebase/firestore';
 
 // Define the props for the Modal component
 interface ModalProps {
@@ -10,6 +13,7 @@ interface ModalProps {
 
 export const Banner = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [auth] = useLocalStorage('auth');
 
     const handleBannerClick = () => setIsModalOpen(true);
     const handleDismiss = () => setIsModalOpen(false);
@@ -17,9 +21,13 @@ export const Banner = () => {
     return (
         <>
             <Modal open={isModalOpen} setOpen={setIsModalOpen}/>
-            <div className="flex items-center gap-x-6 bg-red-400 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
-                <p className="text-sm/6 text-white cursor-pointer" onClick={handleBannerClick}>
-                    <a href="#" className="hover:underline">
+            <div className={`flex items-center gap-x-6 
+            ${!auth.hasAcceptedOffer ? 'bg-red-400' : 'bg-green-500'} 
+            px-6 py-2.5 sm:px-3.5 sm:before:flex-1`}>
+                <p className="text-sm/6 text-white cursor-pointer"
+                   onClick={!auth.hasAcceptedOffer ? handleBannerClick : undefined}
+                >
+                    <a href="#" className={!auth.hasAcceptedOffer ? `hover:underline` : ''}>
                         <strong className="font-semibold">{APP_INFO.WEBSITE}</strong>
                         <svg
                             viewBox="0 0 2 2"
@@ -28,7 +36,10 @@ export const Banner = () => {
                         >
                             <circle r={1} cx={1} cy={1}/>
                         </svg>
-                        Join us to get 1.5-month free rent&nbsp;
+                        {auth.hasAcceptedOffer
+                            ? "An agent will get to you very soon"
+                            : "Join us to get 1.5-month free rent"
+                        }&nbsp;
                         <span aria-hidden="true">&rarr;</span>
                     </a>
                 </p>
@@ -49,6 +60,25 @@ export const Banner = () => {
 
 // Add TypeScript types to the Modal component
 const Modal = ({open, setOpen}: ModalProps) => {
+    const [auth, setAuth] = useLocalStorage('auth');
+    const handleJoinOffer = async () => {
+
+        await addDoc(collection(db, 'marketing'), {
+            email: auth.email,
+            firstName: auth.firstName,
+            lastName: auth.lastName,
+            name: "CLV group 1.5month offer",
+            createdAt: new Date(),
+        });
+
+        setAuth((prev: any) => ({
+            ...prev,
+            hasAcceptedOffer: true,
+        }));
+
+        setOpen(false);
+    }
+
     return (
         <Dialog open={open} onClose={setOpen} className="relative z-10">
             <DialogBackdrop
@@ -94,12 +124,13 @@ const Modal = ({open, setOpen}: ModalProps) => {
                             </div>
                         </div>
                         <div className="mt-6 sm:mt-8 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-4">
-                            <a
-                                href={`mailto:${APP_INFO.JOIN_US}`}
+                            <button
+                                type="button"
+                                onClick={handleJoinOffer}
                                 className="inline-flex w-full justify-center rounded-md bg-red-700 px-4 py-3 text-lg font-semibold text-white shadow-lg shadow-red-900 hover:bg-red-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 sm:col-start-2"
                             >
-                                Join Us
-                            </a>
+                                Join offer
+                            </button>
 
                             <button
                                 type="button"

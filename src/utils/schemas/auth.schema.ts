@@ -14,7 +14,7 @@ export const SignupSchema = z
             .min(1, "Email is required")
             .email("Invalid email format")
             .regex(
-                /^[\w.%+-]+@(uottawa\.ca|cmail\.carleton\.ca|algonquinlive\.com)$/i,
+                /^[\w.%+-]+@(uottawa\.ca|cmail\.carleton\.ca|algonquinlive\.com|collegelacite\.ca)$/i,
                 "Email must be from uottawa.ca, cmail.carleton.ca, or algonquinlive.com"
             ),
         password: z
