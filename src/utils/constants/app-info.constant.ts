@@ -27,6 +27,11 @@ export const ICONS = {
   BATH: "assets/img/icons/bath.png",
   LAUNDRY: "assets/img/icons/laundry.png",
   DISHWASHER: "assets/img/icons/dishwasher.png",
+  FITNESS_CENTER: "assets/img/icons/fitness.png",
+  GAME_ROOM: "assets/img/icons/game-room.png",
+  OUTDOOR_PATIO: "assets/img/icons/outdoor-patio.png",
+  BIKE_STORAGE: "assets/img/icons/bike.png",
+  GIFT: "assets/img/icons/gift.png",
 };
 
 export const STUDENT_IMAGES = {

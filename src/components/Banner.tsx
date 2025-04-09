@@ -2,7 +2,7 @@ import {Dialog, DialogBackdrop, DialogPanel, DialogTitle,} from "@headlessui/rea
 import {useState} from "react";
 import {APP_INFO} from "../utils/constants";
 import {useLocalStorage} from "../hooks/useLocalStorage.tsx";
-import {db} from "../firebase.ts";
+import {db} from "../firebase/firebase.ts";
 import {collection, addDoc} from 'firebase/firestore';
 
 // Define the props for the Modal component
@@ -22,7 +22,7 @@ export const Banner = () => {
         <>
             <Modal open={isModalOpen} setOpen={setIsModalOpen}/>
             <div className={`flex items-center gap-x-6 
-            ${!auth.hasAcceptedOffer ? 'bg-red-400' : 'bg-green-500'} 
+            ${!auth.hasAcceptedOffer ? 'bg-red-800' : 'bg-green-500'} 
             px-6 py-2.5 sm:px-3.5 sm:before:flex-1`}>
                 <p className="text-sm/6 text-white cursor-pointer"
                    onClick={!auth.hasAcceptedOffer ? handleBannerClick : undefined}
@@ -38,7 +38,7 @@ export const Banner = () => {
                         </svg>
                         {auth.hasAcceptedOffer
                             ? "An agent will get to you very soon"
-                            : "Join us to get 1.5-month free rent"
+                            : "Enjoy a rent-free summer in Ottawa! (four months free)"
                         }&nbsp;
                         <span aria-hidden="true">&rarr;</span>
                     </a>

@@ -23,6 +23,8 @@ const Home = () => {
             </div>
           </div>
 
+          {/* <GiveAwayModal/> */}
+          {/* <RentFreeModal/> */}
           {/* {error && (
             <div className=" text-center tracking-tight text-red-400 ">
               Error loading listings...

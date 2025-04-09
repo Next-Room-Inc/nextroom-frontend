@@ -163,7 +163,7 @@ const Login = () => {
               —
             </h1>
             <h4 className="text-2xl mt-5  tracking-tight">
-              <span className="text-red-400 font-bold">"Nextroom.ca"</span>,
+              {/* <span className="text-red-400 font-bold">"Nextroom.ca"</span>, */}
               {APP_INFO.TAGLINE}
             </h4>
           </div>
