@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { APP_INFO, ROUTES } from "../utils/constants";
-import useAuth from "../pages/authentication/Auth";
+import useAuth from "../custom-hooks/useAuth";
 
 export default function Header() {
   const { handleLogout, isLoggedIn } = useAuth();

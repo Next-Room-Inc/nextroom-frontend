@@ -4,22 +4,16 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import Loader from "../../components/Loader";
+import GiveAwayModal from "../../components/modals/GiveAwayModal.tsx";
+import { useLocalStorage } from "../../hooks/useLocalStorage.tsx";
 import { useStudentSignupMutation } from "../../redux/services/auth.service";
 import { APP_INFO, ROUTES } from "../../utils/constants";
 import { ICONS, STUDENT_IMAGES } from "../../utils/constants/app-info.constant";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
-import useAuth from "./Auth";
-
-import {
-    Dialog,
-    DialogBackdrop,
-    DialogPanel,
-    DialogTitle,
-} from "@headlessui/react";
-import { useLocalStorage } from "../../hooks/useLocalStorage.tsx";
+import useAuth from "../../custom-hooks/useAuth.tsx";
 
 const inputClass =
   "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6";
@@ -36,6 +30,7 @@ const Signup = () => {
   const [response, setResponse] = useState<string>("");
   const [studentSignup, { isLoading }] = useStudentSignupMutation();
   const [, setAuth] = useLocalStorage("auth");
+  const [submitStep, setSubmitStep] = useState(false);
 
   const handleSubmit = async (values: StudentSignupPayload) => {
     try {
@@ -71,8 +66,14 @@ const Signup = () => {
     onSubmit: handleSubmit,
   });
 
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
   const handleNext = async () => await handleLogin(response);
+
+  const personalInfoValidationError: boolean =
+  !formik?.touched?.firstName ||
+  !!formik.errors.firstName ||
+  !!formik.errors.lastName ||
+  !!formik.errors.university;
 
   return (
     <>
@@ -91,266 +92,310 @@ const Signup = () => {
               <h2 className=" text-2xl/9 font-bold mb-8  text-[#B3322F]">
                 Sign up
               </h2>
-
-              {/* First Name */}
-              <div className="mb-2">
-                <label
-                  htmlFor="firstName"
-                  className="block text-sm/6 font-medium text-gray-900"
+              {submitStep && (
+                <div
+                  className="text-sm font-bold flex cursor-pointer items-center justify-end text-blue-700 hover:text-blue-400"
+                  onClick={() => setSubmitStep(false)}
                 >
-                  First Name
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    value={formik.values.firstName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`${inputClass} ${
-                      formik.touched.firstName && formik.errors.firstName
-                        ? "outline-red-600"
-                        : ""
-                    }`}
-                  />
-                  {formik.touched.firstName && formik.errors.firstName ? (
-                    <div className="text-sm text-red-600">
-                      {formik.errors.firstName}
+                  <ArrowLeftIcon className="h-5 mr-2" />
+                  <span>Previous Step</span>
+                </div>
+              )}
+              {submitStep ? (
+                <>
+                  {/* Email */}
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Email address
+                    </label>
+                    <div className="mt-2 flex">
+                      <input
+                        id="email"
+                        name="email"
+                        type="text"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className={`${inputClass} ${
+                          formik.touched.email && formik.errors.email
+                            ? "outline-red-600"
+                            : ""
+                        }`}
+                      />
                     </div>
-                  ) : null}
-                </div>
-              </div>
-
-              {/* Last Name */}
-              <div className="mb-2">
-                <label
-                  htmlFor="lastName"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Last Name
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    value={formik.values.lastName}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`${inputClass} ${
-                      formik.touched.lastName && formik.errors.lastName
-                        ? "outline-red-600"
-                        : ""
-                    }`}
-                  />
-                  {formik.touched.lastName && formik.errors.lastName ? (
-                    <div className="text-sm text-red-600">
-                      {formik.errors.lastName}
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-              {/* Universty */}
-              <div className="mb-2">
-                <label
-                  htmlFor="phone"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  University
-                </label>
-                <div className="mt-2 grid grid-cols-1">
-                  <select
-                    id="university"
-                    name="university"
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                    value={formik.values.university}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  >
-                                          <option value={""}>Select your university</option>
-
-                    {universities.map((university) => (
-                      <option>{university}</option>
-                    ))}
-                  </select>
-                  <ChevronDownIcon
-                    aria-hidden="true"
-                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                  />
-
-                  {formik.touched.university && formik.errors.university ? (
-                    <div className="text-sm text-red-600">
-                      {formik.errors.university}
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-              {/* Age */}
-              <div className="mb-2">
-                <label
-                  htmlFor="age"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Age
-                </label>
-                <div className="mt-2 grid grid-cols-1">
-                  <select
-                    id="age"
-                    name="age"
-                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                    value={formik.values.age}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  >
-                      <option value={""}>Select your age</option>
-                    {[
-                      "17",
-                      "18",
-                      "19",
-                      "20",
-                      "21",
-                      "22",
-                      "23",
-                      "24",
-                      "25",
-                      "26+",
-                    ].map((age) => (
-                      <option>{age}</option>
-                    ))}
-                  </select>
-                  <ChevronDownIcon
-                    aria-hidden="true"
-                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                  />
-
-                  {formik.touched.age && formik.errors.age ? (
-                    <div className="text-sm text-red-600">
-                      {formik.errors.age}
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-              {/* Phone */}
-              <div className="mb-2">
-                <label
-                  htmlFor="phone"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Phone Number <span className="font-light">(optional)</span>
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="phone"
-                    name="phone"
-                    type="text"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`${inputClass} ${
-                      formik.touched.phone && formik.errors.phone
-                        ? "outline-red-600"
-                        : ""
-                    }`}
-                  />
-                  {formik.touched.phone && formik.errors.phone ? (
-                    <div className="text-sm text-red-600">
-                      {formik.errors.phone}
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-
-              {/* Email */}
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Email address
-                </label>
-                <div className="mt-2 flex">
-                  <input
-                    id="email"
-                    name="email"
-                    type="text"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`${inputClass} ${
-                      formik.touched.email && formik.errors.email
-                        ? "outline-red-600"
-                        : ""
-                    }`}
-                  />
-                </div>
-                {formik.touched.email && formik.errors.email ? (
-                  <div className="text-sm text-red-600">
-                    {formik.errors.email}
+                    {formik.touched.email && formik.errors.email ? (
+                      <div className="text-sm text-red-600">
+                        {formik.errors.email}
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-              </div>
-              {/* Password */}
-              <div className="mb-2">
-                <label
-                  htmlFor="password"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`${inputClass} ${
-                      formik.touched.password && formik.errors.password
-                        ? "outline-red-600"
-                        : ""
-                    }`}
-                  />
-                  {formik.touched.password && formik.errors.password ? (
-                    <div className="text-sm text-red-600">
-                      {formik.errors.password}
+                  {/* Password */}
+                  <div className="mb-2">
+                    <label
+                      htmlFor="password"
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className={`${inputClass} ${
+                          formik.touched.password && formik.errors.password
+                            ? "outline-red-600"
+                            : ""
+                        }`}
+                      />
+                      {formik.touched.password && formik.errors.password ? (
+                        <div className="text-sm text-red-600">
+                          {formik.errors.password}
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
-                </div>
-              </div>
+                  </div>
 
-              {/* Confirm Password */}
-              <div className="mb-2">
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Confirm Password
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    value={formik.values.confirmPassword}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    className={`${inputClass} ${
-                      formik.touched.confirmPassword &&
-                      formik.errors.confirmPassword
-                        ? "outline-red-600"
-                        : ""
-                    }`}
-                  />
-                  {formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword ? (
-                    <div className="text-sm text-red-600">
-                      {formik.errors.confirmPassword}
+                  {/* Confirm Password */}
+                  <div className="mb-2">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block text-sm/6 font-medium text-gray-900"
+                    >
+                      Confirm Password
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        type="password"
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        className={`${inputClass} ${
+                          formik.touched.confirmPassword &&
+                          formik.errors.confirmPassword
+                            ? "outline-red-600"
+                            : ""
+                        }`}
+                      />
+                      {formik.touched.confirmPassword &&
+                      formik.errors.confirmPassword ? (
+                        <div className="text-sm text-red-600">
+                          {formik.errors.confirmPassword}
+                        </div>
+                      ) : null}
                     </div>
-                  ) : null}
-                </div>
-              </div>
+                  </div>
+
+                  {/* Signup Button */}
+                  <div>
+                    <button
+                      type="submit"
+                      className="flex w-full justify-center rounded-md bg-[#7C221F] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#B3322F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                    >
+                      Sign up
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Personal Info Form */}
+                  <>
+                    {" "}
+                    {/* First Name */}
+                    <div className="mb-2">
+                      <label
+                        htmlFor="firstName"
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        First Name
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          id="firstName"
+                          name="firstName"
+                          type="text"
+                          value={formik.values.firstName}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={`${inputClass} ${
+                            formik.touched.firstName && formik.errors.firstName
+                              ? "outline-red-600"
+                              : ""
+                          }`}
+                        />
+                        {formik.touched.firstName && formik.errors.firstName ? (
+                          <div className="text-sm text-red-600">
+                            {formik.errors.firstName}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                    {/* Last Name */}
+                    <div className="mb-2">
+                      <label
+                        htmlFor="lastName"
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Last Name
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          id="lastName"
+                          name="lastName"
+                          type="text"
+                          value={formik.values.lastName}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={`${inputClass} ${
+                            formik.touched.lastName && formik.errors.lastName
+                              ? "outline-red-600"
+                              : ""
+                          }`}
+                        />
+                        {formik.touched.lastName && formik.errors.lastName ? (
+                          <div className="text-sm text-red-600">
+                            {formik.errors.lastName}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                    {/* Universty */}
+                    <div className="mb-2">
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        University/college
+                      </label>
+                      <div className="mt-2 grid grid-cols-1">
+                        <select
+                          id="university"
+                          name="university"
+                          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                          value={formik.values.university}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                        >
+                          <option value={""}>
+                            Select your university/college
+                          </option>
+
+                          {universities.map((university) => (
+                            <option>{university}</option>
+                          ))}
+                        </select>
+                        <ChevronDownIcon
+                          aria-hidden="true"
+                          className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                        />
+
+                        {formik.touched.university &&
+                        formik.errors.university ? (
+                          <div className="text-sm text-red-600">
+                            {formik.errors.university}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                    {/* Age */}
+                    <div className="mb-2">
+                      <label
+                        htmlFor="age"
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Age
+                      </label>
+                      <div className="mt-2 grid grid-cols-1">
+                        <select
+                          id="age"
+                          name="age"
+                          className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                          value={formik.values.age}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                        >
+                          <option value={""}>Select your age</option>
+                          {[
+                            "17",
+                            "18",
+                            "19",
+                            "20",
+                            "21",
+                            "22",
+                            "23",
+                            "24",
+                            "25",
+                            "26+",
+                          ].map((age) => (
+                            <option>{age}</option>
+                          ))}
+                        </select>
+                        <ChevronDownIcon
+                          aria-hidden="true"
+                          className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                        />
+
+                        {formik.touched.age && formik.errors.age ? (
+                          <div className="text-sm text-red-600">
+                            {formik.errors.age}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                    {/* Phone */}
+                    <div className="mb-2">
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm/6 font-medium text-gray-900"
+                      >
+                        Phone Number{" "}
+                        <span className="font-light">(optional)</span>
+                      </label>
+                      <div className="mt-2">
+                        <input
+                          id="phone"
+                          name="phone"
+                          type="text"
+                          value={formik.values.phone}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className={`${inputClass} ${
+                            formik.touched.phone && formik.errors.phone
+                              ? "outline-red-600"
+                              : ""
+                          }`}
+                        />
+                        {formik.touched.phone && formik.errors.phone ? (
+                          <div className="text-sm text-red-600">
+                            {formik.errors.phone}
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                    {/* Signup Button */}
+                    <div>
+                      <button
+                        disabled={personalInfoValidationError}
+                        onClick={() => setSubmitStep(true)}
+                        className={`${
+                          personalInfoValidationError ? "opacity-20" : ""
+                        } flex w-full mt-4 justify-center rounded-md bg-[#7C221F] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#B3322F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
+                      >
+                        Next Step
+                      </button>
+                    </div>
+                  </>
+                  {/* Personal Info Form */}
+                </>
+              )}
 
               {/* Login Link */}
               <p className="my-4 text-center text-sm/6 text-gray-500">
@@ -362,16 +407,6 @@ const Signup = () => {
                   login
                 </Link>
               </p>
-
-              {/* Signup Button */}
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-[#7C221F] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#B3322F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-                >
-                  Sign up
-                </button>
-              </div>
             </form>
           </div>
         </div>
@@ -416,15 +451,15 @@ const Signup = () => {
             className="shadow-2xl shadow-black font-semibold text-xl bg-red-700 h-[210px] w-[210px] pt-6 fixed bottom-0 right-0 transform flex flex-col items-center justify-center text-center"
             style={{ borderTopLeftRadius: "80%" }} // Inline style for border-top-left-radius
           >
-             <img alt="" className="h-15 pr-2" src={ICONS.GIFT} />
+            <img alt="" className="h-15 pr-2" src={ICONS.GIFT} />
             <span>
-            Sign-Up to Enter <br /> Our Giveaway!  
+              Sign-Up to Enter <br /> Our Giveaway!
             </span>
           </div>
         </div>
       </div>
-
-      <Dialog open={open} onClose={handleClose} className="relative z-10">
+      {open && <GiveAwayModal {...{ handleNext }} />}
+      {/* <Dialog open={open} onClose={handleClose} className="relative z-10">
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
@@ -481,7 +516,7 @@ const Signup = () => {
             </DialogPanel>
           </div>
         </div>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

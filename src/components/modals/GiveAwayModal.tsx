@@ -1,6 +1,10 @@
 import { APP_INFO } from "../../utils/constants";
 
-const GiveAwayModal = () => {
+interface GiveAwayModalProps {
+  handleNext: () => void;
+}
+
+const GiveAwayModal: React.FC<GiveAwayModalProps> = ({ handleNext }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
       <div className="bg-white rounded-lg overflow-hidden max-w-3xl w-full flex flex-col md:flex-row shadow-2xl">
@@ -33,7 +37,10 @@ const GiveAwayModal = () => {
               </span>
             </p>
 
-            <button className="bg-white mt-6 text-black py-2 px-6 rounded-md font-semibold hover:bg-gray-100 transition z-10">
+            <button
+              onClick={handleNext}
+              className="bg-white mt-6 text-black py-2 px-6 rounded-md font-semibold hover:bg-gray-100 transition z-10"
+            >
               ENTER GIVEAWAY
             </button>
           </div>

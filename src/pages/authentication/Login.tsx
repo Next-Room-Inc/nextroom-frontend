@@ -6,7 +6,7 @@ import Loader from "../../components/Loader";
 import { useStudentLoginMutation } from "../../redux/services/auth.service";
 import { APP_INFO, ROUTES } from "../../utils/constants";
 import { LoginSchema } from "../../utils/schemas/auth.schema";
-import useAuth from "./Auth";
+import useAuth from "../../custom-hooks/useAuth";
 import { STUDENT_IMAGES } from "../../utils/constants/app-info.constant";
 
 const inputClass = `block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;

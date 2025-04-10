@@ -17,7 +17,7 @@ export const SignupSchema = z
         "Email must be from uottawa.ca, cmail.carleton.ca, collegelacite.ca or algonquinlive.com"
       ),
     university: z.string({ message: "University is required" }),
-    age: z.string({ message: "Age is required" }),
+    age: z.string({ message: "Age must be string" }).optional(),
     phone: z.string().optional(),
     password: z
       .string({ message: "Password is requried" })

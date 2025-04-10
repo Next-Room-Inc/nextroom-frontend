@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate for React Router v6
-import useAuth from "../pages/authentication/Auth";
+import useAuth from "../custom-hooks/useAuth";
 import { ROUTES } from "../utils/constants";
 
 interface IsLoginValidationProps {
