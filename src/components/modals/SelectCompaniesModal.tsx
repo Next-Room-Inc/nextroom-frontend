@@ -98,7 +98,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
             {Object.values(selectedLists).filter(Boolean).length > 0 && (
               <button
                 onClick={interestedHandler}
-                className="bg-white hover:bg-gray-200 w-50  text-black shadow-black shadow-sm py-3 rounded-md font-semibold hover:bg-gray-100 transition"
+                className="bg-white hover:bg-[#c4cddb] w-50  text-black shadow-black shadow-sm py-3 rounded-md font-semibold   transition"
               >
                 Yes, I’m Interested
               </button>
@@ -106,7 +106,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
 
             <button
               onClick={closeHandler}
-              className="bg-red-900 hover:bg-red-800 w-50 shadow-black shadow-sm text-white py-3 rounded-md font-semibold hover:bg-[#841717] transition"
+              className="bg-red-900 hover:bg-[#B3322F] hover:shadow-[#B3322F] w-50 shadow-black shadow-sm text-white py-3 rounded-md font-semibold  transition"
             >
               No, Thanks
             </button>

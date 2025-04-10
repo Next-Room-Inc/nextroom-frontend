@@ -34,13 +34,13 @@ const RentFreeModal: React.FC<RentFreeModalProps> = ({ showModalHandler }) => {
             <div className="w-full flex flex-col gap-3">
               <button
                 onClick={interestedHandler}
-                className="bg-white text-black shadow-white shadow-sm py-3 rounded-md font-semibold hover:bg-gray-100 transition"
+                className="bg-white text-black shadow-white shadow-sm py-3 rounded-md font-semibold hover:bg-[#c4cddb] transition"
               >
                 Yes, I’m Interested
               </button>
               <button
                 onClick={closeHandler}
-                className="bg-red-900 shadow-black shadow-sm text-white py-3 rounded-md font-semibold hover:bg-[#841717] transition"
+                className="bg-red-900  shadow-sm text-white py-3 rounded-md font-semibold hover:bg-[#B3322F] transition"
               >
                 No, Thanks
               </button>
