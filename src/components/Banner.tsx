@@ -1,14 +1,12 @@
 import { toast } from "react-toastify";
-import useSubmissionStatus from "../custom-hooks/useSubmissionStatus";
 import { APP_INFO } from "../utils/constants";
-
+ 
 interface BannerProps {
-  showModalHandler: (name: string, value: boolean) => void;
+  showModalHandler:(name:string, value:boolean)=> void,
+  submitted:boolean
 }
 
-export const Banner: React.FC<BannerProps> = ({ showModalHandler }) => {
-  const { submitted } = useSubmissionStatus();
-  console.log("submitted=>", submitted);
+export const Banner: React.FC<BannerProps> = ({showModalHandler, submitted}) => {
   return (
     <>
       <div

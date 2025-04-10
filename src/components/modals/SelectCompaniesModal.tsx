@@ -1,9 +1,8 @@
-import { useState } from "react";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
-import { APP_INFO } from "../../utils/constants";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import useSubmissionStatus from "../../custom-hooks/useSubmissionStatus";
+import { APP_INFO } from "../../utils/constants";
 
 const mailingLists = [
   {
@@ -23,13 +22,14 @@ const mailingLists = [
 // Define the props interface
 interface SelectCompaniesModalProps {
   showModalHandler: (name: string, value: boolean) => void;
+  submitValueHandler:()=> void;
 }
 
 const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
   showModalHandler,
+  submitValueHandler
 }) => {
-  const { submitValueHandler } = useSubmissionStatus();
-
+ 
   const closeHandler = () => showModalHandler("selectCompanies", false);
 
   const interestedHandler = () => {
@@ -91,6 +91,9 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
               );
             })}
           </div>
+          <div className="mt-5 text-red-500">
+  <strong>Disclaimer:</strong> By submitting this form, you consent to receive emails from the selected companies.
+</div>
           <div className=" flex flex-col lg:flex-row gap-3 mt-10 justify-center items-center">
             {Object.values(selectedLists).filter(Boolean).length > 0 && (
               <button

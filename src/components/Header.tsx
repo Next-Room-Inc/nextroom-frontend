@@ -19,7 +19,7 @@ export default function Header() {
           </a>
         </div>
 
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="mb-4 lg:mb-0 lg:flex lg:flex-1 lg:justify-end">
           <span className="text-sm/6 font-semibold text-[#7C221F]">
             {!isLoggedIn ? (
               <Link to={ROUTES.LOGIN}>

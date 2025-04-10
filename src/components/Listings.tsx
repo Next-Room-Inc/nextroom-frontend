@@ -103,7 +103,11 @@ const listings = [
     },
   ];
 
-export const Listings = () => {
+  interface ListingsProps {
+    showModalHandler:(name:string, value:boolean)=> void
+  }
+
+export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
   //   const [auth, setAuth] = useLocalStorage("auth");
   //   const handleJoinOffer = async () => {
   //     await addDoc(collection(db, "marketing"), {
@@ -167,13 +171,22 @@ export const Listings = () => {
 
       {listings.map((listing) => (
         <div>
-          <div className="mt-10 mb-6">
+          <div className=" lg:flex  justify-between mt-10 mb-6">
+            <div>
             <img
               alt="Your Company"
               src={listing.logo}
               className="h-20 w-auto"
             />
             <h2 className="font-semibold">{listing.address}</h2>
+            </div>
+            <button
+            onClick={()=>  showModalHandler("rentFree",true)}
+          // type="submit"
+          className=" mt-auto w-[10rem] h-10 text-center rounded-xl bg-[#7C221F]  px-3 py-2 text-lg text-white shadow-xs hover:bg-[#B3322F] "
+        >
+          Contact us
+        </button>
           </div>
           {/* CLV Detilas */}
 
