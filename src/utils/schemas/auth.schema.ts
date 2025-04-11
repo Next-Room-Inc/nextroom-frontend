@@ -18,7 +18,7 @@ export const SignupSchema = z
       ),
     university: z.string({ message: "University is required" }),
     age: z.string({ message: "Age must be string" }).optional(),
-    phone: z.string().optional(),
+    phoneNumber: z.string().optional(),
     password: z
       .string({ message: "Password is requried" })
       .min(6, "Password must be at least 6 characters long"),

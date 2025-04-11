@@ -57,7 +57,7 @@ const Signup = () => {
       lastName: "",
       university: "",
       age: "",
-      phone: "",
+      phoneNumber: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -270,7 +270,7 @@ const Signup = () => {
                     {/* Universty */}
                     <div className="mb-2">
                       <label
-                        htmlFor="phone"
+                        htmlFor="phoneNumber"
                         className="block text-sm/6 font-medium text-gray-900"
                       >
                         University/college
@@ -350,32 +350,32 @@ const Signup = () => {
                         ) : null}
                       </div>
                     </div>
-                    {/* Phone */}
+                    {/* phoneNumber */}
                     <div className="mb-2">
                       <label
-                        htmlFor="phone"
+                        htmlFor="phoneNumber"
                         className="block text-sm/6 font-medium text-gray-900"
                       >
-                        Phone Number{" "}
+                        phoneNumber Number{" "}
                         <span className="font-light">(optional)</span>
                       </label>
                       <div className="mt-2">
                         <input
-                          id="phone"
-                          name="phone"
+                          id="phoneNumber"
+                          name="phoneNumber"
                           type="text"
-                          value={formik.values.phone}
+                          value={formik.values.phoneNumber}
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           className={`${inputClass} ${
-                            formik.touched.phone && formik.errors.phone
+                            formik.touched.phoneNumber && formik.errors.phoneNumber
                               ? "outline-red-600"
                               : ""
                           }`}
                         />
-                        {formik.touched.phone && formik.errors.phone ? (
+                        {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
                           <div className="text-sm text-red-600">
-                            {formik.errors.phone}
+                            {formik.errors.phoneNumber}
                           </div>
                         ) : null}
                       </div>

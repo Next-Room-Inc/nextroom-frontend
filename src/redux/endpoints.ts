@@ -38,4 +38,10 @@ export const API_URL = {
       METHOD: HttpMethod.GET,
     },
   },
+  PROMOTION: {
+    SEND_EMAIL: {
+      URL: () => createApiUrl("/promotion/send-email"),
+      METHOD: HttpMethod.POST,
+    }, 
+  },
 };

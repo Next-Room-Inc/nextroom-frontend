@@ -1,42 +1,40 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { APP_INFO } from "../../utils/constants";
+import { SendPromotionEmailPayload } from "../../utils/interfaces";
 
 const mailingLists = [
   {
     id: 1,
     logo: `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/logo.png`,
+    name: "ALMA",
   },
   {
     id: 2,
     logo: `${APP_INFO.IMG_BASE_URL}/groups/Theo/logo.png`,
+    name: "THEO",
   },
   {
     id: 3,
     logo: `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/logo.png`,
+    name: "1eleven",
   },
 ];
 
 // Define the props interface
 interface SelectCompaniesModalProps {
   showModalHandler: (name: string, value: boolean) => void;
-  submitValueHandler:()=> void;
+  submitValueHandler: (
+    sendPromotionEmailPayload: SendPromotionEmailPayload
+  ) => void;
 }
 
 const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
   showModalHandler,
-  submitValueHandler
+  submitValueHandler,
 }) => {
- 
   const closeHandler = () => showModalHandler("selectCompanies", false);
-
-  const interestedHandler = () => {
-    submitValueHandler();
-    toast.success("Request submitted successfully");
-    showModalHandler("selectCompanies", false);
-  };
 
   const [selectedLists, setSelectedLists] = useState<Record<number, boolean>>({
     1: false,
@@ -44,7 +42,15 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
     3: false,
   });
 
-  const toggleSelection = (id:number) =>
+  const interestedHandler = () => {
+    const selectedCompanies = mailingLists
+      .filter((m) => selectedLists[m.id])
+      .map((m) => m.name);
+
+    submitValueHandler({ selectedCompanies });
+  };
+
+  const toggleSelection = (id: number) =>
     setSelectedLists((prev) => ({ ...prev, [id]: !prev[id] as any }));
 
   return (
@@ -58,7 +64,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
           <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4 justify-center ">
             {mailingLists.map((mailingList) => {
               const isSelected = selectedLists[mailingList.id] || false;
-              
+
               return (
                 <button
                   key={mailingList.id}
@@ -92,8 +98,9 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
             })}
           </div>
           <div className="mt-5 text-red-500">
-  <strong>Disclaimer:</strong> By submitting this form, you consent to receive emails from the selected companies.
-</div>
+            <strong>Disclaimer:</strong> By submitting this form, you consent to
+            receive emails from the selected companies.
+          </div>
           <div className=" flex flex-col lg:flex-row gap-3 mt-10 justify-center items-center">
             {Object.values(selectedLists).filter(Boolean).length > 0 && (
               <button
