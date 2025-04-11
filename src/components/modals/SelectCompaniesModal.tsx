@@ -9,7 +9,7 @@ const mailingLists = [
     id: 1,
     logo: `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/logo.png`,
     name: "ALMA",
-    address: "256 Rideau St, Ottawa, ON K1N 5Y3",
+    address: "211 Rideau St, Ottawa, ON K1N 5Y3",
   },
   {
     id: 2,

@@ -4,7 +4,7 @@ import { ImageGallery } from "./ImageGallery";
 const listings = [
     {
       logo: `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/logo.png`,
-      address: "256 Rideau St, Ottawa, ON K1N 5Y3",
+      address: "211 Rideau St, Ottawa, ON K1N 5Y3",
       listingId: 2,
       title: "Studio",
       price: 1899,
