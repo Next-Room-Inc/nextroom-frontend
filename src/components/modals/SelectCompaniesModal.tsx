@@ -9,16 +9,19 @@ const mailingLists = [
     id: 1,
     logo: `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/logo.png`,
     name: "ALMA",
+    address: "256 Rideau St, Ottawa, ON K1N 5Y3",
   },
   {
     id: 2,
     logo: `${APP_INFO.IMG_BASE_URL}/groups/Theo/logo.png`,
     name: "THEO",
+    address: "305 Rideau St, Ottawa, ON K1N 9E5",
   },
   {
     id: 3,
     logo: `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/logo.png`,
     name: "1eleven",
+    address: "111 Cooper St, Ottawa, ON K2P 2E3",
   },
 ];
 
@@ -43,11 +46,12 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
   });
 
   const interestedHandler = () => {
-    const selectedCompanies = mailingLists
-      .filter((m) => selectedLists[m.id])
-      .map((m) => m.name);
+    const companies = mailingLists.filter((m) => selectedLists[m.id]);
 
-    submitValueHandler({ selectedCompanies });
+    const selectedCompanies = companies.map((m) => m.name);
+    const selectedProperties = companies.map((m) => m.address);
+
+    submitValueHandler({ selectedCompanies, selectedProperties });
   };
 
   const toggleSelection = (id: number) =>
