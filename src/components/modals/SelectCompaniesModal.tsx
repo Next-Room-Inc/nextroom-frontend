@@ -63,7 +63,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
         {/* Modal */}
         <fieldset>
           <legend className="text-sm font-semibold text-white text-center">
-            Select Companies you are interested
+          I'm Interested In...
           </legend>
           <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4 justify-center ">
             {mailingLists.map((mailingList) => {
@@ -82,7 +82,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
                   )}
                 >
                   <span className="flex-1 text-left">
-                    <div className="mt-10 mb-6">
+                    <div className="lg:mt-10 lg:mb-6">
                       <img
                         alt="Your Company"
                         src={mailingList.logo}
@@ -105,7 +105,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
             <strong>Disclaimer:</strong> By submitting this form, you consent to
             receive emails from the selected companies.
           </div>
-          <div className=" flex flex-col lg:flex-row gap-3 mt-10 justify-center items-center">
+          <div className=" flex flex-col lg:flex-row gap-3 mt-4 lg:mt-10 justify-center items-center">
             {Object.values(selectedLists).filter(Boolean).length > 0 && (
               <button
                 onClick={interestedHandler}

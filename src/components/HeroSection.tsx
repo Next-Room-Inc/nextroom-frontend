@@ -1,6 +1,11 @@
 import { APP_INFO } from "../utils/constants/app-info.constant";
 // `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/4.png`
-export const HeroSection = () => {
+
+
+interface HeroSectionProps {
+  showModalHandler:(name:string, value:boolean)=> void,
+}
+export const HeroSection: React.FC<HeroSectionProps>  = ({showModalHandler}) => {
   return (
     <div
     className="relative w-full h-[90vh] bg-cover bg-center flex items-center justify-start"
@@ -30,7 +35,7 @@ export const HeroSection = () => {
       <p className="text-2xl sm:text-4xl mt-3 mb-6">4 MONTHS FREE</p>
 
       {/* Button */}
-      <button className="bg-white w-50 text-black px-6 py-3 rounded-md font-semibold shadow hover:bg-gray-200 transition">
+      <button onClick={()=> showModalHandler("rentFree", true)} className="bg-white w-50 text-black px-6 py-3 rounded-md font-semibold shadow hover:bg-gray-200 transition">
         Learn More
       </button>
     </div>
