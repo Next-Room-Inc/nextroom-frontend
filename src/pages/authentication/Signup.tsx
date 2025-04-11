@@ -356,7 +356,7 @@ const Signup = () => {
                         htmlFor="phoneNumber"
                         className="block text-sm/6 font-medium text-gray-900"
                       >
-                        phoneNumber Number{" "}
+                        Phone Number{" "}
                         <span className="font-light">(optional)</span>
                       </label>
                       <div className="mt-2">
