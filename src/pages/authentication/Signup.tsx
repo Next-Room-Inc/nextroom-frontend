@@ -70,10 +70,10 @@ const Signup = () => {
   const handleNext = async () => await handleLogin(response);
 
   const personalInfoValidationError: boolean =
-  !formik?.touched?.firstName ||
-  !!formik.errors.firstName ||
-  !!formik.errors.lastName ||
-  !!formik.errors.university;
+    !formik?.touched?.firstName ||
+    !!formik.errors.firstName ||
+    !!formik.errors.lastName ||
+    !!formik.errors.university;
 
   return (
     <>
@@ -81,11 +81,12 @@ const Signup = () => {
       <div className="flex min-h-[100vh] flex-1 flex-row bg-red-800">
         {/* Left Section */}
         <div className="bg-white w-full md:max-w-md min-h-[100vh] flex items-center">
-          <div className="w-full px-6 pb-6 sm:px-12">
+          <div className="w-full">
+            <div className="px-6 pb-6 sm:px-12"  >
             <img
               alt="Your Company"
               src={APP_INFO.PRIMARY_LOGO}
-              className="mx-auto h-30 w-auto mb-6"
+              className="mx-auto h-30 w-auto mb-6 "
             />
 
             <form onSubmit={formik.handleSubmit}>
@@ -368,12 +369,14 @@ const Signup = () => {
                           onChange={formik.handleChange}
                           onBlur={formik.handleBlur}
                           className={`${inputClass} ${
-                            formik.touched.phoneNumber && formik.errors.phoneNumber
+                            formik.touched.phoneNumber &&
+                            formik.errors.phoneNumber
                               ? "outline-red-600"
                               : ""
                           }`}
                         />
-                        {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
+                        {formik.touched.phoneNumber &&
+                        formik.errors.phoneNumber ? (
                           <div className="text-sm text-red-600">
                             {formik.errors.phoneNumber}
                           </div>
@@ -408,6 +411,19 @@ const Signup = () => {
                 </Link>
               </p>
             </form>
+            </div>
+            {/* Give Away circle */}
+            <div className="flex lg:hidden justify-end text-white">
+              <div
+                className=" shadow-2xl shadow-black font-semibold text-md bg-red-700 h-[170px] w-[170px] pt-6  bottom-0  right-0 transform flex flex-col items-center justify-center text-center"
+                style={{ borderTopLeftRadius: "70%" }} // Inline style for border-top-left-radius
+              >
+                <img alt="" className="h-12 pr-2" src={ICONS.GIFT} />
+                <span >
+                  Sign-Up to Enter <br /> Our Giveaway!
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -449,7 +465,7 @@ const Signup = () => {
           {/* Give Away circle */}
           <div
             className="shadow-2xl shadow-black font-semibold text-xl bg-red-700 h-[210px] w-[210px] pt-6 fixed bottom-0 right-0 transform flex flex-col items-center justify-center text-center"
-            style={{ borderTopLeftRadius: "80%" }} // Inline style for border-top-left-radius
+            style={{ borderTopLeftRadius: "70%" }} // Inline style for border-top-left-radius
           >
             <img alt="" className="h-15 pr-2" src={ICONS.GIFT} />
             <span>
