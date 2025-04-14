@@ -3,4 +3,8 @@ export interface StudentSignupPayload {
     password: string;
     firstName: string;
     lastName: string;
+    university: string;
+    age: string;
+    phoneNumber?: string;
+    tag?: string;
   }

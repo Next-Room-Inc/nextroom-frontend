@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
@@ -25,6 +25,7 @@ const universities = [
 ];
 
 const Signup = () => {
+  const [searchParams] = useSearchParams();
   const { handleLogin } = useAuth();
   const [open, setOpen] = useState(false);
   const [response, setResponse] = useState<string>("");
@@ -34,6 +35,13 @@ const Signup = () => {
 
   const handleSubmit = async (values: StudentSignupPayload) => {
     try {
+      console.log("searchParams=>",searchParams)
+      const payload = values;
+      const refTag = searchParams.get('refTag');
+      if(refTag){
+        payload['tag'] =refTag
+      }
+      console.log("payload=>",payload)
       const response = await studentSignup(values);
       if (response.error) toast.error("Account Creation Failed");
       else {
