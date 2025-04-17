@@ -74,7 +74,7 @@ const listings = [
       listingId: 1,
       title: "2 Bedroom",
       price: 2750,
-      bedroomCount: 1, // Studio, no separate bedroom
+      bedroomCount: 2, // Studio, no separate bedroom
       bathroomCount: 1,
       availableFrom: "Apr 30, 2025",
       checkAvailability: true,
