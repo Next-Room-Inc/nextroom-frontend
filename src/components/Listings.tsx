@@ -54,6 +54,12 @@ const listings = [
       hasFitnessCenter: true,
       hasBikeStorage: false,
       hasOutDoorPatio: false,
+      hasWifi:true,
+      hasArtStudio:true,
+      hasPentHouseLounge:true,
+      hasStudyLounge:true,
+      hasFurnishedSuites:true,
+      hasAccessControl:true,
       duration: "3 Years",
       maxNumberOfTenants: 1,
       yearBuilt: 2011,
@@ -300,10 +306,10 @@ export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
                         <div className="flex items-center pb-4">
                           <img
                             alt=""
-                            className="h-6 pr-2"
+                            className="h-8 pr-2"
                             src={ICONS.FITNESS_CENTER}
                           />
-                          <h3 className="text-md font-semibold">
+                          <h3 className="text-md font-semibold w-[50%] lg:w-100 ">
                             Fitness Center
                           </h3>
                         </div>
@@ -314,12 +320,83 @@ export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
                         <div className="flex items-center pb-4">
                           <img
                             alt=""
-                            className="h-6 pr-2"
+                            className="h-8 pr-2"
                             src={ICONS.GAME_ROOM}
                           />
                           <h3 className="text-md font-semibold">Game Room</h3>
                         </div>
                       )}
+                      {listing?.hasWifi && (
+                        <div className="flex items-center pb-4">
+                          <img
+                            alt=""
+                            className="h-8 pr-2"
+                            src={ICONS.WIFI}
+                          />
+                          <h3 className="text-md font-semibold">Fast Wifi</h3>
+                        </div>
+                      )}
+                      {listing?.hasArtStudio && (
+                        <div className="flex items-center pb-4">
+                          <img
+                            alt=""
+                            className="h-8 pr-2"
+                            src={ICONS.ART_STUDIO}
+                          />
+                          <h3 className="text-md font-semibold">Art Studio</h3>
+                        </div>
+                      )}
+                      {listing?.hasPentHouseLounge && (
+                        <div className="flex items-center pb-4">
+                          <img
+                            alt=""
+                            className="h-8 pr-2"
+                            src={ICONS.PENT_HOUSE_LOUNGE}
+                          />
+                          <h3 className="text-md font-semibold">Penthouse Lounge</h3>
+                        </div>
+                      )}
+                      {listing?.hasStudyLounge && (
+                        <div className="flex items-center pb-4">
+                          <img
+                            alt=""
+                            className="h-8 pr-2"
+                            src={ICONS.STUDY_LOUNGE}
+                          />
+                          <h3 className="text-md font-semibold">Study Lounges
+                          </h3>
+                        </div>
+                      )}
+                      {listing?.hasFurnishedSuites && (
+                        <div className="flex items-center pb-4">
+                          <img
+                            alt=""
+                            className="h-8 pr-2"
+                            src={ICONS.FURNISHED_SUITES}
+                          />
+                          <h3 className="text-md font-semibold">Furnished Suites
+                          </h3>
+                        </div>
+                      )}
+                      {listing?.hasAccessControl && (
+                        <div className="flex items-center pb-4">
+                          <img
+                            alt=""
+                            className="h-10 pr-2"
+                            src={ICONS.ACCESS_CONTROL}
+                          />
+                          <h3 className="text-md font-semibold">Access Control
+                          </h3>
+                        </div>
+                      )}
+
+
+ 
+      
+      
+      
+      
+      
                     </div>
                   </div>
 

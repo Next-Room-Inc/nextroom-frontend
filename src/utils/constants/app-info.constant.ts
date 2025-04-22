@@ -32,6 +32,12 @@ export const ICONS = {
   OUTDOOR_PATIO: "assets/img/icons/outdoor-patio.png",
   BIKE_STORAGE: "assets/img/icons/bike.png",
   GIFT: "assets/img/icons/gift.png",
+  ART_STUDIO: "assets/img/icons/art_studio.png",
+  PENT_HOUSE_LOUNGE: "assets/img/icons/penthouse_lounge.png",
+  STUDY_LOUNGE: "assets/img/icons/study_lounge.png",
+  WIFI: "assets/img/icons/wifi.png",
+  FURNISHED_SUITES: "assets/img/icons/furnished.png",
+  ACCESS_CONTROL: "assets/img/icons/access_control.png",
 };
 
 export const STUDENT_IMAGES = {
