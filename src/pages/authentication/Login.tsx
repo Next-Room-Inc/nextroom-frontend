@@ -20,7 +20,8 @@ const Login = () => {
       const response = await studentLogin(values);
       console.log("🚀 ~ handleSubmit ~ response:", response);
       if (response.error) {
-        toast.error("Login Failed");
+        const errorMessage = (response.error as any)?.data ?? "Login Failed";
+        toast.error(errorMessage);
       } else {
         toast.success("Login successfully!");
         handleLogin(response?.data?.token);

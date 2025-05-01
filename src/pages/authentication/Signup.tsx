@@ -43,7 +43,8 @@ const Signup = () => {
       }
       console.log("payload=>",payload)
       const response = await studentSignup(values);
-      if (response.error) toast.error("Account Creation Failed");
+      const errorMessage = (response.error as any)?.data ?? "Account Creation Failed";
+      if (response.error) toast.error(errorMessage);
       else {
         setOpen(true);
         setAuth({
