@@ -12,12 +12,13 @@ export const APP_INFO = {
   DEMO: "assets/img/demo/demo.jpg",
   INSTAGRAM: "https://instagram.com/nextroom_ca",
   FACEBOOK: "https://facebook.com/nextroom_ca",
+  TIKTOK: "https://tiktok.com/nextroom_ca",
   EMAIL: "support@nextroom.ca",
   JOIN_US: "clvdq@robot.zapier.com",
 };
 
 export const IMAGES = {
-  FOOTER_BUILDING: "assets/img/images/footer_building.png",
+  FOOTER: "assets/img/images/footer.png",
 };
 
 export const ICONS = {
