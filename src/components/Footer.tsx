@@ -13,7 +13,7 @@ const footerNavigation = {
   ],
   support: [
     { name: "Help & FAQ", href: ROUTES.UNDER_CONSTRUCTION },
-    { name: "Contact", href: ROUTES.UNDER_CONSTRUCTION }, 
+    { name: "Contact", href: ROUTES.UNDER_CONSTRUCTION },
   ],
   company: [
     { name: "About Us", href: ROUTES.UNDER_CONSTRUCTION },
@@ -23,7 +23,7 @@ const footerNavigation = {
     { name: "Blog", href: ROUTES.UNDER_CONSTRUCTION },
     { name: "Saftey", href: ROUTES.UNDER_CONSTRUCTION },
   ],
- 
+
   social: [
     {
       name: "Facebook",
@@ -110,6 +110,10 @@ const footerNavigation = {
 };
 
 const Footer = () => {
+  const [companyOpen, setCompanyOpen] = useState(false);
+  const [partnersOpen, setPartnersOpen] = useState(false);
+  const [supportOpen, setSupportOpen] = useState(false);
+
   const [selectedLang, setSelectedLang] = useState("en");
 
   const languages = [
@@ -128,20 +132,24 @@ const Footer = () => {
               {/* <!-- Column 4 --> */}
               <div className="lg:col-span-2">
                 <img alt="" src={IMAGES.FOOTER} className="" />
-                <div className="flex justify-between md:px-20 items-center">
-                <img alt="" src={APP_INFO.PRIMARY_LOGO} className="h-15 w-auto" />
+                <div className="flex justify-between md:px-20 items-center flex-col md:flex-row mb-3">
+                  <img
+                    alt=""
+                    src={APP_INFO.PRIMARY_LOGO}
+                    className="h-20 md:h-15 w-auto"
+                  />
 
                   {/* Languages */}
-                  <div className="flex gap-2 text-[#B3322F] font-semibold text-[12px] ">
+                  <div className="flex gap-2 text-[#B3322F] text-[20px]  md:font-semibold md:text-[12px] ">
                     {languages.map((lang) => (
                       <span
                         key={lang.code}
                         role="button"
                         tabIndex={0}
                         onClick={() => setSelectedLang(lang.code)}
-                        className={`cursor-pointer transition duration-200 ${
+                        className={`cursor-pointer transition duration-300  ${
                           selectedLang === lang.code
-                            ? "underline underline-offset-4"
+                            ? "underline underline-offset-4 font-bold"
                             : "hover:text-gray-300"
                         }`}
                       >
@@ -153,19 +161,34 @@ const Footer = () => {
               </div>
 
               {/* <!-- Column 1 --> */}
-              <div className="flex flex-col justify-between h-full">
+              <div className="flex flex-col justify-between h-full px-5 md:px-0">
                 {/* Content Section - Aligned to the top */}
                 <div>
-                  <h3 className="text-lg font-bold text-[#B3322F]">
-                    Company
-                  </h3>
-                  <ul role="list" className="mt-4 space-y-1">
+                  <div
+                    className="flex justify-between"
+                    onClick={() => setCompanyOpen(!companyOpen)}
+                  >
+                    <h3 className="text-lg font-bold text-[#B3322F]">
+                      Company
+                    </h3>
+
+                    <img
+                      src={`${APP_INFO.IMG_BASE_URL}icons/down-arrow.png`}
+                      alt=""
+                      className={`h-2 w-3 mt-3 ${
+                        companyOpen ? "rotate-180" : ""
+                      } md:hidden transition-all duration-300 ease-in-out`}
+                    />
+                  </div>
+                  <ul
+                    role="list"
+                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${
+                      companyOpen ? "max-h-96" : "max-h-0"
+                    } md:max-h-none`}
+                  >
                     {footerNavigation.company.map((item) => (
                       <li key={item.name}>
-                        <Link
-                          to={item.href}
-                          className="text-sm text-black"
-                        >
+                        <Link to={item.href} className="text-sm text-black">
                           {item.name}
                         </Link>
                       </li>
@@ -175,49 +198,77 @@ const Footer = () => {
               </div>
 
               {/* <!-- Column 2 --> */}
-              <div className="flex flex-col justify-between h-full mt-5 md:mt-0">
+              <div className="flex flex-col justify-between h-full px-5 md:px-0">
                 {/* Content Section - Aligned to the top */}
                 <div>
-                  <h3 className="text-lg font-bold text-[#B3322F]">
-                   Partners
-                  </h3>
-                  <ul role="list" className="mt-4 space-y-1">
+                  <div
+                    className="flex justify-between"
+                    onClick={() => setPartnersOpen(!partnersOpen)}
+                  >
+                    <h3 className="text-lg font-bold text-[#B3322F]">
+                      Partners
+                    </h3>
+
+                    <img
+                      src={`${APP_INFO.IMG_BASE_URL}icons/down-arrow.png`}
+                      alt=""
+                      className={`h-2 w-3 mt-3 ${
+                        partnersOpen ? "rotate-180" : ""
+                      } md:hidden transition-all duration-300 ease-in-out`}
+                    />
+                  </div>
+                  <ul
+                    role="list"
+                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${
+                      partnersOpen ? "max-h-96" : "max-h-0"
+                    } md:max-h-none`}
+                  >
                     {footerNavigation.partners.map((item) => (
                       <li key={item.name}>
-                        <Link
-                          to={item.href}
-                          className="text-sm text-black"
-                        >
+                        <Link to={item.href} className="text-sm text-black">
                           {item.name}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
-
               </div>
 
               {/* <!-- Column 3 --> */}
-              <div className="flex flex-col justify-between h-full w-full  ">
+              <div className="flex flex-col justify-between h-full w-full px-5 md:px-0">
                 {/* Content Section - Aligned to the top */}
-                <div className="mt-5 sm:mt-0">
-                  <h3 className="text-lg font-bold text-[#B3322F]">
-                    Support
-                  </h3>
-                  <ul role="list" className="mt-4 space-y-1">
+                <div>
+                  <div
+                    className="flex justify-between"
+                    onClick={() => setSupportOpen(!supportOpen)}
+                  >
+                    <h3 className="text-lg font-bold text-[#B3322F]">
+                      Support
+                    </h3>
+
+                    <img
+                      src={`${APP_INFO.IMG_BASE_URL}icons/down-arrow.png`}
+                      alt=""
+                      className={`h-2 w-3 mt-3 ${
+                        supportOpen ? "rotate-180" : ""
+                      } md:hidden transition-all duration-300 ease-in-out`}
+                    />
+                  </div>
+                  <ul
+                    role="list"
+                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${
+                      supportOpen ? "max-h-96" : "max-h-0"
+                    } md:max-h-none`}
+                  >
                     {footerNavigation.support.map((item) => (
                       <li key={item.name}>
-                        <Link
-                          to={item.href}
-                          className="text-sm text-black"
-                        >
+                        <Link to={item.href} className="text-sm text-black">
                           {item.name}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
- 
               </div>
             </div>
           </div>
@@ -244,6 +295,11 @@ const Footer = () => {
             </div>
           </p>
         </div>
+
+        {/*  */}
+        <div className="p-4"></div>
+
+        {/*  */}
       </footer>
     </>
   );
