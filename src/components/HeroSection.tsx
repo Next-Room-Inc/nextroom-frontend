@@ -1,5 +1,7 @@
 import { APP_INFO } from "../utils/constants/app-info.constant";
 import { FlowSlider } from "./FlowSlider";
+import { TypeAnimation } from "react-type-animation";
+
 // `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/4.png`
 
 interface HeroSectionProps {
@@ -8,15 +10,11 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
   return (
     <>
-
- 
-
-    
       {/* Automated Housing Searches */}
       <div
         className="
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
-      h-[120vh] md:h-[100vh]  bg-cover bg-bottom  md:bg-center bg-[url(public/assets/img/backgrounds/backgrounds_1_2.png)] md:bg-[url(public/assets/img/backgrounds/backgrounds_1.png)]"
+      h-[120vh] md:h-[100vh]  bg-cover bg-bottom  md:bg-center bg-[url(/assets/img/backgrounds/backgrounds_1_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_1.png)]"
       >
         <div className="md:w-[50%] md:pl-20 w-[90%] pt-10">
           {/* Heading */}
@@ -28,9 +26,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
           </h2>
           {/* Description */}
           <p className="text-white text-lg md:text-xl md:mt-5 md:leading-relaxed max-w-xl mx-auto lg:mx-0 mb-4">
-            Student housing was broken.
+            <TypeAnimation
+              sequence={[
+                // Same substring at the start will only be typed out once, initially
+                "Student housing was broken.",
+                1000, // wait 1s before replacing "Mice" with "Hamsters"
+                "So we rewrote it.",
+                1000,
+              ]}
+              wrapper="span"
+              speed={50}
+              className=" italic"
+              style={{ display: "inline-block" }}
+              repeat={Infinity}
+            />
+            {/* Student housing was broken.
             <br />
-            <span className="font-extrabold italic"> So we rewrote it.</span>
+            <span className="font-extrabold italic"> So we rewrote it.</span> */}
           </p>
 
           <button className="bg-[#000000] text-white font-medium px-8 py-3 rounded-full shadow-md">
@@ -42,7 +54,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
       {/* Automated Sublets */}
       <div
         className=" 
-       bg-cover bg-top  md:bg-top bg-[url(public/assets/img/backgrounds/backgrounds_2_2.png)] md:bg-[url(public/assets/img/backgrounds/backgrounds_2.png)]"
+       bg-cover bg-top  md:bg-top bg-[url(/assets/img/backgrounds/backgrounds_2_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_2.png)]"
       >
         <div className="text-center">
           <button className="bg-[#B3322F] text-white font-medium py-3 w-[347px] md:w-[500px] mx-auto rounded-full shadow-md relative -top-6">
@@ -81,7 +93,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
       <div
         className="
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
-      h-[100vh] md:h-[100vh]  bg-cover bg-center  md:bg-center bg-[url(public/assets/img/backgrounds/backgrounds_3_2.png)] md:bg-[url(public/assets/img/backgrounds/backgrounds_3.png)]"
+      h-[100vh] md:h-[100vh]  bg-cover bg-center  md:bg-center bg-[url(/assets/img/backgrounds/backgrounds_3_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_3.png)]"
       >
         <div className="md:w-[50%] md:pl-20 w-[90%] pt-10">
           {/* Heading */}
@@ -104,7 +116,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
       <div
         className="
       flex md:justify-start md:items-center items-start justify-center text-center md:text-left
-      h-[80vh] md:h-[100vh]  bg-cover bg-center  md:bg-top bg-[url(public/assets/img/backgrounds/backgrounds_4_2.png)] md:bg-[url(public/assets/img/backgrounds/backgrounds_4.png)]"
+      h-[80vh] md:h-[100vh]  bg-cover bg-center  md:bg-top bg-[url(/assets/img/backgrounds/backgrounds_4_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_4.png)]"
       >
         <div className="md:w-[50%] md:pl-20 w-[90%] pt-10">
           {/* Heading */}
@@ -126,7 +138,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
       <div
         className="
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
-      h-[70vh] md:h-[100vh]  bg-cover bg-center  md:bg-top bg-[url(public/assets/img/backgrounds/backgrounds_5_2.png)] md:bg-[url(public/assets/img/backgrounds/backgrounds_5.png)]"
+      h-[70vh] md:h-[100vh]  bg-cover bg-center  md:bg-top bg-[url(/assets/img/backgrounds/backgrounds_5_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_5.png)]"
       >
         <div className="md:w-[50%] md:pl-20 w-[90%] pt-10">
           {/* Heading */}
@@ -161,7 +173,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
             src="https://v.ftcdn.net/04/59/59/49/700_F_459594974_4I9zM2soy7Pe8GmT7vdreiFmugErs6h7_ST.mp4"
             controls
             className="w-screen md:h-[100vh] h-[50vh] object-cover   shadow-none rounded-4xl"
-            />
+          />
 
           {/* Overlay Content */}
         </div>
@@ -179,7 +191,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
       <div
         className="
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
-      h-[100vh] md:h-[120vh] w-full bg-cover bg-center bg-[url(public/assets/img/backgrounds/backgrounds_6_2.png)] md:bg-[url(public/assets/img/backgrounds/backgrounds_6.png)]"
+      h-[100vh] md:h-[120vh] w-full bg-cover bg-center bg-[url(/assets/img/backgrounds/backgrounds_6_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_6.png)]"
       >
         <div className="md:w-[50%] md:pl-20 w-[90%] pt-5">
           {/* Heading */}
