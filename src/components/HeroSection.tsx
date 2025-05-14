@@ -8,6 +8,10 @@ interface HeroSectionProps {
 export const HeroSection: React.FC<HeroSectionProps> = ({}) => {
   return (
     <>
+
+ 
+
+    
       {/* Automated Housing Searches */}
       <div
         className="
