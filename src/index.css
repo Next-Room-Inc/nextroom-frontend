@@ -1,5 +1,9 @@
 @import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+
 
 .swiper-button-prev:after, .swiper-button-next:after {
     color: white;
 }
+

@@ -1,8 +1,9 @@
+import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { APP_INFO } from "../utils/constants";
 
-const AuthLayout = ({ children }) => (
+const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <div
     className="flex flex-col min-h-screen bg-center bg-cover"
     style={{

@@ -3,18 +3,15 @@ import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-
 import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import Loader from "../../components/Loader";
-import GiveAwayModal from "../../components/modals/GiveAwayModal.tsx";
+import useAuth from "../../custom-hooks/useAuth.tsx";
 import { useLocalStorage } from "../../hooks/useLocalStorage.tsx";
+import AuthLayout from "../../layouts/Auth.Layout.tsx";
 import { useStudentSignupMutation } from "../../redux/services/auth.service";
-import { APP_INFO, ROUTES } from "../../utils/constants";
-import { ICONS, STUDENT_IMAGES } from "../../utils/constants/app-info.constant";
+import { ROUTES } from "../../utils/constants";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
-import useAuth from "../../custom-hooks/useAuth.tsx";
-import AuthLayout from "../../layouts/Auth.Layout.tsx";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
 
@@ -42,9 +39,9 @@ const Signup = () => {
         payload['tag'] =refTag
       }
       console.log("payload=>",payload)
-      const response = await studentSignup(values);
-      const errorMessage = (response.error as any)?.data ?? "Account Creation Failed";
-      if (response.error) toast.error(errorMessage);
+      const res = await studentSignup(values);
+      const errorMessage = (res.error as any)?.data ?? "Account Creation Failed";
+      if (res.error) toast.error(errorMessage);
       else {
         // setOpen(true);
         setAuth({
@@ -52,7 +49,7 @@ const Signup = () => {
           lastName: values.lastName,
           firstName: values.firstName,
         });
-        setResponse(response?.data?.token);
+        setResponse(res?.data?.token);
         await handleLogin(response)
       }
     } catch (err) {
@@ -77,7 +74,7 @@ const Signup = () => {
   });
 
   // const handleClose = () => setOpen(false);
-  const handleNext = async () => await handleLogin(response);
+  // const handleNext = async () => await handleLogin(response);
 
   const personalInfoValidationError: boolean =
     !formik?.touched?.firstName ||

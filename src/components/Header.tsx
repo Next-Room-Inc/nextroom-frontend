@@ -100,17 +100,17 @@ export default function Header({ darkMode = true }) {
           <div className="ml-2  hidden lg:inline">
             {navbar.map((i) => (
               <span
-                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 ${
-                  darkMode ? "text-white border-white" : "text-dark border-dark"
+                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer  ${
+                  darkMode ? "text-white border-white hover:text-black hover:bg-white" : "text-dark border-dark hover:text-white hover:bg-black"
                 }`}
               >
                 {i.label}
               </span>
             ))}
           </div>
-          <div className="flex bg-white shadow-lg border border-gray-100 shadow-grey-500 py-1.5 px-5 rounded-full lg:-mt-1 mt-3 ml-2">
+          <div className="flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100 shadow-grey-500 py-1.5 px-5 rounded-full lg:-mt-1 mt-3 ml-2">
             <Popover className="relative">
-              <PopoverButton className="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
+              <PopoverButton className="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 cursor-pointer">
                 <img
                   src={`${APP_INFO.IMG_BASE_URL}icons/menu_icon.png`}
                   className={`h-3 bg-white mr-3 my-auto`}
