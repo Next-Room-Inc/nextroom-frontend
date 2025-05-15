@@ -1,4 +1,4 @@
-runtime: nodejs18
+runtime: nodejs19
 handlers:
 - url: /(.*\..+)$
   static_files: dist/\1
