@@ -276,11 +276,11 @@ const Footer = () => {
 
         {/* Base Footer */}
         <div className="mt-2 border-t border-[#B3322F] py-4 sm:mt-5 text-center flex flex-col md:flex-row gap-y-4">
-          <p className="flex-1">Terms of Service</p>
-          <p className="flex-1">Privacy Policy</p>
-          <p className=" flex-1">&copy; 2025 {APP_INFO.NAME}</p>
-          <p className="flex-1">
-            <div className="flex flex-wrap gap-x-2 gap-y-2 w-full md:order-2 justify-center md:justify-right">
+          <div className="flex-1">Terms of Service</div>
+          <div className="flex-1">Privacy Policy</div>
+          <div className=" flex-1">&copy; 2025 {APP_INFO.NAME}</div>
+          <div className="flex-1">
+            <p className="flex flex-wrap gap-x-2 gap-y-2 w-full md:order-2 justify-center md:justify-right">
               {footerNavigation.social.map((item) => (
                 <a
                   target="_blank"
@@ -292,8 +292,8 @@ const Footer = () => {
                   <item.icon aria-hidden="true" className="size-6" />
                 </a>
               ))}
-            </div>
-          </p>
+            </p>
+          </div>
         </div>
 
         {/*  */}

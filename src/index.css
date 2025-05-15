@@ -7,3 +7,13 @@
     color: white;
 }
 
+/* .blur:hover {
+    backdrop-filter: blur(0px);
+    
+  }
+  
+  .blur {
+    background-color: red;
+    backdrop-filter: blur(6px);
+    transition: backdrop-filter 0.3s ease;
+  } */

@@ -14,8 +14,16 @@ export default function Header({ darkMode = true }) {
   ];
 
   const solutions = [
-    { name: <Link to={ROUTES.SIGNUP}>Sign Up</Link>, href: "#", class: `px-4 ${isLoggedIn ? "hidden" : ""}` },
-    { name: <Link to={ROUTES.LOGIN}>Log in</Link> , href: "#", class: `px-4 ${isLoggedIn ? "hidden" : ""}` },
+    {
+      name: <Link to={ROUTES.SIGNUP}>Sign Up</Link>,
+      href: "#",
+      class: `px-4 ${isLoggedIn ? "hidden" : ""}`,
+    },
+    {
+      name: <Link to={ROUTES.LOGIN}>Log in</Link>,
+      href: "#",
+      class: `px-4 ${isLoggedIn ? "hidden" : ""}`,
+    },
     {
       name: <div onClick={handleLogout}>Log Out</div>,
       href: "#",
@@ -87,7 +95,7 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={`cursor-pointer transition duration-200 ${
+                className={`cursor-pointer transition-all duration-300 ease-in-out ${
                   selectedLang === lang.code
                     ? "underline underline-offset-4"
                     : "hover:text-gray-500"
@@ -98,19 +106,22 @@ export default function Header({ darkMode = true }) {
             ))}
           </div>
           <div className="ml-2  hidden lg:inline">
-            {navbar.map((i) => (
+            {navbar.map((i, index) => (
               <span
-                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer  ${
-                  darkMode ? "text-white border-white hover:text-black hover:bg-white" : "text-dark border-dark hover:text-white hover:bg-black"
+                key={index}
+                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${
+                  darkMode
+                    ? "text-white border-white hover:text-black hover:bg-white"
+                    : "text-dark border-dark hover:text-white hover:bg-black"
                 }`}
               >
                 {i.label}
               </span>
             ))}
           </div>
-          <div className="flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100 shadow-grey-500 py-1.5 px-5 rounded-full lg:-mt-1 mt-3 ml-2">
-            <Popover className="relative">
-              <PopoverButton className="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 cursor-pointer">
+          <Popover className="relative">
+            <PopoverButton className="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 ">
+              <div className="flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100 shadow-grey-500 py-1.5 px-5 rounded-full lg:-mt-1 mt-3 ml-2 cursor-pointer transition-all duration-300 ease-in-out">
                 <img
                   src={`${APP_INFO.IMG_BASE_URL}icons/menu_icon.png`}
                   className={`h-3 bg-white mr-3 my-auto`}
@@ -119,27 +130,24 @@ export default function Header({ darkMode = true }) {
                   src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.png`}
                   className={`h-6 bg-[#B3322F] rounded-full p-1`}
                 />
-              </PopoverButton>
-              <PopoverPanel
-                transition
-                className="absolute -left-1 z-10 mt-3 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
-              >
-                <div className="w-40 shrink rounded-xl bg-white py-4 text-sm/6 font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
-                  {solutions.map((item,index) => (
-                    <a
-                      key={index}
-                    
-                      className={
-                        item.class + " block py-0.5 hover:text-red-600"
-                      }
-                    >
-                      {item.name}
-                    </a>
-                  ))}
-                </div>
-              </PopoverPanel>
-            </Popover>
-          </div>
+              </div>
+            </PopoverButton>
+            <PopoverPanel
+              transition
+              className="absolute  left-5 z-10  mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+            >
+              <div className="w-40 shrink rounded-xl bg-white py-4 text-sm/6 font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
+                {solutions.map((item, index) => (
+                  <a
+                    key={index}
+                    className={item.class + " block py-0.5 hover:text-red-600"}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            </PopoverPanel>
+          </Popover>
 
           {/* <span className="text-sm/6 font-semibold text-[#7C221F]">
             {!isLoggedIn ? (

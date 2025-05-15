@@ -51,7 +51,7 @@ export const FlowSlider = () => {
               <div
                 className="relative h-80 rounded-xl overflow-hidden"
                 style={{
-                  backgroundImage: `url(public/assets/img/images/${feature.image})`,
+                  backgroundImage: `url(assets/img/images/${feature.image})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                 }}

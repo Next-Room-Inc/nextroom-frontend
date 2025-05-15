@@ -42,13 +42,9 @@ const Login = () => {
     onSubmit: handleSubmit,
   });
 
-  // if (isLoading) {
-  //   return <h1>Loading...</h1>;
-  // }
-  // if (error) {
-  //   return <h1>ERRROR </h1>;
-  // }
-  const emailValidationError: boolean = !formik?.touched?.email ||  !!formik.errors.email  
+  const emailValidationError: boolean =  !!formik.errors.email || !formik.values.email
+  console.log(emailValidationError, formik)
+
   return (
     <>
       {isLoading && <Loader />}
@@ -108,7 +104,7 @@ const Login = () => {
           {/*  Button */}
           <button
           onClick={()=> !emailValidationError && !loginStep ? setLoginStep(true) : ""}
-          disabled={emailValidationError}
+          disabled={!formik?.touched?.email &&  !!formik.errors.email }
             type={!emailValidationError ? "submit" : "button"}
             className={`px-20 mt-5 rounded-full ${emailValidationError ? 'opacity-20' : ""} bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
           >
