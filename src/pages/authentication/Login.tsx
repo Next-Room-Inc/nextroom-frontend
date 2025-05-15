@@ -110,7 +110,7 @@ const Login = () => {
           onClick={()=> !emailValidationError && !loginStep ? setLoginStep(true) : ""}
           disabled={emailValidationError}
             type={!emailValidationError ? "submit" : "button"}
-            className={`px-20 mt-5 rounded-full ${emailValidationError ? 'bg-gray-300' :"bg-[#B3322F]"}  py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
+            className={`px-20 mt-5 rounded-full ${emailValidationError ? 'opacity-20' : ""} bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
           >
             {loginStep ? "Login" : "Continue"}
           </button>
