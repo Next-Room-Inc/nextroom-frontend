@@ -17,7 +17,7 @@ export const HomeComponent = () => {
         <div
           className=" 
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
-      h-[120vh] md:h-[100vh]  bg-cover bg-bottom  md:bg-center bg-[url(/assets/img/backgrounds/backgrounds_1_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_1.png)]"
+      h-[100vh] md:h-[100vh]  bg-cover bg-bottom  md:bg-center bg-[url(/assets/img/backgrounds/backgrounds_1_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_1.png)]"
         >
           <div className="md:w-[50%] md:pl-20 w-[90%] pt-10">
             {/* Heading */}
@@ -54,7 +54,7 @@ export const HomeComponent = () => {
           </div>
         </div>
 
-        <div className="text-center z-1 bg-transparent sticky top-8">
+        <div className="text-center z-100 bg-transparent sticky top-[97%]">
           <button className="bg-[#B3322F] cursor-pointer hover:bg-black text-white font-medium py-3 w-[250px]  sm:w-[347px] md:w-[500px] mx-auto rounded-full shadow-md z-10 -top-5 relative -mt-10 transition-all duration-300 ease-in-out">
             Start Your Housing Search
           </button>

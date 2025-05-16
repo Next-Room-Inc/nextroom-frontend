@@ -10,9 +10,9 @@ export const APP_INFO = {
   BACKGROUND_2: "assets/img/backgrounds/backgrounds_2.png",
   BACKGROUND_1: "assets/img/backgrounds/backgrounds_1.png",
   DEMO: "assets/img/demo/demo.jpg",
-  INSTAGRAM: "https://instagram.com/nextroom_ca",
-  FACEBOOK: "https://facebook.com/nextroom_ca",
-  TIKTOK: "https://tiktok.com/nextroom_ca",
+  INSTAGRAM: "https://instagram.com/@nextroom_ca",
+  FACEBOOK: "https://facebook.com/@nextroom_ca",
+  TIKTOK: "https://tiktok.com/@nextroom.ca",
   EMAIL: "support@nextroom.ca",
   JOIN_US: "clvdq@robot.zapier.com",
 };

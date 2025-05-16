@@ -4,10 +4,14 @@ import Header from "../components/Header";
 import { APP_INFO } from "../utils/constants";
 
 const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <>
   <div
-    className="flex flex-col min-h-screen bg-center bg-cover"
+    className="flex flex-col min-h-[70vh]"
     style={{
       backgroundImage: `url(${APP_INFO.IMG_BASE_URL}/backgrounds/backgrounds_7.png)`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundAttachment:'fixed'
     }}
   >
     <Header darkMode={false} />
@@ -21,7 +25,8 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
           {children}
           </div>
     </main>
-    <Footer />
   </div>
+    <Footer />
+  </>
 );
 export default AuthLayout;

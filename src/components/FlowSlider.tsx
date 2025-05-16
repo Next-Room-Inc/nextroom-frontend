@@ -49,7 +49,7 @@ export const FlowSlider = () => {
           {features.map((feature, index) => (
             <SwiperSlide key={index}>
               <div
-                className="relative h-80 rounded-xl overflow-hidden"
+                className=" z-0 relative h-80 rounded-xl overflow-hidden"
                 style={{
                   backgroundImage: `url(assets/img/images/${feature.image})`,
                   backgroundSize: "cover",
