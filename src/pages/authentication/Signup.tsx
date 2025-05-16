@@ -18,7 +18,8 @@ const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-
 const universities = [
   "The University of Ottawa",
   "Carleton University",
-  "Algonquin College and Collège La Cité",
+  "Algonquin College",
+  "Collège La Cité",
 ];
 
 const Signup = () => {

@@ -3,6 +3,7 @@ import Header from "../../components/Header";
 import { HomeComponent } from "./Home.Components";
 
 const Home = () => {
+  console.log("home hit")
   return (
     <>
       <div className=" h-[100vh]">

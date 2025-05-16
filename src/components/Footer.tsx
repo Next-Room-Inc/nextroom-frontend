@@ -21,7 +21,7 @@ const footerNavigation = {
     { name: "Ambassadors", href: ROUTES.UNDER_CONSTRUCTION },
     { name: "Affiliate Program", href: ROUTES.UNDER_CONSTRUCTION },
     { name: "Blog", href: ROUTES.UNDER_CONSTRUCTION },
-    { name: "Saftey", href: ROUTES.UNDER_CONSTRUCTION },
+    { name: "Safety", href: ROUTES.UNDER_CONSTRUCTION },
   ],
 
   social: [
