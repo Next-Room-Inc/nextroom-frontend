@@ -58,3 +58,22 @@ export const LoginSchema = z.object({
     .string({ message: "Password is requried" })
     .min(6, "Password must be at least 6 characters long"),
 });
+export const ForgotPasswordSchema = z.object({
+  email: z
+    .string({ message: "Email is required" })
+    .email({ message: "Must be an email" }), 
+});
+export const ResetPasswordSchema = z.object({
+  password: z
+      .string({ message: "Password is requried" })
+      .min(6, { message: "Password must be at least 6 characters long" })
+      .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+      .regex(/[0-9]/, { message: "Password must contain at least one number" })
+      .regex(/[!@#$%^&*()_\-+=\[\]{};':"\\|,.<>/?]/, {
+        message: "Password must contain at least one special character",
+      }),
+    confirmPassword: z.string({ message: "Confirm Password is requried" }),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Password not match",
+  path: ["confirmPassword"], // Attach the error to confirmPassword field
+});;

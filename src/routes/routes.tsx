@@ -7,6 +7,8 @@ import { ROUTES } from "../utils/constants";
 import { IsLoginValidation } from "./route.validations";
 import { UnderConstruction } from "../pages/error/UnderConstruction";
 import Offers from "../pages/offers/Offers";
+import ForgotPassword from "../pages/authentication/ForgotPassword";
+import ResetPassword from "../pages/authentication/ResetPassword";
 
 export const routes = createBrowserRouter([
   {
@@ -26,6 +28,16 @@ export const routes = createBrowserRouter([
   {
     path: ROUTES.SIGNUP,
     element: <Signup />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.FORGOT_PASSWORD,
+    element: <ForgotPassword />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.RESET_PASSWORD,
+    element: <ResetPassword />,
     errorElement: <NotFoundErrorPage />,
   },
   {
