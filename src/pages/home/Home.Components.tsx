@@ -159,7 +159,7 @@ export const HomeComponent = () => {
               </h2>
               {/* Description */}
               <p className="text-black text-lg md:text-3xl md:leading-relaxed max-w-xl mx-auto lg:mx-0 mb-6">
-                Everything—Connected..
+                Everything—Connected.
               </p>
             </div>
           </div>
