@@ -2,13 +2,26 @@ import { TypeAnimation } from "react-type-animation";
 import { FlowSlider } from "../../components/FlowSlider";
 import { APP_INFO } from "../../utils/constants";
 import Blur from "../../components/Blur";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useInView } from 'react-intersection-observer';
+
 
 export const HomeComponent = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const handlePlay = () => setIsPlaying(true);
   const handlePause = () => setIsPlaying(false);
+  const { ref, inView , entry } = useInView({
+    threshold: 0.1,
+    triggerOnce: false,
+    });
+
+    useEffect(() => {
+      if (inView && entry) {
+      // Smooth scroll into center of screen
+      entry.target.scrollIntoView({ behavior: 'smooth', block: 'center', });
+      }
+      }, [inView, entry]);
 
   return (
     <>
@@ -165,6 +178,7 @@ export const HomeComponent = () => {
           </div>
         </Blur>
         {/*------------------ Vedio ------------------*/}
+    
         <div className="text-center">
           <h1 className="text-2xl w-[80%] mx-auto text-center font-bold mt-5">
             Demo
@@ -178,11 +192,12 @@ export const HomeComponent = () => {
           </button>
 
           <div className="relative w-full my-10 md:px-10 px-4">
-            {isPlaying && (
+            {(isPlaying || inView ) && (
               <div className="fixed inset-0 backdrop-blur-md bg-black/20 z-10 pointer-events-none" />
             )}
             {/* Vedio player */}
-            <div className="relative rounded-xl z-20 overflow-hidden w-full my-10 md:px-10 px-4">
+            <div className="relative rounded-xl z-20 overflow-hidden w-full my-10 md:px-10 px-4" ref={ref}>
+           
               <video
                 ref={videoRef}
                 src="https://v.ftcdn.net/04/59/59/49/700_F_459594974_4I9zM2soy7Pe8GmT7vdreiFmugErs6h7_ST.mp4"
@@ -190,10 +205,12 @@ export const HomeComponent = () => {
                 className="w-screen md:h-[100vh] h-[50vh] object-cover   shadow-none rounded-4xl"
                 onPlay={handlePlay}
                 onPause={handlePause}
+                
               />
             </div>
           </div>
         </div>
+      
 
         {/*------------------ How Next Room Works ------------------*/}
         <div className="text-center">

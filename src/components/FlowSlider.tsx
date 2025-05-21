@@ -22,10 +22,10 @@ const features = [
     image: `slider_3.png`,
   },
   {
-    icon: `slider_icon_1.png`,
-    title: "Flexible Sublets",
-    description: "We help you find sublets automatically.",
-    image: `slider_1.png`,
+    icon: `slider_icon_4.png`,
+    title: "Verified Students Only",
+    description: "Every user on the platform is a real, verified student.",
+    image: `slider_4.png`,
   },
 ];
 

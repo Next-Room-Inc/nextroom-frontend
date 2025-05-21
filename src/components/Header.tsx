@@ -1,5 +1,5 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import useAuth from "../custom-hooks/useAuth";
 import { APP_INFO, ROUTES } from "../utils/constants";
 import { Link } from "react-router-dom";
@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 export default function Header({ darkMode = true }) {
   const { handleLogout, isLoggedIn } = useAuth();
   const [selectedLang, setSelectedLang] = useState("en");
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [headerColor, setHeaderColor] = useState('bg-black');
 
   const languages = [
     { code: "en", label: "English" },
@@ -69,11 +72,39 @@ export default function Header({ darkMode = true }) {
 
   const navbar = [{ label: "Refer & Earn" }, { label: "List Your Property" }];
 
+   // Scroll detection logic
+   useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      console.log()
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // scrolling down
+        setShowHeader(false);
+      } else {
+        // scrolling up
+        setShowHeader(true);
+      }
+      if (currentScrollY > 10){
+        setHeaderColor('bg-black/20')
+      }else{
+        setHeaderColor('bg-black')
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
-    <header className={darkMode ? "bg-black" : "bg-transparent"}>
+    <header
+      className={`fixed top-0 w-full z-50 transition-transform duration-300 ${
+        showHeader ? "translate-y-0" : "-translate-y-full"
+      } ${ darkMode ?  headerColor : "bg-transparent"}`}
+    >
       <nav
         aria-label="Global"
-        className="mx-auto flex items-center justify-between  lg:px-8 pr-4"
+        className="mx-auto flex items-center justify-between  lg:px-8 pr-4 "
       >
         <div className="flex lg:flex-1">
           <a href="#" className="">

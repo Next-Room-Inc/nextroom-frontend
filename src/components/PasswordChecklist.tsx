@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { XCircleIcon, CheckCircleIcon } from "@heroicons/react/20/solid";
 
 const PasswordChecklist = ({ password }: { password: string }) => {

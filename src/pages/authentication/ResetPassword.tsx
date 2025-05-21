@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import AuthLayout from "../../layouts/Auth.Layout";
 import {
-  ForgotPasswordSchema,
   ResetPasswordSchema,
 } from "../../utils/schemas/auth.schema";
 import { APP_INFO } from "../../utils/constants";
