@@ -32,7 +32,7 @@ export const HomeComponent = () => {
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
       h-[100vh] md:h-[100vh]  bg-cover bg-bottom  md:bg-center bg-[url(/assets/img/backgrounds/backgrounds_1_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_1.png)]"
         >
-          <div className="md:w-[50%] md:pl-20 w-[90%] pt-10">
+          <div className="md:w-[50%] md:pl-20 w-[90%] pt-40 md:pt-10">
             {/* Heading */}
             <h2 className="text-3xl md:text-6xl font-bold text-white mb-4">
               The student
