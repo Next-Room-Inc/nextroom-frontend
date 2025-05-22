@@ -8,9 +8,9 @@ import { useInView } from 'react-intersection-observer';
 
 export const HomeComponent = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const handlePlay = () => setIsPlaying(true);
-  const handlePause = () => setIsPlaying(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
+  // const handlePlay = () => setIsPlaying(true);
+  // const handlePause = () => setIsPlaying(false);
   const { ref, inView , entry } = useInView({
     threshold: 0.3,
     triggerOnce: false,
@@ -203,8 +203,8 @@ export const HomeComponent = () => {
                 src="https://v.ftcdn.net/04/59/59/49/700_F_459594974_4I9zM2soy7Pe8GmT7vdreiFmugErs6h7_ST.mp4"
                 controls
                 className="w-screen md:h-[90vh] h-[50vh] object-cover shadow-none rounded-4xl transition-all duration-700 ease-in-out"
-                onPlay={handlePlay}
-                onPause={handlePause}
+                // onPlay={handlePlay}
+                // onPause={handlePause}
                 
               />
             </div>
