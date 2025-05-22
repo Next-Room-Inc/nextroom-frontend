@@ -18,7 +18,7 @@ export const APP_INFO = {
 };
 
 export const IMAGES = {
-  FOOTER: "assets/img/images/footer.png",
+  FOOTER: "assets/img/images/footer.svg",
 };
 
 export const ICONS = {

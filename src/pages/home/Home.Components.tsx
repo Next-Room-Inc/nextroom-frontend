@@ -12,14 +12,14 @@ export const HomeComponent = () => {
   const handlePlay = () => setIsPlaying(true);
   const handlePause = () => setIsPlaying(false);
   const { ref, inView , entry } = useInView({
-    threshold: 0.1,
+    threshold: 0.3,
     triggerOnce: false,
     });
 
     useEffect(() => {
       if (inView && entry) {
       // Smooth scroll into center of screen
-      entry.target.scrollIntoView({ behavior: 'smooth', block: 'center', });
+      entry.target.scrollIntoView({ behavior: 'smooth', block: 'center',  });
       }
       }, [inView, entry]);
 
@@ -30,7 +30,7 @@ export const HomeComponent = () => {
         <div
           className=" 
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
-      h-[100vh] md:h-[100vh]  bg-cover bg-bottom  md:bg-center bg-[url(/assets/img/backgrounds/backgrounds_1_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_1.png)]"
+       h-[110vh]  bg-cover bg-bottom  md:bg-center bg-[url(/assets/img/backgrounds/backgrounds_1_2.png)] md:bg-[url(/assets/img/backgrounds/backgrounds_1.png)]"
         >
           <div className="md:w-[50%] md:pl-20 w-[90%] pt-40 md:pt-10">
             {/* Heading */}
@@ -192,7 +192,7 @@ export const HomeComponent = () => {
           </button>
 
           <div className="relative w-full my-10 md:px-10 px-4">
-            {(isPlaying || inView ) && (
+            {(  inView ) && (
               <div className="fixed inset-0 backdrop-blur-md bg-black/20 z-10 pointer-events-none" />
             )}
             {/* Vedio player */}
@@ -202,7 +202,7 @@ export const HomeComponent = () => {
                 ref={videoRef}
                 src="https://v.ftcdn.net/04/59/59/49/700_F_459594974_4I9zM2soy7Pe8GmT7vdreiFmugErs6h7_ST.mp4"
                 controls
-                className="w-screen md:h-[100vh] h-[50vh] object-cover   shadow-none rounded-4xl"
+                className="w-screen md:h-[90vh] h-[50vh] object-cover shadow-none rounded-4xl transition-all duration-700 ease-in-out"
                 onPlay={handlePlay}
                 onPause={handlePause}
                 

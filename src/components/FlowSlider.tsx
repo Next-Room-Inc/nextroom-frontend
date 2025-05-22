@@ -4,28 +4,32 @@ import { APP_INFO } from "../utils/constants";
 
 const features = [
   {
-    icon: `slider_icon_1.png`,
+    icon: `slider_icon_1.svg`,
     title: "Flexible Sublets",
     description: "We help you find sublets automatically.",
     image: `slider_1.png`,
+    className: "h-8 w-8"
   },
   {
-    icon: `slider_icon_2.png`,
+    icon: `slider_icon_2.svg`,
     title: "AI Matching",
     description: "Equal weighting of roommate and property preferences.",
     image: `slider_2.png`,
+    className: "h-8 w-8"
   },
   {
-    icon: `slider_icon_3.png`,
+    icon: `slider_icon_3.svg`,
     title: "Friend Option",
     description: "Students may still live with their friends.",
     image: `slider_3.png`,
+    className: "h-8 w-8"
   },
   {
-    icon: `slider_icon_4.png`,
+    icon: `slider_icon_4.svg`,
     title: "Verified Students Only",
     description: "Every user on the platform is a real, verified student.",
     image: `slider_4.png`,
+    className: "w-8 h-8"
   },
 ];
 
@@ -59,11 +63,13 @@ export const FlowSlider = () => {
                 {/* Overlay */}
                 <div className="absolute inset-0  p-5 flex flex-col justify-end text-white cursor-pointer ">
                   <div className="flex items-center gap-3 mb-2">
+                    <div className=" bg-[#B3322F] p-5 rounded-full">
                     <img
                       src={`${APP_INFO.IMG_BASE_URL}images/${feature.icon}`}
                       alt=""
-                      className="w-18 h-18 bg-[#B3322F] p-1 rounded-full"
+                      className={feature.className}
                     />
+                    </div>
                     <div className="text-left">
                       <h3 className="text-lg font-semibold mb-1">
                         {feature.title}

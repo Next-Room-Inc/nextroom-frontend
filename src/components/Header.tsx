@@ -23,7 +23,7 @@ export default function Header({ darkMode = true }) {
       class: `px-2 md:px-4 ${isLoggedIn ? "hidden" : ""}`,
     },
     {
-      name: <Link to={ROUTES.LOGIN}>Log in</Link>,
+      name: <Link to={ROUTES.LOGIN}>Log In</Link>,
       href: "#",
       class: `px-2 md:px-4 ${isLoggedIn ? "hidden" : ""}`,
     },
@@ -43,7 +43,7 @@ export default function Header({ darkMode = true }) {
       name: (
         <>
           <div
-            className={`flex gap-1 font-semibold text-[11px]  ${
+            className={`flex gap-1 font-semibold text-[14px]  ${
               darkMode ? "text-black" : "text-dark"
             }`}
           >
@@ -109,7 +109,7 @@ export default function Header({ darkMode = true }) {
         <div className="flex lg:flex-1">
           <a href="#" className="">
             <span className="sr-only">Your Company</span>
-            <img alt="" src={APP_INFO.PRIMARY_LOGO} className="h-24 w-auto -ml-2 md:ml-0" />
+            <img alt="" src={APP_INFO.PRIMARY_LOGO} className="h-18 w-auto -ml-2 md:ml-0" />
           </a>
         </div>
 
@@ -151,23 +151,23 @@ export default function Header({ darkMode = true }) {
             ))}
           </div>
           <Popover className="relative">
-            <PopoverButton className="inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 ">
-              <div className="flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100 shadow-grey-500 py-2 px-7 rounded-full lg:-mt-2 mt-3 ml-2 cursor-pointer transition-all duration-300 ease-in-out">
+            <PopoverButton className="focus:outline-none inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 ">
+              <div className=" flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100  py-2 px-7 rounded-full lg:-mt-2 mt-3 ml-2 cursor-pointer transition-all duration-300 ease-in-out">
                 <img
-                  src={`${APP_INFO.IMG_BASE_URL}icons/menu_icon.png`}
+                  src={`${APP_INFO.IMG_BASE_URL}icons/menu_icon.svg`}
                   className={`h-3.2 bg-white mr-4 my-auto`}
                 />
                 <img
-                  src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.png`}
+                  src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.svg`}
                   className={`h-7 bg-[#B3322F] rounded-full p-1`}
                 />
               </div>
             </PopoverButton>
             <PopoverPanel
               transition
-              className="absolute  left-16 md:left-17.5 z-10  mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+              className="absolute  left-14 md:left-17.5 z-10  mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
             >
-              <div className="w-26 shrink rounded-xl bg-white py-2 md:py-4 text-[10px] md:text-[14px] font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
+              <div className="w-35 md:w-26 shrink rounded-xl bg-white py-2 md:py-4  text-[14px] font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
                 {solutions.map((item, index) => (
                   <a
                     key={index}
