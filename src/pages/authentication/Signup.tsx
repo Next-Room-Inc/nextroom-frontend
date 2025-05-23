@@ -1,57 +1,50 @@
+import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useFormik } from "formik";
-import { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import * as motion from "motion/react-client";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
-import Loader from "../../components/Loader";
-import useAuth from "../../custom-hooks/useAuth.tsx";
-import { useLocalStorage } from "../../hooks/useLocalStorage.tsx";
-import AuthLayout from "../../layouts/Auth.Layout.tsx";
+import PasswordChecklist from "../../components/PasswordChecklist";
+import StudentSignupLayout from "../../layouts/StudentSignup.Layout";
 import { useStudentSignupMutation } from "../../redux/services/auth.service";
-import { ROUTES } from "../../utils/constants";
+import { APP_INFO } from "../../utils/constants";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
 
-const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
+const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;
+const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full cursor-pointer`;
 
-const universities = [
-  "The University of Ottawa",
-  "Carleton University",
-  "Algonquin College",
-  "Collège La Cité",
-];
 
 const Signup = () => {
   const [searchParams] = useSearchParams();
-  const { handleLogin } = useAuth();
-  // const [open, setOpen] = useState(false);
-  const [response, setResponse] = useState<string>("");
+  // const { handleLogin } = useAuth();
+  // const [signupSuccess, setSignupSuccess] = useState<boolean>(false);
   const [studentSignup, { isLoading }] = useStudentSignupMutation();
-  const [, setAuth] = useLocalStorage("auth");
-  const [submitStep, setSubmitStep] = useState(false);
+  // const [, setAuth] = useLocalStorage("auth");
 
   const handleSubmit = async (values: StudentSignupPayload) => {
     try {
-      console.log("searchParams=>",searchParams)
+      console.log("searchParams=>", searchParams)
       const payload = values;
       const refTag = searchParams.get('refTag');
-      if(refTag){
-        payload['tag'] =refTag
+      if (refTag) {
+        payload['tag'] = refTag
       }
-      console.log("payload=>",payload)
+      console.log("payload=>", payload)
       const res = await studentSignup(values);
       const errorMessage = (res.error as any)?.data ?? "Account Creation Failed";
       if (res.error) toast.error(errorMessage);
       else {
-        // setOpen(true);
-        setAuth({
-          email: values.email,
-          lastName: values.lastName,
-          firstName: values.firstName,
-        });
-        setResponse(res?.data?.token);
-        await handleLogin(response)
+        formik.setValues({ ...formik.values, step: 4});
+        // // setOpen(true);
+        // setAuth({
+        //   email: values.email,
+        //   lastName: values.lastName,
+        //   firstName: values.firstName,
+        // });
+        // setResponse(res?.data?.token);
+        // await handleLogin(response)
       }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -66,317 +59,398 @@ const Signup = () => {
       university: "",
       age: "",
       phoneNumber: "",
+      pronouns: "",
       email: "",
       password: "",
       confirmPassword: "",
+      step: 1,
     },
     validationSchema: toFormikValidationSchema(SignupSchema),
     onSubmit: handleSubmit,
   });
 
-  // const handleClose = () => setOpen(false);
-  // const handleNext = async () => await handleLogin(response);
 
-  const personalInfoValidationError: boolean =
-    !formik?.touched?.firstName ||
-    !!formik.errors.firstName ||
-    !!formik.errors.lastName ||
-    !!formik.errors.university;
+
+  const nextStepHandler = () => {
+    const { step } = formik.values;
+    const nextStep = step < 3 ? step + 1 : step;
+    formik.setValues({ ...formik.values, step: nextStep });
+  };
+  const prevStepHandler = () => {
+    const { step } = formik.values;
+    const nextStep = step > 1 ? step - 1 : step;
+    formik.setValues({ ...formik.values, step: nextStep });
+  };
 
   return (
     <>
-      {isLoading && <Loader />}
-       <AuthLayout>
-              <form onSubmit={formik.handleSubmit}>
-                        <h2 className=" text-2xl/9 font-bold mb-8  text-[#B3322F]">
-                          Sign up
-                        </h2>
-                        {submitStep && (
-                          <div
-                            className="text-sm font-bold flex cursor-pointer items-center justify-end text-blue-700 hover:text-blue-400"
-                            onClick={() => setSubmitStep(false)}
-                          >
-                            <ArrowLeftIcon className="h-5 mr-2" />
-                            <span>Previous Step</span>
-                          </div>
-                        )}
-                        {submitStep ? (
-                          <>
-                            {/* Email */}
-                            <div>
-                             
-                              <div className="mt-2 flex">
-                                <input
-                                placeholder="Email address"
-                                  id="email"
-                                  name="email"
-                                  type="text"
-                                  value={formik.values.email}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  className={`${inputClass} ${
-                                    formik.touched.email && formik.errors.email
-                                      ? "outline-red-600"
-                                      : ""
-                                  }`}
-                                />
-                              </div>
-                              {formik.touched.email && formik.errors.email ? (
-                                <div className="text-sm text-red-600">
-                                  {formik.errors.email}
-                                </div>
-                              ) : null}
-                            </div>
-                            {/* Password */}
-                            <div className="mb-2">
-                               
-                              <div className="mt-2">
-                                <input
-                                placeholder="Password"
-                                  id="password"
-                                  name="password"
-                                  type="password"
-                                  value={formik.values.password}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  className={`${inputClass} ${
-                                    formik.touched.password && formik.errors.password
-                                      ? "outline-red-600"
-                                      : ""
-                                  }`}
-                                />
-                                {formik.touched.password && formik.errors.password ? (
-                                  <div className="text-sm text-red-600">
-                                    {formik.errors.password}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-          
-                            {/* Confirm Password */}
-                            <div className="mb-2">
-                             
-                              <div className="mt-2">
-                                <input
-                                placeholder="Confirm Password"
-                                  id="confirmPassword"
-                                  name="confirmPassword"
-                                  type="password"
-                                  value={formik.values.confirmPassword}
-                                  onChange={formik.handleChange}
-                                  onBlur={formik.handleBlur}
-                                  className={`${inputClass} ${
-                                    formik.touched.confirmPassword &&
-                                    formik.errors.confirmPassword
-                                      ? "outline-red-600"
-                                      : ""
-                                  }`}
-                                />
-                                {formik.touched.confirmPassword &&
-                                formik.errors.confirmPassword ? (
-                                  <div className="text-sm text-red-600">
-                                    {formik.errors.confirmPassword}
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-          
-                            {/* Signup Button */}
-                            <div>
-                              <button
-                                type="submit"
-                                className="flex w-50 justify-center rounded-full mx-auto bg-[#7C221F] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#B3322F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-                              >
-                                Sign up
-                              </button>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            {/* Personal Info Form */}
-                            <>
-                              {" "}
-                              {/* First Name */}
-                              <div className="mb-2">
-                               
-                                <div className="mt-2">
-                                  <input
-                                  placeholder="First Name"
-                                    id="firstName"
-                                    name="firstName"
-                                    type="text"
-                                    value={formik.values.firstName}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`${inputClass} ${
-                                      formik.touched.firstName && formik.errors.firstName
-                                        ? "outline-red-600"
-                                        : ""
-                                    }`}
-                                  />
-                                  {formik.touched.firstName && formik.errors.firstName ? (
-                                    <div className="text-sm text-red-600">
-                                      {formik.errors.firstName}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              {/* Last Name */}
-                              <div className="mb-2">
-                               
-                                <div className="mt-2">
-                                  <input
-                                  placeholder="Last Name"
-                                    id="lastName"
-                                    name="lastName"
-                                    type="text"
-                                    value={formik.values.lastName}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`${inputClass} ${
-                                      formik.touched.lastName && formik.errors.lastName
-                                        ? "outline-red-600"
-                                        : ""
-                                    }`}
-                                  />
-                                  {formik.touched.lastName && formik.errors.lastName ? (
-                                    <div className="text-sm text-red-600">
-                                      {formik.errors.lastName}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              {/* Universty */}
-                              <div className="mb-2">
-                                                              <div className="mt-2 grid grid-cols-1">
-                                  <select
-                                  
-                                    id="university"
-                                    name="university"
-                                    className=" rounded-full shadow-md col-start-1 row-start-1 w-full appearance-none bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                    value={formik.values.university}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                  >
-                                    <option value={""}>
-                                      Select your university/college
-                                    </option>
-          
-                                    {universities.map((university) => (
-                                      <option>{university}</option>
-                                    ))}
-                                  </select>
-                                  <ChevronDownIcon
-                                    aria-hidden="true"
-                                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                                  />
-          
-                                  {formik.touched.university &&
-                                  formik.errors.university ? (
-                                    <div className="text-sm text-red-600">
-                                      {formik.errors.university}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              {/* Age */}
-                              <div className="mb-2">
-                              
-                                <div className="mt-2 grid grid-cols-1">
-                                  <select
-                                    id="age"
-                                    name="age"
-                                    className="rounded-full shadow-md col-start-1 row-start-1 w-full appearance-none bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                    value={formik.values.age}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                  >
-                                    <option value={""}>Select your age</option>
-                                    {[
-                                      "17",
-                                      "18",
-                                      "19",
-                                      "20",
-                                      "21",
-                                      "22",
-                                      "23",
-                                      "24",
-                                      "25",
-                                      "26+",
-                                    ].map((age) => (
-                                      <option>{age}</option>
-                                    ))}
-                                  </select>
-                                  <ChevronDownIcon
-                                    aria-hidden="true"
-                                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                                  />
-          
-                                  {formik.touched.age && formik.errors.age ? (
-                                    <div className="text-sm text-red-600">
-                                      {formik.errors.age}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              {/* phoneNumber */}
-                              <div className="mb-2">
-                                
-                                <div className="mt-2">
-                                  <input
-                                  placeholder="Phone Number"
-                                    id="phoneNumber"
-                                    name="phoneNumber"
-                                    type="text"
-                                    value={formik.values.phoneNumber}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    className={`${inputClass} ${
-                                      formik.touched.phoneNumber &&
-                                      formik.errors.phoneNumber
-                                        ? "outline-red-600"
-                                        : ""
-                                    }`}
-                                  />
-                                  {formik.touched.phoneNumber &&
-                                  formik.errors.phoneNumber ? (
-                                    <div className="text-sm text-red-600">
-                                      {formik.errors.phoneNumber}
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                              {/* Signup Button */}
-                              <div>
-                                <button
-                                  disabled={personalInfoValidationError}
-                                  onClick={() => setSubmitStep(true)}
-                                  className={`${
-                                    personalInfoValidationError ? "opacity-20" : ""
-                                  } flex w-60 mx-auto mt-4 justify-center rounded-full bg-[#7C221F] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#B3322F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
-                                >
-                                  Next Step
-                                </button>
-                              </div>
-                            </>
-                            {/* Personal Info Form */}
-                          </>
-                        )}
-          
-                        {/* Login Link */}
-                        <p className="my-4 text-center text-sm/6 text-gray-500">
-                          Already have an account?{" "}
-                          <Link
-                            to={ROUTES.LOGIN}
-                            className="font-semibold text-[#B3322F]"
-                          >
-                            login
-                          </Link>
-                        </p>
-                      </form>
-       </AuthLayout>
+
+      <StudentSignupLayout>
+        <form onSubmit={formik.handleSubmit}>
+          {isLoading ? <LoaderComponent /> :  <>
+            {formik.values.step > 1 &&  formik.values.step < 4 &&(
+              <div
+                className="text-sm font-bold flex  items-center justify-end text-[#B3322F] hover:text-[#b3312f6b]"
+
+              >
+                <ArrowLeftIcon className="h-5 mr-2" />
+                <span className="cursor-pointer" onClick={() => prevStepHandler()}>Previous Step</span>
+              </div>
+            )}
+            {formik.values.step === 1 && <NameForm {...{ formik, nextStepHandler }} />}
+            {formik.values.step === 2 && <SchoolForm {...{ formik, nextStepHandler }} />}
+            {formik.values.step === 3 && <PasswordForm {...{ formik, nextStepHandler, handleSubmit }} />}
+            {formik.values.step === 4 && <EmailSentComponent />}
+
+          </>}
+
+        </form >
+      </StudentSignupLayout >
     </>
   );
 };
 
 export default Signup;
+
+const LoaderComponent = () => {
+  const loaderImages = [
+    `${APP_INFO.IMG_BASE_URL}icons/loader_icon_1.svg`,
+    `${APP_INFO.IMG_BASE_URL}icons/loader_icon_2.svg`,
+    `${APP_INFO.IMG_BASE_URL}icons/loader_icon_3.svg`,
+    `${APP_INFO.IMG_BASE_URL}icons/loader_icon_4.svg`,
+  ];
+  const [currentFrame, setCurrentFrame] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentFrame(prev => (prev + 1) % loaderImages.length);
+    }, 100); // Change frame every 200ms
+    return () => clearInterval(interval); // Cleanup on unmount
+  }, []);
+
+  return (
+    <>
+
+         <img src={loaderImages[currentFrame]} alt="loader frame" className="h-16 w-16 mx-auto " />
+ 
+    </>
+  )
+}
+
+const EmailSentComponent = () => {
+  return (
+    <>
+      <div className="text-center md:text-left"    >
+        <h1 className="text-[#B3322F] text-2xl mb-8">Almost there! </h1>
+        <img
+          src={`${APP_INFO.IMG_BASE_URL}icons/receive_email_icon.svg`}
+          className="h-15 mx-auto md:ml-0"
+
+        />
+        <p className="  mt-5 text-base ">
+          We’ve sent a confirmation link to your email.
+          <br />
+          <br />
+          Please check your inbox and click the link to
+          verify your account.
+        </p>
+
+        <h6 className="text-[#B3322F] text-md mt-4 mb-4">Didn’t get the email? </h6>
+
+        <div className="text-center">
+          <button type="button" className={buttonClass}  >
+            Resend Email
+          </button>
+        </div>
+      </div>
+
+
+    </>
+  )
+}
+
+interface PasswordFormProps {
+  formik: any; // ideally use Formik type
+}
+const PasswordForm: React.FC<PasswordFormProps>   = ({ formik }) => {
+  const isError = !formik.touched.confirmPassword || formik.errors.password || formik.errors.confirmPassword
+
+  return (
+    <>
+      <h1 className="text-[#B3322F] text-2xl ml-2 mb-4 text-center md:text-left">Select a password </h1>
+      {/* Password */}
+      <div className="mb-2">
+        <div className="mt-2">
+          <input
+            placeholder="Password"
+            id="password"
+            name="password"
+            type="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${inputClass} ${formik.touched.password && formik.errors.password
+              ? "outline-red-600"
+              : "outline-white"
+              }`}
+          />
+
+          {formik.touched.password || formik.errors.password || formik.values.password ? (
+            <PasswordChecklist password={formik.values.password} />
+          ) : null}
+        </div>
+      </div>
+
+      {/* Confirm Password */}
+      <div className="mb-2">
+        <div className="mt-4">
+          <input
+            placeholder="Confirm Password"
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            value={formik.values.confirmPassword}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${inputClass} ${formik.touched.confirmPassword &&
+              formik.errors.confirmPassword
+              ? "outline-red-600"
+              : "outline-white"
+              }`}
+          />
+          {formik.touched.confirmPassword &&
+            formik.errors.confirmPassword ? (
+            <div className="text-sm text-red-600">
+              {formik.errors.confirmPassword}
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="text-center">
+        <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} disabled={isError} type="submit">
+          Sign Up
+        </button>
+      </div>
+      <p className=" text-center mt-10 text-sm ">
+        By clicking 'Sign Up,' you agree to our
+        Terms of Service and Privacy Policy. You can access
+        these at any time via the links in our footer.
+      </p>
+    </>
+  )
+
+}
+
+
+interface SchoolFormProps {
+  formik: any; // ideally use Formik type
+  nextStepHandler: () => void;
+}
+
+const SchoolForm: React.FC<SchoolFormProps>  = ({ formik, nextStepHandler }) => {
+  const universityDomains: Record<string, string> = {
+    "The University of Ottawa": "uottawa.ca",
+    "Carleton University": "carleton.ca",
+    "Algonquin College": "algonquinlive.ca",
+    "Collège La Cité": "collegelacite.ca",
+  };
+
+  const isValidEmail = formik.values.email.split("@")[1]?.toLowerCase() === universityDomains[formik.values.university]
+  const isError = !isValidEmail || !formik.touched.email || formik.errors.university || formik.errors.email
+
+  console.log(formik)
+  const schools = [
+    { name: 'The University of Ottawa', icon: 'school_icon_1.svg' },
+    { name: 'Carleton University', icon: 'school_icon_2.svg' },
+    { name: 'Algonquin College', icon: 'school_icon_3.svg' },
+    { name: 'Collège La Cité', icon: 'school_icon_4.svg' },
+  ]
+
+  return (
+    <>
+
+      <h1 className="text-[#B3322F] text-2xl ml-2 mb-4 text-center md:text-left">Choose your school</h1>
+
+      <div className="grid gap-2 justify-center  grid-cols-2 md:grid-cols-2 lg:grid-cols-4 px-10 md:px-0">
+        {schools.map((school, index) => (
+          <div key={index} className={`flex justify-center items-center   hover:cursor-pointer `}
+            onClick={() => formik.setFieldValue('university', school.name)} > <img src={`${APP_INFO.IMG_BASE_URL}icons/${school.icon}`}
+              className={`md:w-20 md:h-20  h-25 w-25 p-4 rounded-full ${formik.values.university === school.name ? "bg-[#B3322F]" : "bg-[#C9C1C1]"}`} alt={`School ${index}`} />
+          </div>))}
+      </div>
+      {formik.errors.university ? (
+        <div className="text-sm text-red-600 ml-3 mt-2">
+          {formik.errors.university}
+        </div>
+      ) : null}
+
+
+      {/* Email */}
+      <div className="mt-6 ">
+        <input
+          placeholder="Student Email Address"
+          id="email"
+          name="email"
+          type="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={`${inputClass} ${formik.touched.email && formik.errors.email
+            ? "outline-red-600"
+            : "outline-white"
+            }`}
+        />
+        {formik.touched.email && formik.errors.email && (
+          <div className="text-sm text-red-600 ml-3 mt-2">{formik.errors.email}</div>
+        )}
+
+        {!isValidEmail && !formik.errors.email ? (
+          <div className="text-sm text-red-600 ml-3 mt-2">
+            Email domain must match your selected university (e.g. uottawa.ca carleton.ca algonquinlive.ca collegelacite.ca for University of Ottawa)
+          </div>
+        ) : null}
+      </div>
+      {/* phoneNumber */}
+      <div className="mt-2 ">
+        <p className="text-red-600 mt-4 ml-2">*Optional</p>
+        <input
+          placeholder="Phone Number"
+          id="phoneNumber"
+          name="phoneNumber"
+          type="text"
+          value={formik.values.phoneNumber}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={`${inputClass} ${formik.touched.phoneNumber && formik.errors.phoneNumber
+            ? "outline-red-600"
+            : "outline-white"
+            }`}
+        />
+      </div>
+      {/* Pronouns */}
+
+      <div className="mb-2">
+        <p className="text-red-600 mt-4 ml-2">*Optional</p>
+        <div className="mt-2 grid grid-cols-1">
+          <select
+            id="age"
+            name="age"
+            className="rounded-full  col-start-1 row-start-1 w-full appearance-none bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 drop-shadow-md shadow-lg outline-white  sm:text-sm/6"
+            value={formik.values.pronouns}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            <option value={""}>*This helps us better communicate with you</option>
+            {[
+              "He/Him",
+              "She/Her",
+              "They/Them",
+              "Prefer Not To Say ",
+            ].map((option) => (
+              <option>{option}</option>
+            ))}
+          </select>
+          <ChevronDownIcon
+            aria-hidden="true"
+            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+          />
+
+
+        </div>
+      </div>
+
+      {/* Button */}
+      {/* Button */}
+      <div className="text-center">
+        <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={nextStepHandler} disabled={isError}>
+          Next
+        </button>
+      </div>
+
+
+
+
+    </>
+  )
+}
+
+
+interface NameFormProps {
+  formik: any; // ideally use Formik type
+  nextStepHandler: () => void;
+}
+
+const NameForm: React.FC<NameFormProps> = ({ formik, nextStepHandler }) => {
+  const isLastNameVisible = formik.values.firstName.length > 0 ? true : false;
+  const isError = !formik.touched.firstName || (formik.errors.firstName || formik.errors.lastName)
+
+  return (
+    <>
+
+
+      <h1 className="text-[#B3322F] text-2xl ml-2 mb-8">Hey, what’s your name?</h1>
+
+      {/* First Name */}
+      <div>
+        <div className="mt-2 flex">
+          <input
+            placeholder="First Name"
+            id="firstName"
+            name="firstName"
+            type="text"
+            value={formik.values.firstName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${inputClass} ${formik.touched.firstName && formik.errors.firstName
+              ? "outline-red-600"
+              : "outline-white"
+              }`}
+          />
+        </div>
+        {formik.touched.firstName && formik.errors.firstName && (
+          <div className="text-sm text-red-600 ml-3">{formik.errors.firstName}</div>
+        )}
+      </div>
+
+      {/* Last Name always rendered but transition visibility */}
+
+      <motion.div
+        animate={{
+          maxHeight: isLastNameVisible ? 100 : 0,
+          opacity: isLastNameVisible ? 1 : 0,
+          paddingTop: isLastNameVisible ? 16 : 0,
+          paddingBottom: isLastNameVisible ? 16 : 0,
+          pointerEvents: isLastNameVisible ? "auto" : "none",
+        }}
+        transition={{ duration: 0.8 }}
+      // className="overflow-hidden"
+      >
+        {isLastNameVisible &&
+          <input
+            placeholder="Last Name"
+            id="lastName"
+            name="lastName"
+            type="text"
+            value={formik.values.lastName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={`${inputClass} ${formik.touched.lastName && formik.errors.lastName
+              ? "outline-red-600"
+              : "outline-white"
+              }`}
+          />}
+        {formik.touched.lastName && formik.errors.lastName && (
+          <div className="text-sm text-red-600 mt-1 ml-3">{formik.errors.lastName}</div>
+        )}
+      </motion.div>
+
+
+      {/* Button */}
+      <div className="text-center">
+        <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={nextStepHandler} disabled={isError}>
+          Next
+        </button>
+      </div>
+    </>
+  );
+};

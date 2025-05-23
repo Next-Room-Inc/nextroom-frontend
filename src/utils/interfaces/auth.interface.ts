@@ -8,3 +8,10 @@ export interface StudentSignupPayload {
     phoneNumber?: string;
     tag?: string;
   }
+export interface ForgotPasswordPayload {
+    email: string; 
+  }
+export interface ResetPasswordPayload {
+    email: string; 
+    token?: string;
+  }

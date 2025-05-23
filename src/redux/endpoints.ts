@@ -27,6 +27,14 @@ export const API_URL = {
       URL: () => createApiUrl("/auth/student/signup"),
       METHOD: HttpMethod.POST,
     },
+    FORGOT_PASSWORD: {
+      URL: () => createApiUrl("/auth/forgot-password"),
+      METHOD: HttpMethod.POST,
+    },
+    RESET_PASSWORD: {
+      URL: () => createApiUrl("/auth/reset-password"),
+      METHOD: HttpMethod.POST,
+    },
   },
   LISTINGS: {
     GET_ALL: {

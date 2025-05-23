@@ -33,7 +33,21 @@ export const AuthServices = createApi({
                 body: loginDto,
             }),
         }),
+        forgotPassword: builder.mutation({
+            query: (forgotPasswordDto: interfaces.ForgotPasswordPayload) => ({
+                url: API_URL.AUTH.FORGOT_PASSWORD.URL(),
+                method: API_URL.AUTH.FORGOT_PASSWORD.METHOD,
+                body: forgotPasswordDto,
+            }),
+        }),
+        resetPassword: builder.mutation({
+            query: (resetPasswordDto: interfaces.ResetPasswordPayload) => ({
+                url: API_URL.AUTH.RESET_PASSWORD.URL(),
+                method: API_URL.AUTH.RESET_PASSWORD.METHOD,
+                body: resetPasswordDto,
+            }),
+        }),
     }),
 });
 
-export const {useStudentSignupMutation, useStudentLoginMutation} = AuthServices;
+export const {useStudentSignupMutation, useStudentLoginMutation, useForgotPasswordMutation, useResetPasswordMutation} = AuthServices;

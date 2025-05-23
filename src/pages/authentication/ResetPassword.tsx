@@ -1,38 +1,51 @@
 import { useFormik } from "formik";
+import { useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Popover } from "react-tiny-popover";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import Loader from "../../components/Loader";
+import PasswordChecklist from "../../components/PasswordChecklist";
 import AuthLayout from "../../layouts/Auth.Layout";
+import { useResetPasswordMutation } from "../../redux/services/auth.service";
+import { APP_INFO, ROUTES } from "../../utils/constants";
 import {
   ResetPasswordSchema,
 } from "../../utils/schemas/auth.schema";
-import { APP_INFO } from "../../utils/constants";
-import { Popover } from "react-tiny-popover";
-import { useState } from "react";
-import PasswordChecklist from "../../components/PasswordChecklist";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   // const { handleLogin } = useAuth();
-  // const [studentLogin, { isLoading }] = useStudentLoginMutation();
+  const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const handleSubmit = async (values: any) => {
     console.log(values);
-    // try {
-    //   const response = await studentLogin(values);
-    //   console.log("🚀 ~ handleSubmit ~ response:", response);
-    //   if (response.error) {
-    //     const errorMessage = (response.error as any)?.data ?? "Login Failed";
-    //     toast.error(errorMessage);
-    //   } else {
-    toast.success("successfully!");
-    //     handleLogin(response?.data?.token);
-    //   }
-    // } catch (err) {
-    //   console.error("Unexpected error:", err);
-    //   toast.error("An unexpected error occurred");
-    // }
+    const payload = values;
+    const token = searchParams.get('token');
+    if (token) {
+      payload['token'] = token
+    }
+    try {
+      const response = await resetPassword(values);
+      console.log("🚀 ~ handleSubmit ~ response:", response);
+      if (response.error) {
+        const errorMessage = (response.error as any)?.data ?? "Request Failed";
+        toast.error(errorMessage);
+      } else {
+        toast.success("Password reset successfully!");
+        navigate(ROUTES.LOGIN);
+
+
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast.error("An unexpected error occurred");
+    }
   };
 
   const formik = useFormik({
@@ -53,13 +66,12 @@ const ResetPassword = () => {
     );
   };
 
-  const validationError: boolean =
-    !!formik.errors.password || !!formik.errors.confirmPassword;
+  const validationError: boolean = !!formik.errors.password || !!formik.errors.confirmPassword;
 
-  console.log(formik);
+
   return (
     <>
-      {/* {isLoading && <Loader />} */}
+      {isLoading && <Loader />}
       <AuthLayout>
         <form onSubmit={formik.handleSubmit}>
           <Popover
@@ -90,14 +102,13 @@ const ResetPassword = () => {
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`${inputClass} ${
-                  formik.touched.password && formik.errors.password
-                    ? "outline-red-600"
-                    : ""
-                }`}
+                className={`${inputClass} ${formik.touched.password && formik.errors.password
+                  ? "outline-red-600"
+                  : ""
+                  }`}
               />
 
-              
+
               {formik.touched.password || formik.errors.password || formik.values.password ? (
                 <PasswordChecklist password={formik.values.password} />
               ) : null}
@@ -115,15 +126,14 @@ const ResetPassword = () => {
                 value={formik.values.confirmPassword}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`${inputClass} ${
-                  formik.touched.confirmPassword &&
+                className={`${inputClass} ${formik.touched.confirmPassword &&
                   formik.errors.confirmPassword
-                    ? "outline-red-600"
-                    : ""
-                }`}
+                  ? "outline-red-600"
+                  : ""
+                  }`}
               />
               {formik.touched.confirmPassword &&
-              formik.errors.confirmPassword ? (
+                formik.errors.confirmPassword ? (
                 <div className="text-sm text-red-600">
                   {formik.errors.confirmPassword}
                 </div>
@@ -134,9 +144,8 @@ const ResetPassword = () => {
           <button
             disabled={validationError}
             type={"submit"}
-            className={`px-20 mt-5 rounded-full ${
-              validationError ? "opacity-20" : ""
-            } bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
+            className={`px-20 mt-5 rounded-full ${validationError ? "opacity-20" : ""
+              } bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
           >
             Reset
           </button>

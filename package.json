@@ -23,6 +23,7 @@
     "firebase": "^11.6.0",
     "formik": "^2.4.6",
     "framer-motion": "^12.11.4",
+    "motion": "^12.12.1",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
