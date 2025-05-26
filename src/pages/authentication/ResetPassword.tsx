@@ -25,11 +25,12 @@ const ResetPassword = () => {
 
   const handleSubmit = async (values: any) => {
     console.log(values);
-    const payload = values;
     const token = searchParams.get('token');
     if (token) {
-      payload['token'] = token
+      values['token'] = token
     }
+    values['newPassword'] = values.password
+
     try {
       const response = await resetPassword(values);
       console.log("🚀 ~ handleSubmit ~ response:", response);
@@ -37,7 +38,7 @@ const ResetPassword = () => {
         const errorMessage = (response.error as any)?.data ?? "Request Failed";
         toast.error(errorMessage);
       } else {
-        toast.success("Password reset successfully!");
+        toast.success(response?.data?.message || "Password reset successfully!");
         navigate(ROUTES.LOGIN);
 
 

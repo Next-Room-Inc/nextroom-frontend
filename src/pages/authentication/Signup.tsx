@@ -11,17 +11,24 @@ import { useStudentSignupMutation } from "../../redux/services/auth.service";
 import { APP_INFO } from "../../utils/constants";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
+import useAuth from "../../custom-hooks/useAuth";
+import GiveAwayModal from "../../components/modals/GiveAwayModal";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;
 const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full cursor-pointer`;
 
 
 const Signup = () => {
+    const { handleLogin } = useAuth();
   const [searchParams] = useSearchParams();
   // const { handleLogin } = useAuth();
   // const [signupSuccess, setSignupSuccess] = useState<boolean>(false);
   const [studentSignup, { isLoading }] = useStudentSignupMutation();
-  // const [, setAuth] = useLocalStorage("auth");
+  const [, setAuth] = useLocalStorage("auth");
+  const [open, setOpen] = useState(false);
+  const [response, setResponse] = useState<string>("");
+  const handleNext = async () => await handleLogin(response);
 
   const handleSubmit = async (values: StudentSignupPayload) => {
     try {
@@ -37,13 +44,13 @@ const Signup = () => {
       if (res.error) toast.error(errorMessage);
       else {
         formik.setValues({ ...formik.values, step: 4});
-        // // setOpen(true);
-        // setAuth({
-        //   email: values.email,
-        //   lastName: values.lastName,
-        //   firstName: values.firstName,
-        // });
-        // setResponse(res?.data?.token);
+        setOpen(true);
+        setAuth({
+          email: values.email,
+          lastName: values.lastName,
+          firstName: values.firstName,
+        });
+        setResponse(res?.data?.token);
         // await handleLogin(response)
       }
     } catch (err) {
@@ -84,6 +91,7 @@ const Signup = () => {
 
   return (
     <>
+     {open && <GiveAwayModal {...{ handleNext }} />}
 
       <StudentSignupLayout>
         <form onSubmit={formik.handleSubmit}>
@@ -97,7 +105,7 @@ const Signup = () => {
                 <span className="cursor-pointer" onClick={() => prevStepHandler()}>Previous Step</span>
               </div>
             )}
-            {formik.values.step === 1 && <NameForm {...{ formik, nextStepHandler }} />}
+            {formik.values.step <= 1 && <NameForm {...{ formik, nextStepHandler }} />}
             {formik.values.step === 2 && <SchoolForm {...{ formik, nextStepHandler }} />}
             {formik.values.step === 3 && <PasswordForm {...{ formik, nextStepHandler, handleSubmit }} />}
             {formik.values.step === 4 && <EmailSentComponent />}
@@ -271,11 +279,11 @@ const SchoolForm: React.FC<SchoolFormProps>  = ({ formik, nextStepHandler }) => 
 
       <h1 className="text-[#B3322F] text-2xl ml-2 mb-4 text-center md:text-left">Choose your school</h1>
 
-      <div className="grid gap-2 justify-center  grid-cols-2 md:grid-cols-2 lg:grid-cols-4 px-10 md:px-0">
+      <div className="grid gap-6 justify-center  grid-cols-2 md:grid-cols-2 lg:grid-cols-4 px-14 md:px-0">
         {schools.map((school, index) => (
-          <div key={index} className={`flex justify-center items-center   hover:cursor-pointer `}
+          <div key={index} className={`flex justify-center items-center rounded-full md:w-20 md:h-20  h-25 w-25 ${formik.values.university === school.name ? "bg-[#B3322F]" : "bg-[#C9C1C1]"} hover:cursor-pointer `}
             onClick={() => formik.setFieldValue('university', school.name)} > <img src={`${APP_INFO.IMG_BASE_URL}icons/${school.icon}`}
-              className={`md:w-20 md:h-20  h-25 w-25 p-4 rounded-full ${formik.values.university === school.name ? "bg-[#B3322F]" : "bg-[#C9C1C1]"}`} alt={`School ${index}`} />
+              className={`md:w-20 md:h-20  h-25 w-25 md:p-4 p-5  `} alt={`School ${index}`} />
           </div>))}
       </div>
       {formik.errors.university ? (
@@ -381,13 +389,14 @@ interface NameFormProps {
 }
 
 const NameForm: React.FC<NameFormProps> = ({ formik, nextStepHandler }) => {
+
   const isLastNameVisible = formik.values.firstName.length > 0 ? true : false;
   const isError = !formik.touched.firstName || (formik.errors.firstName || formik.errors.lastName)
 
   return (
     <>
-
-
+    
+    <div>
       <h1 className="text-[#B3322F] text-2xl ml-2 mb-8">Hey, what’s your name?</h1>
 
       {/* First Name */}
@@ -450,6 +459,7 @@ const NameForm: React.FC<NameFormProps> = ({ formik, nextStepHandler }) => {
         <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={nextStepHandler} disabled={isError}>
           Next
         </button>
+      </div>
       </div>
     </>
   );

@@ -33,6 +33,7 @@ export const ICONS = {
   OUTDOOR_PATIO: "assets/img/icons/outdoor-patio.png",
   BIKE_STORAGE: "assets/img/icons/bike.png",
   GIFT: "assets/img/icons/gift.png",
+  ARROW_RIGHT: "assets/img/icons/rightarrow.svg",
   ART_STUDIO: "assets/img/icons/art_studio.png",
   PENT_HOUSE_LOUNGE: "assets/img/icons/penthouse_lounge.png",
   STUDY_LOUNGE: "assets/img/icons/study_lounge.png",
