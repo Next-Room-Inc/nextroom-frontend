@@ -12,6 +12,8 @@ import { useStudentSignupMutation } from "../../redux/services/auth.service";
 import { ROUTES } from "../../utils/constants";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
+import { ICONS } from "../../utils/constants/app-info.constant.ts";
+import GiveAwayModal from "../../components/modals/GiveAwayModal.tsx";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
 
@@ -25,7 +27,7 @@ const universities = [
 const Signup = () => {
   const [searchParams] = useSearchParams();
   const { handleLogin } = useAuth();
-  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [response, setResponse] = useState<string>("");
   const [studentSignup, { isLoading }] = useStudentSignupMutation();
   const [, setAuth] = useLocalStorage("auth");
@@ -44,14 +46,14 @@ const Signup = () => {
       const errorMessage = (res.error as any)?.data ?? "Account Creation Failed";
       if (res.error) toast.error(errorMessage);
       else {
-        // setOpen(true);
+        setOpen(true);
         setAuth({
           email: values.email,
           lastName: values.lastName,
           firstName: values.firstName,
         });
         setResponse(res?.data?.token);
-        await handleLogin(response)
+        // await handleLogin(response)
       }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -75,7 +77,7 @@ const Signup = () => {
   });
 
   // const handleClose = () => setOpen(false);
-  // const handleNext = async () => await handleLogin(response);
+  const handleNext = async () => await handleLogin(response);
 
   const personalInfoValidationError: boolean =
     !formik?.touched?.firstName ||
@@ -85,6 +87,7 @@ const Signup = () => {
 
   return (
     <>
+        {open && <GiveAwayModal {...{ handleNext }} />}
       {isLoading && <Loader />}
        <AuthLayout>
               <form onSubmit={formik.handleSubmit}>
@@ -374,7 +377,19 @@ const Signup = () => {
                           </Link>
                         </p>
                       </form>
+
+                         {/* Give Away circle */}
+                                <div
+                                  className="shadow-2xl shadow-black font-semibold text-sm bg-red-700 h-[150px] w-[150px] pt-6 fixed bottom-0 right-0 transform flex flex-col items-center justify-center text-center"
+                                  style={{ borderTopLeftRadius: "75%" }}
+                                >
+                                  <img alt="" className="h-12 pr-1 mb-1 " src={ICONS.GIFT} />
+                                  <span>
+                                    Sign-Up to Enter <br /> Our Giveaway!
+                                  </span>
+                                </div>
        </AuthLayout>
+
     </>
   );
 };

@@ -2,9 +2,10 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { useState } from "react";
 import useAuth from "../custom-hooks/useAuth";
 import { APP_INFO, ROUTES } from "../utils/constants";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header({ darkMode = true }) {
+  const navigate = useNavigate(); // Get navigate function
   const { handleLogout, isLoggedIn } = useAuth();
   const [selectedLang, setSelectedLang] = useState("en");
 
@@ -40,21 +41,20 @@ export default function Header({ darkMode = true }) {
       name: (
         <>
           <div
-            className={`flex gap-1 font-semibold text-[11px]  ${
-              darkMode ? "text-black" : "text-dark"
-            }`}
+            className={`flex gap-1 font-semibold text-[11px]  ${darkMode ? "text-black" : "text-dark"
+              }`}
           >
             {languages.map((lang) => (
               <span
                 key={lang.code}
                 role="button"
                 tabIndex={0}
-                onClick={() => setSelectedLang(lang.code)}
-                className={`cursor-pointer transition duration-200 ${
-                  selectedLang === lang.code
+                // onClick={() => setSelectedLang(lang.code)}
+                onClick={() => navigate(ROUTES.UNDER_CONSTRUCTION)}
+                className={`cursor-pointer transition duration-200 ${selectedLang === lang.code
                     ? "underline underline-offset-4 text-red-500"
                     : "hover:text-red-800"
-                }`}
+                  }`}
               >
                 {lang?.code?.toUpperCase()}
               </span>
@@ -85,21 +85,20 @@ export default function Header({ darkMode = true }) {
         <div className="mb-4 lg:mb-0 lg:flex lg:flex-1 lg:justify-end">
           {/* Languages */}
           <div
-            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${
-              darkMode ? "text-white" : "text-dark"
-            }`}
+            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${darkMode ? "text-white" : "text-dark"
+              }`}
           >
             {languages.map((lang) => (
               <span
                 key={lang.code}
                 role="button"
                 tabIndex={0}
-                onClick={() => setSelectedLang(lang.code)}
-                className={`cursor-pointer transition-all duration-300 ease-in-out ${
-                  selectedLang === lang.code
+                // onClick={() => setSelectedLang(lang.code)}
+                onClick={() => navigate(ROUTES.UNDER_CONSTRUCTION)}
+                className={`cursor-pointer transition-all duration-300 ease-in-out ${selectedLang === lang.code
                     ? "underline underline-offset-4"
                     : "hover:text-gray-500"
-                }`}
+                  }`}
               >
                 {lang.label}
               </span>
@@ -108,12 +107,12 @@ export default function Header({ darkMode = true }) {
           <div className="ml-2  hidden lg:inline">
             {navbar.map((i, index) => (
               <span
+                onClick={() => navigate(ROUTES.UNDER_CONSTRUCTION)}
                 key={index}
-                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${
-                  darkMode
+                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
                     ? "text-white border-white hover:text-black hover:bg-white"
                     : "text-dark border-dark hover:text-white hover:bg-black"
-                }`}
+                  }`}
               >
                 {i.label}
               </span>

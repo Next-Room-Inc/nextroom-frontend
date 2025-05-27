@@ -2,7 +2,7 @@ import { SVGProps, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import { APP_INFO, ROUTES } from "../utils/constants";
 import { IMAGES } from "../utils/constants/app-info.constant";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const footerNavigation = {
   partners: [
@@ -110,6 +110,7 @@ const footerNavigation = {
 };
 
 const Footer = () => {
+  const navigate = useNavigate(); // Get navigate function
   const [companyOpen, setCompanyOpen] = useState(false);
   const [partnersOpen, setPartnersOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
@@ -146,7 +147,8 @@ const Footer = () => {
                         key={lang.code}
                         role="button"
                         tabIndex={0}
-                        onClick={() => setSelectedLang(lang.code)}
+                        // onClick={() => setSelectedLang(lang.code)}
+                        onClick={() => navigate(ROUTES.UNDER_CONSTRUCTION)}
                         className={`cursor-pointer transition duration-300  ${
                           selectedLang === lang.code
                             ? "underline underline-offset-4 font-bold"
@@ -276,8 +278,8 @@ const Footer = () => {
 
         {/* Base Footer */}
         <div className="mt-2 border-t border-[#B3322F] py-4 sm:mt-5 text-center flex flex-col md:flex-row gap-y-4">
-          <div className="flex-1">Terms of Service</div>
-          <div className="flex-1">Privacy Policy</div>
+          <div className="flex-1 cursor-pointer" onClick={()=> navigate(ROUTES.UNDER_CONSTRUCTION)}>Terms of Service</div>
+          <div className="flex-1 cursor-pointer"  onClick={()=> navigate(ROUTES.UNDER_CONSTRUCTION)}>Privacy Policy</div>
           <div className=" flex-1">&copy; 2025 {APP_INFO.NAME}</div>
           <div className="flex-1">
             <p className="flex flex-wrap gap-x-2 gap-y-2 w-full md:order-2 justify-center md:justify-right">
