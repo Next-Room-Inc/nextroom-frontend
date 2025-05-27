@@ -115,7 +115,7 @@ const Footer = () => {
   const [partnersOpen, setPartnersOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
 
-  const [selectedLang, setSelectedLang] = useState("en");
+  const [selectedLang, ] = useState("en");
 
   const languages = [
     { code: "en", label: "English" },

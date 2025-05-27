@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Header({ darkMode = true }) {
   const navigate = useNavigate(); // Get navigate function
   const { handleLogout, isLoggedIn } = useAuth();
-  const [selectedLang, setSelectedLang] = useState("en");
+  const [selectedLang, ] = useState("en");
 
   const languages = [
     { code: "en", label: "English" },
