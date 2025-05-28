@@ -324,10 +324,9 @@ const Signup = () => {
                               </div>
                               {/* phoneNumber */}
                               <div className="mb-2">
-                                
-                                <div className="mt-2">
+                                 <div className="mt-2">
                                   <input
-                                  placeholder="Phone Number"
+                                  placeholder="Phone Number (Optional)"
                                     id="phoneNumber"
                                     name="phoneNumber"
                                     type="text"
@@ -380,12 +379,12 @@ const Signup = () => {
 
                          {/* Give Away circle */}
                                 <div
-                                  className="shadow-2xl shadow-black font-semibold text-sm bg-red-700 h-[150px] w-[150px] pt-6 fixed bottom-0 right-0 transform flex flex-col items-center justify-center text-center"
+                                  className="shadow-2xl shadow-black font-semibold text-white text-sm bg-red-700 h-[150px] w-[150px] pt-6 fixed bottom-0 right-0 transform flex flex-col items-center justify-center text-center"
                                   style={{ borderTopLeftRadius: "75%" }}
                                 >
                                   <img alt="" className="h-12 pr-1 mb-1 " src={ICONS.GIFT} />
                                   <span>
-                                    Sign-Up to Enter <br /> Our Giveaway!
+                                  Signup To Enter <br /> Our Giveaway!
                                   </span>
                                 </div>
        </AuthLayout>
