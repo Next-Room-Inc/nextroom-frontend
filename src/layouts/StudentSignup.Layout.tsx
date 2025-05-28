@@ -5,7 +5,11 @@ import { ICONS } from '../utils/constants/app-info.constant';
  
 const StudentSignupLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [initialStep, setInitialStep] = useState(true)
+
+
+
   return (<>
+
     <div
       className="flex flex-col min-h-[70vh] border-bottom-lg "
 

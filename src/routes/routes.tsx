@@ -9,11 +9,17 @@ import { UnderConstruction } from "../pages/error/UnderConstruction";
 import Offers from "../pages/offers/Offers";
 import ForgotPassword from "../pages/authentication/ForgotPassword";
 import ResetPassword from "../pages/authentication/ResetPassword";
+import Onboarding from "../pages/onboarding/Onboarding";
 
 export const routes = createBrowserRouter([
   {
     path: ROUTES.HOME,
     element: <Home />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.ONBOARDING,
+    element: <Onboarding />,
     errorElement: <NotFoundErrorPage />,
   },
   {
