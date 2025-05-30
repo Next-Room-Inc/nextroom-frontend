@@ -4,6 +4,7 @@ import { APP_INFO } from "../../utils/constants";
 import Blur from "../../components/Blur";
 import { useRef, useState } from "react";
 
+  
 export const HomeComponent = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -12,7 +13,7 @@ export const HomeComponent = () => {
 
   return (
     <>
-      <div className="text-center">
+      <div className="text-center mt-18">
         {/* ------------------ Automated Housing Searches ------------------*/}
         <div
           className=" 

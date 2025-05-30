@@ -7,11 +7,17 @@ import { ROUTES } from "../utils/constants";
 import { IsLoginValidation } from "./route.validations";
 import { UnderConstruction } from "../pages/error/UnderConstruction";
 import Offers from "../pages/offers/Offers";
+import GiveAway from "../pages/giveaway/GiveAway";
 
 export const routes = createBrowserRouter([
   {
     path: ROUTES.HOME,
     element: <Home />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.Giveaway,
+    element: <GiveAway />,
     errorElement: <NotFoundErrorPage />,
   },
   {
