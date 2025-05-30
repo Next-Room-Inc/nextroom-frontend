@@ -17,3 +17,8 @@
     backdrop-filter: blur(6px);
     transition: backdrop-filter 0.3s ease;
   } */
+
+
+  .swiper-wrapper{
+    transition-timing-function: linear !important;
+  }

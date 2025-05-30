@@ -11,16 +11,22 @@ const GiveAwayComponents = () => {
   };
   return (
     <>
-
+      
       <div
-        className="relative bg-[url(/assets/img/backgrounds/backpackanimation.gif)] bg-cover bg-center 
-             min-h-[40vh] md:min-h-screen md:mt-40 -mb-1"
+        className="relative bg-[url(/assets/img/backgrounds/backpackanimation-mobile.gif)] md:bg-[url(/assets/img/backgrounds/backpackanimation.gif)] bg-cover bg-center 
+             min-h-[550px] md:min-h-[750px] mt-30 md:mt-40  "
       >
         <div className="relative top-0 md:-mt-40 -ml-1">
           <img
             src={`${APP_INFO.IMG_BASE_URL}backgrounds/giveaway_background_1.png`}
             alt="Giveaway promotional background"
-            className="-mb-1 w-full  min-h-100vh"
+            className="-mb-1 w-full  min-h-100vh hidden md:flex "
+            loading="lazy"
+          />
+          <img
+            src={`${APP_INFO.IMG_BASE_URL}backgrounds/giveaway_background_1_mobile.png`}
+            alt="Giveaway promotional background"
+            className="-mb-1 w-full -mt-30 min-h-100vh flex md:hidden"
             loading="lazy"
           />
         </div>
@@ -34,7 +40,7 @@ const GiveAwayComponents = () => {
         Enter Now - It’s Free
       </button> */}
         <div className="text-center z-100 bg-transparent sticky top-[97%] ">
-          <button className=" bg-black text-white font-medium py-3 w-[250px] md:w-[500px] mx-auto rounded-full shadow-md z-10 -top-5 relative -mt-10 transition-all duration-300 ease-in-out">
+          <button onClick={() => navigate(ROUTES.SIGNUP)} className="hover:bg-red-800  bg-black text-white font-medium py-3 w-[250px] md:w-[500px] mx-auto rounded-full shadow-md z-10 -top-5 relative -mt-10 transition-all 200 ease-in-out">
             Enter Now - It’s Free
           </button>
         </div>
@@ -57,7 +63,7 @@ const GiveAwayComponents = () => {
         }} />
 
         <p className='text-2xl md:text-3xl text-[#B3322F]  w-full mt-10 px-10 text-center mx-auto font-bold'> Signup  On NextRoom.ca </p>
-        <button className='bg-black w-[250px]  font-bold mx-auto text-center py-3 text-white  rounded-full my-5' onClick={() => navigate(ROUTES.SIGNUP)}>
+        <button className='hover:bg-red-800 transition-all 200 ease-in-out bg-black w-[250px]  font-bold mx-auto text-center py-3 text-white  rounded-full my-5' onClick={() => navigate(ROUTES.SIGNUP)}>
           Sign Up Now
         </button>
 
@@ -71,12 +77,12 @@ const GiveAwayComponents = () => {
         }} />
 
         <p className=' text-2xl md:text-3xl text-[#B3322F]  w-full mt-10 px-10 text-center mx-auto font-bold'> Follow Us On Social Media </p>
-        <button className='bg-black w-[250px] font-bold  mx-auto text-center py-3 text-white  rounded-full my-5' onClick={() => handleRedirect(APP_INFO.INSTAGRAM)}>
+        <button className='hover:bg-red-800 transition-all duration-200 ease-in-out bg-black w-[250px] font-bold  mx-auto text-center py-3 text-white  rounded-full my-5' onClick={() => handleRedirect(APP_INFO.INSTAGRAM)}>
           Follow @nextroom_ca
         </button>
 
         <WavyCircle {...{
-          number: 2, options: {
+          number:3, options: {
             height: 0,
             amplitude: 10,
             speed: 0.5,
@@ -91,7 +97,7 @@ const GiveAwayComponents = () => {
           <p>  Follow @nextroom_ca on Instagram = 2 bonus entries  </p>
           <p> Share post to your story (1 share every 24 hours) = 3 bonus entries </p>
         </div>
-        <button className='bg-black w-[250px] font-bold  mx-auto text-center py-3 text-white  rounded-full mt-15 mb-20' onClick={() => handleRedirect(APP_INFO.INSTAGRAM)}>
+        <button className='hover:bg-red-800 transition-all duration-200 ease-in-out bg-black w-[250px] font-bold  mx-auto text-center py-3 text-white  rounded-full mt-15 mb-20' onClick={() => handleRedirect(APP_INFO.INSTAGRAM)}>
           Follow @nextroom_ca
         </button>
 
@@ -99,7 +105,7 @@ const GiveAwayComponents = () => {
         <div
           className="  
       flex md:justify-end md:items-center items-start justify-center text-center md:text-left
-      md:h-[100vh]  h-[110vh] w-full bg-cover md:bg-top bg-bottom bg-[url(/assets/img/backgrounds/giveaway_background_3_mobile.png)] md:bg-[url(/assets/img/backgrounds/giveaway_background_3.png)]"
+      md:h-[800px]  h-[980px] w-full bg-cover md:bg-top bg-bottom bg-[url(/assets/img/backgrounds/giveaway_background_3_mobile.png)] md:bg-[url(/assets/img/backgrounds/giveaway_background_3.png)]"
         >
           <div className="md:w-[50%] md:pl-20 w-[80%] pt-5 mt-10">
             <h2 className="text-3xl md:text-5xl font-semibold text-white md:mb-4 mb-2">
@@ -113,16 +119,16 @@ const GiveAwayComponents = () => {
               <br />
               <br />
 
-              It’s everything student housing should have been from the start. And it’s almost here—secure your spot now!
+              It’s everything student housing should have been from the start. And it’s almost here—<span className='font-bold'>secure your spot now!</span>
             </p>
 
 
           </div>
         </div>
         {/* No Ghosting section */}
-        <div className='text-center mt-30 mb-10'>
-          <p className='text-3xl lg:text-4xl'>Swipe Right on Your Next Student Apartment</p>
-          <p className='italic text-3xl lg:text-4xl font-bold '>No Ghosting - Guaranteed</p>
+        <div className='text-center mt-20 mb-10 '>
+          <p className=' text-3xl lg:text-4xl px-4'>Swipe Right on Your Next Student Apartment</p>
+          <p className='italic text-2xl md:text-3xl lg:text-4xl font-bold '>No Ghosting - Guaranteed</p>
           <p className='text-[#C32026] text-3xl lg:text-4xl font-bold mb-12 mt-5'>COMING FALL 2025</p>
         </div>
 

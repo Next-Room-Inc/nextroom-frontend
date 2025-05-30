@@ -1,4 +1,4 @@
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination,Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { APP_INFO } from "../../utils/constants";
 
@@ -21,6 +21,10 @@ export const GiveAwaySlider = () => {
       <div className="w-full mx-auto px-4 py-10">
         <Swiper
           loop
+          autoplay={{  delay: 0,  pauseOnMouseEnter: true,  }}
+          modules={[Autoplay, Pagination, Navigation]}
+          speed={2000}
+          freeMode={true}
           spaceBetween={20}
           slidesPerView={1.4}
           breakpoints={{
@@ -31,13 +35,13 @@ export const GiveAwaySlider = () => {
           }}
 
           pagination={{ clickable: true }}
-          modules={[Navigation, Pagination]}
-          className="mySwiper"
+           className="mySwiper swiper-wrapper"
         >
+              <div className="swiper-wrapper">
           {list.map((giveaway, index) => (
             <SwiperSlide key={index}>
               <div
-                className=" z-0 relative  rounded-xl overflow-hidden bg-[#C32026] flex justify-center items-center"
+                className=" z-0 relative  rounded-xl overflow-hidden bg-[#C32026] flex justify-center items-center swiper-wrapper"
               >
                 <img
                   src={`${APP_INFO.IMG_BASE_URL}images/${giveaway}`}
@@ -47,6 +51,7 @@ export const GiveAwaySlider = () => {
               </div>
             </SwiperSlide>
           ))}
+          </div>
         </Swiper>
       </div>
     </>

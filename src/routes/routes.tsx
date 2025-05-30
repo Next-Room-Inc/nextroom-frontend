@@ -16,12 +16,12 @@ export const routes = createBrowserRouter([
     errorElement: <NotFoundErrorPage />,
   },
   {
-    path: ROUTES.Giveaway,
+    path: ROUTES.BAESPATH,
     element: <GiveAway />,
     errorElement: <NotFoundErrorPage />,
   },
   {
-    path: ROUTES.BAESPATH || ROUTES.OFFERS,
+    path:  ROUTES.OFFERS,
     element: (
       <IsLoginValidation>
         <Offers />

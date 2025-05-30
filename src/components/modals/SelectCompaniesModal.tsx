@@ -59,7 +59,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-      <div className="bg-red-900 rounded-lg overflow-hidden max-w-3xl w-full flex flex-col md:flex-row shadow-2xl p-5 justify-center">
+      <div className="bg-[#C32026] rounded-lg overflow-hidden max-w-3xl w-full flex flex-col md:flex-row shadow-2xl p-5 justify-center px-10">
         {/* Modal */}
         <fieldset>
           <legend className="text-sm font-semibold text-white text-center">
@@ -75,10 +75,10 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
                   type="button"
                   onClick={() => toggleSelection(mailingList.id)}
                   className={clsx(
-                    "group relative flex flex-col cursor-pointer rounded-lg border bg-red-800 p-4 shadow-xs focus:outline-none",
+                    "group relative flex flex-col cursor-pointer rounded-lg border bg-white p-4 shadow-xs focus:outline-none",
                     isSelected
-                      ? "border-red-400 ring-2 ring-red-400"
-                      : "border-red-800 hover:border-red-800"
+                      ? "border-red-800 ring-4 ring-red-800"
+                      : "border-white hover:border-white"
                   )}
                 >
                   <span className="flex-1 text-left">
@@ -94,16 +94,15 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
                     aria-hidden="true"
                     className={clsx(
                       "size-5 absolute top-3 right-3 transition-opacity",
-                      isSelected ? "text-red-400 opacity-100" : "opacity-0"
+                      isSelected ? "text-red-800 opacity-100" : "opacity-0"
                     )}
                   />
                 </button>
               );
             })}
           </div>
-          <div className="mt-5 text-red-500">
-            <strong>Disclaimer:</strong> By submitting this form, you consent to
-            receive emails from the selected companies.
+          <div className="mt-5 text-white">
+            <strong>Disclaimer:</strong> By submitting this form, you consent to receive emails from the selected properties. You can opt out anytime.
           </div>
           <div className=" flex flex-col lg:flex-row gap-3 mt-4 lg:mt-10 justify-center items-center">
             {Object.values(selectedLists).filter(Boolean).length > 0 && (

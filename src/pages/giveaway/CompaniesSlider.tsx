@@ -1,4 +1,4 @@
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { APP_INFO } from "../../utils/constants";
 
@@ -12,27 +12,36 @@ const list = [
   `company-logo-06.svg`,
   `company-logo-07.svg`,
   `company-logo-08.svg`,
-  `company-logo-09.png`, 
+  `company-logo-09.png`,
 
 ];
 
 export const CompaniesSlider = () => {
+
   return (
     <>
-      <div className="w-full mx-auto px-4 bg-[#C32026]">
+      <div className="w-full mx-auto px-4 bg-[#C32026] ">
         <Swiper
           loop
+           speed={2000} // Speed of transition in ms
+          autoplay={{
+            delay: 0, // Wait 1.5s before sliding to next
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          modules={[Autoplay, Pagination, Navigation]}
+          freeMode={true}
+          direction="horizontal"
           // spaceBetween={20}
           slidesPerView={2.5}
           breakpoints={{
             400: { slidesPerView: 2.5 },
             640: { slidesPerView: 3.5 },
             768: { slidesPerView: 5.5 },
-            1024: { slidesPerView: 7.5},
+            1024: { slidesPerView: 7.5 },
           }}
 
           pagination={{ clickable: true }}
-          modules={[Navigation, Pagination]}
           className="mySwiper"
         >
           {list.map((giveaway, index) => (
