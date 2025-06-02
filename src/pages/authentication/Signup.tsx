@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -84,6 +84,10 @@ const Signup = () => {
     !!formik.errors.firstName ||
     !!formik.errors.lastName ||
     !!formik.errors.university;
+
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, []);
 
   return (
     <>

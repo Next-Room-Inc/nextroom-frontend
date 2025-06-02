@@ -1,11 +1,11 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import useAuth from "../custom-hooks/useAuth";
 import { APP_INFO, ROUTES } from "../utils/constants";
 import { Link } from "react-router-dom";
 
 export default function Header({ darkMode = true }) {
-  const { handleLogout, isLoggedIn } = useAuth();
+  const { handleLogout, isLoggedIn, handleSignupRedirect } = useAuth();
   const [selectedLang, setSelectedLang] = useState("en");
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -18,7 +18,7 @@ export default function Header({ darkMode = true }) {
 
   const solutions = [
     {
-      name: <Link to={ROUTES.SIGNUP}>Sign Up</Link>,
+      name: <div onClick={handleSignupRedirect}>Sign Up</div>,
       href: "#",
       class: `px-2 md:px-4 ${isLoggedIn ? "hidden" : ""}`,
     },
@@ -43,9 +43,8 @@ export default function Header({ darkMode = true }) {
       name: (
         <>
           <div
-            className={`flex gap-1 font-semibold text-[14px]  ${
-              darkMode ? "text-black" : "text-dark"
-            }`}
+            className={`flex gap-1 font-semibold text-[14px]  ${darkMode ? "text-black" : "text-dark"
+              }`}
           >
             {languages.map((lang) => (
               <span
@@ -53,11 +52,10 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={`cursor-pointer transition duration-200 ${
-                  selectedLang === lang.code
+                className={`cursor-pointer transition duration-200 ${selectedLang === lang.code
                     ? "underline underline-offset-4 text-red-500"
                     : "hover:text-red-800"
-                }`}
+                  }`}
               >
                 {lang?.code?.toUpperCase()}
               </span>
@@ -72,8 +70,8 @@ export default function Header({ darkMode = true }) {
 
   const navbar = [{ label: "Refer & Earn" }, { label: "List Your Property" }];
 
-   // Scroll detection logic
-   useEffect(() => {
+  // Scroll detection logic
+  useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       console.log()
@@ -84,9 +82,9 @@ export default function Header({ darkMode = true }) {
         // scrolling up
         setShowHeader(true);
       }
-      if (currentScrollY > 10){
+      if (currentScrollY > 10) {
         setHeaderColor('bg-black/20')
-      }else{
+      } else {
         setHeaderColor('bg-black')
       }
       setLastScrollY(currentScrollY);
@@ -98,27 +96,25 @@ export default function Header({ darkMode = true }) {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-transform duration-300 ${
-        showHeader ? "translate-y-0" : "-translate-y-full"
-      } ${ darkMode ?  headerColor : "bg-transparent"}`}
+      className={`fixed top-0 w-full z-50 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
+        } ${darkMode ? headerColor : "bg-transparent"}`}
     >
       <nav
         aria-label="Global"
         className="mx-auto flex items-center justify-between  lg:px-8 pr-4 "
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="">
+          <Link to={ROUTES.BAESPATH}>
             <span className="sr-only">Your Company</span>
             <img alt="" src={APP_INFO.PRIMARY_LOGO} className="h-18 w-auto -ml-2 md:ml-0" />
-          </a>
+          </Link>
         </div>
 
         <div className="mb-4 lg:mb-0 lg:flex lg:flex-1 lg:justify-end">
           {/* Languages */}
           <div
-            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${
-              darkMode ? "text-white" : "text-dark"
-            }`}
+            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${darkMode ? "text-white" : "text-dark"
+              }`}
           >
             {languages.map((lang) => (
               <span
@@ -126,11 +122,10 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={`cursor-pointer transition-all duration-300 ease-in-out ${
-                  selectedLang === lang.code
+                className={`cursor-pointer transition-all duration-300 ease-in-out ${selectedLang === lang.code
                     ? "underline underline-offset-4"
                     : "hover:text-gray-500"
-                }`}
+                  }`}
               >
                 {lang.label}
               </span>
@@ -140,11 +135,10 @@ export default function Header({ darkMode = true }) {
             {navbar.map((i, index) => (
               <span
                 key={index}
-                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${
-                  darkMode
+                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
                     ? "text-white border-white hover:text-black hover:bg-white"
                     : "text-dark border-dark hover:text-white hover:bg-black"
-                }`}
+                  }`}
               >
                 {i.label}
               </span>

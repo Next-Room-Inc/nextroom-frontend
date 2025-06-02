@@ -1,17 +1,18 @@
-import { useNavigate } from 'react-router-dom'
 import Wave from 'react-wavify'
-import { APP_INFO, ROUTES } from '../../utils/constants'
+import useAuth from '../../custom-hooks/useAuth'
+import { APP_INFO } from '../../utils/constants'
 import { CompaniesSlider } from './CompaniesSlider'
 import { GiveAwaySlider } from './GiveAwaySlider'
 
 const GiveAwayComponents = () => {
-  const navigate = useNavigate()
+  const { handleSignupRedirect } = useAuth()
   const handleRedirect = (url: string) => {
-    window.location.href = url;
+    window.open(url.toString(), '_blank', 'noopener,noreferrer');
   };
+
   return (
     <>
-      
+
       <div
         className="relative bg-[url(/assets/img/backgrounds/backpackanimation-mobile.gif)] md:bg-[url(/assets/img/backgrounds/backpackanimation.gif)] bg-cover bg-center 
              min-h-[550px] md:min-h-[750px] mt-30 md:mt-40  "
@@ -40,7 +41,7 @@ const GiveAwayComponents = () => {
         Enter Now - It’s Free
       </button> */}
         <div className="text-center z-100 bg-transparent sticky top-[97%] ">
-          <button onClick={() => navigate(ROUTES.SIGNUP)} className="hover:bg-red-800  bg-black text-white font-medium py-3 w-[250px] md:w-[500px] mx-auto rounded-full shadow-md z-10 -top-5 relative -mt-10 transition-all 200 ease-in-out">
+          <button onClick={() => handleSignupRedirect()} className="hover:bg-red-800  bg-black text-white font-medium py-3 w-[250px] md:w-[500px] mx-auto rounded-full shadow-md z-10 -top-5 relative -mt-10 transition-all 200 ease-in-out">
             Enter Now - It’s Free
           </button>
         </div>
@@ -63,7 +64,7 @@ const GiveAwayComponents = () => {
         }} />
 
         <p className='text-2xl md:text-3xl text-[#B3322F]  w-full mt-10 px-10 text-center mx-auto font-bold'> Signup  On NextRoom.ca </p>
-        <button className='hover:bg-red-800 transition-all 200 ease-in-out bg-black w-[250px]  font-bold mx-auto text-center py-3 text-white  rounded-full my-5' onClick={() => navigate(ROUTES.SIGNUP)}>
+        <button className='hover:bg-red-800 transition-all 200 ease-in-out bg-black w-[250px]  font-bold mx-auto text-center py-3 text-white  rounded-full my-5' onClick={() => handleSignupRedirect()}>
           Sign Up Now
         </button>
 
@@ -82,7 +83,7 @@ const GiveAwayComponents = () => {
         </button>
 
         <WavyCircle {...{
-          number:3, options: {
+          number: 3, options: {
             height: 0,
             amplitude: 10,
             speed: 0.5,
