@@ -1,16 +1,28 @@
+import { AnimatePresence } from "framer-motion";
+import { useRef, useState } from "react";
+import QRCode from "react-qr-code";
+import { motion } from 'framer-motion';
+import html2canvas from "html2canvas";
+
 export const NextButton: React.FC<{
     disabled?: boolean;
-    onClick: () => void;
+    onClick?: () => void;
     className?: string;
-}> = ({ onClick, className = '', disabled = false }) => {
+}> = ({ onClick = () => { }, className = '', disabled = false }) => {
     return (
-        <button
-            disabled={disabled}
-            onClick={onClick}
-            className={`${disabled ? 'bg-[#D9D9D9] ' : 'bg-black hover:bg-[#B3322F]'}  w-[250px] md:w-[180px] text-center py-2 text-white rounded-full mt-18  ${className}`}
+        <motion.button
+        disabled={disabled}
+        onClick={onClick}
+        whileTap={{ scale: 0.95 }}
+        whileHover={{ scale: 1.03 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className={`${disabled ? 'bg-[#D9D9D9] ' : 'bg-black hover:bg-[#B3322F]'}  w-[250px] md:w-[180px] text-center py-2 text-white rounded-full mt-18  ${className}`}
         >
+       
             Next
-        </button>
+        </motion.button>
     );
 };
 
@@ -32,21 +44,30 @@ export const PrimaryButton: React.FC<{
     button = false,
     // type = "button",
 }) => {
+        // const bgColor = button
+        //     ? 'bg-[#B3322F] hover:bg-black'
+        //     : selected
+        //         ? 'bg-[#B3322F] hover:bg-[#b3312fa2]'
+        //         : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]';
         const bgColor = button
             ? 'bg-[#B3322F] hover:bg-black'
             : selected
-                ? 'bg-[#B3322F] hover:bg-[#b3312fa2]'
-                : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]';
+                ? 'bg-[#B3322F]  '
+                : 'bg-[#D9D9D9]  ';
 
         return (
-            <button
+            <motion.button
                 onClick={onClick}
-                // type={type}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
                 className={`w-[250px] text-center py-2 text-white rounded-full flex items-center justify-center ${bgColor} ${icon ? 'gap-2' : ''} ${className}`}
             >
                 {children}
                 {icon && <img src={icon} alt="" className="h-3 mt-1.5" />}
-            </button>
+            </motion.button>
         )
     };
 
@@ -90,3 +111,135 @@ export const transitionVariants = {
     animate: { opacity: 1, x: 0 },
     exit: { opacity: 0, x: -100 },
 };
+
+
+export const QuestionTitle = ({ children }: { children: React.ReactNode }) => (
+    <p className='text-2xl text-[#B3322F] w-full mt-10 px-10 text-center mx-auto font-semibold'>
+        {children}
+    </p>
+);
+
+
+export const ShareSection = () => {
+    const [showDropdown, setShowDropdown] = useState(false);
+    const inviteRef = useRef<HTMLDivElement>(null);
+    const url = "www.nextroom.ca"
+
+    const handleShare = async () => {
+
+        if (!navigator.share || !navigator.canShare) {
+            alert("Sharing not supported on this device.");
+            return;
+        }
+
+        if (!inviteRef.current) return;
+
+        // Wait to ensure it's rendered
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        const canvas = await html2canvas(inviteRef.current, {
+            backgroundColor: "#ffffff",
+            scale: 2,
+            useCORS: true,
+        });
+
+        // Convert canvas to blob
+        canvas.toBlob(async (blob) => {
+            if (!blob) {
+                console.error("Failed to create blob from canvas.");
+                return;
+            }
+
+            const file = new File([blob], "invite.png", { type: "image/png" });
+
+            // Check if the device can share this file
+            if (navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        title: "Join NextRoom",
+                        text: "Check this out!",
+                        files: [file],
+                    });
+                } catch (error) {
+                    console.error("Sharing failed", error);
+                }
+            } else {
+                alert("This device doesn't support sharing images.");
+            }
+        }, "image/png");
+    };
+
+    const handleCopy = () => {
+        const url = "www.nextroom.ca"
+        navigator.clipboard.writeText(url)
+            .then(() => toast.success("Link copied to clipboard"))
+            .catch(() => toast.success("Failed to copy link"));
+    };
+
+
+    const handlePrint = async () => {
+        if (!inviteRef.current) return;
+
+        // Wait a tick to make sure it's fully rendered
+        await new Promise((resolve) => setTimeout(resolve, 100));
+
+        const canvas = await html2canvas(inviteRef.current, {
+            backgroundColor: '#ffffff', // or null if transparent background is needed
+            scale: 2,
+            useCORS: true, // in case images are hosted remotely
+
+        });
+
+        const link = document.createElement('a');
+        link.download = 'invite.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    };
+
+
+    const buttons = [
+        { name: "Share", icon: "share_icon.svg", onClick: () => handleShare() },
+        { name: "Copy", icon: "copy_icon.svg", onClick: () => handleCopy() },
+        { name: "Print Invite", icon: "print_icon.svg", onClick: () => handlePrint() },
+    ]
+
+
+    return (
+        <>
+            <QRCode value={url} className="h-35 mx-auto mt-10" />
+
+            <button onClick={() => setShowDropdown(!showDropdown)} className='bg-black w-[250px] md:w-[180px] text-center py-2 text-white  rounded-full mt-8'>  Share To Invite </button>
+            <AnimatePresence>
+                {showDropdown && (
+                    <motion.div
+                        className="mx-10"
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                    >
+                        <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-8 rounded-xl shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-max mx-auto">
+                            {buttons.map((button) => (
+                                <motion.button
+                                    onClick={button.onClick}
+                                    key={button.name}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="bg-[#B3322F] text-white rounded-full flex w-full md:w-[200px] items-center justify-center py-2 text-center gap-2 transition-all"
+                                >
+                                    <p>{button.name}</p>
+                                    <img
+                                        alt=""
+                                        className="h-4"
+                                        src={`/assets/img/icons/${button.icon}`}
+                                    />
+                                </motion.button>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+        </>
+    )
+}

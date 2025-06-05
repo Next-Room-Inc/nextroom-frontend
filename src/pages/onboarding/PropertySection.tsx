@@ -1,11 +1,9 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import html2canvas from 'html2canvas';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 import QRCode from "react-qr-code";
-import { toast } from "react-toastify";
 import { ICONS } from '../../utils/constants/app-info.constant';
-import { NextButton, PrimaryButton, transitionVariants } from "./CommonComponents";
+import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
 
 
 interface PropertySectionParams {
@@ -21,8 +19,7 @@ interface PropertySectionParams {
 }
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PropertySection = (props:any) => {
+const PropertySection = (props: any) => {
     const {
         formStep: step,
         section,
@@ -65,6 +62,8 @@ const PropertySection = (props:any) => {
         <div className="text-center">
             {CurrentStepComponent && (
                 <motion.div
+                    key={formStep}
+
                     variants={transitionVariants}
                     initial="initial"
                     animate="animate"
@@ -87,9 +86,16 @@ const WelcomeScreen: React.FC<{
     name: string;
     nextStepHandler: () => void;
 }> = ({ name, nextStepHandler }) => {
+    const [runConfetti, setRunConfetti] = useState(false);
+    setTimeout(() => {
+        setRunConfetti(false);
+    }, 3000);
+
     return (
         <>
-            <Confetti numberOfPieces={400} />
+            {runConfetti && <Confetti numberOfPieces={400} />}
+
+
             <div className='text-center '>
                 <p className='text-3xl text-[#B3322F]'>Welcome To Next Room <br /> <span className='font-bold'>{name}</span></p>
 
@@ -170,100 +176,9 @@ const LetsBecomeRoomMateSection: React.FC<{
 
 
 const SkipNextQuestionSection = () => {
-    const [showDropdown, setShowDropdown] = useState(false);
     const inviteRef = useRef<HTMLDivElement>(null);
     const url = "www.nextroom.ca"
 
-
-    // const handleShare = () => {
-    //     if (navigator.share) {
-    //         navigator.share({
-    //             title: "Join NextRoom",
-    //             text: "Check this out!",
-    //             url: window.location.href,
-    //         }).catch((error) => console.error("Sharing failed", error));
-    //     } else {
-    //         alert("Share not supported on this device.");
-    //     }
-    // };
-
-    const handleShare = async () => {
-
-        if (!navigator.share || !navigator.canShare) {
-            alert("Sharing not supported on this device.");
-            return;
-        }
-
-        if (!inviteRef.current) return;
-
-        // Wait to ensure it's rendered
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        const canvas = await html2canvas(inviteRef.current, {
-            backgroundColor: "#ffffff",
-            scale: 2,
-            useCORS: true,
-        });
-
-        // Convert canvas to blob
-        canvas.toBlob(async (blob) => {
-            if (!blob) {
-                console.error("Failed to create blob from canvas.");
-                return;
-            }
-
-            const file = new File([blob], "invite.png", { type: "image/png" });
-
-            // Check if the device can share this file
-            if (navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        title: "Join NextRoom",
-                        text: "Check this out!",
-                        files: [file],
-                    });
-                } catch (error) {
-                    console.error("Sharing failed", error);
-                }
-            } else {
-                alert("This device doesn't support sharing images.");
-            }
-        }, "image/png");
-    };
-
-    const handleCopy = () => {
-        const url = "www.nextroom.ca"
-        navigator.clipboard.writeText(url)
-            .then(() => toast.success("Link copied to clipboard"))
-            .catch(() => toast.success("Failed to copy link"));
-    };
-
-
-    const handlePrint = async () => {
-        if (!inviteRef.current) return;
-
-        // Wait a tick to make sure it's fully rendered
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        const canvas = await html2canvas(inviteRef.current, {
-            backgroundColor: '#ffffff', // or null if transparent background is needed
-            scale: 2,
-            useCORS: true, // in case images are hosted remotely
-
-        });
-
-        const link = document.createElement('a');
-        link.download = 'invite.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    };
-
-
-    const buttons = [
-        { name: "Share", icon: "share_icon.svg", onClick: () => handleShare() },
-        { name: "Copy", icon: "copy_icon.svg", onClick: () => handleCopy() },
-        { name: "Print Invite", icon: "print_icon.svg", onClick: () => handlePrint() },
-    ]
 
 
     return (
@@ -275,40 +190,9 @@ const SkipNextQuestionSection = () => {
             </div>
 
             <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
-            {/* <img alt="" className="h-35 mx-auto mt-8" src={`/assets/img/icons/qr_code.svg`} /> */}
-            <QRCode value={url} className="h-35 mx-auto mt-10" />
 
-            <button onClick={() => setShowDropdown(!showDropdown)} className='bg-black w-[250px] md:w-[180px] text-center py-2 text-white  rounded-full mt-8'>  Share To Invite </button>
-            <AnimatePresence>
-                {showDropdown && (
-                    <motion.div
-                        className="mx-10"
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                    >
-                        <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10 bg-white py-8 rounded-xl shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-max mx-auto">
-                            {buttons.map((button) => (
-                                <motion.button
-                                    onClick={button.onClick}
-                                    key={button.name}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="bg-[#B3322F] text-white rounded-full flex w-full md:w-[200px] items-center justify-center py-2 text-center gap-2 transition-all"
-                                >
-                                    <p>{button.name}</p>
-                                    <img
-                                        alt=""
-                                        className="h-4"
-                                        src={`/assets/img/icons/${button.icon}`}
-                                    />
-                                </motion.button>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+
+            <ShareSection />
 
         </>
     )
@@ -341,9 +225,36 @@ const RoommatesSection: React.FC<{
 
             <div className='flex justify-center items-center px-10'>
                 <div className='flex gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-3 rounded-full shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-auto'>
-                    <button className='bg-[#B3322F]   text-center pb-1 px-4 text-white  rounded-full' onClick={decrement}> - </button>
-                    {count}
-                    <button className='bg-[#B3322F]   text-center pb-1 px-4 text-white  rounded-full' onClick={increment}> + </button>
+
+                    {/* Decrement Button */}
+                    <button
+                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full'
+                        onClick={decrement}
+                    >
+                        -
+                    </button>
+
+                    {/* Animate the count change */}
+                    <AnimatePresence mode="wait" initial={false}>
+                        <motion.span
+                            key={count}
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            transition={{ duration: 0.1}}
+                        >
+                            {count}
+                        </motion.span>
+                    </AnimatePresence>
+
+                    {/* Increment Button */}
+                    <button
+                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full'
+                        onClick={increment}
+                    >
+                        +
+                    </button>
+
                 </div>
             </div>
 
@@ -355,7 +266,7 @@ const RoommatesSection: React.FC<{
             </div>
 
             {
-                skipQuestionSection ? <SkipNextQuestionSection /> : <NextButton onClick={() => setSkipQuestionSection(true)} />
+                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton onClick={() => setSkipQuestionSection(true)} />
             }
 
 
@@ -397,16 +308,19 @@ const LookingForSection: React.FC<{
         <>
             <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
 
-            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
+            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-10 text-md px-10'>
                 {rentalTypes.map(RENTAL_TYPE => (
-                    <div className='w-full  md:w-auto'>
-                        <p className='max-w-[200px] text-[8px] mx-auto shadow-[#D9D9D9] drop-shadow-xl shadow-md bg-white px-2  mb-3 py-2 hidden md:flex'>{RENTAL_TYPE.details}</p>
+                    <div className='w-full  md:w-auto group'>
+                        <p className='max-w-[200px] text-[8px] group-hover:opacity-100 opacity-0 mx-auto shadow-[#D9D9D9] drop-shadow-xl shadow-md bg-white px-2  mb-3 py-2 hidden md:flex'>{RENTAL_TYPE.details}</p>
                         <button
                             onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_PREFERENCE', RENTAL_TYPE.name)}
-                            className={`${answers.RENTAL_PREFERENCE === RENTAL_TYPE.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-center py-3 text-white  rounded-full flex justify-center items-center gap-2`}>
-                            <img alt="" className="h-5" src={`/assets/img/icons/${RENTAL_TYPE.icon}`} />
-                            {RENTAL_TYPE.name}
-                            {/* <img alt="" className="h-5 relative right-1" src={`/assets/img/icons/question_circle_icon.svg`} /> */}
+                            className={`${answers.RENTAL_PREFERENCE === RENTAL_TYPE.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}>
+                            <div className='flex gap-2  w-full justify-center'>
+                                <img alt="" className="h-5 " src={`/assets/img/icons/${RENTAL_TYPE.icon}`} />
+                                {RENTAL_TYPE.name}
+                            </div>
+
+                            <img alt="" className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
                         </button>
 
                     </div>

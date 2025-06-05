@@ -3,10 +3,13 @@ import OnboardingLayout from '../../layouts/Onboarding.Layout';
 import PropertySection from './PropertySection';
 import { ExitConfirmationSection, transitionVariants } from './CommonComponents';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { ArrowLeftIcon } from '@heroicons/react/16/solid';
 import ReactConfetti from 'react-confetti';
+import LifeStyleSection from './LifeStyleSection';
+import RoommateSection from './RoommateSection';
+import SituationSection from './SituationSection';
 
 interface AnswerSections {
     PROPERTY_SECTION: Record<string, unknown>;
@@ -15,16 +18,59 @@ interface AnswerSections {
     SITUATION_BASED_SECTION: Record<string, unknown>;
 }
 
+const sections = {
+    PROPERTY_SECTION: {
+        RENTAL_TYPE: null,
+        MOVE_IN_DATE: null,
+        STAY_DURATION: null,
+        MONTHLY_BUDGET: null,
+        DISTANCE_FROM_CAMPUS: null,
+        PREFERRED_LOCATION: null,
+        RENTAL_PREFERENCE: null,
+        BRINGING_ROOMMATES: null,
+        ROOMMATE_COUNT: 0,
+        NEED_ROOMMATE_MATCHING: null
+    },
+    LIFE_STYLE_SECTION: {
+        AREA_OF_STUDEY: null,
+        OFTEN_DRINK: null,
+        OFTEN_SMOKE: null,
+        RECREATIONAL_SUBSTANCES: null,
+        AT_HOME: null,
+        GOING_OUT: null,
+        BED_TIME: null,
+        SOCIAL: null,
+        STAYING_IN: null,
+        CAUSES: null,
+        PERSONAL: null
+    },
+    ROOMMATES_SECTION: {
+        COMFORT_DIFFERENT_GENDERS: null,
+        OPENNESS_TO_CULTURAL_DIFFERENCE: null,
+        LIKES_GUESTS: null,
+        OKAY_WITH_ROOMMATE_GUESTS: null,
+        GUEST_CURFEW_WEEKDAYS: null,
+        STUDY_PLANS: null,
+        COOKING_PLANS: null,
+        SHARING_EXPENSES: null,
+        FRIENDSHIP_IMPORTANCE: null,
+        ROOMMATE_COMMUNICATION_FREQUENCY: null
+    },
+    SITUATION_BASED_SECTION: {
+        ROOMMATE_IMPAIRED_DISRUPTIVE: null,
+        LEFT_LIGHTS_ON_SHARED_UTILITIES: null,
+        ROOMMATE_WITH_ILLlCIT_SUBSTANCES: null,
+        ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION: null,
+        FREQUENT_LOUD_PARTIES: null,
+        ROOMMATE_OWES_MONEY: null
+    },
+}
+
 const Onboarding = () => {
     const [exitForm, setExitForm] = useState(false);
     const [section, setSection] = useState<keyof AnswerSections>('PROPERTY_SECTION');
     const [formStep, setFormStep] = useState({ PROPERTY_SECTION: 0, LIFE_STYLE_SECTION: 0, ROOMMATES_SECTION: 0, SITUATION_BASED_SECTION: 0 });
-    const [answers, setAnswers] = useState<AnswerSections>({
-        PROPERTY_SECTION: { RENTAL_TYPE: null, MOVE_IN_DATE: null, STAY_DURATION: null, MONTHLY_BUDGET: null, DISTANCE_FROM_CAMPUS: null, PREFERRED_LOCATION: null, RENTAL_PREFERENCE: null, BRINGING_ROOMMATES: null, ROOMMATE_COUNT: 0, NEED_ROOMMATE_MATCHING: null },
-        LIFE_STYLE_SECTION: { RENTAL_TYPE: null },
-        ROOMMATES_SECTION: { RENTAL_TYPE: null },
-        SITUATION_BASED_SECTION: { RENTAL_TYPE: null },
-    });
+    const [answers, setAnswers] = useState<AnswerSections>(sections);
 
     const handleAnswer = (section: keyof AnswerSections, field: string, value: unknown) => {
         setAnswers(prev => ({ ...prev, [section]: { ...prev[section], [field]: value } }));
@@ -51,22 +97,50 @@ const Onboarding = () => {
 
     const payload = { answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler };
 
+
+    const [runConfetti, setRunConfetti] = useState(true);
+    setTimeout(() => {
+        setRunConfetti(false);
+    }, 10000);
     return (
         <>
-            {section === 'PROPERTY_SECTION' && formStep[section] === 0 && <ReactConfetti numberOfPieces={400} />}
-            <OnboardingLayout>
-                {exitForm ? (
-                    <ExitConfirmationSection setExitForm={setExitForm} />
-                ) : (
-                    <>
-                        {(section !== 'PROPERTY_SECTION' || formStep[section] !== 0) && <FormStepper {...{ section, answers, setExitForm, setSection, formStep, changeStep }} />}
-                        <motion.div className="mt-15" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}>
-                            {/* eslint-disable-next-line */}
-                            {section === 'PROPERTY_SECTION' && <PropertySection {...payload} />}
+            <AnimatePresence>
+
+                {/* ReactConfetti */}
+                {
+                section === 'PROPERTY_SECTION' &&
+                    formStep[section] === 0 &&
+                    runConfetti && (
+                        <motion.div
+                            key="confetti"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="fixed inset-0 z-50 pointer-events-none"
+                        >
+                            <ReactConfetti numberOfPieces={400} />
                         </motion.div>
-                    </>
-                )}
-            </OnboardingLayout>
+                    )}
+
+                {/* Main Layout */}
+                <OnboardingLayout>
+                    {exitForm ? (
+                        <ExitConfirmationSection setExitForm={setExitForm} />
+                    ) : (
+                        <>
+                            {formStep[section] !== 0 && <FormStepper {...{ section, answers, setExitForm, setSection, formStep, changeStep }} />}
+                            <motion.div className="mt-15" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}>
+                                {section === 'PROPERTY_SECTION' && <PropertySection {...payload} />}
+                                {section === 'LIFE_STYLE_SECTION' && <LifeStyleSection {...payload} />}
+                                {section === 'ROOMMATES_SECTION' && <RoommateSection {...payload} />}
+                                {section === 'SITUATION_BASED_SECTION' && <SituationSection {...payload} />}
+                            </motion.div>
+                        </>
+                    )}
+                </OnboardingLayout>
+    
+            </AnimatePresence>
         </>
     );
 };
@@ -96,7 +170,7 @@ const FormStepper: React.FC<{
         <>
 
             {formStep[section] > 0 && (
-                <div className="text-sm font-bold flex items-center justify-end pr-10 -mb-5 text-[#B3322F] hover:text-[#b3312f6b] mt-4" onClick={() => changeStep(-1)}>
+                <div className="text-sm font-bold flex items-center justify-end pr-10 mb-5 md:-mb-5 text-[#B3322F] hover:text-[#b3312f6b] mt-4" onClick={() => changeStep(-1)}>
                     <ArrowLeftIcon className="h-5 mr-2" />
                     <span className="cursor-pointer">Previous Step</span>
                 </div>
