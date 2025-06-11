@@ -199,7 +199,9 @@ const WhatDoYouEnjoySections: React.FC<{
             </div>
 
             <div className="mt-10">
-                <NextButton onClick={nextStep} />
+                <NextButton 
+
+                onClick={nextStep} />
             </div>
         </>
     );
@@ -249,7 +251,7 @@ const BedTimeSections: React.FC<{
                 </PrimaryButton>)}
             </div>
 
-            <NextButton onClick={nextStepHandler} />
+            <NextButton disabled={answers.GOING_OUT === null || answers.BED_TIME === null} onClick={nextStepHandler} />
 
         </>
     )
@@ -297,7 +299,7 @@ const LifestylePreferencesSection: React.FC<{
                 </PrimaryButton>)}
             </div>
 
-            <NextButton onClick={nextStepHandler} />
+            <NextButton disabled={answers.RECREATIONAL_SUBSTANCES === null || answers.AT_HOME === null} onClick={nextStepHandler} />
 
         </>
     );
@@ -349,7 +351,7 @@ const DrinkAndSmokeSection: React.FC<{
                 </PrimaryButton>)}
             </div>
 
-            <NextButton onClick={nextStepHandler} />
+            <NextButton disabled={answers.OFTEN_DRINK === null || answers.OFTEN_SMOKE === null} onClick={nextStepHandler} />
 
         </>
     )
@@ -418,7 +420,7 @@ const AreaOfStudyDescription: React.FC<{
             </div>
           
             <div className="mt-10">
-                <NextButton onClick={nextStep} />
+                <NextButton disabled={selected.length === 0} onClick={nextStep} />
             </div>
         </div>
     );

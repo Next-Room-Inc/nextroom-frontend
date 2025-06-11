@@ -154,7 +154,13 @@ const LivingSection: React.FC<{
 
 
             {/* Next button */}
-            <NextButton onClick={nextStepHandler} />
+            <NextButton
+            disabled={
+                answers.COMFORT_DIFFERENT_GENDERS === null ||
+                answers.OPENNESS_TO_CULTURAL_DIFFERENCE === null ||
+                answers.LIKES_GUESTS === null 
+            }
+            onClick={nextStepHandler} />
 
         </>
     )
@@ -215,7 +221,13 @@ const GuestAndFriendSection: React.FC<{
 
 
             {/* Next button */}
-            <NextButton onClick={nextStepHandler} />
+            <NextButton
+             disabled={
+                answers.OKAY_WITH_ROOMMATE_GUESTS === null ||
+                answers.GUEST_CURFEW_WEEKDAYS === null ||
+                answers.STUDY_PLANS === null 
+            }
+            onClick={nextStepHandler} />
 
         </>
     )
@@ -290,7 +302,14 @@ const CookAndExpensesSection: React.FC<{
                 </PrimaryButton>)}
             </div>
             {/* Next button */}
-            <NextButton onClick={nextSectionHandler} />
+            <NextButton 
+             disabled={
+                answers.COOKING_PLANS === null ||
+                answers.SHARING_EXPENSES === null ||
+                answers.FRIENDSHIP_IMPORTANCE === null ||
+                answers.ROOMMATE_COMMUNICATION_FREQUENCY === null 
+            }
+            onClick={nextSectionHandler} />
 
         </>
     )

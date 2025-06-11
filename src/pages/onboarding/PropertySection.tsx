@@ -272,7 +272,13 @@ const RoommatesSection: React.FC<{
             </div>
 
             {
-                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton onClick={() => nextSectionHandler()} />
+                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton 
+                disabled={
+                    answers.BRINGING_ROOMMATES === null ||
+                    answers.ROOMMATE_COUNT === null ||
+                    answers.NEED_ROOMMATE_MATCHING === null  
+
+                 } onClick={() => nextSectionHandler()} />
             }
 
 
@@ -408,7 +414,9 @@ const WhereToBeLocatedSection: React.FC<{
             setLoading(false);
         }
     };
+
     console.log(loading)
+
     return (
         <>
             <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>

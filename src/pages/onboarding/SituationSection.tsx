@@ -140,7 +140,12 @@ const DisruptionHandlingSection: React.FC<{
             </div>
 
             {/* Next button */}
-            <NextButton onClick={nextStepHandler} />
+            <NextButton 
+            disabled={
+                answers.ROOMMATE_IMPAIRED_DISRUPTIVE === null ||
+                answers.LEFT_LIGHTS_ON_SHARED_UTILITIES === null 
+            }
+            onClick={nextStepHandler} />
 
         </>
     )
@@ -188,7 +193,12 @@ const ConflictAndSafetySection: React.FC<{
 
 
             {/* Next button */}
-            <NextButton onClick={nextStepHandler} />
+            <NextButton 
+              disabled={
+                answers.ROOMMATE_WITH_ILLlCIT_SUBSTANCES === null ||
+                answers.ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION === null 
+            }
+            onClick={nextStepHandler} />
 
         </>
     )
@@ -245,7 +255,12 @@ const PartyAndMoneyConcernsSection: React.FC<{
             </p>
 
             {/* Next button */}
-            <NextButton onClick={nextStepHandler} />
+            <NextButton 
+               disabled={
+                answers.FREQUENT_LOUD_PARTIES === null ||
+                answers.ROOMMATE_OWES_MONEY === null 
+            }
+            onClick={nextStepHandler} />
 
         </>
     )
