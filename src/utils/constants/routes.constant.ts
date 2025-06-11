@@ -8,4 +8,6 @@ export const ROUTES = {
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
   UNDER_CONSTRUCTION: "/under-construction",
+  // students
+  STUDENTS_DASHBOARD: "/students-dashboard",
 };

@@ -1,7 +1,7 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 import { ICONS } from '../../utils/constants/app-info.constant';
+import { NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 const sectionName = 'ROOMMATES_SECTION'
 
 interface Params {
@@ -9,6 +9,7 @@ interface Params {
     name: string;
     nextStepHandler: () => void;
     previousStepHandler: () => void;
+    nextSectionHandler: () => void;
     propertyValue: number;
     answers: Record<string, unknown>; // Assuming unknown type for answers keys
     handleAnswer: (section: string, field: string, value: unknown) => void;
@@ -24,7 +25,8 @@ const RoommateSection = (props: any) => {
         answers,
         handleAnswer,
         nextStepHandler,
-        previousStepHandler
+        previousStepHandler,
+        nextSectionHandler
     } = props
     const name = "Paul Brooks";
     const formStep = step[section]
@@ -40,6 +42,7 @@ const RoommateSection = (props: any) => {
         handleAnswer,
         exitForm,
         setExitForm,
+        nextSectionHandler
     };
 
     const formSteps = [
@@ -73,10 +76,12 @@ export default RoommateSection
 
 
 
-const HomeSection = ({ nextStepHandler }) => {
+const HomeSection: React.FC<{
+    nextStepHandler: () => void; 
+}> = ({ nextStepHandler }) => {
     const name = "Paul Brooks"
     return (
-        <div className='text-center'>
+        <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F]'>Let's discover your roommate preferences, <br /> <span className='font-bold'>{name}</span></p>
             <img alt="" className="h-30 py-5 pr-1 mx-auto " src="/assets/img/icons/roomateicon.svg" />
             <p className='text-md pb-10'> This allows us to match you with your<br />
@@ -89,7 +94,15 @@ const HomeSection = ({ nextStepHandler }) => {
     )
 }
 
-const LivingSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const LivingSection: React.FC<{
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+    answers: {
+        COMFORT_DIFFERENT_GENDERS?: string | null;
+        OPENNESS_TO_CULTURAL_DIFFERENCE?: string | null;
+        LIKES_GUESTS?: string | null;
+    };
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
 
     return (
         <>
@@ -146,7 +159,15 @@ const LivingSection = ({ nextStepHandler, answers, handleAnswer }) => {
         </>
     )
 }
-const GuestAndFriendSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const GuestAndFriendSection: React.FC<{
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+    answers: {
+        OKAY_WITH_ROOMMATE_GUESTS?: string | null;
+        GUEST_CURFEW_WEEKDAYS?: string | null;
+        STUDY_PLANS?: string | null;
+    };
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
 
     return (
         <>
@@ -199,7 +220,16 @@ const GuestAndFriendSection = ({ nextStepHandler, answers, handleAnswer }) => {
         </>
     )
 }
-const CookAndExpensesSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const CookAndExpensesSection: React.FC<{
+    nextSectionHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+    answers: {
+        COOKING_PLANS?: string | null;
+        SHARING_EXPENSES?: string | null;
+        FRIENDSHIP_IMPORTANCE?: string | null;
+        ROOMMATE_COMMUNICATION_FREQUENCY?: string | null;
+    };
+}> = ({ nextSectionHandler, answers, handleAnswer }) => {
 
     return (
         <>
@@ -260,7 +290,7 @@ const CookAndExpensesSection = ({ nextStepHandler, answers, handleAnswer }) => {
                 </PrimaryButton>)}
             </div>
             {/* Next button */}
-            <NextButton onClick={nextStepHandler} />
+            <NextButton onClick={nextSectionHandler} />
 
         </>
     )

@@ -4,6 +4,7 @@ import Confetti from 'react-confetti';
 import QRCode from "react-qr-code";
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
+import axios from 'axios';
 
 
 interface PropertySectionParams {
@@ -11,6 +12,7 @@ interface PropertySectionParams {
     name: string;
     nextStepHandler: () => void;
     previousStepHandler: () => void;
+    nextSectionHandler: () => void;
     propertyValue: number;
     answers: Record<string, unknown>; // Assuming unknown type for answers keys
     handleAnswer: (section: string, field: string, value: unknown) => void;
@@ -26,7 +28,9 @@ const PropertySection = (props: any) => {
         answers,
         handleAnswer,
         nextStepHandler,
-        previousStepHandler
+        previousStepHandler,
+        nextSectionHandler
+
     } = props
     const name = "Paul Brooks";
     const formStep = step[section]
@@ -42,6 +46,7 @@ const PropertySection = (props: any) => {
         handleAnswer,
         exitForm,
         setExitForm,
+        nextSectionHandler
     };
 
     const formSteps = [
@@ -96,7 +101,7 @@ const WelcomeScreen: React.FC<{
             {runConfetti && <Confetti numberOfPieces={400} />}
 
 
-            <div className='text-center '>
+            <div className='text-center mt-35'>
                 <p className='text-3xl text-[#B3322F]'>Welcome To Next Room <br /> <span className='font-bold'>{name}</span></p>
 
                 <img alt="" className="h-40 pr-1 mx-auto -my-4" src="/assets/img/icons/survey_icon.svg" />
@@ -200,14 +205,15 @@ const SkipNextQuestionSection = () => {
 
 const RoommatesSection: React.FC<{
     handleAnswer: (sectino: string, key: string, value: string | number) => void;
+    nextSectionHandler: () => void;
     answers: {
         BRINGING_ROOMMATES?: string;
         ROOMMATE_COUNT?: number;
         NEED_ROOMMATE_MATCHING?: string;
     };
-}> = ({ handleAnswer, answers }) => {
+}> = ({ handleAnswer, answers, nextSectionHandler }) => {
     // const [count, setcount] = useState(0)
-    const [skipQuestionSection, setSkipQuestionSection] = useState(false)
+    // const [skipQuestionSection, setSkipQuestionSection] = useState(false)
     const count = answers?.ROOMMATE_COUNT || 0
     const increment = () => { handleAnswer('PROPERTY_SECTION', 'ROOMMATE_COUNT', count + 1) }
     const decrement = () => { if (count > 0) handleAnswer('PROPERTY_SECTION', 'ROOMMATE_COUNT', count - 1) }
@@ -241,7 +247,7 @@ const RoommatesSection: React.FC<{
                             initial={{ scale: 0.8, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.8, opacity: 0 }}
-                            transition={{ duration: 0.1}}
+                            transition={{ duration: 0.1 }}
                         >
                             {count}
                         </motion.span>
@@ -266,7 +272,7 @@ const RoommatesSection: React.FC<{
             </div>
 
             {
-                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton onClick={() => setSkipQuestionSection(true)} />
+                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton onClick={() => nextSectionHandler()} />
             }
 
 
@@ -339,15 +345,70 @@ const WhereToBeLocatedSection: React.FC<{
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
 }> = ({ nextStepHandler, handleAnswer, answers }) => {
-    const [search, setSearch] = useState('')
-    const suggestions = [
-        "400 Rideau Street, Ottawa, ON",
-        "Rideau Canal, Ottawa, ON",
-        "Rideau Carleton Casino, Future Hard Rock, Ottawa, ON",
-        "Rideau Cottage, Sussex Drive, Ottawa, ON",
-        "Rideau Falls, Ottawa, ON",
-    ];
+    const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
 
+    const [search, setSearch] = useState('');
+    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
+
+    // const suggestions = [
+    //     "400 Rideau Street, Ottawa, ON",
+    //     "Rideau Canal, Ottawa, ON",
+    //     "Rideau Carleton Casino, Future Hard Rock, Ottawa, ON",
+    //     "Rideau Cottage, Sussex Drive, Ottawa, ON",
+    //     "Rideau Falls, Ottawa, ON",
+    // ];
+
+    useEffect(() => {
+        const delayDebounce = setTimeout(() => {
+            if (search.trim().length > 0) fetchSuggestions(search);
+        }, 500);
+
+        return () => clearTimeout(delayDebounce);
+    }, [search]);
+
+    const fetchSuggestions = async (query: string) => {
+        try {
+            setLoading(true);
+            // const response = await axios.get(
+            //     `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${GOOGLE_API_KEY}&query=${query}`,
+            //     // {
+            //     //     headers: {
+            //     //         'Content-Type': 'application/json',
+            //     //         'X-Goog-Api-Key': GOOGLE_API_KEY,
+            //     //         'X-Goog-FieldMask': 'places.displayName,places.formattedAddress'
+            //     //     },
+            //     //     // data: {
+            //     //     //     textQuery: query
+            //     //     // }
+            //     // }
+            // );
+            const response = await axios.post(
+                `https://places.googleapis.com/v1/places:autocomplete`,
+                {
+                    "input": query,
+
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Goog-Api-Key': GOOGLE_API_KEY,
+                    }
+                }
+            );
+            const results = response.data.suggestions || [];
+            console.log("results==>", results)
+            const newSuggestions = results.map((place: any) => place?.placePrediction?.text?.text);
+            console.log("newSuggestions==>", newSuggestions)
+            setSuggestions(newSuggestions);
+        } catch (error) {
+            console.error('Google Places API error:', error);
+            setSuggestions([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+    console.log(loading)
     return (
         <>
             <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
@@ -370,9 +431,10 @@ const WhereToBeLocatedSection: React.FC<{
                         <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" />
                     </div>
                     {/* Google Suggestion */}
-                    {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3  md:w-[50%] pl-4 pr-8 py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>
+                    {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>
                         {suggestions.map(searchString => (
-                            <div className='flex gap-2 py-1.5 text-left'>
+                            <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.PREFERRED_LOCATION_NAME ? 'bg-gray-200' : ''}`}
+                                onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION_NAME', searchString)} >
                                 <img alt="" className="h-3" src="assets/img/icons/location_logo.svg" />
                                 {searchString}
                             </div>

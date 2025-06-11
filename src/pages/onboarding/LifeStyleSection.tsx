@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ICONS } from '../../utils/constants/app-info.constant';
-import { NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
+import { MultiSelect, NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 const sectionName = 'LIFE_STYLE_SECTION'
 
 interface Params {
@@ -9,6 +9,7 @@ interface Params {
     name: string;
     nextStepHandler: () => void;
     previousStepHandler: () => void;
+    nextSectionHandler: () => void;
     propertyValue: number;
     answers: Record<string, unknown>; // Assuming unknown type for answers keys
     handleAnswer: (section: string, field: string, value: unknown) => void;
@@ -24,7 +25,8 @@ const LifeStyleSection = (props: any) => {
         answers,
         handleAnswer,
         nextStepHandler,
-        previousStepHandler
+        previousStepHandler,
+        nextSectionHandler
     } = props
     const name = "Paul Brooks";
     const formStep = step[section]
@@ -40,6 +42,7 @@ const LifeStyleSection = (props: any) => {
         handleAnswer,
         exitForm,
         setExitForm,
+        nextSectionHandler
     };
 
     const formSteps = [
@@ -74,22 +77,143 @@ const LifeStyleSection = (props: any) => {
 
 export default LifeStyleSection
 
-const WhatDoYouEnjoySections = ({ nextStepHandler, }) => {
+const socialOptions = [
+    'Going out/clubbing',
+    'Concerts/live music',
+    'Campus events',
+    'Shopping',
+    'Eating out',
+    'Sports',
+    'Group hangouts',
+    'Escape rooms',
+    'Bars',
+    'Movie theatres',
+    'Museums',
+    'Festivals',
+    'Bowling',
+    'Cafés',
+]
+const stayingInOptions = [
+    'Movies',
+    'Board games',
+    'Gaming',
+    'Reading',
+    'Cooking/Baking',
+    'Online shopping',
+    'Journaling'
+]
+
+const causesInOptions = [
+    'Mental health awareness',
+    'LGBTQ+ advocacy ',
+    'Feminism',
+    'Black Lives Matter',
+    'Climate change',
+    'Social development',
+    'Volunteering',
+    'Politics',
+    'World peace',
+    'Equality ',
+    'Disability rights',
+    'Campus activism',
+    'Sustainability',
+    'Animal rights',
+    'Human rights'
+]
+const personalInOptions = [
+    'Entrepreneur',
+    'Collector',
+    'Thrifting',
+    'Investing',
+    'Side quests',
+    'Gym and wellness',
+    'Meditation ',
+    'Yoga',
+    'Trying new things',
+    'Betting/gambling',
+    'Investing',
+    'Sports',
+    'Vlogging/content creation',
+    'Podcast',
+    'Going on walks',
+    'Camping',
+    'Travelling',
+    'Photography',
+    'Singing',
+    'Dancing',
+    'Learning new languages',
+    'Art',
+    'Boating',
+    'Studying'
+]
+
+const WhatDoYouEnjoySections: React.FC<{
+    answers: {
+        SOCIAL?: string[] | null;
+        STAYING_IN?: string[] | null;
+        CAUSES?: string[] | null;
+        PERSONAL?: string[] | null;
+    }
+    nextSectionHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string[]) => void;
+}> = ({ nextSectionHandler, answers, handleAnswer }) => {
+
+    const [selectedSocials, setSelectedSocials] = useState<string[]>(answers.SOCIAL || []);
+    const [selectedStayingIn, setSelectedStayingIn] = useState<string[]>(answers.STAYING_IN || []);
+    const [selectedCauses, setSelectedCauses] = useState<string[]>(answers.CAUSES || []);
+    const [selectedPersonal, setSelectedPersonal] = useState<string[]>(answers.PERSONAL || []);
+
+    const nextStep = () => {
+        handleAnswer(sectionName, 'SOCIAL', selectedSocials);
+        handleAnswer(sectionName, 'STAYING_IN', selectedStayingIn);
+        handleAnswer(sectionName, 'CAUSES', selectedCauses);
+        handleAnswer(sectionName, 'PERSONAL', selectedPersonal);
+        nextSectionHandler();
+    };
+
+    const sections = [
+        { title: 'Social', options: socialOptions, selected: selectedSocials, setSelected: setSelectedSocials, img: 'social.svg' },
+        { title: 'Staying In', options: stayingInOptions, selected: selectedStayingIn, setSelected: setSelectedStayingIn, img: 'staying_in.svg' },
+        { title: 'Causes', options: causesInOptions, selected: selectedCauses, setSelected: setSelectedCauses, img: 'causes.svg' },
+        { title: 'Personal', options: personalInOptions, selected: selectedPersonal, setSelected: setSelectedPersonal, img: 'personal.svg' }
+    ];
+
     return (
         <>
-            <QuestionTitle>
-                What Do You Enjoy?
-            </QuestionTitle>
+            <QuestionTitle>What Do You Enjoy?</QuestionTitle>
 
+            <div className="flex flex-wrap justify-center gap-6 md:px-16 px-10 mt-10">
+                {sections.map(({ title, options, selected, setSelected, img }) => (
+                    <div key={title} className="w-full sm:w-[45%] lg:w-[23%]">
+                        <p className="justify-center items-center bg-[#B3322F] text-white rounded-full   mb-4 flex w-full">
+                            <span className=' '>{title}  </span>
+                            <img alt="" className="h-10 " src={`/assets/img/icons/${img}`} />
+                        </p>
+                        <MultiSelect
+                            options={options}
+                            selected={selected}
+                            setSelected={setSelected}
+                        />
+                    </div>
+                ))}
+            </div>
 
-
-            <NextButton onClick={nextStepHandler} />
-
+            <div className="mt-10">
+                <NextButton onClick={nextStep} />
+            </div>
         </>
-    )
-}
+    );
+};
 
-const BedTimeSections = ({ nextStepHandler, answers, handleAnswer }) => {
+
+const BedTimeSections: React.FC<{
+    answers: {
+        GOING_OUT?: string | null;
+        BED_TIME?: string | null;
+    }
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
     return (
         <>
             <QuestionTitle>
@@ -131,7 +255,14 @@ const BedTimeSections = ({ nextStepHandler, answers, handleAnswer }) => {
     )
 }
 
-const LifestylePreferencesSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const LifestylePreferencesSection: React.FC<{
+    answers: {
+        RECREATIONAL_SUBSTANCES?: string | null;
+        AT_HOME?: string | null;
+    }
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
     return (
         <>
             <p className="text-2xl text-[#B3322F] w-full mt-10 px-10 text-center mx-auto font-semibold">
@@ -175,7 +306,14 @@ const LifestylePreferencesSection = ({ nextStepHandler, answers, handleAnswer })
 
 
 
-const DrinkAndSmokeSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const DrinkAndSmokeSection: React.FC<{
+    answers: {
+        OFTEN_DRINK?: string | null;
+        OFTEN_SMOKE?: string | null;
+    }
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
 
     return (
         <>
@@ -217,10 +355,12 @@ const DrinkAndSmokeSection = ({ nextStepHandler, answers, handleAnswer }) => {
     )
 }
 
-const LetsLearnAboutLifeStyleSection = ({ nextStepHandler }) => {
+const LetsLearnAboutLifeStyleSection : React.FC<{
+    nextStepHandler: () => void; 
+}>= ({ nextStepHandler }) => {
     const name = "Paul Brooks"
     return (
-        <div className='text-center'>
+        <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F]'>Let's learn about your lifestyle, <br /> <span className='font-bold'>{name}</span></p>
             <img alt="" className="h-40 pr-1 mx-auto " src="/assets/img/icons/lifestyleicon.svg" />
             <p className='text-md pb-10'> Knowing your habits helps us match<br /> you with the best roommates and home   </p>
@@ -232,12 +372,54 @@ const LetsLearnAboutLifeStyleSection = ({ nextStepHandler }) => {
     )
 }
 
-const AreaOfStudyDescription: React.FC<{ nextStepHandler: () => void }> = ({ nextStepHandler }) => {
-    return (
-        <div className="text-center">
-            <p className='text-3xl text-[#B3322F]'>What best describes your area of study?</p>
 
-            <NextButton onClick={nextStepHandler} />
+const AreaOfStudyDescription: React.FC<{
+    answers: {
+        AREA_OF_STUDEY?: string[] | null; 
+    }
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string[]) => void;
+}>
+
+= ({ nextStepHandler, answers, handleAnswer }) => {
+    const [selected, setSelected] = useState<string[]>(answers.AREA_OF_STUDEY || []);
+
+    const suggestions = [
+        "Engineering & Technology",
+        "Business, Management & Economics",
+        "Arts, Humanities & Social Sciences",
+        "Science (Biology, Chemistry, Physics, etc.)",
+        "Health & Life Sciences (Nursing, Medicine, Psychology, etc.)",
+        "Law, Public Policy & Political Science",
+        "Education & Teaching",
+        "Media, Communications & Journalism",
+        "Computer Science & Data (CS, AI, Data Science, etc.)",
+        "Architecture, Design & Visual Arts",
+        "Environment, Geography & Sustainability",
+        "Trades & Apprenticeship Programs",
+        "Undeclared / General Studies",
+        "Other / Not Listed",
+    ];
+
+    const nextStep = () => {
+        handleAnswer(sectionName, 'AREA_OF_STUDEY', selected)
+        nextStepHandler()
+    }
+
+    return (
+        <div className="text-center ">
+            <p className="text-3xl text-[#B3322F] mb-10 px-10">What best describes your area of study?</p>
+            <div className='lg:w-[50%] md:w-[75%] mx-auto px-10'>
+            <MultiSelect
+                setSelected={setSelected}
+                options={suggestions}
+                selected={selected}
+            />
+            </div>
+          
+            <div className="mt-10">
+                <NextButton onClick={nextStep} />
+            </div>
         </div>
     );
 };

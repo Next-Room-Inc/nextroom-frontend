@@ -18,6 +18,12 @@ const createApiUrl = (path: string) => `${path}`;
 
 // API endpoints
 export const API_URL = {
+  // GOOGLE_API: {
+  //   PLACE_TEXT_SEARCH: {
+  //     URL: () => createApiUrl("/promotion/send-email"),
+  //     METHOD: HttpMethod.POST,
+  //   }, 
+  // },
   AUTH: {
     STUDENT_LOGIN: {
       URL: () => createApiUrl("/auth/student/login"),

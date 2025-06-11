@@ -10,6 +10,11 @@ import ReactConfetti from 'react-confetti';
 import LifeStyleSection from './LifeStyleSection';
 import RoommateSection from './RoommateSection';
 import SituationSection from './SituationSection';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../utils/constants';
+
+
+
 
 interface AnswerSections {
     PROPERTY_SECTION: Record<string, unknown>;
@@ -17,6 +22,7 @@ interface AnswerSections {
     ROOMMATES_SECTION: Record<string, unknown>;
     SITUATION_BASED_SECTION: Record<string, unknown>;
 }
+const sectionsList: (keyof AnswerSections)[] = ['PROPERTY_SECTION', 'LIFE_STYLE_SECTION', 'ROOMMATES_SECTION', 'SITUATION_BASED_SECTION'];
 
 const sections = {
     PROPERTY_SECTION: {
@@ -26,6 +32,7 @@ const sections = {
         MONTHLY_BUDGET: null,
         DISTANCE_FROM_CAMPUS: null,
         PREFERRED_LOCATION: null,
+        PREFERRED_LOCATION_NAME: '',
         RENTAL_PREFERENCE: null,
         BRINGING_ROOMMATES: null,
         ROOMMATE_COUNT: 0,
@@ -67,6 +74,9 @@ const sections = {
 }
 
 const Onboarding = () => {
+    console.log("==>>>",import.meta.env.VITE_GOOGLE_API_KEY)
+    const navigate = useNavigate();  // Get navigate function
+
     const [exitForm, setExitForm] = useState(false);
     const [section, setSection] = useState<keyof AnswerSections>('PROPERTY_SECTION');
     const [formStep, setFormStep] = useState({ PROPERTY_SECTION: 0, LIFE_STYLE_SECTION: 0, ROOMMATES_SECTION: 0, SITUATION_BASED_SECTION: 0 });
@@ -94,8 +104,21 @@ const Onboarding = () => {
         }));
     };
 
+    const nextSectionHandler = () => {
+        console.log("hit")
+        const currentIndex = sectionsList.indexOf(section);
+        const nextIndex = currentIndex + 1;
+    
+        if (nextIndex < sectionsList.length) {
+            setSection(sectionsList[nextIndex]);
+        }else{
+            navigate(ROUTES.STUDENTS_DASHBOARD)
+        }
 
-    const payload = { answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler };
+    };
+
+
+    const payload = { answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler, nextSectionHandler };
 
 
     const [runConfetti, setRunConfetti] = useState(true);

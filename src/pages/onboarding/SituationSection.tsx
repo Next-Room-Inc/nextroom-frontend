@@ -1,7 +1,7 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { NextButton, PrimaryButton, QuestionTitle, ShareSection, transitionVariants } from './CommonComponents';
 import { ICONS } from '../../utils/constants/app-info.constant';
+import { NextButton, PrimaryButton, QuestionTitle, ShareSection, transitionVariants } from './CommonComponents';
 const sectionName = 'SITUATION_BASED_SECTION'
 
 interface Params {
@@ -9,6 +9,7 @@ interface Params {
     name: string;
     nextStepHandler: () => void;
     previousStepHandler: () => void;
+    nextSectionHandler: () => void;
     propertyValue: number;
     answers: Record<string, unknown>; // Assuming unknown type for answers keys
     handleAnswer: (section: string, field: string, value: unknown) => void;
@@ -24,7 +25,8 @@ const SituationSection = (props: any) => {
         answers,
         handleAnswer,
         nextStepHandler,
-        previousStepHandler
+        previousStepHandler,
+        nextSectionHandler
     } = props;
 
     const name = "Paul Brooks";
@@ -41,6 +43,7 @@ const SituationSection = (props: any) => {
         handleAnswer,
         exitForm,
         setExitForm,
+        nextSectionHandler
     };
 
     const formSteps = [
@@ -75,10 +78,12 @@ export default SituationSection
 
 
 
-const HomeSection = ({ nextStepHandler }) => {
+const HomeSection: React.FC<{
+    nextStepHandler: () => void;
+}> = ({ nextStepHandler }) => {
     const name = "Paul Brooks"
     return (
-        <div className='text-center'>
+        <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F] px-10'>Let's discuss some possible situations, <br /> <span className='font-bold'>{name}</span></p>
             <img alt="" className="h-50 -my-5 pr-1 mx-auto " src="/assets/img/icons/situationicon.svg" />
             <p className='text-md pb-10'>Please answer these to <br />
@@ -91,7 +96,14 @@ const HomeSection = ({ nextStepHandler }) => {
     )
 }
 
-const DisruptionHandlingSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const DisruptionHandlingSection: React.FC<{
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+    answers: {
+        ROOMMATE_IMPAIRED_DISRUPTIVE?: string | null;
+        LEFT_LIGHTS_ON_SHARED_UTILITIES?: string | null;
+    };
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
 
     return (
         <>
@@ -133,7 +145,15 @@ const DisruptionHandlingSection = ({ nextStepHandler, answers, handleAnswer }) =
         </>
     )
 }
-const ConflictAndSafetySection = ({ nextStepHandler, answers, handleAnswer }) => {
+const ConflictAndSafetySection: React.FC<{
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+    answers: {
+        RENTAL_TYPE?: string | null;
+        ROOMMATE_WITH_ILLlCIT_SUBSTANCES?: string | null;
+        ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION?: string | null;
+    };
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
     return (
         <>
             {/* Question */}
@@ -173,7 +193,14 @@ const ConflictAndSafetySection = ({ nextStepHandler, answers, handleAnswer }) =>
         </>
     )
 }
-const PartyAndMoneyConcernsSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const PartyAndMoneyConcernsSection: React.FC<{
+    answers: {
+        FREQUENT_LOUD_PARTIES?: string | null;
+        ROOMMATE_OWES_MONEY?: string | null;
+    }
+    nextStepHandler: () => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
+}> = ({ nextStepHandler, answers, handleAnswer }) => {
 
     return (
         <>
@@ -223,7 +250,9 @@ const PartyAndMoneyConcernsSection = ({ nextStepHandler, answers, handleAnswer }
         </>
     )
 }
-const AllSetSection = ({ nextStepHandler, answers, handleAnswer }) => {
+const AllSetSection: React.FC<{
+    nextSectionHandler: () => void;
+}> = ({ nextSectionHandler }) => {
 
     return (
         <>
@@ -245,7 +274,7 @@ const AllSetSection = ({ nextStepHandler, answers, handleAnswer }) => {
             <ShareSection />
 
             {/* Next button */}
-            <PrimaryButton selected={true} className='mx-auto bg-black mt-10' icon={ICONS.ARROW_RIGHT_WHITE} >
+            <PrimaryButton onClick={nextSectionHandler} selected={true} className='mx-auto bg-black mt-10' icon={ICONS.ARROW_RIGHT_WHITE} >
                 Find Me A Home
             </PrimaryButton>
 
