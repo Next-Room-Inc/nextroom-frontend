@@ -1,19 +1,18 @@
+import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import Loader from "../../components/Loader";
+import GiveAwayModal from "../../components/modals/GiveAwayModal.tsx";
 import useAuth from "../../custom-hooks/useAuth.tsx";
 import { useLocalStorage } from "../../hooks/useLocalStorage.tsx";
-import AuthLayout from "../../layouts/Auth.Layout.tsx";
+import SignupLayout from "../../layouts/Signup.Layout.tsx";
 import { useStudentSignupMutation } from "../../redux/services/auth.service";
 import { ROUTES } from "../../utils/constants";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
-import { ICONS } from "../../utils/constants/app-info.constant.ts";
-import GiveAwayModal from "../../components/modals/GiveAwayModal.tsx";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
 
@@ -93,7 +92,7 @@ const Signup = () => {
     <>
         {open && <GiveAwayModal {...{ handleNext }} />}
       {isLoading && <Loader />}
-       <AuthLayout>
+       <SignupLayout>
               <form onSubmit={formik.handleSubmit}>
                         <h2 className=" text-2xl/9 font-bold mb-8  text-[#B3322F]">
                           Sign up
@@ -380,18 +379,8 @@ const Signup = () => {
                           </Link>
                         </p>
                       </form>
-
-                         {/* Give Away circle */}
-                                <div
-                                  className="shadow-2xl shadow-black font-semibold text-white text-sm bg-red-700 h-[150px] w-[150px] pt-6 fixed bottom-0 right-0 transform flex flex-col items-center justify-center text-center"
-                                  style={{ borderTopLeftRadius: "75%" }}
-                                >
-                                  <img alt="" className="h-12 pr-1 mb-1 " src={ICONS.GIFT} />
-                                  <span>
-                                  Signup To Enter <br /> Our Giveaway!
-                                  </span>
-                                </div>
-       </AuthLayout>
+ 
+       </SignupLayout>
 
     </>
   );
