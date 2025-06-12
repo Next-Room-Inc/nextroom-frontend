@@ -8,7 +8,7 @@ const WinFreeRentModal: React.FC<{
   console.log(daysLeft)
   return (
     <div className="fixed inset-0   flex items-center justify-center bg-black/50 px-4" style={{ zIndex: '99' }}>
-      <div className=" flex gap-5 flex-col bg-[url(assets/img/backgrounds/win_free_rent_bg.png)] text-white bg-cover bg-center rounded-5xl md:rounded-2xl text-center md:w-150 md:h-150 h-100 w-100 pt-5"
+      <div className=" flex gap-5 flex-col bg-[url(/assets/img/backgrounds/win_free_rent_bg.png)] text-white bg-cover bg-center rounded-5xl md:rounded-2xl text-center md:w-150 md:h-150 h-100 w-100 pt-5"
       >
         <div className="flex justify-center items-center gap-1 text-black md:mt-10 mt-6">
           <span className="bg-black text-white font-bold md:text-4xl w-7 h-7 md:w-11 md:h-11 flex items-center justify-center rounded-md pb-1">{daysLeft[0] || 0}</span>
