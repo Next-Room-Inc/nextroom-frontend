@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import ChoosePropertyModal from '../../components/modals/ChoosePropertyModal'
-import GiveAwayModal from '../../components/modals/GiveAwayModal'
 import WinFreeRentModal from '../../components/modals/WinFreeRentModal'
+import { ROUTES } from '../../utils/constants'
 import { getDaysRemaining } from '../../utils/functions'
 import GiveAwayComponents from './GiveAway.Components'
 
 const GiveAway = () => {
+  const navigate = useNavigate();
   const [popupStep, setPopUpStep] = useState<number|null>(null)
 
   useEffect(() => {
@@ -15,10 +16,11 @@ const GiveAway = () => {
   }, [])
 
   const nextStepHandler = () => {
+     navigate(ROUTES.SIGNUP);
     // if (popupStep === 4) {
     //   setPopUpStep(null)
     // } else {
-      setPopUpStep((prev) => (prev|| 0) + 1)
+      // setPopUpStep((prev) => (prev|| 0) + 1)
     // }
   }
   
@@ -29,8 +31,8 @@ const GiveAway = () => {
   return (
     <div className=" h-[100vh]">
       {popupStep === 1 && <WinFreeRentModal {...props} />}
-      {popupStep === 2 && <GiveAwayModal {...props} />}
-      {popupStep === 3 && <ChoosePropertyModal {...props} />}
+      {/* {popupStep === 2 && <GiveAwayModal {...props} />}
+      {popupStep === 3 && <ChoosePropertyModal {...props} />} */}
       {/* {popupStep === 3 && <FollowInstagramModal {...props} />}
       {popupStep === 4 && <AlwaysWinnerModal {...props} />} */}
 

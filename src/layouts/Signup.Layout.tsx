@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
 // import Header from "../components/Header";
 import { APP_INFO } from "../utils/constants";
+import ChoosePropertyModal from "../components/modals/ChoosePropertyModal";
 
 
 const Header = () => {
+  const [modal, setModal] = useState(false)
 
   return <>
-    <div className="   text-white bg-cover bg-center min-h-30 flex xl:flex-row flex-col  bg-[url(/assets/img/backgrounds/singup_fighter_header_bg.png)] "
 
-    >
-      <div className="xl:w-[45%] w-[100%] flex  items-center justify-center xl:mt-0 mt-5">
+    {modal && <ChoosePropertyModal {...{setModal}} />}
+    <div className="   text-white bg-cover bg-center min-h-30 flex xl:flex-row flex-col  bg-[url(/assets/img/backgrounds/singup_fighter_header_bg.png)] "   >
+      <div className="2xl:w-[45%] xl:w-[30%] w-[100%] flex  items-center justify-center xl:mt-0 mt-5">
 
         <img
           src={`${APP_INFO.IMG_BASE_URL}/icons/win_free_rent_summer_logo.svg`}
@@ -26,9 +28,10 @@ const Header = () => {
 
       </div>
 
-      <div className="xl:w-[15%] w-[100%] flex items-center justify-center md:mt-10 mt-5">
+      <div className="2xl:w-[15%] xl:w-[20%] w-[100%] flex items-center justify-center md:mt-10 mt-5">
         <div>
           <button
+          onClick={()=> setModal(true)}
             className={`  bg-white hover:bg-black hover:text-white cursor-pointer text-[#B00000] font-semibold py-2 md:px-10 px-6 rounded-full w-full  `}
           >
             SIGN UP BELOW
@@ -42,11 +45,11 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="xl:w-[45%] w-[100%] flex items-center overflow-hidden relatives">
+      <div className=" xl:w-[45%]  w-[100%] flex items-center overflow-hidden relatives">
 
 
         <div className="md:flex md:relative xl:w-[45%] items-center absolute left-0 xl:ml-0 -ml-5">
-          <img src="assets/img/groups/Byward_Market/backup-white-logo.png" alt="Theo" className=" xl:h-15 md:h-25 h-10 bottom-5 left-10 xl:left-0 xl:bottom-0 xl:relative absolute shadow-3xl shadow-black " />
+          <img src="assets/img/groups/Byward_Market/backup-white-logo.png" alt="Theo" className="2xl:h-15 xl:h-10 md:h-25 h-10 bottom-5 left-10 xl:left-0 xl:bottom-0 xl:relative absolute shadow-3xl shadow-black " />
           <img src="assets/img/icons/alma_fighter_3.svg" alt="Theo" className="xl:h-40 md:h-90 h-51   " />
         </div>
 
@@ -56,7 +59,7 @@ const Header = () => {
 
         <div className="md:flex md:relative xl:w-[45%] items-center absolute right-0   xl:-mr-0 -mr-5 ">
           <img src="assets/img/icons/theo_fighter_3.svg" alt="Theo" className="xl:h-40 md:h-90 h-51   " />
-          <img src="assets/img/groups/Theo/white-logo.png" alt="Theo" className=" xl:h-15 md:h-25 h-10 bottom-5 right-10 xl:right-0 xl:bottom-0 xl:relative absolute shadow-3xl shadow-black " />
+          <img src="assets/img/groups/Theo/white-logo.png" alt="Theo" className=" 2xl:h-15 xl:h-10  md:h-25 h-10 bottom-5 right-10 xl:right-0 xl:bottom-0 xl:relative absolute shadow-3xl shadow-black " />
         </div>
 
         {/* <div className="md:inline-block md:relative md:w-[45%] absolute right-0 md:ml-0 -mr-5">

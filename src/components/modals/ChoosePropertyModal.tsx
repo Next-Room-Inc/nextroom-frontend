@@ -1,13 +1,13 @@
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../utils/constants";
+import { getDaysRemaining } from "../../utils/functions";
 
 
 const ChoosePropertyModal: React.FC<{
-  daysLeft: string
-}> = ({ daysLeft }) => {
-  const navigate = useNavigate()
+  setModal: (value: boolean) => void
+}> = ({ setModal }) => {
+  const daysLeft = getDaysRemaining("2025-06-29");
+  // const navigate = useNavigate()
   const [selected, setSelected] = useState<string[]>([]);
   const [isTheoHovered, setIsTheoHovered] = useState(false);
   const [isAlmaHovered, setIsAlmaHovered] = useState(false);
@@ -21,9 +21,11 @@ const ChoosePropertyModal: React.FC<{
   };
 
   const nextStepHandler = () => {
-    const selectedQuery = selected.map(item => `property=${item}`).join("&");
-    navigate(`${ROUTES.SIGNUP}?${selectedQuery}`);
+    const selectedQuery = selected.map(item => item).join("/");
+    localStorage.setItem('property', selectedQuery)
+    setModal(false)
   }
+
   return (
     <div className="fixed inset-0   flex items-center justify-center bg-black/50 px-4" style={{ zIndex: '99' }}>
       <div className="bg-[#B00000] text-white md:p-8 px-4 py-6 rounded-2xl text-center w-xl mx-auto space-y-6 md:px-15" >

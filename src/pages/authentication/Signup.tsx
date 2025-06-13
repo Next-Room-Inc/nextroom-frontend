@@ -42,6 +42,10 @@ const Signup = () => {
         payload['tag'] = refTag
       }
       console.log("payload=>", payload)
+      const property = localStorage.getItem('property') || ''
+      if(property){
+        payload['propertyInterests'] = property
+      }
       // const properties = searchParams.getAll('property'); // ['alma', 'theo']
       const res = await studentSignup(values);
       const errorMessage = (res.error as any)?.data ?? "Account Creation Failed";

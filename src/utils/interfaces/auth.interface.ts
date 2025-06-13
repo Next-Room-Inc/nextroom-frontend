@@ -7,4 +7,5 @@ export interface StudentSignupPayload {
     age: string;
     phoneNumber?: string;
     tag?: string;
+    propertyInterests?: string;
   }
