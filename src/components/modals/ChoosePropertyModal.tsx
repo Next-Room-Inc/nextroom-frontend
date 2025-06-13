@@ -1,15 +1,29 @@
 import { CheckCircleIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../utils/constants";
 
 
 const ChoosePropertyModal: React.FC<{
-  nextStepHandler: () => void;
   daysLeft: string
-}> = ({ nextStepHandler, daysLeft }) => {
-  const [selected, setSelected] = useState<string | null>(null)
+}> = ({ daysLeft }) => {
+  const navigate = useNavigate()
+  const [selected, setSelected] = useState<string[]>([]);
   const [isTheoHovered, setIsTheoHovered] = useState(false);
   const [isAlmaHovered, setIsAlmaHovered] = useState(false);
 
+  const toggleSelection = (property: string) => {
+    setSelected((prev) =>
+      prev.includes(property)
+        ? prev.filter((item) => item !== property)
+        : [...prev, property]
+    );
+  };
+
+  const nextStepHandler = () => {
+    const selectedQuery = selected.map(item => `property=${item}`).join("&");
+    navigate(`${ROUTES.SIGNUP}?${selectedQuery}`);
+  }
   return (
     <div className="fixed inset-0   flex items-center justify-center bg-black/50 px-4" style={{ zIndex: '99' }}>
       <div className="bg-[#B00000] text-white md:p-8 px-4 py-6 rounded-2xl text-center w-xl mx-auto space-y-6 md:px-15" >
@@ -22,7 +36,8 @@ const ChoosePropertyModal: React.FC<{
         </p>
 
         <div className="flex justify-center md:gap-6 gap-3 mt-6">
-          <div className={`${selected === 'alma' ? 'bg-black' : 'bg-[#8A0000]'} w-[50%] rounded-xl cursor-pointer relative `} onClick={() => setSelected('alma')}
+          <div className={`${selected.includes('alma') ? 'bg-black' : 'bg-[#8A0000]'} w-[50%] rounded-xl cursor-pointer relative `}
+            onClick={() => toggleSelection('alma')}
             onMouseEnter={() => setIsAlmaHovered(true)}
             onMouseLeave={() => setIsAlmaHovered(false)}
           >
@@ -34,12 +49,13 @@ const ChoosePropertyModal: React.FC<{
             <CheckCircleIcon
               aria-hidden="true"
               className={
-                `size-5 absolute top-3 right-3 transition-opacity ${selected === 'alma' ? "text-[#8A0000] opacity-100" : "opacity-0"}`
+                `size-5 absolute top-3 right-3 transition-opacity ${selected.includes('alma') ? "text-[#8A0000] opacity-100" : "opacity-0"}`
 
               }
             />
           </div>
-          <div className={`${selected === 'theo' ? 'bg-black' : 'bg-[#8A0000]'} w-[50%] rounded-xl cursor-pointer relative`} onClick={() => setSelected('theo')}
+          <div className={`${selected.includes('theo') ? 'bg-black' : 'bg-[#8A0000]'} w-[50%] rounded-xl cursor-pointer relative`}
+            onClick={() => toggleSelection('theo')}
             onMouseEnter={() => setIsTheoHovered(true)}
             onMouseLeave={() => setIsTheoHovered(false)}
           >
@@ -49,7 +65,7 @@ const ChoosePropertyModal: React.FC<{
             <CheckCircleIcon
               aria-hidden="true"
               className={
-                `size-5 absolute top-3 right-3 transition-opacity ${selected === 'theo' ? "text-[#8A0000] opacity-100" : "opacity-0"}`
+                `size-5 absolute top-3 right-3 transition-opacity ${selected.includes('theo') ? "text-[#8A0000] opacity-100" : "opacity-0"}`
 
               }
             />

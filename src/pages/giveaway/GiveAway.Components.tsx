@@ -128,7 +128,7 @@ const GiveAwayComponents = () => {
         </div>
         {/* No Ghosting section */}
         <div className='text-center mt-20 mb-10 '>
-          <p className=' text-3xl lg:text-4xl px-4'>Swipe Right on Your Next Student Apartment</p>
+          <p className=' text-3xl lg:text-4xl px-4'>Swipe Right On Your Next Student Apartment</p>
           <p className='italic text-2xl md:text-3xl lg:text-4xl font-bold '>No Ghosting - Guaranteed</p>
           <p className='text-[#C32026] text-3xl lg:text-4xl font-bold mb-12 mt-5'>COMING FALL 2025</p>
         </div>
