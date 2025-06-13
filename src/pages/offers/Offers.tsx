@@ -10,9 +10,12 @@ import { Listings } from "./Listings";
 import Loader from "../../components/Loader";
 import RentFreeModal from "../../components/modals/RentFreeModal";
 import SelectCompaniesModal from "../../components/modals/SelectCompaniesModal";
+import FollowInstagramModal from "../../components/modals/FollowInstagramModal";
+import AlwaysWinnerModal from "../../components/modals/AlwaysWinnerModal";
 
 const Offers = () => {
   const [sendPromotionEmail, { isLoading }] = useSendPromotionEmailMutation();
+  const [open, setOpen] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [showModal, setShowModal] = useState({
     rentFree: false,
@@ -27,7 +30,8 @@ const Offers = () => {
   };
 
   useEffect(() => {
-    showModalHandler("rentFree", true);
+    // showModalHandler("rentFree", true);
+    setOpen(1);
   }, []);
 
   const submitValueHandler = async (
@@ -50,9 +54,17 @@ const Offers = () => {
     }
   };
 
+  const nextStepHandler = () => {
+    if (open === 1) setOpen(2)
+    else setOpen(null)
+  }
+
   return (
     <>
       {isLoading && <Loader />}
+
+      {open === 1 && <FollowInstagramModal {...{ nextStepHandler }} />}
+      {open === 2 && <AlwaysWinnerModal {...{ nextStepHandler }} />}
 
       {showModal?.rentFree && (
         <RentFreeModal {...{ showModalHandler, showModal }} />

@@ -1,7 +1,7 @@
 
 const AlwaysWinnerModal: React.FC<{
-    handleNext: () => void;
-}> = ({ handleNext }) => {
+    nextStepHandler: () => void;
+}> = ({ nextStepHandler }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" style={{ zIndex: '99' }}>
 
@@ -25,7 +25,7 @@ const AlwaysWinnerModal: React.FC<{
                 <p className="italic text-md">Lock in your spot for school, and enjoy<br /> summer on us!</p>
 
                 <button
-              onClick={handleNext}
+              onClick={nextStepHandler}
               className="bg-white mt-6 text-black py-2 px-16 rounded-full font-semibold hover:bg-black hover:text-white transition z-10 cursor-pointer"
             >
               Explore

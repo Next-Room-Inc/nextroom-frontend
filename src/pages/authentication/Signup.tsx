@@ -5,8 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Loader from "../../components/Loader";
-import AlwaysWinnerModal from "../../components/modals/AlwaysWinnerModal.tsx";
-import FollowInstagramModal from "../../components/modals/FollowInstagramModal.tsx";
+import ChoosePropertyModal from "../../components/modals/ChoosePropertyModal.tsx";
 import useAuth from "../../custom-hooks/useAuth.tsx";
 import { useLocalStorage } from "../../hooks/useLocalStorage.tsx";
 import SignupLayout from "../../layouts/Signup.Layout.tsx";
@@ -27,12 +26,14 @@ const universities = [
 const Signup = () => {
   const [searchParams] = useSearchParams();
   const { handleLogin } = useAuth();
-  const [open, setOpen] = useState<number | null>(null);
+  // const [open, setOpen] = useState<number | null>(null);
+ const [modal, setModal] = useState(false);
+
   const [response, setResponse] = useState<string>("");
   const [studentSignup, { isLoading }] = useStudentSignupMutation();
   const [, setAuth] = useLocalStorage("auth");
   const [submitStep, setSubmitStep] = useState(false);
-
+  console.log(response)
   const handleSubmit = async (values: StudentSignupPayload) => {
     try {
       console.log("searchParams=>", searchParams)
@@ -51,14 +52,14 @@ const Signup = () => {
       const errorMessage = (res.error as any)?.data ?? "Account Creation Failed";
       if (res.error) toast.error(errorMessage);
       else {
-        setOpen(1);
+        // setOpen(1);
         setAuth({
           email: values.email,
           lastName: values.lastName,
           firstName: values.firstName,
         });
         setResponse(res?.data?.token);
-        // await handleLogin(response)
+        await handleLogin(res?.data?.token)
       }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -82,7 +83,7 @@ const Signup = () => {
   });
 
   // const handleClose = () => setOpen(false);
-  const handleNext = async () => await handleLogin(response);
+  // const handleNext = async () => await handleLogin(response);
 
   const personalInfoValidationError: boolean =
     !formik?.touched?.firstName ||
@@ -94,12 +95,16 @@ const Signup = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  const nextStepHandler = () => { setOpen(2) }
+  // const nextStepHandler = () => { setOpen(2) }
 
+  const submitForm = () => {
+    setModal(false)
+    formik.submitForm();
+  }
   return (
     <>
-      {open === 1 && <FollowInstagramModal {...{ nextStepHandler }} />}
-      {open === 2 && <AlwaysWinnerModal {...{ handleNext }} />}
+    
+    {modal && <ChoosePropertyModal {...{submitForm}}/>}
       {isLoading && <Loader />}
       <SignupLayout>
         <form onSubmit={formik.handleSubmit}>
@@ -196,7 +201,8 @@ const Signup = () => {
               {/* Signup Button */}
               <div>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={()=>setModal(true)}
                   className="flex w-50 justify-center rounded-full mx-auto bg-[#7C221F] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-[#B3322F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
                 >
                   Sign up

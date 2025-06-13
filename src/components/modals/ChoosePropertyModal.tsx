@@ -4,8 +4,8 @@ import { getDaysRemaining } from "../../utils/functions";
 
 
 const ChoosePropertyModal: React.FC<{
-  setModal: (value: boolean) => void
-}> = ({ setModal }) => {
+  submitForm: ( ) => void
+}> = ({ submitForm }) => {
   const daysLeft = getDaysRemaining("2025-06-29");
   // const navigate = useNavigate()
   const [selected, setSelected] = useState<string[]>([]);
@@ -23,7 +23,7 @@ const ChoosePropertyModal: React.FC<{
   const nextStepHandler = () => {
     const selectedQuery = selected.map(item => item).join("/");
     localStorage.setItem('property', selectedQuery)
-    setModal(false)
+    submitForm()
   }
 
   return (
@@ -44,9 +44,14 @@ const ChoosePropertyModal: React.FC<{
             onMouseLeave={() => setIsAlmaHovered(false)}
           >
             <img src="/assets/img/groups/Byward_Market/backup-white-logo.png" alt="Alma" className="w-20 pt-4 mx-auto" />
-            <img src={isAlmaHovered ? "/assets/img/icons/alma_fighter_1.svg" : "assets/img/icons/alma_fighter_2.svg"} alt="Alma" className="md:h-45 h-30 mt-2 mx-auto transition duration-300 ease-in-out"
+            {
+              isAlmaHovered ?
+                <img src={"/assets/img/icons/alma_fighter_1.svg"} alt="Alma" className="md:h-45 h-30 mt-2 mx-auto transition duration-300 ease-in-out" /> :
+                <img src={"assets/img/icons/alma_fighter_2.svg"} alt="Alma" className="md:h-45 h-30 mt-2 mx-auto transition duration-300 ease-in-out" />
+            }
+            {/* <img src={isAlmaHovered ? "/assets/img/icons/alma_fighter_1.svg" : "assets/img/icons/alma_fighter_2.svg"} alt="Alma" className="md:h-45 h-30 mt-2 mx-auto transition duration-300 ease-in-out"
 
-            />
+            /> */}
 
             <CheckCircleIcon
               aria-hidden="true"
@@ -62,8 +67,15 @@ const ChoosePropertyModal: React.FC<{
             onMouseLeave={() => setIsTheoHovered(false)}
           >
             <img src="/assets/img/groups/Theo/white-logo.png" alt="Theo" className="w-20 pt-4 mx-auto" />
-            <img src={isTheoHovered ? "/assets/img/icons/theo_fighter_1.svg" : "assets/img/icons/theo_fighter_2.svg"} alt="Theo" className="md:h-45 h-30 mt-2 mx-auto  transition duration-300 ease-in-out" />
+            {/* <img src={isTheoHovered ? "/assets/img/icons/theo_fighter_1.svg" : "assets/img/icons/theo_fighter_2.svg"} alt="Theo" className="md:h-45 h-30 mt-2 mx-auto  transition duration-300 ease-in-out" /> */}
+            {
+              isTheoHovered ?
+                <img src={"/assets/img/icons/theo_fighter_1.svg"} alt="Theo" className="md:h-45 h-30 mt-2 mx-auto  transition duration-300 ease-in-out" />
+                :
+                <img src={"assets/img/icons/theo_fighter_2.svg"} alt="Theo" className="md:h-45 h-30 mt-2 mx-auto  transition duration-300 ease-in-out" />
 
+            }
+      
             <CheckCircleIcon
               aria-hidden="true"
               className={

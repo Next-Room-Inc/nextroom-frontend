@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Footer from "../components/Footer";
 // import Header from "../components/Header";
 import { APP_INFO } from "../utils/constants";
-import ChoosePropertyModal from "../components/modals/ChoosePropertyModal";
 
 
-const Header = () => {
-  const [modal, setModal] = useState(false)
-
+const Header: React.FC<{ handleScrollToSignup:()=>void}>  = ({handleScrollToSignup}) => {
+ 
   return <>
-
-    {modal && <ChoosePropertyModal {...{setModal}} />}
-    <div className="   text-white bg-cover bg-center min-h-30 flex xl:flex-row flex-col  bg-[url(/assets/img/backgrounds/singup_fighter_header_bg.png)] "   >
+     <div className="   text-white bg-cover bg-center min-h-30 flex xl:flex-row flex-col  bg-[url(/assets/img/backgrounds/singup_fighter_header_bg.png)] "   >
       <div className="2xl:w-[45%] xl:w-[30%] w-[100%] flex  items-center justify-center xl:mt-0 mt-5">
 
         <img
@@ -31,7 +27,7 @@ const Header = () => {
       <div className="2xl:w-[15%] xl:w-[20%] w-[100%] flex items-center justify-center md:mt-10 mt-5">
         <div>
           <button
-          onClick={()=> setModal(true)}
+          onClick={handleScrollToSignup}
             className={`  bg-white hover:bg-black hover:text-white cursor-pointer text-[#B00000] font-semibold py-2 md:px-10 px-6 rounded-full w-full  `}
           >
             SIGN UP BELOW
@@ -77,7 +73,14 @@ const Header = () => {
 
   </>
 }
-const SignupLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const SignupLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const handleScrollToSignup = () => {
+    const target = document.getElementById("signup-main");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+return(
   <>
     <div
       className="flex flex-col min-h-[70vh]"
@@ -88,8 +91,8 @@ const SignupLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
         backgroundAttachment: 'fixed'
       }}
     >
-      <Header />
-      <main className="flex-grow flex justify-center items-center p-5">
+      <Header {...{handleScrollToSignup}} />
+      <main  id="signup-main" className="flex-grow flex justify-center items-center p-5">
         <div className="w-full max-w-md text-center">
           <img
             alt=""
@@ -101,6 +104,7 @@ const SignupLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
       </main>
     </div>
     <Footer />
-  </>
-);
+  </>)
+  }
+ 
 export default SignupLayout;
