@@ -68,7 +68,6 @@ const PropertySection = (props: any) => {
             {CurrentStepComponent && (
                 <motion.div
                     key={formStep}
-
                     variants={transitionVariants}
                     initial="initial"
                     animate="animate"
@@ -110,13 +109,13 @@ const WelcomeScreen: React.FC<{
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-12 text-md'>
                     <PrimaryButton
-                        selected={true} onClick={nextStepHandler}
+                        button={true} onClick={nextStepHandler}
                         icon={ICONS.ARROW_RIGHT_WHITE}
                     >
                         Get Started
                     </PrimaryButton>
 
-                    <PrimaryButton selected={true}  >
+                    <PrimaryButton button={true}  >
                         I’ll Search On My Own
                     </PrimaryButton>
                 </div>
@@ -229,16 +228,18 @@ const RoommatesSection: React.FC<{
 
             <p className='text-2xl text-[#B3322F] mt-12 font-semibold w-full  px-10 text-center mx-auto'> How many roommates are joining you? </p>
 
-            <div className='flex justify-center items-center px-10'>
+            <div className='flex justify-center items-center px-15'>
                 <div className='flex gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-3 rounded-full shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-auto'>
 
                     {/* Decrement Button */}
-                    <button
-                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full'
+                    <motion.button
+                        whileTap={{ scale: 0.85 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
                         onClick={decrement}
                     >
                         -
-                    </button>
+                    </motion.button>
 
                     {/* Animate the count change */}
                     <AnimatePresence mode="wait" initial={false}>
@@ -254,12 +255,14 @@ const RoommatesSection: React.FC<{
                     </AnimatePresence>
 
                     {/* Increment Button */}
-                    <button
-                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full'
+                    <motion.button
+                        whileTap={{ scale: 0.85 }}
+                        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
                         onClick={increment}
                     >
                         +
-                    </button>
+                    </motion.button>
 
                 </div>
             </div>
@@ -272,13 +275,13 @@ const RoommatesSection: React.FC<{
             </div>
 
             {
-                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton 
-                disabled={
-                    answers.BRINGING_ROOMMATES === null ||
-                    answers.ROOMMATE_COUNT === null ||
-                    answers.NEED_ROOMMATE_MATCHING === null  
+                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton
+                    disabled={
+                        answers.BRINGING_ROOMMATES === null ||
+                        answers.ROOMMATE_COUNT === null ||
+                        answers.NEED_ROOMMATE_MATCHING === null
 
-                 } onClick={() => nextSectionHandler()} />
+                    } onClick={() => nextSectionHandler()} />
             }
 
 
@@ -593,10 +596,15 @@ const HowLongToStaySection: React.FC<{
                     answers.STAY_DURATION !== '8 Months' &&
                     answers.STAY_DURATION !== '12 Months' &&
                     answers.STAY_DURATION !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9]"}
-                 mt-10 rounded-full mx-10 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>
+                 mt-6 md:mt-10 rounded-full mx-15 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>
                 <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
             </div>
+
+
+
             <NextButton disabled={answers.STAY_DURATION === null} onClick={nextStepHandler} />
+
+
         </>
     )
 }
@@ -607,6 +615,7 @@ const WhenYouAreMovingSection: React.FC<{
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
 }> = ({ nextStepHandler, handleAnswer, answers }) => {
     const dateInputRef = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState(false)
 
     const handleDateWrapperClick = () => {
         if (dateInputRef.current) {
@@ -615,23 +624,39 @@ const WhenYouAreMovingSection: React.FC<{
         }
     };
 
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.MOVE_IN_DATE === null) {
+            const section = document.getElementById('MOVE_IN_DATE');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.MOVE_IN_DATE === null
+
     return (
         <>
-            <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> When are you moving in? </p>
+            <div id="MOVE_IN_DATE" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.MOVE_IN_DATE === null ? "bg-[#B3322F]/20" : ""}`}>
 
-            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
-                <PrimaryButton selected={answers.MOVE_IN_DATE === 'September 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', 'September 1')}  > September 1 </PrimaryButton>
-                <PrimaryButton selected={answers.MOVE_IN_DATE === 'May 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', 'May 1')} > May 1 </PrimaryButton>
+                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> When are you moving in? </p>
+
+                <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
+                    <PrimaryButton selected={answers.MOVE_IN_DATE === 'September 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', 'September 1')}  > September 1 </PrimaryButton>
+                    <PrimaryButton selected={answers.MOVE_IN_DATE === 'May 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', 'May 1')} > May 1 </PrimaryButton>
+                </div>
+
+                {/* <button className='bg-[#B3322F] w-full md:w-[250px] text-center py-2 text-white  rounded-full mt-10'> May 1 </button> */}
+                <div className={`
+                ${(answers.MOVE_IN_DATE !== 'September 1' && answers.MOVE_IN_DATE !== 'May 1' && answers.MOVE_IN_DATE !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9] border-white border"}
+                 mt-6 md:mt-10 rounded-full   mx-15 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>
+                    <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
+                </div>
+
             </div>
 
-            {/* <button className='bg-[#B3322F] w-full md:w-[250px] text-center py-2 text-white  rounded-full mt-10'> May 1 </button> */}
-            <div className={`
-                ${(answers.MOVE_IN_DATE !== 'September 1' && answers.MOVE_IN_DATE !== 'May 1' && answers.MOVE_IN_DATE !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9]"}
-                 mt-10 rounded-full mx-10 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>
-                <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
+            <div className="mt-">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
             </div>
-
-            <NextButton disabled={answers.MOVE_IN_DATE === null} onClick={nextStepHandler} />
 
         </>
     )
@@ -648,31 +673,47 @@ const TypeOfRentalSection: React.FC<{
     handleAnswer,
     answers,
 }) => {
+        const [error, setError] = useState(false)
+
         const options = [
             { label: 'Lease', value: 'lease' },
             { label: 'Sublet', value: 'sublet' },
         ];
 
+
+        const scrollHandler = () => {
+            setError(true)
+            if (answers.RENTAL_TYPE === null) {
+                const section = document.getElementById('RENTAL_TYPE');
+                section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        const disabled = answers.RENTAL_TYPE === null
+
         return (
             <div className="text-center">
-                <p className="text-2xl text-[#B3322F] font-semibold w-[60%] md:w-[80%] mx-auto">
-                    What type of rental are you looking for?
-                </p>
 
-                <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10">
-                    {options.map(({ label, value }) => (
-                        <PrimaryButton
-                            key={value}
-                            onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_TYPE', value)}
-                            selected={answers.RENTAL_TYPE === value}
-                        >
-                            {label}
-                        </PrimaryButton>
-                    ))}
+                <div id="RENTAL_TYPE" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.RENTAL_TYPE === null ? "bg-[#B3322F]/20" : ""}`}>
+                    <p className="text-2xl text-[#B3322F] font-semibold w-[60%] md:w-[80%] mx-auto ">
+                        What type of rental are you looking for?
+                    </p>
+
+                    <div className={`  flex flex-col  md:flex-row gap-6 justify-center items-center text-md px-10 mt-10`}>
+                        {options.map(({ label, value }) => (
+                            <PrimaryButton
+                                key={value}
+                                onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_TYPE', value)}
+                                selected={answers.RENTAL_TYPE === value}
+                            >
+                                {label}
+                            </PrimaryButton>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="mt-12">
-                    <NextButton disabled={answers.RENTAL_TYPE === null} onClick={nextStepHandler} />
+                <div className="mt-0">
+                    <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
                 </div>
             </div>
         );

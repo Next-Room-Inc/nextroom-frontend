@@ -11,19 +11,21 @@ export const NextButton: React.FC<{
     className?: string;
 }> = ({ onClick = () => { }, className = '', disabled = false }) => {
     return (
-        <motion.button
-        disabled={disabled}
-        onClick={onClick}
-        whileTap={{ scale: 0.95 }}
-        whileHover={{ scale: 1.03 }}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={`${disabled ? 'bg-[#D9D9D9] ' : 'bg-black hover:bg-[#B3322F]'}  w-[250px] md:w-[180px] text-center py-2 text-white rounded-full mt-18  ${className}`}
-        >
-       
-            Next
-        </motion.button>
+        <div className="md:relative sticky bottom-4 z-30">
+            <motion.button
+                disabled={disabled}
+                onClick={onClick}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className={`${disabled ? 'bg-[#D9D9D9] ' : 'bg-black hover:bg-[#B3322F]'}  w-[250px] md:w-[180px] text-center py-2 text-white rounded-full mt-10  ${className}`}
+            >
+
+                Next
+            </motion.button>
+        </div>
     );
 };
 
@@ -54,7 +56,7 @@ export const PrimaryButton: React.FC<{
             ? 'bg-[#B3322F] hover:bg-black'
             : selected
                 ? 'bg-[#B3322F]  '
-                : 'bg-[#D9D9D9]  ';
+                : 'bg-[#D9D9D9] border-1 border-white ';
 
         return (
             <motion.button
@@ -64,7 +66,7 @@ export const PrimaryButton: React.FC<{
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
-                className={`w-[250px] text-center py-2 text-white rounded-full flex items-center justify-center ${bgColor} ${icon ? 'gap-2' : ''} ${className}`}
+                className={`w-[250px]  text-center py-2 text-white rounded-full flex items-center justify-center ${bgColor} ${icon ? 'gap-2' : ''} ${className}`}
             >
                 {children}
                 {icon && <img src={icon} alt="" className="h-3 mt-1.5" />}
@@ -108,7 +110,7 @@ export const ExitConfirmationSection: React.FC<{
 
 
 export const transitionVariants = {
-    initial: { opacity: 0, x: 100 },
+    initial: { opacity: 0, x: -50 },
     animate: { opacity: 1, x: 0 },
     exit: { opacity: 0, x: -100 },
 };

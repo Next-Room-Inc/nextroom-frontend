@@ -198,11 +198,9 @@ const WhatDoYouEnjoySections: React.FC<{
                 ))}
             </div>
 
-            <div className="mt-10">
-                <NextButton 
 
-                onClick={nextStep} />
-            </div>
+            <NextButton onClick={nextStep} />
+
         </>
     );
 };
@@ -357,9 +355,9 @@ const DrinkAndSmokeSection: React.FC<{
     )
 }
 
-const LetsLearnAboutLifeStyleSection : React.FC<{
-    nextStepHandler: () => void; 
-}>= ({ nextStepHandler }) => {
+const LetsLearnAboutLifeStyleSection: React.FC<{
+    nextStepHandler: () => void;
+}> = ({ nextStepHandler }) => {
     const name = "Paul Brooks"
     return (
         <div className='text-center mt-35'>
@@ -377,52 +375,52 @@ const LetsLearnAboutLifeStyleSection : React.FC<{
 
 const AreaOfStudyDescription: React.FC<{
     answers: {
-        AREA_OF_STUDEY?: string[] | null; 
+        AREA_OF_STUDEY?: string[] | null;
     }
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string[]) => void;
 }>
 
-= ({ nextStepHandler, answers, handleAnswer }) => {
-    const [selected, setSelected] = useState<string[]>(answers.AREA_OF_STUDEY || []);
+    = ({ nextStepHandler, answers, handleAnswer }) => {
+        const [selected, setSelected] = useState<string[]>(answers.AREA_OF_STUDEY || []);
 
-    const suggestions = [
-        "Engineering & Technology",
-        "Business, Management & Economics",
-        "Arts, Humanities & Social Sciences",
-        "Science (Biology, Chemistry, Physics, etc.)",
-        "Health & Life Sciences (Nursing, Medicine, Psychology, etc.)",
-        "Law, Public Policy & Political Science",
-        "Education & Teaching",
-        "Media, Communications & Journalism",
-        "Computer Science & Data (CS, AI, Data Science, etc.)",
-        "Architecture, Design & Visual Arts",
-        "Environment, Geography & Sustainability",
-        "Trades & Apprenticeship Programs",
-        "Undeclared / General Studies",
-        "Other / Not Listed",
-    ];
+        const suggestions = [
+            "Engineering & Technology",
+            "Business, Management & Economics",
+            "Arts, Humanities & Social Sciences",
+            "Science (Biology, Chemistry, Physics, etc.)",
+            "Health & Life Sciences (Nursing, Medicine, Psychology, etc.)",
+            "Law, Public Policy & Political Science",
+            "Education & Teaching",
+            "Media, Communications & Journalism",
+            "Computer Science & Data (CS, AI, Data Science, etc.)",
+            "Architecture, Design & Visual Arts",
+            "Environment, Geography & Sustainability",
+            "Trades & Apprenticeship Programs",
+            "Undeclared / General Studies",
+            "Other / Not Listed",
+        ];
 
-    const nextStep = () => {
-        handleAnswer(sectionName, 'AREA_OF_STUDEY', selected)
-        nextStepHandler()
-    }
+        const nextStep = () => {
+            handleAnswer(sectionName, 'AREA_OF_STUDEY', selected)
+            nextStepHandler()
+        }
 
-    return (
-        <div className="text-center ">
-            <p className="text-3xl text-[#B3322F] mb-10 px-10">What best describes your area of study?</p>
-            <div className='lg:w-[50%] md:w-[75%] mx-auto px-10'>
-            <MultiSelect
-                setSelected={setSelected}
-                options={suggestions}
-                selected={selected}
-            />
-            </div>
-          
-            <div className="mt-10">
+        return (
+            <div className="text-center ">
+                <p className="text-3xl text-[#B3322F] mb-10 px-10">What best describes your area of study?</p>
+                <div className='lg:w-[50%] md:w-[75%] mx-auto px-10'>
+                    <MultiSelect
+                        setSelected={setSelected}
+                        options={suggestions}
+                        selected={selected}
+                    />
+                </div>
+
+
                 <NextButton disabled={selected.length === 0} onClick={nextStep} />
+
             </div>
-        </div>
-    );
-};
+        );
+    };
 

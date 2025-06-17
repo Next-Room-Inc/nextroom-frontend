@@ -74,7 +74,7 @@ const sections = {
 }
 
 const Onboarding = () => {
-    console.log("==>>>",import.meta.env.VITE_GOOGLE_API_KEY)
+    console.log("==>>>", import.meta.env.VITE_GOOGLE_API_KEY)
     const navigate = useNavigate();  // Get navigate function
 
     const [exitForm, setExitForm] = useState(false);
@@ -108,10 +108,10 @@ const Onboarding = () => {
         console.log("hit")
         const currentIndex = sectionsList.indexOf(section);
         const nextIndex = currentIndex + 1;
-    
+
         if (nextIndex < sectionsList.length) {
             setSection(sectionsList[nextIndex]);
-        }else{
+        } else {
             navigate(ROUTES.STUDENTS_DASHBOARD)
         }
 
@@ -131,7 +131,7 @@ const Onboarding = () => {
 
                 {/* ReactConfetti */}
                 {
-                section === 'PROPERTY_SECTION' &&
+                    section === 'PROPERTY_SECTION' &&
                     formStep[section] === 0 &&
                     runConfetti && (
                         <motion.div
@@ -153,16 +153,16 @@ const Onboarding = () => {
                     ) : (
                         <>
                             {formStep[section] !== 0 && <FormStepper {...{ section, answers, setExitForm, setSection, formStep, changeStep }} />}
-                            <motion.div className="mt-15" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}>
-                                {section === 'PROPERTY_SECTION' && <PropertySection {...payload} />}
-                                {section === 'LIFE_STYLE_SECTION' && <LifeStyleSection {...payload} />}
-                                {section === 'ROOMMATES_SECTION' && <RoommateSection {...payload} />}
-                                {section === 'SITUATION_BASED_SECTION' && <SituationSection {...payload} />}
-                            </motion.div>
+                            {/* <motion.div className="mt-15" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}> */}
+                            {section === 'PROPERTY_SECTION' && <PropertySection {...payload} />}
+                            {section === 'LIFE_STYLE_SECTION' && <LifeStyleSection {...payload} />}
+                            {section === 'ROOMMATES_SECTION' && <RoommateSection {...payload} />}
+                            {section === 'SITUATION_BASED_SECTION' && <SituationSection {...payload} />}
+                            {/* </motion.div> */}
                         </>
                     )}
                 </OnboardingLayout>
-    
+
             </AnimatePresence>
         </>
     );
@@ -199,11 +199,11 @@ const FormStepper: React.FC<{
                 </div>
             )}
 
-            <div className="text-center flex items-end gap-3 md:px-30 px-10">
+            <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10">
                 {steps.map((step, index) => {
                     const progress = (totalAnswered(step.name as keyof AnswerSections) / totalQuestions(step.name as keyof AnswerSections)) * 100;
                     return (
-                        <div key={step.label + index} className="w-[25%] group">
+                        <div key={step.label + index} className={`${section === step.name ? 'w-[70%]' : 'w-[10%]'} md:w-[25%] group`}>
                             <motion.div className="text-black hidden md:block py-1 group-hover:opacity-100 opacity-0 shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white">
                                 {step.label}
                             </motion.div>

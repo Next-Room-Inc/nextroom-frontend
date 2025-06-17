@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, QuestionTitle, ShareSection, transitionVariants } from './CommonComponents';
+import { ArrowRightIcon } from '@heroicons/react/16/solid';
 const sectionName = 'SITUATION_BASED_SECTION'
 
 interface Params {
@@ -140,12 +141,12 @@ const DisruptionHandlingSection: React.FC<{
             </div>
 
             {/* Next button */}
-            <NextButton 
-            disabled={
-                answers.ROOMMATE_IMPAIRED_DISRUPTIVE === null ||
-                answers.LEFT_LIGHTS_ON_SHARED_UTILITIES === null 
-            }
-            onClick={nextStepHandler} />
+            <NextButton
+                disabled={
+                    answers.ROOMMATE_IMPAIRED_DISRUPTIVE === null ||
+                    answers.LEFT_LIGHTS_ON_SHARED_UTILITIES === null
+                }
+                onClick={nextStepHandler} />
 
         </>
     )
@@ -193,12 +194,12 @@ const ConflictAndSafetySection: React.FC<{
 
 
             {/* Next button */}
-            <NextButton 
-              disabled={
-                answers.ROOMMATE_WITH_ILLlCIT_SUBSTANCES === null ||
-                answers.ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION === null 
-            }
-            onClick={nextStepHandler} />
+            <NextButton
+                disabled={
+                    answers.ROOMMATE_WITH_ILLlCIT_SUBSTANCES === null ||
+                    answers.ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION === null
+                }
+                onClick={nextStepHandler} />
 
         </>
     )
@@ -245,7 +246,8 @@ const PartyAndMoneyConcernsSection: React.FC<{
                 </PrimaryButton>)}
             </div>
 
-
+            {answers.ROOMMATE_OWES_MONEY !== null && answers.FREQUENT_LOUD_PARTIES !== null &&
+            <>
             <img alt="" className="h-15 mt-20 mb-5 pr-1 mx-auto " src="/assets/img/icons/warningicon.svg" />
 
             <p className='px-10'>
@@ -253,14 +255,16 @@ const PartyAndMoneyConcernsSection: React.FC<{
                 an issue puts yourself and others at risk. Use our reporting tools if you need help. <br />
                 If the situation puts you in immediate danger,<span className='font-bold'> always call 911 first.</span>
             </p>
+            </>}
+
 
             {/* Next button */}
-            <NextButton 
-               disabled={
-                answers.FREQUENT_LOUD_PARTIES === null ||
-                answers.ROOMMATE_OWES_MONEY === null 
-            }
-            onClick={nextStepHandler} />
+            <NextButton
+                disabled={
+                    answers.FREQUENT_LOUD_PARTIES === null ||
+                    answers.ROOMMATE_OWES_MONEY === null
+                }
+                onClick={nextStepHandler} />
 
         </>
     )
@@ -289,8 +293,8 @@ const AllSetSection: React.FC<{
             <ShareSection />
 
             {/* Next button */}
-            <PrimaryButton onClick={nextSectionHandler} selected={true} className='mx-auto bg-black mt-10' icon={ICONS.ARROW_RIGHT_WHITE} >
-                Find Me A Home
+            <PrimaryButton onClick={nextSectionHandler} selected={true} className='mx-auto bg-black mt-10 border'  >
+                Find Me A Home <ArrowRightIcon className=' ml-2 mt-0.5 w-5' />
             </PrimaryButton>
 
             <p className='text-center mt-5 '>
