@@ -10,6 +10,7 @@ import Offers from "../pages/offers/Offers";
 import ForgotPassword from "../pages/authentication/ForgotPassword";
 import ResetPassword from "../pages/authentication/ResetPassword";
 import Onboarding from "../pages/onboarding/Onboarding";
+import SearchProperty from "../pages/search-property/SearchProperty";
 
 export const routes = createBrowserRouter([
   {
@@ -56,8 +57,8 @@ export const routes = createBrowserRouter([
     errorElement: <NotFoundErrorPage />,
   },
   {
-    path: ROUTES.STUDENTS_DASHBOARD,
-    element: <UnderConstruction />,
+    path: ROUTES.SEARCH_PROPERTY,
+    element: <SearchProperty />,
     errorElement: <NotFoundErrorPage />,
   },
   {

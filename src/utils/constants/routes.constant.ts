@@ -10,4 +10,5 @@ export const ROUTES = {
   UNDER_CONSTRUCTION: "/under-construction",
   // students
   STUDENTS_DASHBOARD: "/students-dashboard",
+  SEARCH_PROPERTY: "/search-property",
 };
