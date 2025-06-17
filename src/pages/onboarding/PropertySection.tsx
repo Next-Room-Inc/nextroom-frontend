@@ -13,6 +13,8 @@ interface PropertySectionParams {
     nextStepHandler: () => void;
     previousStepHandler: () => void;
     nextSectionHandler: () => void;
+    runConfettiHandler: () => void;
+    setRunConfetti: (value: boolean) => void;
     propertyValue: number;
     answers: Record<string, unknown>; // Assuming unknown type for answers keys
     handleAnswer: (section: string, field: string, value: unknown) => void;
@@ -29,7 +31,9 @@ const PropertySection = (props: any) => {
         handleAnswer,
         nextStepHandler,
         previousStepHandler,
-        nextSectionHandler
+        nextSectionHandler,
+        runConfettiHandler,
+        setRunConfetti,
 
     } = props
     const name = "Paul Brooks";
@@ -46,7 +50,9 @@ const PropertySection = (props: any) => {
         handleAnswer,
         exitForm,
         setExitForm,
-        nextSectionHandler
+        nextSectionHandler,
+        runConfettiHandler,
+        setRunConfetti
     };
 
     const formSteps = [
@@ -217,14 +223,34 @@ const RoommatesSection: React.FC<{
     const increment = () => { handleAnswer('PROPERTY_SECTION', 'ROOMMATE_COUNT', count + 1) }
     const decrement = () => { if (count > 0) handleAnswer('PROPERTY_SECTION', 'ROOMMATE_COUNT', count - 1) }
 
+    const [error, setError] = useState(false)
+
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.BRINGING_ROOMMATES === null) {
+            const section = document.getElementById('BRINGING_ROOMMATES');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        else if (answers.NEED_ROOMMATE_MATCHING === null) {
+            const section = document.getElementById('NEED_ROOMMATE_MATCHING');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.BRINGING_ROOMMATES === null || answers.NEED_ROOMMATE_MATCHING === null
+
     return (
         <>
-            <p className='text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto'> Would you like to bring any roommates? </p>
+            <div id="BRINGING_ROOMMATES" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.BRINGING_ROOMMATES === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto'> Would you like to bring any roommates? </p>
 
-            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
-                <PrimaryButton selected={answers?.BRINGING_ROOMMATES === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'BRINGING_ROOMMATES', 'Yes')} > Yes </PrimaryButton>
-                <PrimaryButton selected={answers?.BRINGING_ROOMMATES === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'BRINGING_ROOMMATES', 'No')} > No </PrimaryButton>
+                <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
+                    <PrimaryButton selected={answers?.BRINGING_ROOMMATES === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'BRINGING_ROOMMATES', 'Yes')} > Yes </PrimaryButton>
+                    <PrimaryButton selected={answers?.BRINGING_ROOMMATES === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'BRINGING_ROOMMATES', 'No')} > No </PrimaryButton>
+                </div>
             </div>
+
+
 
             <p className='text-2xl text-[#B3322F] mt-12 font-semibold w-full  px-10 text-center mx-auto'> How many roommates are joining you? </p>
 
@@ -268,20 +294,16 @@ const RoommatesSection: React.FC<{
             </div>
 
 
-            <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
-            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
-                <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'Yes')}> Yes </PrimaryButton>
-                <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'No')} > No </PrimaryButton>
+            <div id="NEED_ROOMMATE_MATCHING" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.NEED_ROOMMATE_MATCHING === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
+                <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
+                    <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'Yes')}> Yes </PrimaryButton>
+                    <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'No')} > No </PrimaryButton>
+                </div>
             </div>
 
             {
-                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton
-                    disabled={
-                        answers.BRINGING_ROOMMATES === null ||
-                        answers.ROOMMATE_COUNT === null ||
-                        answers.NEED_ROOMMATE_MATCHING === null
-
-                    } onClick={() => nextSectionHandler()} />
+                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton onClick={disabled ? scrollHandler : nextSectionHandler} />
             }
 
 
@@ -319,30 +341,45 @@ const LookingForSection: React.FC<{
         }
     ]
 
+    const [error, setError] = useState(false)
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.RENTAL_PREFERENCE === null) {
+            const section = document.getElementById('RENTAL_PREFERENCE');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.RENTAL_PREFERENCE === null
+
     return (
         <>
-            <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
+            <div id="RENTAL_PREFERENCE" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.RENTAL_PREFERENCE === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
 
-            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-10 text-md px-10'>
-                {rentalTypes.map(RENTAL_TYPE => (
-                    <div className='w-full  md:w-auto group'>
-                        <p className='max-w-[200px] text-[8px] group-hover:opacity-100 opacity-0 mx-auto shadow-[#D9D9D9] drop-shadow-xl shadow-md bg-white px-2  mb-3 py-2 hidden md:flex'>{RENTAL_TYPE.details}</p>
-                        <button
-                            onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_PREFERENCE', RENTAL_TYPE.name)}
-                            className={`${answers.RENTAL_PREFERENCE === RENTAL_TYPE.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}>
-                            <div className='flex gap-2  w-full justify-center'>
-                                <img alt="" className="h-5 " src={`/assets/img/icons/${RENTAL_TYPE.icon}`} />
-                                {RENTAL_TYPE.name}
-                            </div>
+                <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-10 text-md px-10'>
+                    {rentalTypes.map(RENTAL_TYPE => (
+                        <div className='w-full  md:w-auto group'>
+                            <p className='max-w-[200px] text-[8px] group-hover:opacity-100 opacity-0 mx-auto shadow-[#D9D9D9] drop-shadow-xl shadow-md bg-white px-2  mb-3 py-2 hidden md:flex'>{RENTAL_TYPE.details}</p>
+                            <button
+                                onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_PREFERENCE', RENTAL_TYPE.name)}
+                                className={` border border-white ${answers.RENTAL_PREFERENCE === RENTAL_TYPE.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}>
+                                <div className='flex gap-2  w-full justify-center'>
+                                    <img alt="" className="h-5 " src={`/assets/img/icons/${RENTAL_TYPE.icon}`} />
+                                    {RENTAL_TYPE.name}
+                                </div>
 
-                            <img alt="" className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
-                        </button>
+                                <img alt="" className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
+                            </button>
 
-                    </div>
-                ))}
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            <NextButton disabled={answers.RENTAL_PREFERENCE === null} onClick={nextStepHandler} />
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            </div>
 
         </>
     )
@@ -352,8 +389,10 @@ const LookingForSection: React.FC<{
 const WhereToBeLocatedSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
+    runConfettiHandler: () => void;
+    setRunConfetti: (value: string) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, runConfettiHandler, setRunConfetti }) => {
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
 
     const [search, setSearch] = useState('');
@@ -420,40 +459,62 @@ const WhereToBeLocatedSection: React.FC<{
 
     console.log(loading)
 
+    const [error, setError] = useState(false)
+
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.PREFERRED_LOCATION === null) {
+            const section = document.getElementById('PREFERRED_LOCATION');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.PREFERRED_LOCATION === null
+
+
+
     return (
         <>
-            <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
+            <div id="PREFERRED_LOCATION" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.PREFERRED_LOCATION === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
 
-            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
-                <PrimaryButton selected={answers.PREFERRED_LOCATION === "Surprise Me"} onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION', 'Surprise Me')} > I Don’t Know Yet - Surprise Me </PrimaryButton>
-                <PrimaryButton selected={answers.PREFERRED_LOCATION !== "Surprise Me" && answers.PREFERRED_LOCATION !== null} onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION', '')} > I Have A Preferred Area </PrimaryButton>
-            </div>
-
-            {answers.PREFERRED_LOCATION !== "Surprise Me" && answers.PREFERRED_LOCATION !== null &&
-                <div className='px-10 md:px-0 mt-12'>
-                    {/* Google Search */}
-                    <div className='shadow-[#D9D9D9] mb-3  md:w-[50%] pl-4 pr-8 py-2 mx-auto rounded-full drop-shadow-md shadow-md bg-white mt-5 flex items-center  justify-center gap-3'>
-                        <input
-                            onChange={(e) => setSearch(e.target.value)}
-                            value={search}
-                            placeholder='Start searching for your preferred area or address (e.g. The Glebe or Rideau Centre)'
-                            className=' focus:outline-none  w-full px-2 py-2'
-                        />
-                        <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" />
-                    </div>
-                    {/* Google Suggestion */}
-                    {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>
-                        {suggestions.map(searchString => (
-                            <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.PREFERRED_LOCATION_NAME ? 'bg-gray-200' : ''}`}
-                                onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION_NAME', searchString)} >
-                                <img alt="" className="h-3" src="assets/img/icons/location_logo.svg" />
-                                {searchString}
-                            </div>
-                        ))}
-                    </div>}
+                <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
+                    <PrimaryButton selected={answers.PREFERRED_LOCATION === "Surprise Me"} onClick={() => {
+                        setRunConfetti(true);
+                        runConfettiHandler();
+                        handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION', 'Surprise Me')
+                    }} > I Don’t Know Yet - Surprise Me </PrimaryButton>
+                    <PrimaryButton selected={answers.PREFERRED_LOCATION !== "Surprise Me" && answers.PREFERRED_LOCATION !== null} onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION', '')} > I Have A Preferred Area </PrimaryButton>
                 </div>
-            }
-            <NextButton disabled={answers.PREFERRED_LOCATION === null} onClick={nextStepHandler} />
+
+                {answers.PREFERRED_LOCATION !== "Surprise Me" && answers.PREFERRED_LOCATION !== null &&
+                    <div className='px-10 md:px-0 mt-12'>
+                        {/* Google Search */}
+                        <div className='shadow-[#D9D9D9] mb-3  md:w-[50%] pl-4 pr-8 py-2 mx-auto rounded-full drop-shadow-md shadow-md bg-white mt-5 flex items-center  justify-center gap-3'>
+                            <input
+                                onChange={(e) => setSearch(e.target.value)}
+                                value={search}
+                                placeholder='Start searching for your preferred area or address (e.g. The Glebe or Rideau Centre)'
+                                className=' focus:outline-none  w-full px-2 py-2'
+                            />
+                            <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" />
+                        </div>
+                        {/* Google Suggestion */}
+                        {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>
+                            {suggestions.map(searchString => (
+                                <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.PREFERRED_LOCATION_NAME ? 'bg-gray-200' : ''}`}
+                                    onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION_NAME', searchString)} >
+                                    <img alt="" className="h-3" src="assets/img/icons/location_logo.svg" />
+                                    {searchString}
+                                </div>
+                            ))}
+                        </div>}
+                    </div>
+                }
+            </div >
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            </div>
         </>
     )
 }
@@ -465,6 +526,7 @@ const CloseToCampusSection: React.FC<{
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
 }> = ({ nextStepHandler, handleAnswer, answers }) => {
     // const [value, setValue] = useState(1200);
+    const [error, setError] = useState(false)
     const min = 1;
     const max = 20;
     const value = Number(answers?.DISTANCE_FROM_CAMPUS ?? min);
@@ -475,35 +537,51 @@ const CloseToCampusSection: React.FC<{
         return `calc(${percentage}% - 24px)`; // Adjust the offset to center the label
     };
 
+
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.DISTANCE_FROM_CAMPUS === null) {
+            const section = document.getElementById('DISTANCE_FROM_CAMPUS');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.DISTANCE_FROM_CAMPUS === null
+
     return (
         <>
-            <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> How close to campus is your preferred rental? </p>
-            <div className="mt-10  px-10 md:px-50">
-                <div className="flex justify-between text-black font-semibold mb-2">
-                    <p>{min} km</p>
-                    <p>{max} km</p>
-                </div>
-                <div className="relative w-full">
-                    {/* Slider */}
-                    <input
-                        type="range"
-                        className="custom-slider w-full"
-                        min={min}
-                        max={max}
-                        value={value}
-                        onChange={(e) => handleAnswer('PROPERTY_SECTION', 'DISTANCE_FROM_CAMPUS', Number(e.target.value))}
-                    />
-                    {/* Moving label */}
-                    <div
-                        className="absolute top-8  font-bold text-sm w-max"
-                        style={{ left: getLeftPosition() }}
-                    >
-                        {value} km
+            <div id="DISTANCE_FROM_CAMPUS" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.DISTANCE_FROM_CAMPUS === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> How close to campus is your preferred rental? </p>
+                <div className="mt-10  px-10 md:px-50">
+                    <div className="flex justify-between text-black font-semibold mb-2">
+                        <p>{min} km</p>
+                        <p>{max} km</p>
+                    </div>
+                    <div className="relative w-full">
+                        {/* Slider */}
+                        <input
+                            type="range"
+                            className="custom-slider w-full"
+                            min={min}
+                            max={max}
+                            value={value}
+                            onChange={(e) => handleAnswer('PROPERTY_SECTION', 'DISTANCE_FROM_CAMPUS', Number(e.target.value))}
+                        />
+                        {/* Moving label */}
+                        <div
+                            className="absolute top-8  font-bold text-sm w-max"
+                            style={{ left: getLeftPosition() }}
+                        >
+                            {value} km
+                        </div>
                     </div>
                 </div>
+
             </div>
 
-            <NextButton disabled={answers.DISTANCE_FROM_CAMPUS === null} onClick={nextStepHandler} />
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            </div>
 
         </>
     )
@@ -515,6 +593,7 @@ const BudgetSection: React.FC<{
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
 }> = ({ nextStepHandler, handleAnswer, answers }) => {
+    const [error, setError] = useState(false)
     const min = 500;
     const max = 2000;
 
@@ -527,40 +606,56 @@ const BudgetSection: React.FC<{
         return `calc(${percentage}% - 24px)`; // Center the label
     };
 
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.MONTHLY_BUDGET === null) {
+            const section = document.getElementById('MONTHLY_BUDGET');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.MONTHLY_BUDGET === null
+
     return (
         <>
-            <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'>
-                What is your monthly budget?
-            </p>
 
-            <div className="mt-10  px-10 md:px-50">
-                <div className="flex justify-between text-black font-semibold mb-2">
-                    <p>$500</p>
-                    <p>$2000</p>
-                </div>
+            <div id="MONTHLY_BUDGET" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.MONTHLY_BUDGET === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'>
+                    What is your monthly budget?
+                </p>
 
-                <div className="relative w-full">
-                    {/* Slider */}
-                    <input
-                        type="range"
-                        className="custom-slider w-full"
-                        min={min}
-                        max={max}
-                        value={MONTHLY_BUDGET}
-                        onChange={(e) => handleAnswer('PROPERTY_SECTION', 'MONTHLY_BUDGET', Number(e.target.value))}
-                    />
+                <div className="mt-10  px-10 md:px-50">
+                    <div className="flex justify-between text-black font-semibold mb-2">
+                        <p>$500</p>
+                        <p>$2000</p>
+                    </div>
 
-                    {/* Moving label */}
-                    <div
-                        className="absolute top-8 font-bold text-sm"
-                        style={{ left: getLeftPosition() }}
-                    >
-                        ${MONTHLY_BUDGET}
+                    <div className="relative w-full">
+                        {/* Slider */}
+                        <input
+                            type="range"
+                            className="custom-slider w-full"
+                            min={min}
+                            max={max}
+                            value={MONTHLY_BUDGET}
+                            onChange={(e) => handleAnswer('PROPERTY_SECTION', 'MONTHLY_BUDGET', Number(e.target.value))}
+                        />
+
+                        {/* Moving label */}
+                        <div
+                            className="absolute top-8 font-bold text-sm"
+                            style={{ left: getLeftPosition() }}
+                        >
+                            ${MONTHLY_BUDGET}
+                        </div>
                     </div>
                 </div>
+
             </div>
 
-            <NextButton disabled={answers.MONTHLY_BUDGET === null} onClick={nextStepHandler} />
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            </div>
         </>
     );
 };
@@ -572,6 +667,7 @@ const HowLongToStaySection: React.FC<{
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
 }> = ({ nextStepHandler, handleAnswer, answers }) => {
     const dateInputRef = useRef<HTMLInputElement>(null);
+    const [error, setError] = useState(false)
 
     const handleDateWrapperClick = () => {
         if (dateInputRef.current) {
@@ -580,29 +676,44 @@ const HowLongToStaySection: React.FC<{
         }
     };
 
+
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.STAY_DURATION === null) {
+            const section = document.getElementById('STAY_DURATION');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.STAY_DURATION === null
+
     return (
         <>
-            <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> How long is your stay? </p>
-            <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
-                <PrimaryButton selected={answers.STAY_DURATION === '4 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '4 Months')}  > 4 Months </PrimaryButton>
-                <PrimaryButton selected={answers.STAY_DURATION === '6 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '6 Months')} > 6 Months </PrimaryButton>
-                <PrimaryButton selected={answers.STAY_DURATION === '8 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '8 Months')} > 8 Months </PrimaryButton>
-                <PrimaryButton selected={answers.STAY_DURATION === '12 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '12 Months')}> 12 Months </PrimaryButton>
-            </div>
-            <div className={`
+            <div id="STAY_DURATION" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.STAY_DURATION === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> How long is your stay? </p>
+                <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
+                    <PrimaryButton selected={answers.STAY_DURATION === '4 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '4 Months')}  > 4 Months </PrimaryButton>
+                    <PrimaryButton selected={answers.STAY_DURATION === '6 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '6 Months')} > 6 Months </PrimaryButton>
+                    <PrimaryButton selected={answers.STAY_DURATION === '8 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '8 Months')} > 8 Months </PrimaryButton>
+                    <PrimaryButton selected={answers.STAY_DURATION === '12 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '12 Months')}> 12 Months </PrimaryButton>
+                </div>
+                <div className={`border border-white 
                 ${(
-                    answers.STAY_DURATION !== '4 Months' &&
-                    answers.STAY_DURATION !== '6 Months' &&
-                    answers.STAY_DURATION !== '8 Months' &&
-                    answers.STAY_DURATION !== '12 Months' &&
-                    answers.STAY_DURATION !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9]"}
+                        answers.STAY_DURATION !== '4 Months' &&
+                        answers.STAY_DURATION !== '6 Months' &&
+                        answers.STAY_DURATION !== '8 Months' &&
+                        answers.STAY_DURATION !== '12 Months' &&
+                        answers.STAY_DURATION !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9]"}
                  mt-6 md:mt-10 rounded-full mx-15 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>
-                <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
+                    <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
+                </div>
+
+
+            </div >
+
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
             </div>
-
-
-
-            <NextButton disabled={answers.STAY_DURATION === null} onClick={nextStepHandler} />
 
 
         </>
@@ -654,7 +765,7 @@ const WhenYouAreMovingSection: React.FC<{
 
             </div>
 
-            <div className="mt-">
+            <div className="md:relative sticky bottom-4">
                 <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
             </div>
 

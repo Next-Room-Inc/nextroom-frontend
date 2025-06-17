@@ -175,16 +175,38 @@ const WhatDoYouEnjoySections: React.FC<{
         { title: 'Social', options: socialOptions, selected: selectedSocials, setSelected: setSelectedSocials, img: 'social.svg' },
         { title: 'Staying In', options: stayingInOptions, selected: selectedStayingIn, setSelected: setSelectedStayingIn, img: 'staying_in.svg' },
         { title: 'Causes', options: causesInOptions, selected: selectedCauses, setSelected: setSelectedCauses, img: 'causes.svg' },
-        { title: 'Personal', options: personalInOptions, selected: selectedPersonal, setSelected: setSelectedPersonal, img: 'personal.svg' }
+        { title: '', options: personalInOptions, selected: selectedPersonal, setSelected: setSelectedPersonal, img: 'personal.svg' }
     ];
+
+    const [error, setError] = useState(false)
+
+
+    const scrollHandler = () => {
+        setError(true)
+        if (selectedSocials.length < 1) {
+            const section = document.getElementById('Social');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (selectedStayingIn.length < 1) {
+            const section = document.getElementById('Staying In');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (selectedCauses.length < 1) {
+            const section = document.getElementById('Causes');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (selectedPersonal.length < 1) {
+            const section = document.getElementById('Personal');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = selectedSocials.length < 1 || selectedStayingIn.length < 1 || selectedCauses.length < 1 || selectedPersonal.length < 1
 
     return (
         <>
             <QuestionTitle>What Do You Enjoy?</QuestionTitle>
 
-            <div className="flex flex-wrap justify-center gap-6 md:px-16 px-10 mt-10">
+            <div className="flex flex-wrap justify-center gap-6 md:px-16 mt-10">
                 {sections.map(({ title, options, selected, setSelected, img }) => (
-                    <div key={title} className="w-full sm:w-[45%] lg:w-[23%]">
+                    <div id={title} key={title}  className={`w-full sm:w-[45%] lg:w-[23%] rounded-2xl mx-1 md:px-2 px-10 py-5 ${error && selected.length < 1 ? "bg-[#B3322F]/20" : ""}`} >
                         <p className="justify-center items-center bg-[#B3322F] text-white rounded-full   mb-4 flex w-full">
                             <span className=' '>{title}  </span>
                             <img alt="" className="h-10 " src={`/assets/img/icons/${img}`} />
@@ -199,7 +221,9 @@ const WhatDoYouEnjoySections: React.FC<{
             </div>
 
 
-            <NextButton onClick={nextStep} />
+            <div className="md:relative sticky bottom-4">
+                    <NextButton onClick={disabled ? scrollHandler : nextStep} />
+                </div>
 
         </>
     );
@@ -214,42 +238,67 @@ const BedTimeSections: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
 }> = ({ nextStepHandler, answers, handleAnswer }) => {
+
+    const [error, setError] = useState(false)
+
+
+
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.GOING_OUT === null) {
+            const section = document.getElementById('GOING_OUT');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        else if (answers.BED_TIME === null) {
+            const section = document.getElementById('BED_TIME');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.GOING_OUT === null || answers.BED_TIME === null
+
     return (
         <>
-            <QuestionTitle>
-                How do you feel about going out (e.g. clubbing or partying)?
-            </QuestionTitle>
+            <div id="GOING_OUT" className={`  rounded-2xl mx-1 py-10 ${error && answers.GOING_OUT === null ? "bg-[#B3322F]/20" : ""}`}>
+                <QuestionTitle>
+                    How do you feel about going out (e.g. clubbing or partying)?
+                </QuestionTitle>
 
-            <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
-                {[
-                    { name: 'Never', value: 'Never' },
-                    { name: 'Open To It', value: 'Open To It' },
-                    { name: 'Occasionally', value: 'Occasionally' },
-                    { name: 'Frequently', value: 'Frequently' },
+                <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
+                    {[
+                        { name: 'Never', value: 'Never' },
+                        { name: 'Open To It', value: 'Open To It' },
+                        { name: 'Occasionally', value: 'Occasionally' },
+                        { name: 'Frequently', value: 'Frequently' },
 
-                ].map(btn => <PrimaryButton selected={answers.GOING_OUT === btn.value} onClick={() => handleAnswer(sectionName, 'GOING_OUT', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
+                    ].map(btn => <PrimaryButton selected={answers.GOING_OUT === btn.value} onClick={() => handleAnswer(sectionName, 'GOING_OUT', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
 
-            </div>
-            <p className='text-2xl text-[#B3322F]  w-full my-20 px-10 text-center mx-auto font-semibold'>
-
-                What time do you typically go to bed?
-            </p>
-
-            <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center text-md px-10'>
-                {[
-                    { name: 'Before 10PM ', value: 'Before 10PM ' },
-                    { name: 'Around 11PM', value: 'Around 11PM' },
-                    { name: 'Midnight', value: 'Midnight' },
-                    { name: 'After 1AM', value: 'After 1AM' },
-
-                ].map(btn => <PrimaryButton selected={answers.BED_TIME === btn.value} onClick={() => handleAnswer(sectionName, 'BED_TIME', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
+                </div>
             </div>
 
-            <NextButton disabled={answers.GOING_OUT === null || answers.BED_TIME === null} onClick={nextStepHandler} />
+            <div id="BED_TIME" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.BED_TIME === null ? "bg-[#B3322F]/20" : ""}`}>
+                <QuestionTitle>
+                    What time do you typically go to bed?
+                </QuestionTitle>
+
+                <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center text-md px-10 mt-10'>
+                    {[
+                        { name: 'Before 10PM ', value: 'Before 10PM ' },
+                        { name: 'Around 11PM', value: 'Around 11PM' },
+                        { name: 'Midnight', value: 'Midnight' },
+                        { name: 'After 1AM', value: 'After 1AM' },
+
+                    ].map(btn => <PrimaryButton selected={answers.BED_TIME === btn.value} onClick={() => handleAnswer(sectionName, 'BED_TIME', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
+                </div>
+            </div>
+
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            </div>
 
         </>
     )
@@ -263,41 +312,62 @@ const LifestylePreferencesSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
 }> = ({ nextStepHandler, answers, handleAnswer }) => {
+
+
+    const [error, setError] = useState(false)
+
+
+
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.RECREATIONAL_SUBSTANCES === null) {
+            const section = document.getElementById('RECREATIONAL_SUBSTANCES');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (answers.AT_HOME === null) {
+            const section = document.getElementById('AT_HOME');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.RECREATIONAL_SUBSTANCES === null || answers.AT_HOME === null
+
     return (
         <>
-            <p className="text-2xl text-[#B3322F] w-full mt-10 px-10 text-center mx-auto font-semibold">
-                How often do you use recreational substances (e.g. cannabis)?
-            </p>
 
-            <div className="flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10">
-                {[
-                    { name: 'Never', value: 'Never' },
-                    { name: 'Occasionally', value: 'Occasionally' },
-                    { name: 'On Special Occasions', value: 'On Special Occasions' },
-                    { name: 'Frequently', value: 'Frequently' },
+            <div id="RECREATIONAL_SUBSTANCES" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.RECREATIONAL_SUBSTANCES === null ? "bg-[#B3322F]/20" : ""}`}>
+                <QuestionTitle>How often do you use recreational substances (e.g. cannabis)?</QuestionTitle>
+                <div className="flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10">
+                    {[
+                        { name: 'Never', value: 'Never' },
+                        { name: 'Occasionally', value: 'Occasionally' },
+                        { name: 'On Special Occasions', value: 'On Special Occasions' },
+                        { name: 'Frequently', value: 'Frequently' },
 
-                ].map(btn => <PrimaryButton selected={answers.RECREATIONAL_SUBSTANCES === btn.value} onClick={() => handleAnswer(sectionName, 'RECREATIONAL_SUBSTANCES', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
+                    ].map(btn => <PrimaryButton selected={answers.RECREATIONAL_SUBSTANCES === btn.value} onClick={() => handleAnswer(sectionName, 'RECREATIONAL_SUBSTANCES', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
+                </div>
             </div>
 
-            <p className="text-2xl text-[#B3322F] w-full my-20 px-10 text-center mx-auto font-semibold">
-                How tidy are you at home?
-            </p>
 
-            <div className="flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center text-md px-10">
-                {[
-                    { name: 'Very Tidy', value: 'Very Tidy' },
-                    { name: 'Pretty Clean', value: 'Pretty Clean' },
-                    { name: 'Average', value: 'Average' },
-                    { name: 'Messy', value: 'Messy' },
+            <div id="AT_HOME" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.AT_HOME === null ? "bg-[#B3322F]/20" : ""}`}>
+                <QuestionTitle>How tidy are you at home?</QuestionTitle>
+                <div className="flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center text-md px-10 mt-10">
+                    {[
+                        { name: 'Very Tidy', value: 'Very Tidy' },
+                        { name: 'Pretty Clean', value: 'Pretty Clean' },
+                        { name: 'Average', value: 'Average' },
+                        { name: 'Messy', value: 'Messy' },
 
-                ].map(btn => <PrimaryButton selected={answers.AT_HOME === btn.value} onClick={() => handleAnswer(sectionName, 'AT_HOME', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
+                    ].map(btn => <PrimaryButton selected={answers.AT_HOME === btn.value} onClick={() => handleAnswer(sectionName, 'AT_HOME', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
+                </div>
             </div>
 
-            <NextButton disabled={answers.RECREATIONAL_SUBSTANCES === null || answers.AT_HOME === null} onClick={nextStepHandler} />
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            </div>
 
         </>
     );
@@ -315,41 +385,70 @@ const DrinkAndSmokeSection: React.FC<{
     handleAnswer: (section: string, field: string, value: string) => void;
 }> = ({ nextStepHandler, answers, handleAnswer }) => {
 
+
+
+    const [error, setError] = useState(false)
+
+
+
+    const scrollHandler = () => {
+        setError(true)
+        if (answers.OFTEN_DRINK === null) {
+            const section = document.getElementById('OFTEN_DRINK');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else if (answers.OFTEN_SMOKE === null) {
+            const section = document.getElementById('OFTEN_SMOKE');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
+    const disabled = answers.OFTEN_DRINK === null || answers.OFTEN_SMOKE === null
+
     return (
         <>
-            <QuestionTitle>
-                How often do you drink?
-            </QuestionTitle>
 
-            <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
-                {[
-                    { name: 'Never', value: 'Never' },
-                    { name: 'On Special Occasions', value: 'On Special Occasions' },
-                    { name: 'Socially On Weekends', value: 'Socially On Weekends' },
-                    { name: 'Most Nights', value: 'Most Nights' },
+            <div id="OFTEN_DRINK" className={`rounded-2xl mx-1 py-10 ${error && answers.OFTEN_DRINK === null ? "bg-[#B3322F]/20" : ""}`}>
+                <QuestionTitle>
+                    How often do you drink?
+                </QuestionTitle>
 
-                ].map(btn => <PrimaryButton selected={answers.OFTEN_DRINK === btn.value} onClick={() => handleAnswer(sectionName, 'OFTEN_DRINK', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
-            </div>
-            <p className='text-2xl text-[#B3322F]  w-full my-20 px-10 text-center mx-auto font-semibold'>
-                How often do you smoke?
-            </p>
+                <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
+                    {[
+                        { name: 'Never', value: 'Never' },
+                        { name: 'On Special Occasions', value: 'On Special Occasions' },
+                        { name: 'Socially On Weekends', value: 'Socially On Weekends' },
+                        { name: 'Most Nights', value: 'Most Nights' },
 
-            <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center text-md px-10'>
-
-                {[
-                    { name: 'Never', value: 'Never' },
-                    { name: 'Trying To Quit', value: 'Trying To Quit' },
-                    { name: 'Occasionally', value: 'Occasionally' },
-                    { name: 'Frequently', value: 'Frequently' },
-
-                ].map(btn => <PrimaryButton selected={answers.OFTEN_SMOKE === btn.value} onClick={() => handleAnswer(sectionName, 'OFTEN_SMOKE', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
+                    ].map(btn => <PrimaryButton selected={answers.OFTEN_DRINK === btn.value} onClick={() => handleAnswer(sectionName, 'OFTEN_DRINK', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
+                </div>
             </div>
 
-            <NextButton disabled={answers.OFTEN_DRINK === null || answers.OFTEN_SMOKE === null} onClick={nextStepHandler} />
+
+            <div id="OFTEN_SMOKE" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.OFTEN_SMOKE === null ? "bg-[#B3322F]/20" : ""}`}>
+                <QuestionTitle>
+                    How often do you smoke?
+                </QuestionTitle>
+
+                <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center text-md px-10 mt-15'>
+
+                    {[
+                        { name: 'Never', value: 'Never' },
+                        { name: 'Trying To Quit', value: 'Trying To Quit' },
+                        { name: 'Occasionally', value: 'Occasionally' },
+                        { name: 'Frequently', value: 'Frequently' },
+
+                    ].map(btn => <PrimaryButton selected={answers.OFTEN_SMOKE === btn.value} onClick={() => handleAnswer(sectionName, 'OFTEN_SMOKE', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
+                </div>
+            </div>
+
+
+            <div className="md:relative sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            </div>
 
         </>
     )
@@ -383,6 +482,7 @@ const AreaOfStudyDescription: React.FC<{
 
     = ({ nextStepHandler, answers, handleAnswer }) => {
         const [selected, setSelected] = useState<string[]>(answers.AREA_OF_STUDEY || []);
+        const [error, setError] = useState(false)
 
         const suggestions = [
             "Engineering & Technology",
@@ -406,19 +506,34 @@ const AreaOfStudyDescription: React.FC<{
             nextStepHandler()
         }
 
+        const disabled = selected.length < 1
+
+        const scrollHandler = () => {
+            setError(true)
+            if (disabled) {
+                const section = document.getElementById('AREA_OF_STUDEY');
+                section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+
         return (
+
             <div className="text-center ">
-                <p className="text-3xl text-[#B3322F] mb-10 px-10">What best describes your area of study?</p>
-                <div className='lg:w-[50%] md:w-[75%] mx-auto px-10'>
-                    <MultiSelect
-                        setSelected={setSelected}
-                        options={suggestions}
-                        selected={selected}
-                    />
+                <div id="AREA_OF_STUDEY" className={`mt-10 rounded-2xl mx-1 py-10 ${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
+                    <p className="text-3xl text-[#B3322F] mb-10 px-10">What best describes your area of study?</p>
+                    <div className='lg:w-[50%] md:w-[75%] mx-auto px-10'>
+                        <MultiSelect
+                            setSelected={setSelected}
+                            options={suggestions}
+                            selected={selected}
+                        />
+                    </div>
                 </div>
 
-
-                <NextButton disabled={selected.length === 0} onClick={nextStep} />
+                <div className="md:relative sticky bottom-4">
+                    <NextButton onClick={disabled ? scrollHandler : nextStep} />
+                </div>
 
             </div>
         );

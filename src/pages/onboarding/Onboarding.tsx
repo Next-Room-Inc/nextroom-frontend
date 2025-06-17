@@ -81,6 +81,8 @@ const Onboarding = () => {
     const [section, setSection] = useState<keyof AnswerSections>('PROPERTY_SECTION');
     const [formStep, setFormStep] = useState({ PROPERTY_SECTION: 0, LIFE_STYLE_SECTION: 0, ROOMMATES_SECTION: 0, SITUATION_BASED_SECTION: 0 });
     const [answers, setAnswers] = useState<AnswerSections>(sections);
+    const [runConfetti, setRunConfetti] = useState(true);
+
 
     const handleAnswer = (section: keyof AnswerSections, field: string, value: unknown) => {
         setAnswers(prev => ({ ...prev, [section]: { ...prev[section], [field]: value } }));
@@ -117,23 +119,24 @@ const Onboarding = () => {
 
     };
 
+    const runConfettiHandler = () => setTimeout(() => { setRunConfetti(false); }, 10000);
 
-    const payload = { answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler, nextSectionHandler };
+    const payload = { setRunConfetti, runConfettiHandler, answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler, nextSectionHandler };
+    runConfettiHandler()
 
 
-    const [runConfetti, setRunConfetti] = useState(true);
-    setTimeout(() => {
-        setRunConfetti(false);
-    }, 10000);
+
     return (
         <>
             <AnimatePresence>
 
                 {/* ReactConfetti */}
-                {
-                    section === 'PROPERTY_SECTION' &&
-                    formStep[section] === 0 &&
-                    runConfetti && (
+                {(
+                    (section === 'PROPERTY_SECTION' &&
+                        formStep[section] === 0 &&
+                        runConfetti) ||
+                    (answers['PROPERTY_SECTION']?.PREFERRED_LOCATION === 'Surprise Me' &&  runConfetti)
+                ) && (
                         <motion.div
                             key="confetti"
                             initial={{ opacity: 0 }}
