@@ -14,6 +14,8 @@ export const SignupSchema = z
       .email("Invalid email format"),
     university: z.string({ message: "University is required" }),
     age: z.string({ message: "Age must be a string" }).optional(),
+    gender: z.string({ message: "Gender must be a string" }).optional(),
+    image: z.string({ message: "image url must be a string" }).optional(),
     phoneNumber: z.string().optional(),
     pronouns: z.string().optional(),
     password: z

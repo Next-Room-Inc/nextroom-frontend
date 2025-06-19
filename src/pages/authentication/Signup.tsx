@@ -1,26 +1,29 @@
-import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
+import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 import { useFormik } from "formik";
 import * as motion from "motion/react-client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import GiveAwayModal from "../../components/modals/GiveAwayModal";
 import PasswordChecklist from "../../components/PasswordChecklist";
+import useAuth from "../../custom-hooks/useAuth";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 import StudentSignupLayout from "../../layouts/StudentSignup.Layout";
 import { useStudentSignupMutation } from "../../redux/services/auth.service";
 import { APP_INFO } from "../../utils/constants";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
-import useAuth from "../../custom-hooks/useAuth";
-import GiveAwayModal from "../../components/modals/GiveAwayModal";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { ArrowUpTrayIcon } from "@heroicons/react/20/solid";
+import { CropperRef, Cropper, CircleStencil } from 'react-advanced-cropper';
+import 'react-advanced-cropper/dist/style.css'
 
 const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;
 const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full cursor-pointer`;
 
 
 const Signup = () => {
-    const { handleLogin } = useAuth();
+  const { handleLogin } = useAuth();
   const [searchParams] = useSearchParams();
   // const { handleLogin } = useAuth();
   // const [signupSuccess, setSignupSuccess] = useState<boolean>(false);
@@ -43,7 +46,7 @@ const Signup = () => {
       const errorMessage = (res.error as any)?.data ?? "Account Creation Failed";
       if (res.error) toast.error(errorMessage);
       else {
-        formik.setValues({ ...formik.values, step: 4});
+        formik.setValues({ ...formik.values, step: 4 });
         setOpen(true);
         setAuth({
           email: values.email,
@@ -65,11 +68,13 @@ const Signup = () => {
       lastName: "",
       university: "",
       age: "",
+      gender: "",
       phoneNumber: "",
       pronouns: "",
       email: "",
       password: "",
       confirmPassword: "",
+      image: "",
       step: 1,
     },
     validationSchema: toFormikValidationSchema(SignupSchema),
@@ -80,7 +85,7 @@ const Signup = () => {
 
   const nextStepHandler = () => {
     const { step } = formik.values;
-    const nextStep = step < 3 ? step + 1 : step;
+    const nextStep = step < 4 ? step + 1 : step;
     formik.setValues({ ...formik.values, step: nextStep });
   };
   const prevStepHandler = () => {
@@ -91,12 +96,12 @@ const Signup = () => {
 
   return (
     <>
-     {open && <GiveAwayModal {...{ handleNext }} />}
+      {open && <GiveAwayModal {...{ handleNext }} />}
 
       <StudentSignupLayout>
         <form onSubmit={formik.handleSubmit}>
-          {isLoading ? <LoaderComponent /> :  <>
-            {formik.values.step > 1 &&  formik.values.step < 4 &&(
+          {isLoading ? <LoaderComponent /> : <>
+            {formik.values.step > 1 && formik.values.step < 4 && (
               <div
                 className="text-sm font-bold flex  items-center justify-end text-[#B3322F] hover:text-[#b3312f6b]"
 
@@ -107,8 +112,9 @@ const Signup = () => {
             )}
             {formik.values.step <= 1 && <NameForm {...{ formik, nextStepHandler }} />}
             {formik.values.step === 2 && <SchoolForm {...{ formik, nextStepHandler }} />}
-            {formik.values.step === 3 && <PasswordForm {...{ formik, nextStepHandler, handleSubmit }} />}
-            {formik.values.step === 4 && <EmailSentComponent />}
+            {formik.values.step === 3 && <ImageUploadComponent {...{ formik, nextStepHandler }} />}
+            {formik.values.step === 4 && <PasswordForm {...{ formik, nextStepHandler, handleSubmit }} />}
+            {formik.values.step === 5 && <EmailSentComponent />}
 
           </>}
 
@@ -138,8 +144,8 @@ const LoaderComponent = () => {
   return (
     <>
 
-         <img src={loaderImages[currentFrame]} alt="loader frame" className="h-16 w-16 mx-auto " />
- 
+      <img src={loaderImages[currentFrame]} alt="loader frame" className="h-16 w-16 mx-auto " />
+
     </>
   )
 }
@@ -156,19 +162,53 @@ const EmailSentComponent = () => {
         />
         <p className="  mt-5 text-base ">
           We’ve sent a confirmation link to your email.
-          <br />
-          <br />
           Please check your inbox and click the link to
           verify your account.
         </p>
 
-        <h6 className="text-[#B3322F] text-md mt-4 mb-4">Didn’t get the email? </h6>
+        <h6 className="text-[#B3322F] text-md mt-2 ">Didn’t get the email? </h6>
 
         <div className="text-center">
           <button type="button" className={buttonClass}  >
             Resend Email
           </button>
         </div>
+      </div>
+
+
+      {/*  */}
+      <div className="flex items-start gap-3  mx-auto mt-3">
+        {/* Icon Circle */}
+        <div className="w-6 h-6 min-w-6 bg-[#B3322F] rounded-full shadow-lg border-6 border-white flex-shrink-0" />
+
+        {/* Notification Text */}
+        <p className="text-[14px] tracking-tight leading-snug text-gray-700">
+          I wish to receive notifications via an alternative email address or phone number.
+          Please note:  Your student email address will always be used for verification.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-4 pt-8 pb-4">
+        <input
+          placeholder="Alternative Email Address"
+          id="email"
+          name="email"
+          type="email"
+          className={`${inputClass} outline-white`}
+        />
+        <input
+          placeholder="Alternative Phone Number"
+          id="phone"
+          name="phone"
+          type="phone"
+          className={`${inputClass} outline-white  `}
+        />
+      </div>
+
+      <div className="text-center">
+        <button type="button" className={buttonClass}  >
+          Submit
+        </button>
       </div>
 
 
@@ -179,7 +219,7 @@ const EmailSentComponent = () => {
 interface PasswordFormProps {
   formik: any; // ideally use Formik type
 }
-const PasswordForm: React.FC<PasswordFormProps>   = ({ formik }) => {
+const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
   const isError = !formik.touched.confirmPassword || formik.errors.password || formik.errors.confirmPassword
 
   return (
@@ -255,7 +295,7 @@ interface SchoolFormProps {
   nextStepHandler: () => void;
 }
 
-const SchoolForm: React.FC<SchoolFormProps>  = ({ formik, nextStepHandler }) => {
+const SchoolForm: React.FC<SchoolFormProps> = ({ formik, nextStepHandler }) => {
   const universityDomains: Record<string, string> = {
     "The University of Ottawa": "uottawa.ca",
     "Carleton University": "carleton.ca",
@@ -319,7 +359,7 @@ const SchoolForm: React.FC<SchoolFormProps>  = ({ formik, nextStepHandler }) => 
         ) : null}
       </div>
       {/* phoneNumber */}
-      <div className="mt-2 ">
+      {/* <div className="mt-2 ">
         <p className="text-red-600 mt-4 ml-2">*Optional</p>
         <input
           placeholder="Phone Number"
@@ -334,8 +374,74 @@ const SchoolForm: React.FC<SchoolFormProps>  = ({ formik, nextStepHandler }) => 
             : "outline-white"
             }`}
         />
-      </div>
+      </div> */}
       {/* Pronouns */}
+
+      <div className="mb-2">
+        <p className="text-red-600 mt-4 ml-2">*Optional</p>
+        <div className="mt-2 grid grid-cols-1">
+          <select
+            id="pronouns"
+            name="pronouns"
+            className="rounded-full col-start-1 row-start-1 w-full appearance-none bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 drop-shadow-md shadow-lg outline-white sm:text-sm/6"
+            value={formik.values.pronouns}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            {/* Placeholder */}
+            <option value="" disabled hidden className="text-gray-100">
+              Pronouns
+            </option>
+
+            {/* Pronoun options */}
+            {["He/Him", "She/Her", "They/Them", "Prefer Not To Say"].map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          {/* <ChevronDownIcon
+            aria-hidden="true"
+            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+          /> */}
+
+
+        </div>
+      </div>
+      {/* Gender */}
+
+      <div className="mb-2">
+        <p className="text-red-600 mt-4 ml-2">*Optional</p>
+        <div className="mt-2 grid grid-cols-1">
+          <select
+            id="gender"
+            name="gender"
+            className="rounded-full col-start-1 row-start-1 w-full appearance-none bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 drop-shadow-md shadow-lg outline-white sm:text-sm/6"
+            value={formik.values.gender}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          >
+            {/* Placeholder */}
+            <option value="" disabled hidden className="text-gray-100">
+              Gender
+            </option>
+
+            {/* Pronoun options */}
+            {["Male", "Female", "Prefer Not To Say", "other"].map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+          {/* <ChevronDownIcon
+            aria-hidden="true"
+            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+          /> */}
+
+
+        </div>
+      </div>
+      {/* Age */}
 
       <div className="mb-2">
         <p className="text-red-600 mt-4 ml-2">*Optional</p>
@@ -343,25 +449,27 @@ const SchoolForm: React.FC<SchoolFormProps>  = ({ formik, nextStepHandler }) => 
           <select
             id="age"
             name="age"
-            className="rounded-full  col-start-1 row-start-1 w-full appearance-none bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 drop-shadow-md shadow-lg outline-white  sm:text-sm/6"
-            value={formik.values.pronouns}
+            className="rounded-full col-start-1 row-start-1 w-full appearance-none bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 drop-shadow-md shadow-lg outline-white sm:text-sm/6"
+            value={formik.values.age}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
           >
-            <option value={""}>*This helps us better communicate with you</option>
-            {[
-              "He/Him",
-              "She/Her",
-              "They/Them",
-              "Prefer Not To Say ",
-            ].map((option) => (
-              <option>{option}</option>
+            {/* Placeholder */}
+            <option value="" disabled hidden className="text-gray-100">
+              Age
+            </option>
+
+            {/* Pronoun options */}
+            {["17", "18", "19", "20", "21", "22", "23", "24", "25", "26+"].map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
             ))}
           </select>
-          <ChevronDownIcon
+          {/* <ChevronDownIcon
             aria-hidden="true"
             className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-          />
+          /> */}
 
 
         </div>
@@ -395,72 +503,203 @@ const NameForm: React.FC<NameFormProps> = ({ formik, nextStepHandler }) => {
 
   return (
     <>
-    
-    <div>
-      <h1 className="text-[#B3322F] text-2xl ml-2 mb-8">Hey, what’s your name?</h1>
 
-      {/* First Name */}
       <div>
-        <div className="mt-2 flex">
-          <input
-            placeholder="First Name"
-            id="firstName"
-            name="firstName"
-            type="text"
-            value={formik.values.firstName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={`${inputClass} ${formik.touched.firstName && formik.errors.firstName
-              ? "outline-red-600"
-              : "outline-white"
-              }`}
-          />
+        <h1 className="text-[#B3322F] text-2xl ml-2 mb-8">Hey, what’s your name?</h1>
+
+        {/* First Name */}
+        <div>
+          <div className="mt-2 flex">
+            <input
+              placeholder="First Name"
+              id="firstName"
+              name="firstName"
+              type="text"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`${inputClass} ${formik.touched.firstName && formik.errors.firstName
+                ? "outline-red-600"
+                : "outline-white"
+                }`}
+            />
+          </div>
+          {formik.touched.firstName && formik.errors.firstName && (
+            <div className="text-sm text-red-600 ml-3">{formik.errors.firstName}</div>
+          )}
         </div>
-        {formik.touched.firstName && formik.errors.firstName && (
-          <div className="text-sm text-red-600 ml-3">{formik.errors.firstName}</div>
-        )}
-      </div>
 
-      {/* Last Name always rendered but transition visibility */}
+        {/* Last Name always rendered but transition visibility */}
 
-      <motion.div
-        animate={{
-          maxHeight: isLastNameVisible ? 100 : 0,
-          opacity: isLastNameVisible ? 1 : 0,
-          paddingTop: isLastNameVisible ? 16 : 0,
-          paddingBottom: isLastNameVisible ? 16 : 0,
-          pointerEvents: isLastNameVisible ? "auto" : "none",
-        }}
-        transition={{ duration: 0.8 }}
-      // className="overflow-hidden"
-      >
-        {isLastNameVisible &&
-          <input
-            placeholder="Last Name"
-            id="lastName"
-            name="lastName"
-            type="text"
-            value={formik.values.lastName}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={`${inputClass} ${formik.touched.lastName && formik.errors.lastName
-              ? "outline-red-600"
-              : "outline-white"
-              }`}
-          />}
-        {formik.touched.lastName && formik.errors.lastName && (
-          <div className="text-sm text-red-600 mt-1 ml-3">{formik.errors.lastName}</div>
-        )}
-      </motion.div>
+        <motion.div
+          animate={{
+            maxHeight: isLastNameVisible ? 100 : 0,
+            opacity: isLastNameVisible ? 1 : 0,
+            paddingTop: isLastNameVisible ? 16 : 0,
+            paddingBottom: isLastNameVisible ? 16 : 0,
+            pointerEvents: isLastNameVisible ? "auto" : "none",
+          }}
+          transition={{ duration: 0.8 }}
+        // className="overflow-hidden"
+        >
+          {isLastNameVisible &&
+            <input
+              placeholder="Last Name"
+              id="lastName"
+              name="lastName"
+              type="text"
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`${inputClass} ${formik.touched.lastName && formik.errors.lastName
+                ? "outline-red-600"
+                : "outline-white"
+                }`}
+            />}
+          {formik.touched.lastName && formik.errors.lastName && (
+            <div className="text-sm text-red-600 mt-1 ml-3">{formik.errors.lastName}</div>
+          )}
+        </motion.div>
 
 
-      {/* Button */}
-      <div className="text-center">
-        <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={nextStepHandler} disabled={isError}>
-          Next
-        </button>
-      </div>
+        {/* Button */}
+        <div className="text-center">
+          <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={nextStepHandler} disabled={isError}>
+            Next
+          </button>
+        </div>
       </div>
     </>
+  );
+};
+
+
+
+
+const ImageUploadComponent: React.FC<{
+  formik: any; // ideally use Formik type
+  nextStepHandler: () => void;
+}> = ({ formik, nextStepHandler }) => {
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const saveImageHandler = () => {
+    formik.setValues({ ...formik.values, image: profileImage });
+    nextStepHandler()
+  }
+  console.log(formik)
+  return (
+    <>
+
+      <div>
+        <h1 className="text-[#B3322F] text-center text-2xl ml-2 mb-8">Say Cheese!</h1>
+
+        {profileImage === null ? <ProfilePhotoUploader {...{ profileImage, setProfileImage }} /> : <ImageHandler {...{ profileImage, setProfileImage }} />}
+
+        {/*  */}
+        {!profileImage && <p className="text-center text-[12px] ">Adding a profile photo is optional, but recommended — <br className="md:flex hidden" />
+          it helps landlords put a face to your name and can make your rental <br className="md:flex hidden" />
+          application feel more personal and trustworthy.</p>}
+        {/* Button */}
+
+        <div className="text-center">
+          <button className={` ${buttonClass}`} onClick={profileImage ? saveImageHandler : nextStepHandler} >
+            {profileImage ? "Done" : "Skip"}
+          </button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+
+const ProfilePhotoUploader = ({ setProfileImage }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0];
+  //   if (file) {
+  //     const imageUrl = URL.createObjectURL(file);
+  //     setProfileImage(imageUrl);
+  //   }
+  // };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        const base64DataUrl = reader.result as string;
+        setProfileImage(base64DataUrl);
+      };
+
+      reader.readAsDataURL(file); // Converts file to base64
+    }
+  }
+
+  return (
+    <div className="pb-5 relative">
+      <img
+        src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.svg`}
+        className={`h-60 w-60 bg-[#CCCCCC] rounded-full p-5 mx-auto`}
+      />
+      <button onClick={handleButtonClick} className="text-[#B3322F]  hover:bg-gray-200 cursor-pointer  flex justify-center items-center shadow bg-white px-4 py-2 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px]">
+        <ArrowUpTrayIcon className="w-4 mr-2 text-[#B3322F]  cursor-pointer" />
+        Upload Profile Photo
+      </button>
+
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleImageUpload}
+      />
+    </div>
+  );
+};
+
+const ImageHandler: React.FC<{
+  profileImage: string;
+  setProfileImage: (image: string | undefined) => void;
+}> = ({ profileImage, setProfileImage }) => {
+  const cropperRef = useRef<CropperRef | null>(null);
+
+  const handleCropSubmit = () => {
+    const cropper = cropperRef.current;
+    const canvas = cropper.getCanvas();
+    const imageDataUrl = canvas.toDataURL();
+    if (imageDataUrl) {
+      setProfileImage(imageDataUrl);
+    }
+  };
+
+  return (
+    <div className="w-full">
+      {/* Cropper Canvas */}
+      <div className="relative h-60 flex justify-center items-center">
+        <Cropper
+          ref={cropperRef}
+          src={profileImage}
+          stencilComponent={CircleStencil}
+        />
+      </div>
+
+      {/* Buttons */}
+      <div className="flex justify-center gap-3 py-4">
+        <button
+          className="px-4 py-1 rounded-full bg-white shadow-md hover:bg-gray-100 transition"
+          onClick={handleCropSubmit}
+        >
+          Crop
+        </button>
+        {/* Future: Add more buttons here like Reset or Resize */}
+      </div>
+    </div>
   );
 };

@@ -5,6 +5,7 @@ import QRCode from "react-qr-code";
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
 import axios from 'axios';
+import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 
 
 interface PropertySectionParams {
@@ -64,6 +65,7 @@ const PropertySection = (props: any) => {
         CloseToCampusSection,
         WhereToBeLocatedSection,
         LookingForSection,
+        AmenitiesSection,
         RoommatesSection,
     ];
 
@@ -208,6 +210,108 @@ const SkipNextQuestionSection = () => {
     )
 }
 
+const AmenitiesSection: React.FC<{
+    handleAnswer: (sectino: string, key: string, value: string | number | string[]) => void;
+    nextStepHandler: () => void;
+    answers: {
+        UNIT_AMENITIS?: string;
+        COMUNITY_AMENITIS?: string;
+    };
+}> = ({ handleAnswer, answers, nextStepHandler }) => {
+    const [error, setError] = useState(false)
+    const [selectedUnitAmenities, setSelectedUnitAmenities] = useState(answers.UNIT_AMENITIS || [])
+    const [selectedComunityAmenities, setSelectedComunityAmenities] = useState(answers.COMUNITY_AMENITIS || [])
+
+    const handleUnitAmenityToggle = (amenity: string) => {
+        setSelectedUnitAmenities((prev) =>
+            prev.includes(amenity)
+                ? prev.filter((a) => a !== amenity) // remove if already selected
+                : [...prev, amenity] // add if not present
+        );
+    };
+    const handleCommunityAmenityToggle = (amenity: string) => {
+        setSelectedComunityAmenities((prev) =>
+            prev.includes(amenity)
+                ? prev.filter((a) => a !== amenity) // remove if already selected
+                : [...prev, amenity] // add if not present
+        );
+    };
+
+    // const scrollHandler = () => {
+    //     setError(true)
+    //     if (answers.UNIT_AMENITIS === null) {
+    //         const section = document.getElementById('UNIT_AMENITIS');
+    //         section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    //     }
+    //     else if (answers.COMUNITY_AMENITIS === null) {
+    //         const section = document.getElementById('COMUNITY_AMENITIS');
+    //         section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    //     }
+    // }
+
+    // const disabled = answers.UNIT_AMENITIS === null || answers.COMUNITY_AMENITIS === null
+
+    const unitAmenities = [
+        { name: "In-Unit Washer/Dryer", icon: "" },
+        { name: "Refrigerator", icon: "" },
+        { name: "Stove", icon: "" },
+        { name: "Air Conditioning", icon: "" },
+        { name: "Balcony", icon: "" },
+        { name: "Pet-Friendly", icon: "" },
+        { name: "Dishwasher", icon: "" },
+        { name: "Microwave", icon: "" },
+        { name: "Storage Room", icon: "" }
+    ]
+    const comunityAmenities = [
+        { name: "Fitness Centre", icon: "" },
+        { name: "Parking", icon: "" },
+        { name: "Art Studio", icon: "" },
+        { name: "Study Room", icon: "" },
+        { name: "Recycling Area", icon: "" },
+        { name: "Bike Storage", icon: "" },
+        { name: "Rooftop Terrace", icon: "" },
+        { name: "Keypad Entry", icon: "" },
+        { name: "Security Cameras", icon: "" }
+    ]
+
+
+    const nextButtonHandler = () => {
+        handleAnswer('PROPERTY_SECTION', 'UNIT_AMENITIS', selectedUnitAmenities)
+        handleAnswer('PROPERTY_SECTION', 'COMUNITY_AMENITIS', selectedComunityAmenities)
+        nextStepHandler()
+    }
+    return (
+        <>
+            <p className='text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto'> What type of amenities are you looking for? </p>
+            <div id="UNIT_AMENITIS" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.UNIT_AMENITIS === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Unit Amenities </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit">
+                    {unitAmenities.map((amenity, index) => (
+                        <PrimaryButton key={index} selected={selectedUnitAmenities.includes(amenity.name)} onClick={()=>handleUnitAmenityToggle(amenity.name) }>
+                            {amenity.name}
+
+                        </PrimaryButton>
+                    ))}
+                </div>
+            </div>
+            <div id="COMUNITY_AMENITIS" className={`rounded-2xl mx-1 py-10 ${error && answers.COMUNITY_AMENITIS === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Unit Amenities </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit">
+                    {comunityAmenities.map((amenity, index) => (
+                        <PrimaryButton key={index} selected={selectedComunityAmenities.includes(amenity.name)} onClick={()=>handleCommunityAmenityToggle(amenity.name) }>
+                            {amenity.name}
+                        </PrimaryButton>
+                    ))}
+                </div>
+            </div>
+
+
+            <NextButton onClick={nextButtonHandler} />
+        </>
+    )
+
+}
+
 const RoommatesSection: React.FC<{
     handleAnswer: (sectino: string, key: string, value: string | number) => void;
     nextSectionHandler: () => void;
@@ -252,7 +356,7 @@ const RoommatesSection: React.FC<{
 
 
 
-            <p className='text-2xl text-[#B3322F] mt-12 font-semibold w-full  px-10 text-center mx-auto'> How many roommates are joining you? </p>
+            <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> How many roommates are joining you? </p>
 
             <div className='flex justify-center items-center px-15'>
                 <div className='flex gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-3 rounded-full shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-auto'>
@@ -294,8 +398,8 @@ const RoommatesSection: React.FC<{
             </div>
 
 
-            <div id="NEED_ROOMMATE_MATCHING" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.NEED_ROOMMATE_MATCHING === null ? "bg-[#B3322F]/20" : ""}`}>
-                <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
+            <div id="NEED_ROOMMATE_MATCHING" className={` rounded-2xl mx-1 py-10 ${error && answers.NEED_ROOMMATE_MATCHING === null ? "bg-[#B3322F]/20" : ""}`}>
+                <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
                     <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'Yes')}> Yes </PrimaryButton>
                     <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'No')} > No </PrimaryButton>
@@ -497,7 +601,8 @@ const WhereToBeLocatedSection: React.FC<{
                                 placeholder='Start searching for your preferred area or address (e.g. The Glebe or Rideau Centre)'
                                 className=' focus:outline-none  w-full px-2 py-2'
                             />
-                            <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" />
+                            {/* <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" /> */}
+                            <MagnifyingGlassIcon  className="h-8 text-[#B3322F] mt-1"  />
                         </div>
                         {/* Google Suggestion */}
                         {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>

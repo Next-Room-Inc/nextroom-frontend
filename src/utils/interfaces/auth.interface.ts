@@ -7,6 +7,7 @@ export interface StudentSignupPayload {
     age: string;
     phoneNumber?: string;
     tag?: string;
+    image?: string;
   }
 export interface ForgotPasswordPayload {
     email: string; 

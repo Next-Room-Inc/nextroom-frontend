@@ -36,7 +36,9 @@ const sections = {
         RENTAL_PREFERENCE: null,
         BRINGING_ROOMMATES: null,
         ROOMMATE_COUNT: 0,
-        NEED_ROOMMATE_MATCHING: null
+        NEED_ROOMMATE_MATCHING: null,
+        UNIT_AMENITIS: null,
+        COMUNITY_AMENITIS: null
     },
     LIFE_STYLE_SECTION: {
         AREA_OF_STUDEY: null,
