@@ -607,15 +607,15 @@ const steps = [
 
 function StepComponent() {
 
-    function classNames(...classes) {
-        return classes.filter(Boolean).join(' ')
+    function classNames(...classes: (string | false | null | undefined)[]): string {
+        return classes.filter(Boolean).join(' ');
     }
 
     return (
         <nav aria-label="Progress">
             <ol role="list" className="flex items-center">
                 {steps.map((step, stepIdx) => (
-                    <li key={step.name} className={classNames(stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
+                    <li key={stepIdx} className={classNames(stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
                         {step.status === 'complete' ? (
                             <>
                                 <div aria-hidden="true" className="absolute inset-0 flex items-center">
@@ -651,7 +651,7 @@ function StepComponent() {
             </ol>
             <ol role="list" className="flex items-center mt-5">
                 {steps.map((step, stepIdx) => (
-                    <li key={step.name} className={classNames(stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
+                    <li key={stepIdx} className={classNames(stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
 
                         <>
                             <div aria-hidden="true" className="absolute inset-0 flex items-center">
@@ -735,7 +735,7 @@ const ChartComponent = () => {
 
 
 const ViewAllMatchesComponent = () => {
-    const [selectedUser, setSelectedUser] = useState<string | null>(null);
+    const [selectedUser, setSelectedUser] = useState<boolean | null>(null);
 
     const statusList = [
         { label: "Accepted", borderColor: "border-green-500" },

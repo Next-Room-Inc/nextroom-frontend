@@ -214,26 +214,26 @@ const AmenitiesSection: React.FC<{
     handleAnswer: (sectino: string, key: string, value: string | number | string[]) => void;
     nextStepHandler: () => void;
     answers: {
-        UNIT_AMENITIS?: string;
-        COMUNITY_AMENITIS?: string;
+        UNIT_AMENITIS?: string[] | [];
+        COMUNITY_AMENITIS?: string[] | [];
     };
 }> = ({ handleAnswer, answers, nextStepHandler }) => {
-    const [error, setError] = useState(false)
-    const [selectedUnitAmenities, setSelectedUnitAmenities] = useState(answers.UNIT_AMENITIS || [])
-    const [selectedComunityAmenities, setSelectedComunityAmenities] = useState(answers.COMUNITY_AMENITIS || [])
+    const [error] = useState(false)
+    const [selectedUnitAmenities, setSelectedUnitAmenities] = useState<string[]>(answers.UNIT_AMENITIS || [])
+    const [selectedComunityAmenities, setSelectedComunityAmenities] = useState<string[]>(answers.COMUNITY_AMENITIS || [])
 
     const handleUnitAmenityToggle = (amenity: string) => {
-        setSelectedUnitAmenities((prev) =>
+        setSelectedUnitAmenities((prev: string[]) =>
             prev.includes(amenity)
-                ? prev.filter((a) => a !== amenity) // remove if already selected
-                : [...prev, amenity] // add if not present
+                ? prev.filter((a: string) => a !== amenity) // remove
+                : [...prev, amenity] // add
         );
     };
     const handleCommunityAmenityToggle = (amenity: string) => {
-        setSelectedComunityAmenities((prev) =>
+        setSelectedComunityAmenities((prev: string[]) =>
             prev.includes(amenity)
-                ? prev.filter((a) => a !== amenity) // remove if already selected
-                : [...prev, amenity] // add if not present
+                ? prev.filter((a: string) => a !== amenity) // remove
+                : [...prev, amenity] // add
         );
     };
 
@@ -287,7 +287,7 @@ const AmenitiesSection: React.FC<{
                 <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Unit Amenities </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit">
                     {unitAmenities.map((amenity, index) => (
-                        <PrimaryButton key={index} selected={selectedUnitAmenities.includes(amenity.name)} onClick={()=>handleUnitAmenityToggle(amenity.name) }>
+                        <PrimaryButton key={index} selected={selectedUnitAmenities.includes(amenity.name)} onClick={() => handleUnitAmenityToggle(amenity.name)}>
                             {amenity.name}
 
                         </PrimaryButton>
@@ -298,7 +298,7 @@ const AmenitiesSection: React.FC<{
                 <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Unit Amenities </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit">
                     {comunityAmenities.map((amenity, index) => (
-                        <PrimaryButton key={index} selected={selectedComunityAmenities.includes(amenity.name)} onClick={()=>handleCommunityAmenityToggle(amenity.name) }>
+                        <PrimaryButton key={index} selected={selectedComunityAmenities.includes(amenity.name)} onClick={() => handleCommunityAmenityToggle(amenity.name)}>
                             {amenity.name}
                         </PrimaryButton>
                     ))}
@@ -494,7 +494,7 @@ const WhereToBeLocatedSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     runConfettiHandler: () => void;
-    setRunConfetti: (value: string) => void;
+    setRunConfetti: (value: boolean) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
 }> = ({ nextStepHandler, handleAnswer, answers, runConfettiHandler, setRunConfetti }) => {
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
@@ -602,7 +602,7 @@ const WhereToBeLocatedSection: React.FC<{
                                 className=' focus:outline-none  w-full px-2 py-2'
                             />
                             {/* <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" /> */}
-                            <MagnifyingGlassIcon  className="h-8 text-[#B3322F] mt-1"  />
+                            <MagnifyingGlassIcon className="h-8 text-[#B3322F] mt-1" />
                         </div>
                         {/* Google Suggestion */}
                         {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>

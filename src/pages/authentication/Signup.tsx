@@ -1,4 +1,4 @@
-import { ArrowLeftIcon } from "@heroicons/react/16/solid";
+import { ArrowLeftIcon, EyeSlashIcon } from "@heroicons/react/16/solid";
 import { useFormik } from "formik";
 import * as motion from "motion/react-client";
 import { useEffect, useRef, useState } from "react";
@@ -14,7 +14,7 @@ import { useStudentSignupMutation } from "../../redux/services/auth.service";
 import { APP_INFO } from "../../utils/constants";
 import { StudentSignupPayload } from "../../utils/interfaces";
 import { SignupSchema } from "../../utils/schemas/auth.schema";
-import { ArrowUpTrayIcon } from "@heroicons/react/20/solid";
+import { ArrowUpTrayIcon, EyeIcon } from "@heroicons/react/20/solid";
 import { CropperRef, Cropper, CircleStencil } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css'
 
@@ -221,6 +221,10 @@ interface PasswordFormProps {
 }
 const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
   const isError = !formik.touched.confirmPassword || formik.errors.password || formik.errors.confirmPassword
+  const [passwordType, setPasswordType] = useState(true)
+  const [confirmPasswordType, setConfirmPasswordType] = useState(true)
+  const PasswordEyeToggleIcon = passwordType ? EyeIcon : EyeSlashIcon;
+  const ConfirmPasswordEyeToggleIcon = confirmPasswordType ? EyeIcon : EyeSlashIcon;
 
   return (
     <>
@@ -228,20 +232,25 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
       {/* Password */}
       <div className="mb-2">
         <div className="mt-2">
-          <input
-            placeholder="Password"
-            id="password"
-            name="password"
-            type="password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={`${inputClass} ${formik.touched.password && formik.errors.password
-              ? "outline-red-600"
-              : "outline-white"
-              }`}
-          />
-
+          <div className={`${inputClass} relative ${formik.touched.password && formik.errors.password
+            ? "  outline-1 outline-red-600"
+            : "  outline-1 outline-gray-300"} `}>
+            <input
+              placeholder="Password"
+              id="password"
+              name="password"
+              type={passwordType ? "password" : "text"}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none}`}
+            />
+            <PasswordEyeToggleIcon
+              onClick={() => setPasswordType(!passwordType)}
+              aria-hidden="true"
+              className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
+            />
+          </div>
           {formik.touched.password || formik.errors.password || formik.values.password ? (
             <PasswordChecklist password={formik.values.password} />
           ) : null}
@@ -251,20 +260,26 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
       {/* Confirm Password */}
       <div className="mb-2">
         <div className="mt-4">
-          <input
-            placeholder="Confirm Password"
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            value={formik.values.confirmPassword}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={`${inputClass} ${formik.touched.confirmPassword &&
-              formik.errors.confirmPassword
-              ? "outline-red-600"
-              : "outline-white"
-              }`}
-          />
+          <div className={`${inputClass} relative ${formik.touched.password && formik.errors.password
+            ? "  outline-1 outline-red-600"
+            : "  outline-1 outline-gray-300"} `}>
+            <input
+              placeholder="Confirm Password"
+              id="confirmPassword"
+              name="confirmPassword"
+              type={confirmPasswordType ? "password" : "text"}
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none}`}
+
+            />
+            <ConfirmPasswordEyeToggleIcon
+              onClick={() => setConfirmPasswordType(!confirmPasswordType)}
+              aria-hidden="true"
+              className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
+            />
+          </div>
           {formik.touched.confirmPassword &&
             formik.errors.confirmPassword ? (
             <div className="text-sm text-red-600">
@@ -593,7 +608,7 @@ const ImageUploadComponent: React.FC<{
       <div>
         <h1 className="text-[#B3322F] text-center text-2xl ml-2 mb-8">Say Cheese!</h1>
 
-        {profileImage === null ? <ProfilePhotoUploader {...{ profileImage, setProfileImage }} /> : <ImageHandler {...{ profileImage, setProfileImage }} />}
+        {profileImage === null ? <ProfilePhotoUploader {...{ formik, setProfileImage }} /> : <ImageHandler {...{ profileImage, setProfileImage }} />}
 
         {/*  */}
         {!profileImage && <p className="text-center text-[12px] ">Adding a profile photo is optional, but recommended — <br className="md:flex hidden" />
@@ -612,7 +627,10 @@ const ImageUploadComponent: React.FC<{
 };
 
 
-const ProfilePhotoUploader = ({ setProfileImage }) => {
+const ProfilePhotoUploader: React.FC<{
+  formik: unknown; // ideally use Formik type
+  setProfileImage: (param: string) => void;
+}> = ({ setProfileImage }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = () => {
@@ -665,15 +683,15 @@ const ProfilePhotoUploader = ({ setProfileImage }) => {
 };
 
 const ImageHandler: React.FC<{
-  profileImage: string;
-  setProfileImage: (image: string | undefined) => void;
+  profileImage: string | null;
+  setProfileImage: (image: string) => void;
 }> = ({ profileImage, setProfileImage }) => {
   const cropperRef = useRef<CropperRef | null>(null);
 
   const handleCropSubmit = () => {
     const cropper = cropperRef.current;
-    const canvas = cropper.getCanvas();
-    const imageDataUrl = canvas.toDataURL();
+    const canvas = cropper?.getCanvas();
+    const imageDataUrl = canvas?.toDataURL();
     if (imageDataUrl) {
       setProfileImage(imageDataUrl);
     }

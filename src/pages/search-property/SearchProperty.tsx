@@ -256,8 +256,8 @@ const ZipLineModal = ({ onClose }: { onClose: () => void }) => {
                     </div>
                 </div>
             </motion.div>
-            </AnimatePresence>
-            );
+        </AnimatePresence>
+    );
 };
 
 
@@ -265,103 +265,75 @@ const ZipLineModal = ({ onClose }: { onClose: () => void }) => {
 
 const ResponsiveTabSelector = () => {
     const tabOptions = ["My Housing", "Matches", "Explore", "My Preferences"];
-            const [selectedTab, setSelectedTab] = useState("My Housing");
-            const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-            const [price, setPrice] = useState(1250);
-            const [distance, setDistance] = useState(8);
-            const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-            const [selectedBeds, setSelectedBeds] = useState<number | null>(null);
-            const [selectedBaths, setSelectedBaths] = useState<number | null>(null);
-            const [selectedOccupancies, setSelectedOccupancies] = useState<number | null>(null);
+    const [selectedTab, setSelectedTab] = useState("My Housing");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [price, setPrice] = useState<number>(1250);
+    const [distance, setDistance] = useState<number>(8);
+    const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
+    const [selectedBeds, setSelectedBeds] = useState<number | null>(null);
+    const [selectedBaths, setSelectedBaths] = useState<number | null>(null);
+    const [selectedOccupancies, setSelectedOccupancies] = useState<number | null>(null);
 
     const toggleAmenity = (label: string) => {
-                setSelectedAmenities((prev) =>
-                    prev.includes(label) ? prev.filter((a) => a !== label) : [...prev, label]
-                );
+        setSelectedAmenities((prev) =>
+            prev.includes(label) ? prev.filter((a) => a !== label) : [...prev, label]
+        );
     };
 
-            const amenitiesList = [
-            {label: 'Free Parking', icon: 'free_parking.svg' },
-            {label: 'Air Conditioning', icon: 'air_conditioning.svg' },
-            {label: 'Washer/Dryer', icon: 'washer.svg' },
-            {label: 'Dishwasher', icon: 'dishwasher.svg' },
-            ];
+    const amenitiesList = [
+        { label: 'Free Parking', icon: 'free_parking.svg' },
+        { label: 'Air Conditioning', icon: 'air_conditioning.svg' },
+        { label: 'Washer/Dryer', icon: 'washer.svg' },
+        { label: 'Dishwasher', icon: 'dishwasher.svg' },
+    ];
 
     const handleSelectTab = (tab: string) => {
-                setSelectedTab(tab);
-            setIsDropdownOpen(false);
+        setSelectedTab(tab);
+        setIsDropdownOpen(false);
     };
 
 
     // Calculate percentage position
     const getPriceLeftPosition = () => {
         const percentage = ((price - 500) / (2000 - 500)) * 100;
-            return `calc(${percentage}% - 24px)`; // Center the label
+        return `calc(${percentage}% - 24px)`; // Center the label
     };
     const getDistanceLeftPosition = () => {
         const percentage = ((distance - 1) / (50 - 1)) * 100;
-            return `calc(${percentage}% - 24px)`; // Center the label
+        return `calc(${percentage}% - 24px)`; // Center the label
     };
 
 
 
-            return (
-            <>
-                {/* Desktop View */}
-                <div className="hidden lg:flex justify-between bg-white my-10 mx-10 shadow-md px-5 py-4 rounded-full text-sm font-medium">
-                    {tabOptions.map((tab, idx) => (
-                        <div
-                            key={tab}
-                            className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
-                                } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
-                            onClick={() => setSelectedTab(tab)}
-                        >
-                            {tab}
-                        </div>
-                    ))}
-                </div>
-
-                {/* Mobile View */}
-                <div className="lg:hidden py-6 px-6 relative z-50">
-                    {/* Toggle Button */}
+    return (
+        <>
+            {/* Desktop View */}
+            <div className="hidden lg:flex justify-between bg-white my-10 mx-10 shadow-md px-5 py-4 rounded-full text-sm font-medium">
+                {tabOptions.map((tab, idx) => (
                     <div
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                        key={tab}
+                        className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                            } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
+                        onClick={() => setSelectedTab(tab)}
                     >
-                        {selectedTab}
+                        {tab}
                     </div>
+                ))}
+            </div>
 
-                    {/* Dropdown */}
-                    <AnimatePresence>
-                        {isDropdownOpen && (
-                            <motion.div
-                                key="dropdown"
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.2 }}
-                                className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
-                            >
-                                {tabOptions.map((tab) => (
-                                    <div
-                                        key={tab}
-                                        className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
-                                            }`}
-                                        onClick={() => handleSelectTab(tab)}
-                                    >
-                                        {tab}
-                                    </div>
-                                ))}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-
-
+            {/* Mobile View */}
+            <div className="lg:hidden py-6 px-6 relative z-50">
+                {/* Toggle Button */}
+                <div
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                >
+                    {selectedTab}
                 </div>
 
-                {selectedTab === "My Preferences" && <AnimatePresence>
-                    {(
+                {/* Dropdown */}
+                <AnimatePresence>
+                    {isDropdownOpen && (
                         <motion.div
                             key="dropdown"
                             initial={{ opacity: 0, y: -10 }}
@@ -370,162 +342,190 @@ const ResponsiveTabSelector = () => {
                             transition={{ duration: 0.2 }}
                             className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
                         >
-
-                            <div className="flex lg:flex-row flex-col justify-between gap-2 p-4 space-y-6 text-sm font-medium text-gray-800 mx-auto">
-                                <div className='md:w-[60%] w-full flex flex-col gap-10'>
-                                    {/* Price Slider */}
-                                    <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                        <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Price</p>
-                                        <div className=" w-full">
-                                            <div className="flex justify-between text-black font-semibold mb-2">
-                                                <p>$500</p>
-                                                <p>$2000</p>
-                                            </div>
-
-                                            <div className="relative w-full">
-                                                {/* Slider */}
-                                                <input
-                                                    type="range"
-                                                    className="custom-slider w-full"
-                                                    min={500}
-                                                    max={2000}
-                                                    value={price}
-                                                    onChange={(e) => setPrice(e.target.value)}
-                                                />
-
-                                                {/* Moving label */}
-                                                <div
-                                                    className="absolute top-8 font-bold text-sm"
-                                                    style={{ left: getPriceLeftPosition() }}
-                                                >
-                                                    ${price}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Distance Slider */}
-                                    <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                        <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Distance <br className='md:flex hidden' />From Campus</p>
-                                        <div className="w-full">
-                                            <div className="flex justify-between text-black font-semibold mb-2">
-                                                <p>1</p>
-                                                <p>50</p>
-                                            </div>
-
-                                            <div className="relative w-full">
-                                                {/* Slider */}
-                                                <input
-                                                    type="range"
-                                                    className="custom-slider w-full"
-                                                    min={1}
-                                                    max={50}
-                                                    value={distance}
-                                                    onChange={(e) => setDistance(e.target.value)}
-                                                />
-
-                                                {/* Moving label */}
-                                                <div
-                                                    className="absolute top-8 font-bold text-sm"
-                                                    style={{ left: getDistanceLeftPosition() }}
-                                                >
-                                                    {distance}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Amenities */}
-                                    <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                        <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Amenities</p>
-                                        <div className="flex flex-wrap gap-4 md:gap-2">
-                                            {amenitiesList.map((amenity) => {
-                                                const selected = selectedAmenities.includes(amenity.label);
-                                                return (
-                                                    <button
-                                                        key={amenity.label}
-                                                        onClick={() => toggleAmenity(amenity.label)}
-                                                        className={`flex items-center gap-1 px-3 py-1.5 rounded-full border shadow-sm ${selected
-                                                            ? 'bg-[#B3322F] text-white border-[#B3322F]'
-                                                            : 'bg-white text-black border-gray-300'
-                                                            }`}
-                                                    >
-                                                        <span><img src={`/assets/img/search-property/${amenity.icon}`} className='w-4' /></span>
-                                                        <span>{amenity.label}</span>
-                                                    </button>
-                                                );
-                                            })}
-                                        </div>
-                                    </div>
-
-                                    {/* Unit Size */}
-                                    <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                        <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Unit Size</p>
-                                        <div className="flex flex-col md:flex-row justify-start gap-3  ">
-                                            <NumberInput label="Beds" value={selectedBeds} onChange={setSelectedBeds} />
-                                            <NumberInput label="Bathrooms" value={selectedBaths} onChange={setSelectedBaths} />
-                                            <NumberInput label="Occupancy" value={selectedOccupancies} onChange={setSelectedOccupancies} />
-                                        </div>
-                                    </div>
-
-                                    {/* Location */}
-                                    <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                        <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Location</p>
-                                        <input
-                                            type="text"
-                                            placeholder="Search..."
-                                            className="md:w-50 w-full px-4 py-2 rounded-full shadow-md outline-none"
-                                        />
-                                    </div>
+                            {tabOptions.map((tab) => (
+                                <div
+                                    key={tab}
+                                    className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
+                                        }`}
+                                    onClick={() => handleSelectTab(tab)}
+                                >
+                                    {tab}
                                 </div>
-                                {/* Buttons */}
-                                <div className=" lg:w-[20%] md:w-[50%] w-full flex flex-col gap-6">
-                                    <button className=" py-2 md:px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
-                                        Update Roommate Preferences
-                                    </button>
-                                    <button className=" py-2 :px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
-                                        Search Specific Properties
-                                    </button>
-                                </div>
-                            </div>
-
-
+                            ))}
                         </motion.div>
                     )}
-                </AnimatePresence>}
-            </>
-            );
+                </AnimatePresence>
+
+
+
+            </div>
+
+            {selectedTab === "My Preferences" && <AnimatePresence>
+                {(
+                    <motion.div
+                        key="dropdown"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+                    >
+
+                        <div className="flex lg:flex-row flex-col justify-between gap-2 p-4 space-y-6 text-sm font-medium text-gray-800 mx-auto">
+                            <div className='md:w-[60%] w-full flex flex-col gap-10'>
+                                {/* Price Slider */}
+                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
+                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Price</p>
+                                    <div className=" w-full">
+                                        <div className="flex justify-between text-black font-semibold mb-2">
+                                            <p>$500</p>
+                                            <p>$2000</p>
+                                        </div>
+
+                                        <div className="relative w-full">
+                                            {/* Slider */}
+                                            <input
+                                                type="range"
+                                                className="custom-slider w-full"
+                                                min={500}
+                                                max={2000}
+                                                value={price}
+                                                onChange={(e) => setPrice(+e.target.value)}
+                                            />
+
+                                            {/* Moving label */}
+                                            <div
+                                                className="absolute top-8 font-bold text-sm"
+                                                style={{ left: getPriceLeftPosition() }}
+                                            >
+                                                ${price}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Distance Slider */}
+                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
+                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Distance <br className='md:flex hidden' />From Campus</p>
+                                    <div className="w-full">
+                                        <div className="flex justify-between text-black font-semibold mb-2">
+                                            <p>1</p>
+                                            <p>50</p>
+                                        </div>
+
+                                        <div className="relative w-full">
+                                            {/* Slider */}
+                                            <input
+                                                type="range"
+                                                className="custom-slider w-full"
+                                                min={1}
+                                                max={50}
+                                                value={distance}
+                                                onChange={(e) => setDistance(+e.target.value)}
+                                            />
+
+                                            {/* Moving label */}
+                                            <div
+                                                className="absolute top-8 font-bold text-sm"
+                                                style={{ left: getDistanceLeftPosition() }}
+                                            >
+                                                {distance}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Amenities */}
+                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
+                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Amenities</p>
+                                    <div className="flex flex-wrap gap-4 md:gap-2">
+                                        {amenitiesList.map((amenity) => {
+                                            const selected = selectedAmenities.includes(amenity.label);
+                                            return (
+                                                <button
+                                                    key={amenity.label}
+                                                    onClick={() => toggleAmenity(amenity.label)}
+                                                    className={`flex items-center gap-1 px-3 py-1.5 rounded-full border shadow-sm ${selected
+                                                        ? 'bg-[#B3322F] text-white border-[#B3322F]'
+                                                        : 'bg-white text-black border-gray-300'
+                                                        }`}
+                                                >
+                                                    <span><img src={`/assets/img/search-property/${amenity.icon}`} className='w-4' /></span>
+                                                    <span>{amenity.label}</span>
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+
+                                {/* Unit Size */}
+                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
+                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Unit Size</p>
+                                    <div className="flex flex-col md:flex-row justify-start gap-3  ">
+                                        <NumberInput label="Beds" value={selectedBeds || 0} onChange={setSelectedBeds} />
+                                        <NumberInput label="Bathrooms" value={selectedBaths || 0} onChange={setSelectedBaths} />
+                                        <NumberInput label="Occupancy" value={selectedOccupancies || 0} onChange={setSelectedOccupancies} />
+                                    </div>
+                                </div>
+
+                                {/* Location */}
+                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
+                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Location</p>
+                                    <input
+                                        type="text"
+                                        placeholder="Search..."
+                                        className="md:w-50 w-full px-4 py-2 rounded-full shadow-md outline-none"
+                                    />
+                                </div>
+                            </div>
+                            {/* Buttons */}
+                            <div className=" lg:w-[20%] md:w-[50%] w-full flex flex-col gap-6">
+                                <button className=" py-2 md:px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
+                                    Update Roommate Preferences
+                                </button>
+                                <button className=" py-2 :px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
+                                    Search Specific Properties
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </motion.div>
+                )}
+            </AnimatePresence>}
+        </>
+    );
 };
 
-            // 🔽 Dropdown Component
-            type NumberInputProps = {
-                label: string;
-            value: number;
+// 🔽 Dropdown Component
+type NumberInputProps = {
+    label: string;
+    value: number  ;
     onChange: (val: number) => void;
 };
 
-            function NumberInput({label, value, onChange}: NumberInputProps) {
+function NumberInput({ label, value = 0 , onChange }: NumberInputProps) {
     const handleIncrement = () => onChange(value + 1);
     const handleDecrement = () => onChange(Math.max(0, value - 1));
 
-            return (
-            <div className=" flex items-start justify-center gap-2">
-                <div className="text-md text-gray-500   h-full flex items-center w-full">{label}</div>
-                <div className="flex items-center rounded-md px-2 py-1  bg-white">
-                    <button
-                        type="button"
-                        onClick={handleDecrement}
-                        className="p-1 disabled:opacity-30"
-                        disabled={value <= 0}
-                    >
-                        <ChevronDownIcon className="w-4 h-4 text-gray-600" />
-                    </button>
-                    <span className='w-6 text-center'>{value || "Any"} </span>
-                    <button type="button" onClick={handleIncrement} className="p-1">
-                        <ChevronUpIcon className="w-4 h-4 text-gray-600" />
-                    </button>
-                </div>
+    return (
+        <div className=" flex items-start justify-center gap-2">
+            <div className="text-md text-gray-500   h-full flex items-center w-full">{label}</div>
+            <div className="flex items-center rounded-md px-2 py-1  bg-white">
+                <button
+                    type="button"
+                    onClick={handleDecrement}
+                    className="p-1 disabled:opacity-30"
+                    disabled={value <= 0}
+                >
+                    <ChevronDownIcon className="w-4 h-4 text-gray-600" />
+                </button>
+                <span className='w-6 text-center'>{value || "Any"} </span>
+                <button type="button" onClick={handleIncrement} className="p-1">
+                    <ChevronUpIcon className="w-4 h-4 text-gray-600" />
+                </button>
             </div>
-            );
+        </div>
+    );
 }
 
