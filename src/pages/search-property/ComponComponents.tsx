@@ -1,4 +1,6 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { AvailableUnitsModal } from './AvailableUnitsModal';
 
 
 export const PrimaryButton: React.FC<{
@@ -42,28 +44,40 @@ export const PrimaryButton: React.FC<{
 
 
 
- export    const HousingCard: React.FC<{
-        title: string;
-        imageUrl: string;
-        location: string;
-        type: string;
-        priceRange: string;
-        matchPercent: string;
-        statusText?: string;
-        bgClass?: string; // Tailwind background class (e.g., bg-gradient-to-r from-red-500 to-red-800)
-    }> = ({
-        title,
-        imageUrl,
-        location,
-        type,
-        priceRange,
-        matchPercent,
-        statusText = 'Ready To Move In',
-        bgClass = 'bg-gradient-to-r from-[#B3322F] to-[#4D1614]', // default if not provided
-    }) => {
-            return (
+export const HousingCard: React.FC<{
+    title: string;
+    imageUrl: string;
+    location: string;
+    type: string;
+    priceRange: string;
+    matchPercent: string;
+    statusText?: string;
+    bgClass?: string; // Tailwind background class (e.g., bg-gradient-to-r from-red-500 to-red-800)
+    setSelected: (value: any) => void
+    selected?: boolean,
+    index: number,
+}> = ({
+    index,
+    title,
+    imageUrl,
+    location,
+    type,
+    priceRange,
+    matchPercent,
+    statusText = 'Ready To Move In',
+    bgClass = 'bg-gradient-to-r from-[#B3322F] to-[#4D1614]', // default if not provided
+    selected = false,
+    setSelected
+}) => {
+        const [viewDetails, setViewDetails] = useState(false)
+        return (
+            <>
                 <div
-                    className={`md:flex rounded-xl shadow-md overflow-hidden relative p-6 mx-5 mt-12 text-white ${bgClass}`}
+                    onClick={() => {
+                        console.log(index)
+                        setSelected(index)
+                    }}
+                    className={`z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md overflow-hidden relative p-6 mx-5 mt-12 text-white ${bgClass}`}
                 >
                     {/* Like Icon */}
                     <img
@@ -71,7 +85,7 @@ export const PrimaryButton: React.FC<{
                         alt="Like"
                         className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50"
                     />
-    
+
                     {/* Image section */}
                     <div className="relative w-full md:w-1/4">
                         <img
@@ -83,7 +97,7 @@ export const PrimaryButton: React.FC<{
                             {statusText}
                         </div>
                     </div>
-    
+
                     {/* Content section */}
                     <div className="w-full md:w-1/2 md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
                         <div className="flex md:justify-start justify-between items-start">
@@ -92,7 +106,7 @@ export const PrimaryButton: React.FC<{
                                 {matchPercent} MATCH
                             </div>
                         </div>
-    
+
                         {/* Details */}
                         <div className="mt-5 space-y-2 md:text-lg text-md">
                             <p className="flex items-start">
@@ -122,5 +136,31 @@ export const PrimaryButton: React.FC<{
                         </div>
                     </div>
                 </div>
-            );
-        };
+                {/* Buttons */}
+                <AnimatePresence>
+                    {selected && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.3, ease: "easeInOut" }}
+                            className="bg-[#D9D9D9]/50 md:h-30 h-35 mx-5 -mt-5 pt-5 rounded-xl flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4"
+                        >
+                            <button
+                                className="bg-[#B3322F] text-white w-50 py-2 rounded-full"
+                                onClick={() => setViewDetails(true)}
+                            >
+                                View Details
+                            </button>
+                            <button className="bg-black text-white w-50 py-2 rounded-full">
+                                Continue
+                            </button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {selected && viewDetails && <AvailableUnitsModal />}
+
+            </>
+        );
+    };
