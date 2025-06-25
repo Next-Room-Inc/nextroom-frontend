@@ -17,6 +17,7 @@ import { SignupSchema } from "../../utils/schemas/auth.schema";
 import { ArrowUpTrayIcon, EyeIcon } from "@heroicons/react/20/solid";
 import { CropperRef, Cropper, CircleStencil } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css'
+// import { motion } from "framer-motion";
 
 const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;
 const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full cursor-pointer`;
@@ -251,8 +252,14 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
               className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
             />
           </div>
-          {formik.touched.password || formik.errors.password || formik.values.password ? (
-            <PasswordChecklist password={formik.values.password} />
+          {formik.touched.password   && formik.values.password.length ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <PasswordChecklist password={formik.values.password} />
+            </motion.div>
           ) : null}
         </div>
       </div>
@@ -442,7 +449,7 @@ const SchoolForm: React.FC<SchoolFormProps> = ({ formik, nextStepHandler }) => {
             </option>
 
             {/* Pronoun options */}
-            {["Male", "Female", "Prefer Not To Say", "other"].map((option) => (
+            {["Male", "Female", "Prefer Not To Say", "Other"].map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>
@@ -520,7 +527,7 @@ const NameForm: React.FC<NameFormProps> = ({ formik, nextStepHandler }) => {
     <>
 
       <div>
-        <h1 className="text-[#B3322F] text-2xl ml-2 mb-8">Hey, what’s your name?</h1>
+        <h1 className="text-[#B3322F] text-2xl ml-2 mb-8 font-semibold">Hey, what’s your name?</h1>
 
         {/* First Name */}
         <div>
