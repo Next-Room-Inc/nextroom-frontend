@@ -22,8 +22,8 @@ const WinFreeRentModal: React.FC<{
           className={`size-5 absolute top-5 right-5 text-white cursor-pointer`}
         />
         <div className="flex justify-center items-center gap-1 text-black md:mt-10 mt-6">
+          <span className="bg-black text-white font-bold md:text-4xl w-7 h-7 md:w-11 md:h-11 flex items-center justify-center rounded-md pb-1">{0}</span>
           <span className="bg-black text-white font-bold md:text-4xl w-7 h-7 md:w-11 md:h-11 flex items-center justify-center rounded-md pb-1">{daysLeft[0] || 0}</span>
-          <span className="bg-black text-white font-bold md:text-4xl w-7 h-7 md:w-11 md:h-11 flex items-center justify-center rounded-md pb-1">{daysLeft[1] || 0}</span>
           <span className="text-black md:text-2xl font-extrabold md:leading-6 leading-4 -mt-1">DAYS <br />LEFT</span>
         </div>
         {/* <h2 className="md:text-5xl text-4xl font-bold">ONE LAST STEP</h2> */}
