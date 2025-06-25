@@ -403,6 +403,7 @@ const HistoryDetailSection = () => {
 
                             <div className="relative  w-full">
                                 <input
+                                    disabled
                                     type="range"
                                     className="custom-slider   bg-gradient-to-r from-[#ED1111] to-[#5CE64C]   h-20 rounded-lg"
                                     style={{ background: "linear-gradient(to right, #ED1111, #5CE64C)", width: "100%", height: '10px', paddingTop: '10px', borderRadius: "12px", }}
@@ -424,6 +425,7 @@ const HistoryDetailSection = () => {
 
                             <div className="relative  w-full">
                                 <input
+                                    disabled
                                     type="range"
                                     className="custom-slider   bg-gradient-to-r from-[#ED1111] to-[#5CE64C]   h-20 rounded-lg"
                                     style={{ background: "linear-gradient(to right, #ED1111, #5CE64C)", width: "100%", height: '10px', paddingTop: '10px', borderRadius: "12px", }}
@@ -466,7 +468,7 @@ const ReviewDetailSection = () => {
             <div className=" mx-auto p-4 space-y-10 text-sm text-gray-800">
                 {/* Reviews */}
                 <section>
-                    <h2 className="text-xl font-semibold text-red-600 mb-3">Reviews</h2>
+                    <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Reviews</h2>
 
 
 
@@ -511,7 +513,7 @@ const ReviewDetailSection = () => {
 
                 {/* Repair History */}
                 <section>
-                    <h2 className="text-xl font-semibold text-red-600 mb-3">Repair History</h2>
+                    <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Repair History</h2>
                     <p className="mb-2 font-medium">Number of repairs within 12 months: <span className="font-bold">19</span></p>
 
                     <div className="flex gap-4 items-center mb-4">
@@ -556,12 +558,13 @@ const ReviewDetailSection = () => {
                 {/* Landlord Response Rate */}
 
                 <section>
-                    <h2 className="text-xl font-semibold text-red-600 mb-3">Landlord Response Rate</h2>
+                    <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Landlord Response Rate</h2>
                     <div className="md:w-60 w-full">
 
 
                         <div className="relative  w-full">
                             <input
+                                disabled
                                 type="range"
                                 className="custom-slider   bg-gradient-to-r from-[#ED1111] to-[#5CE64C]   h-20 rounded-lg"
                                 style={{ background: "linear-gradient(to right, #ED1111, #5CE64C)", width: "100%", height: '10px', paddingTop: '10px', borderRadius: "12px", }}
@@ -878,12 +881,12 @@ const ViewAllMatchesComponent = () => {
 
             {/*User Details  */}
             {selectedUser && (
-                 <motion.div
-                 key="feedback-modal"
-                 initial={{ x: 100, opacity: 0 }}
-                 animate={{ x: 0, opacity: 1 }}
-                 exit={{ x: 100, opacity: 0 }}
-                 transition={{ duration: 0.9, ease: "easeInOut" }}
+                <motion.div
+                    key="feedback-modal"
+                    initial={{ x: 100, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 100, opacity: 0 }}
+                    transition={{ duration: 0.9, ease: "easeInOut" }}
                     className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg 
                md:rounded-bl-xl md:rounded-tl-xl z-10 
                md:rounded-br-none md:rounded-tr-none 
