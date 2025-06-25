@@ -1,11 +1,13 @@
+import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
+import axios from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../../utils/constants';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
-import axios from 'axios';
-import { MagnifyingGlassIcon } from '@heroicons/react/16/solid';
 
 
 interface PropertySectionParams {
@@ -98,6 +100,7 @@ const WelcomeScreen: React.FC<{
     name: string;
     nextStepHandler: () => void;
 }> = ({ name, nextStepHandler }) => {
+    const navigate = useNavigate()
     const [runConfetti, setRunConfetti] = useState(false);
     setTimeout(() => {
         setRunConfetti(false);
@@ -123,7 +126,7 @@ const WelcomeScreen: React.FC<{
                         Get Started
                     </PrimaryButton>
 
-                    <PrimaryButton button={true}  >
+                    <PrimaryButton button={true} onClick={() => navigate(ROUTES.SEARCH_PROPERTY)} >
                         I’ll Search On My Own
                     </PrimaryButton>
                 </div>
@@ -136,75 +139,25 @@ const WelcomeScreen: React.FC<{
 
 
 
-const LetsBecomeRoomMateSection: React.FC<{
-    url: string
-}> = ({ url }) => {
-    return (
-        <>
-            <img alt="" className="h-25 mx-auto" src={`/assets/img/logo/primary_logo.png`} />
 
-
-
-            <p className='text-2xl text-[#B3322F]  w-full  px-10 text-center mx-auto'>
-
-                Let’s Become Roommates!
-            </p>
-
-            <img alt="" className="h-60 mx-auto -mt-5" src={`/assets/img/icons/roommates.svg`} />
-
-
-            <p className='text-lg text-[#B3322F]  w-full  px-10 text-center mx-auto'>
-
-                Join by scanning the <br />
-                QR Code or follow the link below:
-            </p>
-
-            <p className='text-center px-10'>http://sample.info/?insect=fireman&porter=attraction#cave</p>
-            {/* <img alt="" className="h-35 mx-auto mt-8" src={`/assets/img/icons/qr_code.svg`} /> */}
-            <QRCode value={url} className="h-35 mx-auto mt-10" />
-
-
-            <p className='text-lg text-[#B3322F] mt-15 w-full  px-10 text-center mx-auto font-semibold'>What is Next Room?</p>
-
-
-            <p className='w-[80%] md:[70%] lg:w-[60%] xl:w-[50%] text-center mx-auto mt-3'>
-
-                Next Room is the future of student housing—built to make finding a place (and people to live with) actually simple. From verified listings to smart roommate matching and easy sublets, it’s everything you wish existed when the group chat said “who’s signing the lease?”
-                <br />
-                <br />
-                You’ve been invited to join your roommate’s housing search. Next Room helps you find a home together—without the scams, stress, or endless scrolling.
-            </p>
-
-            <p className='w-[80%] md:[70%] lg:w-[60%] xl:w-[50%] text-center mx-auto mt-3 font-bold'>
-                Fast. Verified. Student-focused. Join your friend on Next Room today!<br />
-                Your future home is waiting—together.
-            </p>
-        </>
-    )
-}
 
 
 
 
 
 const SkipNextQuestionSection = () => {
-    const inviteRef = useRef<HTMLDivElement>(null);
-    const url = "www.nextroom.ca"
 
 
 
     return (
         <>
 
-            {/* Hidden container to capture */}
-            <div ref={inviteRef} className="py-30 absolute left-[-9999px] top-0"  >
-                <LetsBecomeRoomMateSection {...{ url }} />
-            </div>
+
 
             <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
 
 
-            <ShareSection />
+            <ShareSection  />
 
         </>
     )
@@ -252,26 +205,26 @@ const AmenitiesSection: React.FC<{
     // const disabled = answers.UNIT_AMENITIS === null || answers.COMUNITY_AMENITIS === null
 
     const unitAmenities = [
-        { name: "In-Unit Washer/Dryer", icon: "" },
-        { name: "Refrigerator", icon: "" },
-        { name: "Stove", icon: "" },
-        { name: "Air Conditioning", icon: "" },
-        { name: "Balcony", icon: "" },
-        { name: "Pet-Friendly", icon: "" },
-        { name: "Dishwasher", icon: "" },
-        { name: "Microwave", icon: "" },
-        { name: "Storage Room", icon: "" }
+        { name: "In-Unit Washer/Dryer", icon: "Washer_Dryer.svg" },
+        { name: "Refrigerator", icon: "Refrigerator.svg" },
+        { name: "Stove", icon: "Stove.svg" },
+        { name: "Air Conditioning", icon: "Air_Conditioning.svg" },
+        { name: "Balcony", icon: "Balcony.svg" },
+        { name: "Pet-Friendly", icon: "Pet-Friendly.svg" },
+        { name: "Dishwasher", icon: "Dishwasher.svg" },
+        { name: "Microwave", icon: "Microwave.svg" },
+        { name: "Storage Room", icon: "Storage_Room.svg" }
     ]
     const comunityAmenities = [
-        { name: "Fitness Centre", icon: "" },
-        { name: "Parking", icon: "" },
-        { name: "Art Studio", icon: "" },
-        { name: "Study Room", icon: "" },
-        { name: "Recycling Area", icon: "" },
-        { name: "Bike Storage", icon: "" },
-        { name: "Rooftop Terrace", icon: "" },
-        { name: "Keypad Entry", icon: "" },
-        { name: "Security Cameras", icon: "" }
+        { name: "Fitness Centre", icon: "Fitness_Centre.svg" },
+        { name: "Parking", icon: "Parking.svg" },
+        { name: "Art Studio", icon: "Art_Studio.svg" },
+        { name: "Study Room", icon: "Study_Room.svg" },
+        { name: "Recycling Area", icon: "Recycling_Area.svg" },
+        { name: "Bike Storage", icon: "Bike_Storage.svg" },
+        { name: "Rooftop Terrace", icon: "Rooftop_Terrace.svg" },
+        { name: "Keypad Entry", icon: "Keypad_Entry.svg" },
+        { name: "Security Cameras", icon: "SecurityCameras.svg" }
     ]
 
 
@@ -285,21 +238,42 @@ const AmenitiesSection: React.FC<{
             <p className='text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto'> What type of amenities are you looking for? </p>
             <div id="UNIT_AMENITIS" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.UNIT_AMENITIS === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Unit Amenities </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit   ">
                     {unitAmenities.map((amenity, index) => (
                         <PrimaryButton key={index} selected={selectedUnitAmenities.includes(amenity.name)} onClick={() => handleUnitAmenityToggle(amenity.name)}>
-                            {amenity.name}
-
+                            <div className='flex items-center w-full gap-2 px-4'>
+                                <div className='flex-shrink-0 w-6 h-6'>
+                                    <img
+                                        alt={amenity.name || "Amenity icon"}
+                                        className="w-full h-full object-contain"
+                                        src={`/assets/img/onboarding-icons/${amenity.icon}`}
+                                    />
+                                </div>
+                                <div className='flex-grow text-center truncate'>
+                                    {amenity.name}
+                                </div>
+                            </div>
                         </PrimaryButton>
                     ))}
                 </div>
             </div>
             <div id="COMUNITY_AMENITIS" className={`rounded-2xl mx-1 py-10 ${error && answers.COMUNITY_AMENITIS === null ? "bg-[#B3322F]/20" : ""}`}>
-                <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Unit Amenities </p>
+                <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Community Amenities </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit">
                     {comunityAmenities.map((amenity, index) => (
                         <PrimaryButton key={index} selected={selectedComunityAmenities.includes(amenity.name)} onClick={() => handleCommunityAmenityToggle(amenity.name)}>
-                            {amenity.name}
+                            <div className='flex items-center w-full gap-2 px-4'>
+                                <div className='flex-shrink-0 w-6 h-6'>
+                                    <img
+                                        alt={amenity.name || "Amenity icon"}
+                                        className="w-full h-full object-contain"
+                                        src={`/assets/img/onboarding-icons/${amenity.icon}`}
+                                    />
+                                </div>
+                                <div className='flex-grow text-center truncate'>
+                                    {amenity.name}
+                                </div>
+                            </div>
                         </PrimaryButton>
                     ))}
                 </div>
@@ -321,6 +295,7 @@ const RoommatesSection: React.FC<{
         NEED_ROOMMATE_MATCHING?: string;
     };
 }> = ({ handleAnswer, answers, nextSectionHandler }) => {
+    const navigate = useNavigate()
     // const [count, setcount] = useState(0)
     // const [skipQuestionSection, setSkipQuestionSection] = useState(false)
     const count = answers?.ROOMMATE_COUNT || 0
@@ -342,6 +317,13 @@ const RoommatesSection: React.FC<{
     }
 
     const disabled = answers.BRINGING_ROOMMATES === null || answers.NEED_ROOMMATE_MATCHING === null
+
+    const nextHandler = () => {
+        if (answers?.NEED_ROOMMATE_MATCHING === 'No') {
+            navigate(ROUTES.SEARCH_PROPERTY)
+        }
+        else { nextSectionHandler() }
+    }
 
     return (
         <>
@@ -407,10 +389,10 @@ const RoommatesSection: React.FC<{
             </div>
 
             {
-                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : <NextButton onClick={disabled ? scrollHandler : nextSectionHandler} />
+                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : ""
             }
 
-
+            <NextButton onClick={disabled ? scrollHandler : nextHandler} />
 
         </>
     )
@@ -455,16 +437,34 @@ const LookingForSection: React.FC<{
     }
 
     const disabled = answers.RENTAL_PREFERENCE === null
-
+    const [rentalDescription, setRentalDescription] = useState<string | null>(null)
     return (
         <>
             <div id="RENTAL_PREFERENCE" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.RENTAL_PREFERENCE === null ? "bg-[#B3322F]/20" : ""}`}>
-                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
+                <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> What type of rental are you looking for? </p>
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-10 text-md px-10'>
                     {rentalTypes.map(RENTAL_TYPE => (
                         <div className='w-full  md:w-auto group'>
-                            <p className='max-w-[200px] text-[8px] group-hover:opacity-100 opacity-0 mx-auto shadow-[#D9D9D9] drop-shadow-xl shadow-md bg-white px-2  mb-3 py-2 hidden md:flex'>{RENTAL_TYPE.details}</p>
+
+                            {rentalDescription === RENTAL_TYPE.name ? (
+                                <motion.p
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: 10 }}
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                    className={`
+                                        max-w-[200px] text-[8px] mx-auto px-2 py-2 mb-3 bg-white shadow-[#D9D9D9] drop-shadow-xl shadow-md
+                                        
+                                        `}
+                                >
+                                    {RENTAL_TYPE.details}
+                                </motion.p>
+                            ) : <p className={`
+                                max-w-[200px] text-[8px] mx-auto px-2 py-2 mb-3 bg-white shadow-[#D9D9D9] drop-shadow-xl shadow-md
+                                opacity-0 hidden md:flex
+                                `}>{RENTAL_TYPE.details}</p>}
+
                             <button
                                 onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_PREFERENCE', RENTAL_TYPE.name)}
                                 className={` border border-white ${answers.RENTAL_PREFERENCE === RENTAL_TYPE.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}>
@@ -473,7 +473,7 @@ const LookingForSection: React.FC<{
                                     {RENTAL_TYPE.name}
                                 </div>
 
-                                <img alt="" className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
+                                <img alt="" onClick={() => rentalDescription === RENTAL_TYPE.name ? setRentalDescription(null) : setRentalDescription(RENTAL_TYPE.name)} className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
                             </button>
 
                         </div>

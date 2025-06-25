@@ -175,38 +175,32 @@ const WhatDoYouEnjoySections: React.FC<{
         { title: 'Social', options: socialOptions, selected: selectedSocials, setSelected: setSelectedSocials, img: 'social.svg' },
         { title: 'Staying In', options: stayingInOptions, selected: selectedStayingIn, setSelected: setSelectedStayingIn, img: 'staying_in.svg' },
         { title: 'Causes', options: causesInOptions, selected: selectedCauses, setSelected: setSelectedCauses, img: 'causes.svg' },
-        { title: '', options: personalInOptions, selected: selectedPersonal, setSelected: setSelectedPersonal, img: 'personal.svg' }
+        { title: 'Personal', options: personalInOptions, selected: selectedPersonal, setSelected: setSelectedPersonal, img: 'personal.svg' }
     ];
 
     const [error, setError] = useState(false)
 
 
+    const totalSelected = selectedSocials.length + selectedStayingIn.length + selectedCauses.length + selectedPersonal.length
+    const disabled = totalSelected < 1
+
+
     const scrollHandler = () => {
         setError(true)
-        if (selectedSocials.length < 1) {
-            const section = document.getElementById('Social');
+        if (disabled) {
+            const section = document.getElementById('enjoy');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (selectedStayingIn.length < 1) {
-            const section = document.getElementById('Staying In');
-            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (selectedCauses.length < 1) {
-            const section = document.getElementById('Causes');
-            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (selectedPersonal.length < 1) {
-            const section = document.getElementById('Personal');
-            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
+        }  
     }
 
-    const disabled = selectedSocials.length < 1 || selectedStayingIn.length < 1 || selectedCauses.length < 1 || selectedPersonal.length < 1
 
     return (
-        <>
+        <div id="enjoy" className={`${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
             <QuestionTitle>What Do You Enjoy?</QuestionTitle>
 
-            <div className="flex flex-wrap justify-center gap-6 md:px-16 mt-10">
+            <div   className="flex flex-wrap justify-center gap-6 md:px-16 mt-10">
                 {sections.map(({ title, options, selected, setSelected, img }) => (
-                    <div id={title} key={title}  className={`w-full sm:w-[45%] lg:w-[23%] rounded-2xl mx-1 md:px-2 px-10 py-5 ${error && selected.length < 1 ? "bg-[#B3322F]/20" : ""}`} >
+                    <div id={title} key={title}  className={`w-full sm:w-[45%] lg:w-[23%] rounded-2xl mx-1 md:px-2 px-10 py-5  `} >
                         <p className="justify-center items-center bg-[#B3322F] text-white rounded-full   mb-4 flex w-full">
                             <span className=' '>{title}  </span>
                             <img alt="" className="h-10 " src={`/assets/img/icons/${img}`} />
@@ -225,7 +219,7 @@ const WhatDoYouEnjoySections: React.FC<{
                     <NextButton onClick={disabled ? scrollHandler : nextStep} />
                 </div>
 
-        </>
+        </div>
     );
 };
 

@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
 import { motion } from 'framer-motion';
 import html2canvas from "html2canvas";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ export const NextButton: React.FC<{
     className?: string;
 }> = ({ onClick = () => { }, className = '', disabled = false }) => {
     return (
-        <div className="md:relative sticky bottom-4 z-30">
+        <div className="  sticky bottom-4 z-30">
             <motion.button
                 disabled={disabled}
                 onClick={onClick}
@@ -124,10 +124,9 @@ export const QuestionTitle = ({ children }: { children: React.ReactNode }) => (
 
 
 export const ShareSection = () => {
-    const [showDropdown, setShowDropdown] = useState(false);
     const inviteRef = useRef<HTMLDivElement>(null);
-    const url = "www.nextroom.ca"
-
+    const [showDropdown, setShowDropdown] = useState(false);
+    const url = "nextroom.ca"
     const handleShare = async () => {
 
         if (!navigator.share || !navigator.canShare) {
@@ -181,6 +180,7 @@ export const ShareSection = () => {
 
 
     const handlePrint = async () => {
+        console.log("print")
         if (!inviteRef.current) return;
 
         // Wait a tick to make sure it's fully rendered
@@ -209,7 +209,12 @@ export const ShareSection = () => {
 
     return (
         <>
-            <QRCode value={url} className="h-35 mx-auto mt-10" />
+
+
+            {/* Hidden container to capture */}
+            <div ref={inviteRef} className="py-30 absolute left-[-9999px] top-0"  >
+                <LetsBecomeRoomMateSection {...{ url }} />
+            </div>
 
             <button onClick={() => setShowDropdown(!showDropdown)} className='bg-black w-[250px] md:w-[180px] text-center py-2 text-white  rounded-full mt-8'>  Share To Invite </button>
             <AnimatePresence>
@@ -322,3 +327,45 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
         </div>
     );
 };
+
+
+const LetsBecomeRoomMateSection: React.FC<{
+    url: string
+}> = ({ url }) => {
+    console.log("url==>", url)
+
+    return (
+        <>
+            <img alt="" className="h-25 mx-auto" src={`/assets/img/logo/primary_logo.png`} />
+
+            <p className='text-2xl text-[#B3322F]  w-full  px-10 text-center mx-auto'>
+                Let’s Become Roommates!
+            </p>
+
+            <img alt="" className="h-60 mx-auto -mt-5" src={`/assets/img/icons/roommates.svg`} />
+
+            <p className='text-lg text-[#B3322F]  w-full  px-10 text-center mx-auto'>
+                Join by scanning the <br />
+                QR Code or follow the link below:
+            </p>
+
+            <p className='text-center px-10'>http://sample.info/?insect=fireman&porter=attraction#cave</p>
+            <img alt="" className="h-35 mx-auto mt-8" src={`/assets/img/icons/qr_code.svg`} />
+            {/* <QRCode value={url} className="h-35 mx-auto mt-10" /> */}
+
+            <p className='text-lg text-[#B3322F] mt-15 w-full  px-10 text-center mx-auto font-semibold'>What is Next Room?</p>
+
+            <p className='w-[80%] md:[70%] lg:w-[60%] xl:w-[50%] text-center mx-auto mt-3'>
+                Next Room is the future of student housing—built to make finding a place (and people to live with) actually simple. From verified listings to smart roommate matching and easy sublets, it’s everything you wish existed when the group chat said “who’s signing the lease?”
+                <br />
+                <br />
+                You’ve been invited to join your roommate’s housing search. Next Room helps you find a home together—without the scams, stress, or endless scrolling.
+            </p>
+
+            <p className='w-[80%] md:[70%] lg:w-[60%] xl:w-[50%] text-center mx-auto mt-3 font-bold'>
+                Fast. Verified. Student-focused. Join your friend on Next Room today!<br />
+                Your future home is waiting—together.
+            </p>
+        </>
+    )
+}
