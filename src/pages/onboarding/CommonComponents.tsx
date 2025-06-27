@@ -4,12 +4,16 @@ import { useRef, useState } from "react";
 import { motion } from 'framer-motion';
 import html2canvas from "html2canvas";
 import { toast } from "react-toastify";
+import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../utils/constants";
 
 export const NextButton: React.FC<{
     disabled?: boolean;
     onClick?: () => void;
+    previousStepHandler?: () => void;
     className?: string;
-}> = ({ onClick = () => { }, className = '', disabled = false }) => {
+}> = ({ onClick = () => { }, className = '', disabled = false, previousStepHandler = () => { } }) => {
     return (
         <div className="  sticky bottom-4 z-30">
             <motion.button
@@ -24,6 +28,19 @@ export const NextButton: React.FC<{
             >
 
                 Next
+            </motion.button>
+
+            <motion.button
+                disabled={disabled}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className='bg-[#B3322F] hover:bg-black text-white w-25 text-sm flex gap-2 p-1 mx-auto rounded-full justify-center items-center mt-3 py-1'
+                onClick={previousStepHandler}>
+                <ArrowLeftIcon className='w-4.5 h-4.5 border-white border-2 rounded-full p-0.5 ' />
+                Back
             </motion.button>
         </div>
     );
@@ -79,6 +96,8 @@ export const ExitConfirmationSection: React.FC<{
     setExitForm: (value: boolean) => void;
 }
 > = ({ setExitForm }) => {
+
+    const navigate = useNavigate()
     return (
         <div className="text-center">
             <img
@@ -100,7 +119,7 @@ export const ExitConfirmationSection: React.FC<{
                     Resume
                 </PrimaryButton>
 
-                <PrimaryButton button={true}>
+                <PrimaryButton button={true} onClick={()=>navigate(ROUTES.SEARCH_PROPERTY)}>
                     Yes
                 </PrimaryButton>
             </div>

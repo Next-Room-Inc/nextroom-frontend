@@ -97,12 +97,13 @@ const HomeSection: React.FC<{
 const LivingSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
+    previousStepHandler: () => void;
     answers: {
         COMFORT_DIFFERENT_GENDERS?: string | null;
         OPENNESS_TO_CULTURAL_DIFFERENCE?: string | null;
         LIKES_GUESTS?: string | null;
     };
-}> = ({ nextStepHandler, answers, handleAnswer }) => {
+}> = ({ nextStepHandler, answers, handleAnswer , previousStepHandler}) => {
 
 
 
@@ -194,8 +195,8 @@ const LivingSection: React.FC<{
 
 
             {/* Next button */}
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>
@@ -204,12 +205,13 @@ const LivingSection: React.FC<{
 const GuestAndFriendSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
+    previousStepHandler: () => void;
     answers: {
         OKAY_WITH_ROOMMATE_GUESTS?: string | null;
         GUEST_CURFEW_WEEKDAYS?: string | null;
         STUDY_PLANS?: string | null;
     };
-}> = ({ nextStepHandler, answers, handleAnswer }) => {
+}> = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
 
     const [error, setError] = useState(false)
 
@@ -286,8 +288,8 @@ const GuestAndFriendSection: React.FC<{
 
 
             {/* Next button */}
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>
@@ -296,13 +298,14 @@ const GuestAndFriendSection: React.FC<{
 const CookAndExpensesSection: React.FC<{
     nextSectionHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
+    previousStepHandler: () => void;
     answers: {
         COOKING_PLANS?: string | null;
         SHARING_EXPENSES?: string | null;
         FRIENDSHIP_IMPORTANCE?: string | null;
         ROOMMATE_COMMUNICATION_FREQUENCY?: string | null;
     };
-}> = ({ nextSectionHandler, answers, handleAnswer }) => {
+}> = ({ nextSectionHandler, answers, handleAnswer, previousStepHandler }) => {
 
     const [error, setError] = useState(false)
 
@@ -327,7 +330,7 @@ const CookAndExpensesSection: React.FC<{
     }
 
     const disabled = answers.COOKING_PLANS === null || answers.SHARING_EXPENSES === null || answers.FRIENDSHIP_IMPORTANCE === null || answers.ROOMMATE_COMMUNICATION_FREQUENCY === null
-   
+
     return (
         <>
             <div id="COOKING_PLANS" className={` rounded-2xl mx-1 py-10 ${error && answers.COOKING_PLANS === null ? "bg-[#B3322F]/20" : ""}`}>
@@ -405,8 +408,8 @@ const CookAndExpensesSection: React.FC<{
 
             {/* Next button */}
 
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextSectionHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextSectionHandler} previousStepHandler={previousStepHandler} />
             </div>
 
 

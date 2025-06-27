@@ -100,11 +100,12 @@ const HomeSection: React.FC<{
 const DisruptionHandlingSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
+    previousStepHandler: () => void;
     answers: {
         ROOMMATE_IMPAIRED_DISRUPTIVE?: string | null;
         LEFT_LIGHTS_ON_SHARED_UTILITIES?: string | null;
     };
-}> = ({ nextStepHandler, answers, handleAnswer }) => {
+}> = ({ nextStepHandler, answers, handleAnswer ,previousStepHandler}) => {
     const [error, setError] = useState(false)
 
     const scrollHandler = () => {
@@ -163,8 +164,8 @@ const DisruptionHandlingSection: React.FC<{
                 </div>
             </div>
 
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>
@@ -173,12 +174,14 @@ const DisruptionHandlingSection: React.FC<{
 const ConflictAndSafetySection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
+
+    previousStepHandler: () => void;
     answers: {
         RENTAL_TYPE?: string | null;
         ROOMMATE_WITH_ILLlCIT_SUBSTANCES?: string | null;
         ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION?: string | null;
     };
-}> = ({ nextStepHandler, answers, handleAnswer }) => {
+}> = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
 
     const [error, setError] = useState(false)
 
@@ -238,8 +241,8 @@ const ConflictAndSafetySection: React.FC<{
 
 
             {/* Next button */}
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>
@@ -251,8 +254,9 @@ const PartyAndMoneyConcernsSection: React.FC<{
         ROOMMATE_OWES_MONEY?: string | null;
     }
     nextStepHandler: () => void;
+    previousStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
-}> = ({ nextStepHandler, answers, handleAnswer }) => {
+}> = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
 
     const [error, setError] = useState(false)
 
@@ -273,42 +277,42 @@ const PartyAndMoneyConcernsSection: React.FC<{
     return (
         <>
             {/* Question */}
-            
+
             <div id="FREQUENT_LOUD_PARTIES" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.FREQUENT_LOUD_PARTIES === null ? "bg-[#B3322F]/20" : ""}`}>
-            <QuestionTitle>
-                What would you do if your roommates frequently threw loud or disruptive parties?
-            </QuestionTitle>
-            <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
-                {[
-                    { name: 'Call The Police', value: 'Call The Police' },
-                    { name: 'Notify The Landlord', value: 'Notify The Landlord' },
-                    { name: 'Talk To My Roommate', value: 'Talk To My Roommate' },
-                    { name: 'Do Nothing', value: 'Do Nothing' },
-                ].map(btn => <PrimaryButton selected={answers.FREQUENT_LOUD_PARTIES === btn.value} onClick={() => handleAnswer(sectionName, 'FREQUENT_LOUD_PARTIES', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
-            </div>
+                <QuestionTitle>
+                    What would you do if your roommates frequently threw loud or disruptive parties?
+                </QuestionTitle>
+                <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
+                    {[
+                        { name: 'Call The Police', value: 'Call The Police' },
+                        { name: 'Notify The Landlord', value: 'Notify The Landlord' },
+                        { name: 'Talk To My Roommate', value: 'Talk To My Roommate' },
+                        { name: 'Do Nothing', value: 'Do Nothing' },
+                    ].map(btn => <PrimaryButton selected={answers.FREQUENT_LOUD_PARTIES === btn.value} onClick={() => handleAnswer(sectionName, 'FREQUENT_LOUD_PARTIES', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
+                </div>
             </div>
 
 
             {/* Question */}
-            
+
             <div id="ROOMMATE_OWES_MONEY" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.ROOMMATE_OWES_MONEY === null ? "bg-[#B3322F]/20" : ""}`}>
-            <QuestionTitle>
-                What would you do if one of your roommates owed you money?
-            </QuestionTitle>
-            <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
-                {[
+                <QuestionTitle>
+                    What would you do if one of your roommates owed you money?
+                </QuestionTitle>
+                <div className='flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10'>
+                    {[
 
-                    { name: 'Talk To Them Directly', value: 'Talk To Them Directly' },
-                    { name: 'Remind Them Digitally', value: 'Remind Them Digitally' },
-                    { name: 'Ask Landlord For Help', value: 'Ask Landlord For Help' },
-                    { name: 'Do Nothing', value: 'Do Nothing' },
+                        { name: 'Talk To Them Directly', value: 'Talk To Them Directly' },
+                        { name: 'Remind Them Digitally', value: 'Remind Them Digitally' },
+                        { name: 'Ask Landlord For Help', value: 'Ask Landlord For Help' },
+                        { name: 'Do Nothing', value: 'Do Nothing' },
 
-                ].map(btn => <PrimaryButton selected={answers.ROOMMATE_OWES_MONEY === btn.value} onClick={() => handleAnswer(sectionName, 'ROOMMATE_OWES_MONEY', btn.value)}>
-                    {btn.name}
-                </PrimaryButton>)}
-            </div>
+                    ].map(btn => <PrimaryButton selected={answers.ROOMMATE_OWES_MONEY === btn.value} onClick={() => handleAnswer(sectionName, 'ROOMMATE_OWES_MONEY', btn.value)}>
+                        {btn.name}
+                    </PrimaryButton>)}
+                </div>
             </div>
 
             {answers.ROOMMATE_OWES_MONEY !== null && answers.FREQUENT_LOUD_PARTIES !== null &&
@@ -324,8 +328,8 @@ const PartyAndMoneyConcernsSection: React.FC<{
 
 
             {/* Next button */}
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>

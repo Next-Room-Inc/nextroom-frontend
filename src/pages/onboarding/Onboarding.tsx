@@ -1,17 +1,16 @@
-import { useState } from 'react';
-import OnboardingLayout from '../../layouts/Onboarding.Layout';
-import PropertySection from './PropertySection';
-import { ExitConfirmationSection, transitionVariants } from './CommonComponents';
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ICONS } from '../../utils/constants/app-info.constant';
-import { ArrowLeftIcon } from '@heroicons/react/16/solid';
+import { useState } from 'react';
 import ReactConfetti from 'react-confetti';
+import { useNavigate } from 'react-router-dom';
+import OnboardingLayout from '../../layouts/Onboarding.Layout';
+import { ROUTES } from '../../utils/constants';
+import { ICONS } from '../../utils/constants/app-info.constant';
+import { ExitConfirmationSection, transitionVariants } from './CommonComponents';
 import LifeStyleSection from './LifeStyleSection';
+import PropertySection from './PropertySection';
 import RoommateSection from './RoommateSection';
 import SituationSection from './SituationSection';
-import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../utils/constants';
 
 
 
@@ -137,7 +136,7 @@ const Onboarding = () => {
                     (section === 'PROPERTY_SECTION' &&
                         formStep[section] === 0 &&
                         runConfetti) ||
-                    (answers['PROPERTY_SECTION']?.PREFERRED_LOCATION === 'Surprise Me' &&  runConfetti)
+                    (answers['PROPERTY_SECTION']?.PREFERRED_LOCATION === 'Surprise Me' && runConfetti)
                 ) && (
                         <motion.div
                             key="confetti"
@@ -166,6 +165,8 @@ const Onboarding = () => {
                             {/* </motion.div> */}
                         </>
                     )}
+                   
+
                 </OnboardingLayout>
 
             </AnimatePresence>
@@ -182,7 +183,7 @@ const FormStepper: React.FC<{
     answers: AnswerSections;
     setExitForm: (value: boolean) => void;
     setSection: (value: keyof AnswerSections) => void;
-}> = ({ changeStep, formStep, setSection, section, answers, setExitForm }) => {
+}> = ({  setSection, section, answers, setExitForm }) => {
     const hasAnsweredAnyQuestion = Object.values(answers[section]).some(answer => answer !== null);
 
     const totalQuestions = (sec: keyof AnswerSections) => Object.keys(answers[sec]).length || 1;
@@ -197,12 +198,7 @@ const FormStepper: React.FC<{
     return (
         <>
 
-            {formStep[section] > 0 && (
-                <div className="text-sm font-bold flex items-center justify-end pr-10 mb-5 md:-mb-5 text-[#B3322F] hover:text-[#b3312f6b] mt-4" onClick={() => changeStep(-1)}>
-                    <ArrowLeftIcon className="h-5 mr-2" />
-                    <span className="cursor-pointer">Previous Step</span>
-                </div>
-            )}
+
 
             <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10">
                 {steps.map((step, index) => {

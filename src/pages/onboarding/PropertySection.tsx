@@ -147,16 +147,9 @@ const WelcomeScreen: React.FC<{
 
 const SkipNextQuestionSection = () => {
 
-
-
     return (
         <>
-
-
-
             <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
-
-
             <ShareSection  />
 
         </>
@@ -164,13 +157,14 @@ const SkipNextQuestionSection = () => {
 }
 
 const AmenitiesSection: React.FC<{
+    previousStepHandler: () => void;
     handleAnswer: (sectino: string, key: string, value: string | number | string[]) => void;
     nextStepHandler: () => void;
     answers: {
         UNIT_AMENITIS?: string[] | [];
         COMUNITY_AMENITIS?: string[] | [];
     };
-}> = ({ handleAnswer, answers, nextStepHandler }) => {
+}> = ({ handleAnswer, answers, nextStepHandler,previousStepHandler }) => {
     const [error] = useState(false)
     const [selectedUnitAmenities, setSelectedUnitAmenities] = useState<string[]>(answers.UNIT_AMENITIS || [])
     const [selectedComunityAmenities, setSelectedComunityAmenities] = useState<string[]>(answers.COMUNITY_AMENITIS || [])
@@ -280,13 +274,14 @@ const AmenitiesSection: React.FC<{
             </div>
 
 
-            <NextButton onClick={nextButtonHandler} />
+            <NextButton onClick={nextButtonHandler} previousStepHandler={previousStepHandler}/>
         </>
     )
 
 }
 
 const RoommatesSection: React.FC<{
+    previousStepHandler: () => void;
     handleAnswer: (sectino: string, key: string, value: string | number) => void;
     nextSectionHandler: () => void;
     answers: {
@@ -294,7 +289,7 @@ const RoommatesSection: React.FC<{
         ROOMMATE_COUNT?: number;
         NEED_ROOMMATE_MATCHING?: string;
     };
-}> = ({ handleAnswer, answers, nextSectionHandler }) => {
+}> = ({ handleAnswer, answers, nextSectionHandler,previousStepHandler }) => {
     const navigate = useNavigate()
     // const [count, setcount] = useState(0)
     // const [skipQuestionSection, setSkipQuestionSection] = useState(false)
@@ -392,17 +387,18 @@ const RoommatesSection: React.FC<{
                 answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : ""
             }
 
-            <NextButton onClick={disabled ? scrollHandler : nextHandler} />
+            <NextButton onClick={disabled ? scrollHandler : nextHandler} previousStepHandler={previousStepHandler} />
 
         </>
     )
 }
 
 const LookingForSection: React.FC<{
+    previousStepHandler: () => void;
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers }) => {
+}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
     const rentalTypes = [
         {
             name: "House",
@@ -481,8 +477,8 @@ const LookingForSection: React.FC<{
                 </div>
             </div>
 
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>
@@ -491,12 +487,13 @@ const LookingForSection: React.FC<{
 
 
 const WhereToBeLocatedSection: React.FC<{
+    previousStepHandler: () => void;
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     runConfettiHandler: () => void;
     setRunConfetti: (value: boolean) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers, runConfettiHandler, setRunConfetti }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, runConfettiHandler, setRunConfetti,previousStepHandler }) => {
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
 
     const [search, setSearch] = useState('');
@@ -617,8 +614,8 @@ const WhereToBeLocatedSection: React.FC<{
                     </div>
                 }
             </div >
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
         </>
     )
@@ -626,10 +623,11 @@ const WhereToBeLocatedSection: React.FC<{
 
 
 const CloseToCampusSection: React.FC<{
+    previousStepHandler: () => void;
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers }) => {
+}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
     // const [value, setValue] = useState(1200);
     const [error, setError] = useState(false)
     const min = 1;
@@ -684,8 +682,8 @@ const CloseToCampusSection: React.FC<{
 
             </div>
 
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler}/>
             </div>
 
         </>
@@ -694,10 +692,11 @@ const CloseToCampusSection: React.FC<{
 
 
 const BudgetSection: React.FC<{
+    previousStepHandler: () => void;
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers }) => {
+}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
     const [error, setError] = useState(false)
     const min = 500;
     const max = 2000;
@@ -758,8 +757,8 @@ const BudgetSection: React.FC<{
 
             </div>
 
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler}  previousStepHandler={previousStepHandler}/>
             </div>
         </>
     );
@@ -769,8 +768,9 @@ const BudgetSection: React.FC<{
 const HowLongToStaySection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
+    previousStepHandler: () => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers }) => {
+}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
     const dateInputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState(false)
 
@@ -816,8 +816,8 @@ const HowLongToStaySection: React.FC<{
 
             </div >
 
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler}/>
             </div>
 
 
@@ -828,8 +828,9 @@ const HowLongToStaySection: React.FC<{
 const WhenYouAreMovingSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
+    previousStepHandler: () => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers }) => {
+}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
     const dateInputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState(false)
 
@@ -870,8 +871,8 @@ const WhenYouAreMovingSection: React.FC<{
 
             </div>
 
-            <div className="md:relative sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+            <div className="sticky bottom-4">
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>
@@ -881,6 +882,7 @@ const WhenYouAreMovingSection: React.FC<{
 const TypeOfRentalSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
+    previousStepHandler: () => void;
     answers: {
         RENTAL_TYPE?: string | null;
     };
@@ -888,6 +890,7 @@ const TypeOfRentalSection: React.FC<{
     nextStepHandler,
     handleAnswer,
     answers,
+    previousStepHandler
 }) => {
         const [error, setError] = useState(false)
 
@@ -929,7 +932,7 @@ const TypeOfRentalSection: React.FC<{
                 </div>
 
                 <div className="mt-0">
-                    <NextButton onClick={disabled ? scrollHandler : nextStepHandler} />
+                    <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
                 </div>
             </div>
         );
