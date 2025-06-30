@@ -6,7 +6,7 @@ import { getDaysRemaining } from "../../utils/functions";
 const ChoosePropertyModal: React.FC<{
   submitForm: ( ) => void
 }> = ({ submitForm }) => {
-  const daysLeft = getDaysRemaining("2025-06-29");
+  const daysLeft = getDaysRemaining("2025-07-05");
   // const navigate = useNavigate()
   const [selected, setSelected] = useState<string[]>([]);
   const [isTheoHovered, setIsTheoHovered] = useState(false);

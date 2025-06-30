@@ -25,9 +25,9 @@ const GiveAway = () => {
   }
   
   const closeModal = () => setPopUpStep(null)
-  const daysLeft = getDaysRemaining("2025-06-29");
+  const daysLeft = getDaysRemaining("2025-07-05");
   const props = {...{nextStepHandler, daysLeft,closeModal }}
-
+console.log("daysLeft==>",daysLeft)
   return (
     <div className=" h-[100vh]">
       {popupStep === 1 && <WinFreeRentModal {...props} />}
