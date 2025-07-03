@@ -233,7 +233,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
       {/* Password */}
       <div className="mb-2">
         <div className="mt-2">
-          <div className={`${inputClass} relative ${formik.touched.password && formik.errors.password
+          <div className={`${inputClass} relative ${formik.values.password && formik.touched.password && formik.errors.password
             ? "  outline-1 outline-red-600"
             : "  outline-1 outline-gray-300"} `}>
             <input
@@ -252,7 +252,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
               className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
             />
           </div>
-          {formik.touched.password   && formik.values.password.length ? (
+          {formik.values.password && formik.touched.password   && formik.values.password.length ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -267,7 +267,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
       {/* Confirm Password */}
       <div className="mb-2">
         <div className="mt-4">
-          <div className={`${inputClass} relative ${formik.touched.password && formik.errors.password
+          <div className={`${inputClass} relative ${formik.values.confirmPassword &&  formik.touched.password && formik.errors.password
             ? "  outline-1 outline-red-600"
             : "  outline-1 outline-gray-300"} `}>
             <input
@@ -287,7 +287,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
               className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
             />
           </div>
-          {formik.touched.confirmPassword &&
+          {formik.values.confirmPassword && formik.touched.confirmPassword &&
             formik.errors.confirmPassword ? (
             <div className="text-sm text-red-600">
               {formik.errors.confirmPassword}
@@ -694,36 +694,80 @@ const ImageHandler: React.FC<{
   setProfileImage: (image: string) => void;
 }> = ({ profileImage, setProfileImage }) => {
   const cropperRef = useRef<CropperRef | null>(null);
+  const [croppedImage, setCroppedImage] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(true); // controls cropper or preview
 
   const handleCropSubmit = () => {
     const cropper = cropperRef.current;
     const canvas = cropper?.getCanvas();
     const imageDataUrl = canvas?.toDataURL();
+
     if (imageDataUrl) {
-      setProfileImage(imageDataUrl);
+      setCroppedImage(imageDataUrl);
+      setIsEditing(false); // move to preview mode
     }
   };
 
+  const handleConfirm = () => {
+    if (croppedImage) {
+      setProfileImage(croppedImage);
+      // Optionally, close modal or go to next step here
+    }
+  };
+
+  const handleEditAgain = () => {
+    setIsEditing(true);
+  };
+
+  console.log(handleConfirm)
+
   return (
-    <div className="w-full">
-      {/* Cropper Canvas */}
-      <div className="relative h-60 flex justify-center items-center">
-        <Cropper
-          ref={cropperRef}
-          src={profileImage}
-          stencilComponent={CircleStencil}
-        />
-      </div>
+    <div className="w-full max-w-md mx-auto">
+      {/* Cropper or Preview */}
+      {isEditing ? (
+        <div className="relative h-60 flex justify-center items-center">
+          <Cropper
+            ref={cropperRef}
+            src={profileImage || ""}
+            stencilComponent={CircleStencil}
+            className="rounded-md shadow"
+          />
+        </div>
+      ) : (
+        <div className="flex justify-center items-center py-4">
+          <img
+            src={croppedImage || ""}
+            alt="Cropped Preview"
+            className="w-40 h-40 rounded-full object-cover border-2 border-gray-300 shadow"
+          />
+        </div>
+      )}
 
       {/* Buttons */}
       <div className="flex justify-center gap-3 py-4">
-        <button
-          className="px-4 py-1 rounded-full bg-white shadow-md hover:bg-gray-100 transition"
-          onClick={handleCropSubmit}
-        >
-          Crop
-        </button>
-        {/* Future: Add more buttons here like Reset or Resize */}
+        {isEditing ? (
+          <button
+            className="px-4 py-1 rounded-full bg-white border shadow-md hover:bg-gray-100 transition"
+            onClick={handleCropSubmit}
+          >
+            Crop
+          </button>
+        ) : (
+          <>
+            <button
+              className="px-4 py-1 rounded-full bg-white border shadow hover:bg-gray-100"
+              onClick={handleEditAgain}
+            >
+              Edit
+            </button>
+            {/* <button
+              className="px-4 py-1 rounded-full bg-green-500 text-white shadow hover:bg-green-600 transition"
+              onClick={handleConfirm}
+            >
+              Confirm
+            </button> */}
+          </>
+        )}
       </div>
     </div>
   );
