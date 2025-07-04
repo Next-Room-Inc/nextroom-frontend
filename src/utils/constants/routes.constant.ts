@@ -4,6 +4,7 @@ export const ROUTES = {
   OFFERS: "/offers",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  SIGNUP_EMAIL_VERIFICATION: "/signup-email-verification",
   ONBOARDING: "/onboarding",
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
@@ -11,4 +12,5 @@ export const ROUTES = {
   // students
   STUDENTS_DASHBOARD: "/students-dashboard",
   SEARCH_PROPERTY: "/search-property",
+ 
 };

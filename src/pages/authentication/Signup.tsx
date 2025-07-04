@@ -5,9 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import GiveAwayModal from "../../components/modals/GiveAwayModal";
+// import GiveAwayModal from "../../components/modals/GiveAwayModal";
 import PasswordChecklist from "../../components/PasswordChecklist";
-import useAuth from "../../custom-hooks/useAuth";
+// import useAuth from "../../custom-hooks/useAuth";
 import { useLocalStorage } from "../../hooks/useLocalStorage";
 import StudentSignupLayout from "../../layouts/StudentSignup.Layout";
 import { useStudentSignupMutation } from "../../redux/services/auth.service";
@@ -24,20 +24,21 @@ const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-whi
 
 
 const Signup = () => {
-  const { handleLogin } = useAuth();
+  // const { handleLogin } = useAuth();
   const [searchParams] = useSearchParams();
   // const { handleLogin } = useAuth();
   // const [signupSuccess, setSignupSuccess] = useState<boolean>(false);
   const [studentSignup, { isLoading }] = useStudentSignupMutation();
   const [, setAuth] = useLocalStorage("auth");
-  const [open, setOpen] = useState(false);
-  const [response, setResponse] = useState<string>("");
-  const handleNext = async () => await handleLogin(response);
+  // const [open, setOpen] = useState(false);
+  // const [response, setResponse] = useState<string>("");
+  // const handleNext = async () => await handleLogin(response);
 
   const handleSubmit = async (values: StudentSignupPayload) => {
     try {
       console.log("searchParams=>", searchParams)
       const payload = values;
+      delete payload['phoneNumber']
       const refTag = searchParams.get('refTag');
       if (refTag) {
         payload['tag'] = refTag
@@ -48,14 +49,15 @@ const Signup = () => {
       if (res.error) toast.error(errorMessage);
       else {
         formik.setValues({ ...formik.values, step: 4 });
-        setOpen(true);
+        // setOpen(true);
         setAuth({
           email: values.email,
           lastName: values.lastName,
           firstName: values.firstName,
         });
-        setResponse(res?.data?.token);
+        // setResponse(res?.data?.token);
         // await handleLogin(response)
+        nextStepHandler()
       }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -86,7 +88,7 @@ const Signup = () => {
 
   const nextStepHandler = () => {
     const { step } = formik.values;
-    const nextStep = step < 4 ? step + 1 : step;
+    const nextStep = step <= 4 ? step + 1 : step;
     formik.setValues({ ...formik.values, step: nextStep });
   };
   const prevStepHandler = () => {
@@ -97,12 +99,12 @@ const Signup = () => {
 
   return (
     <>
-      {open && <GiveAwayModal {...{ handleNext }} />}
+      {/* {open && <GiveAwayModal {...{ handleNext }} />} */}
 
       <StudentSignupLayout>
         <form onSubmit={formik.handleSubmit}>
           {isLoading ? <LoaderComponent /> : <>
-            {formik.values.step > 1 && formik.values.step < 4 && (
+            {formik.values.step > 1 && formik.values.step <= 4 && (
               <div
                 className="text-sm font-bold flex  items-center justify-end text-[#B3322F] hover:text-[#b3312f6b]"
 

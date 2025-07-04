@@ -10,6 +10,7 @@ const useAuth = () => {
   const handleLogin = async (token: string) => {
     localStorage.setItem("token", token); 
     setIsLoggedIn(true);
+    // navigate(ROUTES.BAESPATH);  // Redirect to home page
     navigate(ROUTES.BAESPATH);  // Redirect to home page
   };
 
