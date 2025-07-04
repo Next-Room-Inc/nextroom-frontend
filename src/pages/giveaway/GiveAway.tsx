@@ -25,7 +25,7 @@ const GiveAway = () => {
   }
   
   const closeModal = () => setPopUpStep(null)
-  const daysLeft = getDaysRemaining("2025-07-05");
+  const daysLeft = getDaysRemaining("2025-07-11");
   const props = {...{nextStepHandler, daysLeft,closeModal }}
 console.log("daysLeft==>",daysLeft)
   return (
