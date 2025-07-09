@@ -8,9 +8,13 @@ export const ROUTES = {
   ONBOARDING: "/onboarding",
   FORGOT_PASSWORD: "/forgot-password",
   RESET_PASSWORD: "/reset-password",
+  VERIFY_EMAIL: "/verify-email",
+  RESEND_VERIFICATION: "/resend-verification",
   UNDER_CONSTRUCTION: "/under-construction",
   // students
   STUDENTS_DASHBOARD: "/students-dashboard",
   SEARCH_PROPERTY: "/search-property",
+  NEWSROOM: "/newsroom",
+  STUDENT_EXPERIANCE_CENTER: "/student-experiance-center",
  
 };

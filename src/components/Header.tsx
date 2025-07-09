@@ -2,10 +2,11 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { useState, useEffect } from "react";
 import useAuth from "../custom-hooks/useAuth";
 import { APP_INFO, ROUTES } from "../utils/constants";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Wave from 'react-wavify'
 
 export default function Header({ darkMode = true }) {
+  const navigate = useNavigate()
   const { handleLogout, isLoggedIn } = useAuth();
   const [selectedLang, setSelectedLang] = useState("en");
   const [showHeader, setShowHeader] = useState(true);
@@ -105,8 +106,8 @@ export default function Header({ darkMode = true }) {
         className="mx-auto flex items-center justify-between  lg:px-8 pr-4 "
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="">
-            <span className="sr-only">Your Company</span>
+          <a onClick={()=>navigate(ROUTES.BAESPATH)} className="">
+            <span className="sr-only">Nextroom.ca</span>
             <img alt="" src={APP_INFO.PRIMARY_LOGO} className="h-25 w-auto -ml-2 md:ml-0" />
           </a>
         </div>

@@ -33,23 +33,23 @@ export const SignupSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   })
-  .refine((data) => {
-    const domain = data.email.split("@")[1]?.toLowerCase();
+  // .refine((data) => {
+  //   const domain = data.email.split("@")[1]?.toLowerCase();
 
-    const universityDomains: Record<string, string> = {
-      "The University of Ottawa": "uottawa.ca",
-      "Carleton University": "carleton.ca",
-      "Algonquin College": "algonquinlive.ca",
-      "Collège La Cité": "collegelacite.ca",
-    };
+  //   const universityDomains: Record<string, string> = {
+  //     "The University of Ottawa": "uottawa.ca",
+  //     "Carleton University": "carleton.ca",
+  //     "Algonquin College": "algonquinlive.ca",
+  //     "Collège La Cité": "collegelacite.ca",
+  //   };
 
-    const expectedDomain = universityDomains[data.university];
-    return expectedDomain ? domain === expectedDomain : true;
-  }, {
-    message:
-      "Email domain must match your selected university (e.g. uottawa.ca carleton.ca algonquinlive.ca collegelacite.ca for University of Ottawa)",
-    path: ["email"],
-  });
+  //   const expectedDomain = universityDomains[data.university];
+  //   return expectedDomain ? domain === expectedDomain : true;
+  // }, {
+  //   message:
+  //     "Email domain must match your selected university (e.g. uottawa.ca carleton.ca algonquinlive.ca collegelacite.ca for University of Ottawa)",
+  //   path: ["email"],
+  // });
 
 
 export const SignupFromPersonalEmailSchema = z
@@ -81,11 +81,13 @@ export const LoginSchema = z.object({
     .string({ message: "Password is requried" })
     .min(6, "Password must be at least 6 characters long"),
 });
+
 export const ForgotPasswordSchema = z.object({
   email: z
     .string({ message: "Email is required" })
     .email({ message: "Must be an email" }),
 });
+
 export const ResetPasswordSchema = z
   .object({
     password: z
@@ -104,3 +106,9 @@ export const ResetPasswordSchema = z
     message: "Password not match", 
     path: ["confirmPassword"], // Attach the error to confirmPassword field
   });
+
+  export const ResendVerificationSchema = z.object({
+  email: z
+    .string({ message: "Email is required" })
+    .email({ message: "Must be an email" }),
+});

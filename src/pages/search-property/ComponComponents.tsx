@@ -164,3 +164,5 @@ export const HousingCard: React.FC<{
             </>
         );
     };
+
+    

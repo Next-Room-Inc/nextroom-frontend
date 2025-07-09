@@ -10,6 +10,9 @@ import { ROUTES } from "../../utils/constants";
 import { LoginSchema } from "../../utils/schemas/auth.schema";
 import { useState } from 'react'
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
+import { motion } from "framer-motion";
+
+
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
 
 const Login = () => {
@@ -111,14 +114,18 @@ const Login = () => {
 
 
           {/*  Button */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 300 }}
             onClick={() => !emailValidationError && !loginStep ? setLoginStep(true) : ""}
             disabled={!formik?.touched?.email && !!formik.errors.email}
             type={!emailValidationError ? "submit" : "button"}
             className={`px-20 mt-5 rounded-full ${emailValidationError ? 'opacity-20' : ""} bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
           >
             {loginStep ? "Login" : "Continue"}
-          </button>
+          </motion.button>
+
           {/* Links  */}
           <p className="mt-4 text-center text-sm/6 text-gray-500 font-semibold underline">
             <Link to={ROUTES.SIGNUP}>Sign Up</Link>

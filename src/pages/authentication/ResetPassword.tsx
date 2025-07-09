@@ -12,6 +12,7 @@ import { APP_INFO, ROUTES } from "../../utils/constants";
 import {
   ResetPasswordSchema,
 } from "../../utils/schemas/auth.schema";
+import { motion } from "framer-motion";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
 
@@ -26,13 +27,12 @@ const ResetPassword = () => {
   const handleSubmit = async (values: any) => {
     console.log(values);
     const token = searchParams.get('token');
-    if (token) {
-      values['token'] = token
+    if (!token) {
+      return toast.error('Reset Token not Found');
     }
-    values['newPassword'] = values.password
-
+    const payload = { token, newPassword: values.password }
     try {
-      const response = await resetPassword(values);
+      const response = await resetPassword(payload);
       console.log("🚀 ~ handleSubmit ~ response:", response);
       if (response.error) {
         const errorMessage = (response.error as any)?.data ?? "Request Failed";
@@ -40,8 +40,6 @@ const ResetPassword = () => {
       } else {
         toast.success(response?.data?.message || "Password reset successfully!");
         navigate(ROUTES.LOGIN);
-
-
       }
     } catch (err) {
       console.error("Unexpected error:", err);
@@ -142,14 +140,28 @@ const ResetPassword = () => {
             </div>
           </div>
           {/*  Button */}
-          <button
+          {/* <button
             disabled={validationError}
             type={"submit"}
             className={`px-20 mt-5 rounded-full ${validationError ? "opacity-20" : ""
               } bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
           >
             Reset
-          </button>
+          </button> */}
+
+             <motion.button
+                      disabled={validationError}
+                      type="submit"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className={`px-20 mt-5 rounded-full ${validationError ? "bg-[#b3312f5e]" : ""
+                        } cursor-pointer bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
+                    >
+                      Forgot Password
+                    </motion.button>
           {/* Links  */}
           {/* <p className="mt-4 text-center text-sm/6 text-gray-500 font-semibold underline">
             <Link to={ROUTES.LOGIN}>Log in</Link>

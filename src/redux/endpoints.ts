@@ -41,6 +41,14 @@ export const API_URL = {
       URL: () => createApiUrl("/auth/reset-password"),
       METHOD: HttpMethod.POST,
     },
+    VERIFY_EMAIL: {
+      URL: () => createApiUrl("/auth/verify-email"),
+      METHOD: HttpMethod.POST,
+    },
+    RESEND_VERIFICATION: {
+      URL: () => createApiUrl("/auth/resend-verification"),
+      METHOD: HttpMethod.POST,
+    },
   },
   LISTINGS: {
     GET_ALL: {

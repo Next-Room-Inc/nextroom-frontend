@@ -54,10 +54,10 @@ const Offers = () => {
     <>
       {isLoading && <Loader />}
 
-      {showModal?.rentFree && (
+      {(showModal?.rentFree && false) && (
         <RentFreeModal {...{ showModalHandler, showModal }} />
       )}
-      {showModal?.selectCompanies && (
+      {(showModal?.selectCompanies && false )&& (
         <SelectCompaniesModal
           {...{ showModalHandler, showModal, submitValueHandler }}
         />

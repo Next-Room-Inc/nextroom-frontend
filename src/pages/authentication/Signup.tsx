@@ -44,6 +44,8 @@ const Signup = () => {
         payload['tag'] = refTag
       }
       console.log("payload=>", payload)
+      // return toast.error("An unexpected error occurred");
+      //
       const res = await studentSignup(values);
       const errorMessage = (res.error as any)?.data ?? "Account Creation Failed";
       if (res.error) toast.error(errorMessage);
@@ -328,6 +330,7 @@ const SchoolForm: React.FC<SchoolFormProps> = ({ formik, nextStepHandler }) => {
   };
 
   const isValidEmail = formik.values.email.split("@")[1]?.toLowerCase() === universityDomains[formik.values.university]
+  // const isValidEmail = true
   const isError = !isValidEmail || !formik.touched.email || formik.errors.university || formik.errors.email
 
   console.log(formik)
@@ -607,7 +610,7 @@ const ImageUploadComponent: React.FC<{
   const [profileImage, setProfileImage] = useState<string | null>(null);
 
   const saveImageHandler = () => {
-    formik.setValues({ ...formik.values, image: profileImage });
+    formik.setFieldValue("image", profileImage);
     nextStepHandler()
   }
   console.log(formik)

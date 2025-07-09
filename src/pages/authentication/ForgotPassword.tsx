@@ -8,6 +8,7 @@ import AuthLayout from "../../layouts/Auth.Layout";
 import { useForgotPasswordMutation } from "../../redux/services/auth.service";
 import { APP_INFO } from "../../utils/constants";
 import { ForgotPasswordSchema } from "../../utils/schemas/auth.schema";
+import { motion } from "framer-motion";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
 
@@ -68,7 +69,7 @@ const ForgotPassword = () => {
             <p className="  mt-5 text-base  px-5 md:px-0">
               We've sent a password reset link to <span className="font-bold">{formik.values.email}</span>.
               <p className="py-4 md:py-1">
-              Please check your inbox and follow the instructions to reset your password.
+                Please check your inbox and follow the instructions to reset your password.
               </p>
               If you don’t see the email within a few minutes, be sure to check your spam or junk folder.
             </p>
@@ -107,8 +108,8 @@ const ForgotPassword = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={`${inputClass} ${formik.touched.email && formik.errors.email
-                    ? "outline-red-600"
-                    : ""
+                  ? "outline-red-600"
+                  : ""
                   }`}
               />
             </div>
@@ -116,15 +117,23 @@ const ForgotPassword = () => {
               <div className="text-sm text-red-600">{formik.errors.email}</div>
             ) : null}
           </div>
+
+        
+
           {/*  Button */}
-          <button
+          <motion.button
             disabled={emailValidationError}
-            type={"submit"}
-            className={`px-20 mt-5 rounded-full ${emailValidationError ? "opacity-20" : ""
-              } bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
+            type="submit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`px-20 mt-5 rounded-full ${emailValidationError ? "bg-[#b3312f5e]" : ""
+              } cursor-pointer bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
           >
             Forgot Password
-          </button>
+          </motion.button>
           {/* Links  */}
           {/* <p className="mt-4 text-center text-sm/6 text-gray-500 font-semibold underline">
             <Link to={ROUTES.LOGIN}>Log in</Link>

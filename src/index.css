@@ -11,6 +11,11 @@
   filter: invert(1); /* Makes icon white */
 }
 
+.mySwiper1 > .swiper-button-prev:after, .mySwiper1 >.swiper-button-next:after {
+    color: #B3322F;
+    font-size: 20px;
+    font-weight: bolder;
+}
 /* .blur:hover {
     backdrop-filter: blur(0px);
     
