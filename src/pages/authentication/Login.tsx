@@ -32,7 +32,7 @@ const Login = () => {
         toast.error(errorMessage);
       } else {
         toast.success("Login successfully!");
-        handleLogin(response?.data?.token);
+        handleLogin(response?.data);
       }
     } catch (err) {
       console.error("Unexpected error:", err);

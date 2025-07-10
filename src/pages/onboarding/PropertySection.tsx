@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
+import useAuth from '../../custom-hooks/useAuth';
 
 
 interface PropertySectionParams {
@@ -27,6 +28,7 @@ interface PropertySectionParams {
 
 
 const PropertySection = (props: any) => {
+     
     const {
         formStep: step,
         section,
@@ -37,9 +39,9 @@ const PropertySection = (props: any) => {
         nextSectionHandler,
         runConfettiHandler,
         setRunConfetti,
-
+        name
     } = props
-    const name = "Paul Brooks";
+
     const formStep = step[section]
     const [exitForm, setExitForm] = useState(false);
 
@@ -440,10 +442,10 @@ const LookingForSection: React.FC<{
                 <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> What type of rental are you looking for? </p>
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-10 text-md px-10'>
-                    {rentalTypes.map(RENTAL_TYPE => (
+                    {rentalTypes.map(rental => (
                         <div className='w-full  md:w-auto group'>
 
-                            {rentalDescription === RENTAL_TYPE.name ? (
+                            {rentalDescription === rental.name ? (
                                 <motion.p
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
@@ -454,7 +456,7 @@ const LookingForSection: React.FC<{
                                         
                                         `}
                                 >
-                                    {RENTAL_TYPE.details}
+                                    {rental.details}
                                 </motion.p>
                             ) : <p className={`
                                 max-w-[200px] text-[8px] mx-auto px-2 py-2 mb-3 bg-white shadow-[#D9D9D9] drop-shadow-xl shadow-md

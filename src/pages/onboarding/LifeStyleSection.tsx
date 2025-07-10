@@ -26,10 +26,10 @@ const LifeStyleSection = (props: any) => {
         handleAnswer,
         nextStepHandler,
         previousStepHandler,
-        nextSectionHandler
+        nextSectionHandler,
+        name
     } = props
-    const name = "Paul Brooks";
-    const formStep = step[section]
+     const formStep = step[section]
     const [exitForm, setExitForm] = useState(false);
 
     const params: Params = {
@@ -454,8 +454,9 @@ const DrinkAndSmokeSection: React.FC<{
 
 const LetsLearnAboutLifeStyleSection: React.FC<{
     nextStepHandler: () => void;
-}> = ({ nextStepHandler }) => {
-    const name = "Paul Brooks"
+    name: string
+}> = ({ nextStepHandler, name }) => {
+   
     return (
         <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F]'>Let's learn about your lifestyle, <br /> <span className='font-bold'>{name}</span></p>

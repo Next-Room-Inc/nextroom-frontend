@@ -27,10 +27,10 @@ const SituationSection = (props: any) => {
         handleAnswer,
         nextStepHandler,
         previousStepHandler,
-        nextSectionHandler
+        nextSectionHandler,
+        name
     } = props;
 
-    const name = "Paul Brooks";
     const formStep = step[section];
     const [exitForm, setExitForm] = useState(false);
 
@@ -81,8 +81,8 @@ export default SituationSection
 
 const HomeSection: React.FC<{
     nextStepHandler: () => void;
-}> = ({ nextStepHandler }) => {
-    const name = "Paul Brooks"
+    name: string,
+}> = ({ nextStepHandler, name }) => {
     return (
         <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F] px-10'>Let's discuss some possible situations, <br /> <span className='font-bold'>{name}</span></p>

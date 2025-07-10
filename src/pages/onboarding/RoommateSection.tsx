@@ -26,10 +26,10 @@ const RoommateSection = (props: any) => {
         handleAnswer,
         nextStepHandler,
         previousStepHandler,
-        nextSectionHandler
+        nextSectionHandler,
+        name
     } = props
-    const name = "Paul Brooks";
-    const formStep = step[section]
+     const formStep = step[section]
     const [exitForm, setExitForm] = useState(false);
 
     const params: Params = {
@@ -42,7 +42,7 @@ const RoommateSection = (props: any) => {
         handleAnswer,
         exitForm,
         setExitForm,
-        nextSectionHandler
+        nextSectionHandler,
     };
 
     const formSteps = [
@@ -78,8 +78,8 @@ export default RoommateSection
 
 const HomeSection: React.FC<{
     nextStepHandler: () => void;
-}> = ({ nextStepHandler }) => {
-    const name = "Paul Brooks"
+    name: string
+}> = ({ nextStepHandler , name }) => {
     return (
         <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F]'>Let's discover your roommate preferences, <br /> <span className='font-bold'>{name}</span></p>

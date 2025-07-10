@@ -3,24 +3,62 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../utils/constants";
 
-const useAuth = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const navigate = useNavigate();  // Get navigate function
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  // Add more fields as needed
+}
 
-  const handleLogin = async (token: string) => {
-    localStorage.setItem("token", token); 
+interface LoginResponse {
+  token: string;
+  student: User;
+}
+
+const useAuth = () => {
+  const navigate = useNavigate();
+
+  const getStoredUser = (): User | null => {
+    try {
+      const userStr = localStorage.getItem("user");
+      return userStr ? JSON.parse(userStr) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem("token"));
+  const [user, setUser] = useState<User | null>(getStoredUser());
+
+  const handleLogin = (data: LoginResponse) => {
+    const { token, student } = data;
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(student));
+    
     setIsLoggedIn(true);
-    navigate(ROUTES.ONBOARDING);  // Redirect to home page
-    // navigate(ROUTES.BAESPATH);  // Redirect to home page
+    setUser(student);
+
+    navigate(ROUTES.ONBOARDING); // Redirect to onboarding
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
     setIsLoggedIn(false);
-    navigate(ROUTES.LOGIN);  // Redirect to login
+    setUser(null);
+
+    navigate(ROUTES.LOGIN); // Redirect to login
   };
 
-  return { isLoggedIn, handleLogin, handleLogout };
+  return {
+    isLoggedIn,
+    user,
+    handleLogin,
+    handleLogout,
+    setUser,
+  };
 };
 
 export default useAuth;

@@ -57,7 +57,7 @@ const Offers = () => {
       {(showModal?.rentFree && false) && (
         <RentFreeModal {...{ showModalHandler, showModal }} />
       )}
-      {(showModal?.selectCompanies && false )&& (
+      {(showModal?.selectCompanies && false ) && (
         <SelectCompaniesModal
           {...{ showModalHandler, showModal, submitValueHandler }}
         />

@@ -11,8 +11,7 @@ import LifeStyleSection from './LifeStyleSection';
 import PropertySection from './PropertySection';
 import RoommateSection from './RoommateSection';
 import SituationSection from './SituationSection';
-
-
+import useAuth from '../../custom-hooks/useAuth';
 
 
 interface AnswerSections {
@@ -75,8 +74,8 @@ const sections = {
 }
 
 const Onboarding = () => {
-    console.log("==>>>", import.meta.env.VITE_GOOGLE_API_KEY)
-    const navigate = useNavigate();  // Get navigate function
+    const navigate = useNavigate();  
+     const { user } = useAuth();
 
     const [exitForm, setExitForm] = useState(false);
     const [section, setSection] = useState<keyof AnswerSections>('PROPERTY_SECTION');
@@ -122,7 +121,7 @@ const Onboarding = () => {
 
     const runConfettiHandler = () => setTimeout(() => { setRunConfetti(false); }, 10000);
 
-    const payload = { setRunConfetti, runConfettiHandler, answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler, nextSectionHandler };
+    const payload = { name: `${user.firstName + ' ' + user.lastName}`, setRunConfetti, runConfettiHandler, answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler, nextSectionHandler };
     runConfettiHandler()
 
 
@@ -200,7 +199,7 @@ const FormStepper: React.FC<{
 
 
 
-            <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10">
+            <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10 mt-10">
                 {steps.map((step, index) => {
                     const progress = (totalAnswered(step.name as keyof AnswerSections) / totalQuestions(step.name as keyof AnswerSections)) * 100;
                     return (

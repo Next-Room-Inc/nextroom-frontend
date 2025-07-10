@@ -124,10 +124,10 @@ const ResendVerification = () => {
               {/* Submit Button */}
               <div className="text-center">
                 <motion.button
-                  className={buttonClass}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 300 }}
+                  className={buttonClass}
                   type="submit" >
                   Resend Code
                 </motion.button>
