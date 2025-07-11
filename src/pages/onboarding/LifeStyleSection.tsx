@@ -227,8 +227,8 @@ const WhatDoYouEnjoySections: React.FC<{
 
 const BedTimeSections: React.FC<{
     answers: {
-        GOING_OUT?: string | null;
-        BED_TIME?: string | null;
+        goingOutFrequency?: string | null;
+        bedtime?: string | null;
     }
     nextStepHandler: () => void;
     previousStepHandler: () => void;
@@ -241,21 +241,21 @@ const BedTimeSections: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.GOING_OUT === null) {
-            const section = document.getElementById('GOING_OUT');
+        if (answers.goingOutFrequency === null) {
+            const section = document.getElementById('goingOutFrequency');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        else if (answers.BED_TIME === null) {
-            const section = document.getElementById('BED_TIME');
+        else if (answers.bedtime === null) {
+            const section = document.getElementById('bedtime');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.GOING_OUT === null || answers.BED_TIME === null
+    const disabled = answers.goingOutFrequency === null || answers.bedtime === null
 
     return (
         <>
-            <div id="GOING_OUT" className={`  rounded-2xl mx-1 py-10 ${error && answers.GOING_OUT === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="goingOutFrequency" className={`  rounded-2xl mx-1 py-10 ${error && answers.goingOutFrequency === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     How do you feel about going out (e.g. clubbing or partying)?
                 </QuestionTitle>
@@ -267,14 +267,14 @@ const BedTimeSections: React.FC<{
                         { name: 'Occasionally', value: 'Occasionally' },
                         { name: 'Frequently', value: 'Frequently' },
 
-                    ].map(btn => <PrimaryButton selected={answers.GOING_OUT === btn.value} onClick={() => handleAnswer(sectionName, 'GOING_OUT', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.goingOutFrequency === btn.value} onClick={() => handleAnswer(sectionName, 'goingOutFrequency', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
 
                 </div>
             </div>
 
-            <div id="BED_TIME" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.BED_TIME === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="bedtime" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.bedtime === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     What time do you typically go to bed?
                 </QuestionTitle>
@@ -286,7 +286,7 @@ const BedTimeSections: React.FC<{
                         { name: 'Midnight', value: 'Midnight' },
                         { name: 'After 1AM', value: 'After 1AM' },
 
-                    ].map(btn => <PrimaryButton selected={answers.BED_TIME === btn.value} onClick={() => handleAnswer(sectionName, 'BED_TIME', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.bedtime === btn.value} onClick={() => handleAnswer(sectionName, 'bedtime', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -302,8 +302,8 @@ const BedTimeSections: React.FC<{
 
 const LifestylePreferencesSection: React.FC<{
     answers: {
-        RECREATIONAL_SUBSTANCES?: string | null;
-        AT_HOME?: string | null;
+        cannabisFrequency?: string | null;
+        tidinessLevel?: string | null;
     }
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
@@ -317,21 +317,21 @@ const LifestylePreferencesSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.RECREATIONAL_SUBSTANCES === null) {
-            const section = document.getElementById('RECREATIONAL_SUBSTANCES');
+        if (answers.cannabisFrequency === null) {
+            const section = document.getElementById('cannabisFrequency');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (answers.AT_HOME === null) {
-            const section = document.getElementById('AT_HOME');
+        } else if (answers.tidinessLevel === null) {
+            const section = document.getElementById('tidinessLevel');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.RECREATIONAL_SUBSTANCES === null || answers.AT_HOME === null
+    const disabled = answers.cannabisFrequency === null || answers.tidinessLevel === null
 
     return (
         <>
 
-            <div id="RECREATIONAL_SUBSTANCES" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.RECREATIONAL_SUBSTANCES === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="cannabisFrequency" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.cannabisFrequency === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>How often do you use recreational substances (e.g. cannabis)?</QuestionTitle>
                 <div className="flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center mt-15 text-md px-10">
                     {[
@@ -340,14 +340,14 @@ const LifestylePreferencesSection: React.FC<{
                         { name: 'On Special Occasions', value: 'On Special Occasions' },
                         { name: 'Frequently', value: 'Frequently' },
 
-                    ].map(btn => <PrimaryButton selected={answers.RECREATIONAL_SUBSTANCES === btn.value} onClick={() => handleAnswer(sectionName, 'RECREATIONAL_SUBSTANCES', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.cannabisFrequency === btn.value} onClick={() => handleAnswer(sectionName, 'cannabisFrequency', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="AT_HOME" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.AT_HOME === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="tidinessLevel" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.tidinessLevel === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>How tidy are you at home?</QuestionTitle>
                 <div className="flex flex-col md:flex-row gap-5 md:gap-15 justify-center items-center text-md px-10 mt-10">
                     {[
@@ -356,7 +356,7 @@ const LifestylePreferencesSection: React.FC<{
                         { name: 'Average', value: 'Average' },
                         { name: 'Messy', value: 'Messy' },
 
-                    ].map(btn => <PrimaryButton selected={answers.AT_HOME === btn.value} onClick={() => handleAnswer(sectionName, 'AT_HOME', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.tidinessLevel === btn.value} onClick={() => handleAnswer(sectionName, 'tidinessLevel', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -375,8 +375,8 @@ const LifestylePreferencesSection: React.FC<{
 
 const DrinkAndSmokeSection: React.FC<{
     answers: {
-        OFTEN_DRINK?: string | null;
-        OFTEN_SMOKE?: string | null;
+        drinkingFrequency?: string | null;
+        smokingFrequency?: string | null;
     }
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string) => void;
@@ -391,21 +391,21 @@ const DrinkAndSmokeSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.OFTEN_DRINK === null) {
-            const section = document.getElementById('OFTEN_DRINK');
+        if (answers.drinkingFrequency === null) {
+            const section = document.getElementById('drinkingFrequency');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (answers.OFTEN_SMOKE === null) {
-            const section = document.getElementById('OFTEN_SMOKE');
+        } else if (answers.smokingFrequency === null) {
+            const section = document.getElementById('smokingFrequency');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.OFTEN_DRINK === null || answers.OFTEN_SMOKE === null
+    const disabled = answers.drinkingFrequency === null || answers.smokingFrequency === null
 
     return (
         <>
 
-            <div id="OFTEN_DRINK" className={`rounded-2xl mx-1 py-10 ${error && answers.OFTEN_DRINK === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="drinkingFrequency" className={`rounded-2xl mx-1 py-10 ${error && answers.drinkingFrequency === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     How often do you drink?
                 </QuestionTitle>
@@ -417,14 +417,14 @@ const DrinkAndSmokeSection: React.FC<{
                         { name: 'Socially On Weekends', value: 'Socially On Weekends' },
                         { name: 'Most Nights', value: 'Most Nights' },
 
-                    ].map(btn => <PrimaryButton selected={answers.OFTEN_DRINK === btn.value} onClick={() => handleAnswer(sectionName, 'OFTEN_DRINK', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.drinkingFrequency === btn.value} onClick={() => handleAnswer(sectionName, 'drinkingFrequency', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="OFTEN_SMOKE" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.OFTEN_SMOKE === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="smokingFrequency" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.smokingFrequency === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     How often do you smoke?
                 </QuestionTitle>
@@ -437,7 +437,7 @@ const DrinkAndSmokeSection: React.FC<{
                         { name: 'Occasionally', value: 'Occasionally' },
                         { name: 'Frequently', value: 'Frequently' },
 
-                    ].map(btn => <PrimaryButton selected={answers.OFTEN_SMOKE === btn.value} onClick={() => handleAnswer(sectionName, 'OFTEN_SMOKE', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.smokingFrequency === btn.value} onClick={() => handleAnswer(sectionName, 'smokingFrequency', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -473,7 +473,7 @@ const LetsLearnAboutLifeStyleSection: React.FC<{
 
 const AreaOfStudyDescription: React.FC<{
     answers: {
-        AREA_OF_STUDEY?: string[] | null;
+        studyArea?: string[] | null;
     }
     nextStepHandler: () => void;
     handleAnswer: (section: string, field: string, value: string[]) => void;
@@ -481,7 +481,7 @@ const AreaOfStudyDescription: React.FC<{
 }>
 
     = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
-        const [selected, setSelected] = useState<string[]>(answers.AREA_OF_STUDEY || []);
+        const [selected, setSelected] = useState<string[]>(answers.studyArea || []);
         const [error, setError] = useState(false)
 
         const suggestions = [
@@ -502,7 +502,7 @@ const AreaOfStudyDescription: React.FC<{
         ];
 
         const nextStep = () => {
-            handleAnswer(sectionName, 'AREA_OF_STUDEY', selected)
+            handleAnswer(sectionName, 'studyArea', selected)
             nextStepHandler()
         }
 
@@ -511,7 +511,7 @@ const AreaOfStudyDescription: React.FC<{
         const scrollHandler = () => {
             setError(true)
             if (disabled) {
-                const section = document.getElementById('AREA_OF_STUDEY');
+                const section = document.getElementById('studyArea');
                 section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
@@ -520,7 +520,7 @@ const AreaOfStudyDescription: React.FC<{
         return (
 
             <div className="text-center ">
-                <div id="AREA_OF_STUDEY" className={`mt-10 rounded-2xl mx-1 py-10 ${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
+                <div id="studyArea" className={`mt-10 rounded-2xl mx-1 py-10 ${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
                     <p className="text-3xl text-[#B3322F] mb-10 px-10">What best describes your area of study?</p>
                     <div className='lg:w-[50%] md:w-[75%] mx-auto px-10'>
                         <MultiSelect

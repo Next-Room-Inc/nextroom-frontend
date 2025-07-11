@@ -2,46 +2,39 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../utils/constants";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  // Add more fields as needed
-}
+import * as interfaces from "../utils/interfaces";
 
 interface LoginResponse {
   token: string;
-  student: User;
+  student: interfaces.StudentUser;
 }
+
+const getStoredUser = (): interfaces.StudentUser | null => {
+  try {
+    const userStr = localStorage.getItem("user");
+    return userStr ? JSON.parse(userStr) : null;
+  } catch { return null; }
+};
 
 const useAuth = () => {
   const navigate = useNavigate();
-
-  const getStoredUser = (): User | null => {
-    try {
-      const userStr = localStorage.getItem("user");
-      return userStr ? JSON.parse(userStr) : null;
-    } catch {
-      return null;
-    }
-  };
-
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem("token"));
-  const [user, setUser] = useState<User | null>(getStoredUser());
+  const [user, setUser] = useState<interfaces.StudentUser | null>(getStoredUser());
 
+  // handleLogin
   const handleLogin = (data: LoginResponse) => {
     const { token, student } = data;
 
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(student));
-    
+
     setIsLoggedIn(true);
     setUser(student);
 
     navigate(ROUTES.ONBOARDING); // Redirect to onboarding
   };
 
+  // handleLogout
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -52,7 +45,19 @@ const useAuth = () => {
     navigate(ROUTES.LOGIN); // Redirect to login
   };
 
+  // handleUpdateUser
+  const handleUpdateUser = (userPayload: Partial<interfaces.StudentUser>) => {
+    const updatedUser: interfaces.StudentUser = {
+    ...user,
+    ...userPayload,
+  };
+
+  localStorage.setItem("user", JSON.stringify(updatedUser));
+  setUser(updatedUser);
+  };
+
   return {
+    handleUpdateUser,
     isLoggedIn,
     user,
     handleLogin,

@@ -66,4 +66,14 @@ export const API_URL = {
       METHOD: HttpMethod.POST,
     }, 
   },
+  ONBOARDING: {
+    SUBMIT_PREFERENCES: {
+      URL: () => createApiUrl("/onboarding/student/preferences"),
+      METHOD: HttpMethod.POST,
+    }, 
+    UPDATE_STATUS: {
+      URL: () => createApiUrl("/onboarding/student/update-status"),
+      METHOD: HttpMethod.POST,
+    }, 
+  },
 };

@@ -99,9 +99,9 @@ const LivingSection: React.FC<{
     handleAnswer: (section: string, field: string, value: string) => void;
     previousStepHandler: () => void;
     answers: {
-        COMFORT_DIFFERENT_GENDERS?: string | null;
-        OPENNESS_TO_CULTURAL_DIFFERENCE?: string | null;
-        LIKES_GUESTS?: string | null;
+        genderComfort?: string | null;
+        culturalOpenness?: string | null;
+        guestFrequency?: string | null;
     };
 }> = ({ nextStepHandler, answers, handleAnswer , previousStepHandler}) => {
 
@@ -113,31 +113,31 @@ const LivingSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.COMFORT_DIFFERENT_GENDERS === null) {
-            const section = document.getElementById('COMFORT_DIFFERENT_GENDERS');
+        if (answers.genderComfort === null) {
+            const section = document.getElementById('genderComfort');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } if (answers.OPENNESS_TO_CULTURAL_DIFFERENCE === null) {
-            const section = document.getElementById('OPENNESS_TO_CULTURAL_DIFFERENCE');
+        } if (answers.culturalOpenness === null) {
+            const section = document.getElementById('culturalOpenness');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        if (answers.LIKES_GUESTS === null) {
-            const section = document.getElementById('LIKES_GUESTS');
+        if (answers.guestFrequency === null) {
+            const section = document.getElementById('guestFrequency');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
 
     const disabled =
-        answers.COMFORT_DIFFERENT_GENDERS === null ||
-        answers.OPENNESS_TO_CULTURAL_DIFFERENCE === null ||
-        answers.LIKES_GUESTS === null
+        answers.genderComfort === null ||
+        answers.culturalOpenness === null ||
+        answers.guestFrequency === null
 
 
     return (
         <>
 
 
-            <div id="COMFORT_DIFFERENT_GENDERS" className={` rounded-2xl mx-1 py-10 ${error && answers.COMFORT_DIFFERENT_GENDERS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="genderComfort" className={` rounded-2xl mx-1 py-10 ${error && answers.genderComfort === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     Are you comfortable living with people of different genders
@@ -149,14 +149,14 @@ const LivingSection: React.FC<{
                         { name: 'Doesn’t Matter', value: 'Doesn’t Matter' },
                         { name: 'No', value: 'No' },
 
-                    ].map(btn => <PrimaryButton selected={answers.COMFORT_DIFFERENT_GENDERS === btn.value} onClick={() => handleAnswer(sectionName, 'COMFORT_DIFFERENT_GENDERS', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.genderComfort === btn.value} onClick={() => handleAnswer(sectionName, 'genderComfort', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="OPENNESS_TO_CULTURAL_DIFFERENCE" className={`my-1 rounded-2xl mx-1 py-10 ${error && answers.OPENNESS_TO_CULTURAL_DIFFERENCE === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="culturalOpenness" className={`my-1 rounded-2xl mx-1 py-10 ${error && answers.culturalOpenness === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     How open are you to living with someone from a different cultural or spiritual background
@@ -168,14 +168,14 @@ const LivingSection: React.FC<{
                         { name: 'Unsure', value: 'Unsure' },
                         { name: 'Not Open', value: 'Not Open' },
 
-                    ].map(btn => <PrimaryButton selected={answers.OPENNESS_TO_CULTURAL_DIFFERENCE === btn.value} onClick={() => handleAnswer(sectionName, 'OPENNESS_TO_CULTURAL_DIFFERENCE', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.culturalOpenness === btn.value} onClick={() => handleAnswer(sectionName, 'culturalOpenness', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="LIKES_GUESTS" className={` rounded-2xl mx-1 py-10 ${error && answers.LIKES_GUESTS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="guestFrequency" className={` rounded-2xl mx-1 py-10 ${error && answers.guestFrequency === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     Do you like to have guests over?
@@ -186,7 +186,7 @@ const LivingSection: React.FC<{
                         { name: 'Sometimes', value: 'Sometimes' },
                         { name: 'Never', value: 'Never' },
 
-                    ].map(btn => <PrimaryButton selected={answers.LIKES_GUESTS === btn.value} onClick={() => handleAnswer(sectionName, 'LIKES_GUESTS', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.guestFrequency === btn.value} onClick={() => handleAnswer(sectionName, 'guestFrequency', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -207,9 +207,9 @@ const GuestAndFriendSection: React.FC<{
     handleAnswer: (section: string, field: string, value: string) => void;
     previousStepHandler: () => void;
     answers: {
-        OKAY_WITH_ROOMMATE_GUESTS?: string | null;
-        GUEST_CURFEW_WEEKDAYS?: string | null;
-        STUDY_PLANS?: string | null;
+        roommateGuestsOk?: string | null;
+        weekdayGuestLimit?: string | null;
+        studyInUnit?: string | null;
     };
 }> = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
 
@@ -219,23 +219,23 @@ const GuestAndFriendSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.OKAY_WITH_ROOMMATE_GUESTS === null) {
-            const section = document.getElementById('OKAY_WITH_ROOMMATE_GUESTS');
+        if (answers.roommateGuestsOk === null) {
+            const section = document.getElementById('roommateGuestsOk');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } if (answers.GUEST_CURFEW_WEEKDAYS === null) {
-            const section = document.getElementById('GUEST_CURFEW_WEEKDAYS');
+        } if (answers.weekdayGuestLimit === null) {
+            const section = document.getElementById('weekdayGuestLimit');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        if (answers.STUDY_PLANS === null) {
-            const section = document.getElementById('STUDY_PLANS');
+        if (answers.studyInUnit === null) {
+            const section = document.getElementById('studyInUnit');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.OKAY_WITH_ROOMMATE_GUESTS === null || answers.GUEST_CURFEW_WEEKDAYS === null || answers.STUDY_PLANS === null
+    const disabled = answers.roommateGuestsOk === null || answers.weekdayGuestLimit === null || answers.studyInUnit === null
     return (
         <>
-            <div id="OKAY_WITH_ROOMMATE_GUESTS" className={` rounded-2xl mx-1 py-10 ${error && answers.OKAY_WITH_ROOMMATE_GUESTS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="roommateGuestsOk" className={` rounded-2xl mx-1 py-10 ${error && answers.roommateGuestsOk === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     Are you okay with your roommates having friends over?
@@ -245,14 +245,14 @@ const GuestAndFriendSection: React.FC<{
                         { name: 'Always', value: 'Always' },
                         { name: 'Sometimes', value: 'Sometimes' },
                         { name: 'Never', value: 'Never' },
-                    ].map(btn => <PrimaryButton selected={answers.OKAY_WITH_ROOMMATE_GUESTS === btn.value} onClick={() => handleAnswer(sectionName, 'OKAY_WITH_ROOMMATE_GUESTS', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.roommateGuestsOk === btn.value} onClick={() => handleAnswer(sectionName, 'roommateGuestsOk', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="GUEST_CURFEW_WEEKDAYS" className={`my-1 rounded-2xl mx-1 py-10 ${error && answers.GUEST_CURFEW_WEEKDAYS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="weekdayGuestLimit" className={`my-1 rounded-2xl mx-1 py-10 ${error && answers.weekdayGuestLimit === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     On a weekday, how late is too late for guests to stay over?
@@ -262,13 +262,13 @@ const GuestAndFriendSection: React.FC<{
                         { name: 'No Guests After 10PM', value: 'No Guests After 10PM' },
                         { name: 'Anytime Is Okay', value: 'Anytime Is Okay' },
 
-                    ].map(btn => <PrimaryButton selected={answers.GUEST_CURFEW_WEEKDAYS === btn.value} onClick={() => handleAnswer(sectionName, 'GUEST_CURFEW_WEEKDAYS', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.weekdayGuestLimit === btn.value} onClick={() => handleAnswer(sectionName, 'weekdayGuestLimit', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
-            <div id="STUDY_PLANS" className={` rounded-2xl mx-1 py-10 ${error && answers.STUDY_PLANS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="studyInUnit" className={` rounded-2xl mx-1 py-10 ${error && answers.studyInUnit === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     Do you plan to study in your unit?
@@ -279,7 +279,7 @@ const GuestAndFriendSection: React.FC<{
                         { name: 'No', value: 'No' },
                         { name: 'Sometimes', value: 'Sometimes' },
 
-                    ].map(btn => <PrimaryButton selected={answers.STUDY_PLANS === btn.value} onClick={() => handleAnswer(sectionName, 'STUDY_PLANS', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.studyInUnit === btn.value} onClick={() => handleAnswer(sectionName, 'studyInUnit', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -300,10 +300,10 @@ const CookAndExpensesSection: React.FC<{
     handleAnswer: (section: string, field: string, value: string) => void;
     previousStepHandler: () => void;
     answers: {
-        COOKING_PLANS?: string | null;
-        SHARING_EXPENSES?: string | null;
-        FRIENDSHIP_IMPORTANCE?: string | null;
-        ROOMMATE_COMMUNICATION_FREQUENCY?: string | null;
+        cookingPlans?: string | null;
+        expenseSharing?: string | null;
+        friendshipImportance?: string | null;
+        communicationFrequency?: string | null;
     };
 }> = ({ nextSectionHandler, answers, handleAnswer, previousStepHandler }) => {
 
@@ -312,28 +312,28 @@ const CookAndExpensesSection: React.FC<{
     const scrollHandler = () => {
 
         setError(true)
-        if (answers.COOKING_PLANS === null) {
-            const section = document.getElementById('COOKING_PLANS');
+        if (answers.cookingPlans === null) {
+            const section = document.getElementById('cookingPlans');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } if (answers.SHARING_EXPENSES === null) {
-            const section = document.getElementById('SHARING_EXPENSES');
-            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        if (answers.FRIENDSHIP_IMPORTANCE === null) {
-            const section = document.getElementById('FRIENDSHIP_IMPORTANCE');
+        } if (answers.expenseSharing === null) {
+            const section = document.getElementById('expenseSharing');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        if (answers.ROOMMATE_COMMUNICATION_FREQUENCY === null) {
-            const section = document.getElementById('ROOMMATE_COMMUNICATION_FREQUENCY');
+        if (answers.friendshipImportance === null) {
+            const section = document.getElementById('friendshipImportance');
+            section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (answers.communicationFrequency === null) {
+            const section = document.getElementById('communicationFrequency');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.COOKING_PLANS === null || answers.SHARING_EXPENSES === null || answers.FRIENDSHIP_IMPORTANCE === null || answers.ROOMMATE_COMMUNICATION_FREQUENCY === null
+    const disabled = answers.cookingPlans === null || answers.expenseSharing === null || answers.friendshipImportance === null || answers.communicationFrequency === null
 
     return (
         <>
-            <div id="COOKING_PLANS" className={` rounded-2xl mx-1 py-10 ${error && answers.COOKING_PLANS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="cookingPlans" className={` rounded-2xl mx-1 py-10 ${error && answers.cookingPlans === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     Do you plan to cook?
@@ -343,14 +343,14 @@ const CookAndExpensesSection: React.FC<{
                         { name: 'Yes', value: 'Yes' },
                         { name: 'No', value: 'No' },
                         { name: 'Sometimes', value: 'Sometimes' },
-                    ].map(btn => <PrimaryButton selected={answers.COOKING_PLANS === btn.value} onClick={() => handleAnswer(sectionName, 'COOKING_PLANS', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.cookingPlans === btn.value} onClick={() => handleAnswer(sectionName, 'cookingPlans', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="SHARING_EXPENSES" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.SHARING_EXPENSES === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="expenseSharing" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.expenseSharing === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     How do you feel about sharing expenses (e.g. rent, utilities, groceries)
@@ -361,14 +361,14 @@ const CookAndExpensesSection: React.FC<{
                         { name: 'Unsure', value: 'Unsure' },
                         { name: 'Yes', value: 'Yes' },
 
-                    ].map(btn => <PrimaryButton selected={answers.SHARING_EXPENSES === btn.value} onClick={() => handleAnswer(sectionName, 'SHARING_EXPENSES', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.expenseSharing === btn.value} onClick={() => handleAnswer(sectionName, 'expenseSharing', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="FRIENDSHIP_IMPORTANCE" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.FRIENDSHIP_IMPORTANCE === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="friendshipImportance" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.friendshipImportance === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     How important is it to you to become friends with your roommates?
@@ -379,14 +379,14 @@ const CookAndExpensesSection: React.FC<{
                         { name: 'Somewhat', value: 'Somewhat' },
                         { name: 'Not Important', value: 'Not Important' },
 
-                    ].map(btn => <PrimaryButton selected={answers.FRIENDSHIP_IMPORTANCE === btn.value} onClick={() => handleAnswer(sectionName, 'FRIENDSHIP_IMPORTANCE', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.friendshipImportance === btn.value} onClick={() => handleAnswer(sectionName, 'friendshipImportance', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
 
-            <div id="ROOMMATE_COMMUNICATION_FREQUENCY" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.ROOMMATE_COMMUNICATION_FREQUENCY === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="communicationFrequency" className={`mt-1 rounded-2xl mx-1 py-10 ${error && answers.communicationFrequency === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     How often would you intend to communicate with your roommates?
@@ -398,7 +398,7 @@ const CookAndExpensesSection: React.FC<{
                         { name: 'Never', value: 'Never' },
                         { name: 'Unsure', value: 'Unsure' },
 
-                    ].map(btn => <PrimaryButton selected={answers.ROOMMATE_COMMUNICATION_FREQUENCY === btn.value} onClick={() => handleAnswer(sectionName, 'ROOMMATE_COMMUNICATION_FREQUENCY', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.communicationFrequency === btn.value} onClick={() => handleAnswer(sectionName, 'communicationFrequency', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>

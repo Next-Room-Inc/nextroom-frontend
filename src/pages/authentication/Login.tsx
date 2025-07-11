@@ -133,6 +133,9 @@ const Login = () => {
           <p className="my-0 text-center text-sm/6 text-gray-500 font-semibold underline">
             <Link to={ROUTES.FORGOT_PASSWORD}>Forgot Password</Link>
           </p>
+          <p className="my-0 text-center text-sm/6 text-gray-500 font-semibold underline">
+            <Link to={ROUTES.RESEND_VERIFICATION}>Resend Email Verification</Link>
+          </p>
         </form>
       </AuthLayout>
     </>

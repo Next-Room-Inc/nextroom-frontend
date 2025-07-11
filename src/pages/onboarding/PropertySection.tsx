@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../utils/constants';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
-import useAuth from '../../custom-hooks/useAuth';
 
 
 interface PropertySectionParams {
@@ -28,7 +27,7 @@ interface PropertySectionParams {
 
 
 const PropertySection = (props: any) => {
-     
+
     const {
         formStep: step,
         section,
@@ -152,7 +151,7 @@ const SkipNextQuestionSection = () => {
     return (
         <>
             <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
-            <ShareSection  />
+            <ShareSection />
 
         </>
     )
@@ -166,7 +165,7 @@ const AmenitiesSection: React.FC<{
         UNIT_AMENITIS?: string[] | [];
         COMUNITY_AMENITIS?: string[] | [];
     };
-}> = ({ handleAnswer, answers, nextStepHandler,previousStepHandler }) => {
+}> = ({ handleAnswer, answers, nextStepHandler, previousStepHandler }) => {
     const [error] = useState(false)
     const [selectedUnitAmenities, setSelectedUnitAmenities] = useState<string[]>(answers.UNIT_AMENITIS || [])
     const [selectedComunityAmenities, setSelectedComunityAmenities] = useState<string[]>(answers.COMUNITY_AMENITIS || [])
@@ -276,7 +275,7 @@ const AmenitiesSection: React.FC<{
             </div>
 
 
-            <NextButton onClick={nextButtonHandler} previousStepHandler={previousStepHandler}/>
+            <NextButton onClick={nextButtonHandler} previousStepHandler={previousStepHandler} />
         </>
     )
 
@@ -287,36 +286,36 @@ const RoommatesSection: React.FC<{
     handleAnswer: (sectino: string, key: string, value: string | number) => void;
     nextSectionHandler: () => void;
     answers: {
-        BRINGING_ROOMMATES?: string;
-        ROOMMATE_COUNT?: number;
-        NEED_ROOMMATE_MATCHING?: string;
+        wantsRoommates?: string;
+        roommateCount?: number;
+        wantsRoommateMatching?: string;
     };
-}> = ({ handleAnswer, answers, nextSectionHandler,previousStepHandler }) => {
+}> = ({ handleAnswer, answers, nextSectionHandler, previousStepHandler }) => {
     const navigate = useNavigate()
     // const [count, setcount] = useState(0)
     // const [skipQuestionSection, setSkipQuestionSection] = useState(false)
-    const count = answers?.ROOMMATE_COUNT || 0
-    const increment = () => { handleAnswer('PROPERTY_SECTION', 'ROOMMATE_COUNT', count + 1) }
-    const decrement = () => { if (count > 0) handleAnswer('PROPERTY_SECTION', 'ROOMMATE_COUNT', count - 1) }
+    const count = answers?.roommateCount || 0
+    const increment = () => { handleAnswer('PROPERTY_SECTION', 'roommateCount', count + 1) }
+    const decrement = () => { if (count > 0) handleAnswer('PROPERTY_SECTION', 'roommateCount', count - 1) }
 
     const [error, setError] = useState(false)
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.BRINGING_ROOMMATES === null) {
-            const section = document.getElementById('BRINGING_ROOMMATES');
+        if (answers.wantsRoommates === null) {
+            const section = document.getElementById('wantsRoommates');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        else if (answers.NEED_ROOMMATE_MATCHING === null) {
-            const section = document.getElementById('NEED_ROOMMATE_MATCHING');
+        else if (answers.wantsRoommateMatching === null) {
+            const section = document.getElementById('wantsRoommateMatching');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.BRINGING_ROOMMATES === null || answers.NEED_ROOMMATE_MATCHING === null
+    const disabled = answers.wantsRoommates === null || answers.wantsRoommateMatching === null
 
     const nextHandler = () => {
-        if (answers?.NEED_ROOMMATE_MATCHING === 'No') {
+        if (answers?.wantsRoommateMatching === 'No') {
             navigate(ROUTES.SEARCH_PROPERTY)
         }
         else { nextSectionHandler() }
@@ -324,12 +323,12 @@ const RoommatesSection: React.FC<{
 
     return (
         <>
-            <div id="BRINGING_ROOMMATES" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.BRINGING_ROOMMATES === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="wantsRoommates" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.wantsRoommates === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto'> Would you like to bring any roommates? </p>
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
-                    <PrimaryButton selected={answers?.BRINGING_ROOMMATES === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'BRINGING_ROOMMATES', 'Yes')} > Yes </PrimaryButton>
-                    <PrimaryButton selected={answers?.BRINGING_ROOMMATES === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'BRINGING_ROOMMATES', 'No')} > No </PrimaryButton>
+                    <PrimaryButton selected={answers?.wantsRoommates === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommates', 'Yes')} > Yes </PrimaryButton>
+                    <PrimaryButton selected={answers?.wantsRoommates === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommates', 'No')} > No </PrimaryButton>
                 </div>
             </div>
 
@@ -377,16 +376,16 @@ const RoommatesSection: React.FC<{
             </div>
 
 
-            <div id="NEED_ROOMMATE_MATCHING" className={` rounded-2xl mx-1 py-10 ${error && answers.NEED_ROOMMATE_MATCHING === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="wantsRoommateMatching" className={` rounded-2xl mx-1 py-10 ${error && answers.wantsRoommateMatching === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
-                    <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'Yes')}> Yes </PrimaryButton>
-                    <PrimaryButton selected={answers?.NEED_ROOMMATE_MATCHING === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'NEED_ROOMMATE_MATCHING', 'No')} > No </PrimaryButton>
+                    <PrimaryButton selected={answers?.wantsRoommateMatching === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'Yes')}> Yes </PrimaryButton>
+                    <PrimaryButton selected={answers?.wantsRoommateMatching === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'No')} > No </PrimaryButton>
                 </div>
             </div>
 
             {
-                answers?.NEED_ROOMMATE_MATCHING === 'No' ? <SkipNextQuestionSection /> : ""
+                answers?.wantsRoommateMatching === 'No' ? <SkipNextQuestionSection /> : ""
             }
 
             <NextButton onClick={disabled ? scrollHandler : nextHandler} previousStepHandler={previousStepHandler} />
@@ -400,7 +399,7 @@ const LookingForSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, previousStepHandler }) => {
     const rentalTypes = [
         {
             name: "House",
@@ -428,17 +427,17 @@ const LookingForSection: React.FC<{
     const [error, setError] = useState(false)
     const scrollHandler = () => {
         setError(true)
-        if (answers.RENTAL_PREFERENCE === null) {
-            const section = document.getElementById('RENTAL_PREFERENCE');
+        if (answers.accommodationType === null) {
+            const section = document.getElementById('accommodationType');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.RENTAL_PREFERENCE === null
+    const disabled = answers.accommodationType === null
     const [rentalDescription, setRentalDescription] = useState<string | null>(null)
     return (
         <>
-            <div id="RENTAL_PREFERENCE" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.RENTAL_PREFERENCE === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="accommodationType" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.accommodationType === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> What type of rental are you looking for? </p>
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-10 text-md px-10'>
@@ -461,17 +460,17 @@ const LookingForSection: React.FC<{
                             ) : <p className={`
                                 max-w-[200px] text-[8px] mx-auto px-2 py-2 mb-3 bg-white shadow-[#D9D9D9] drop-shadow-xl shadow-md
                                 opacity-0 hidden md:flex
-                                `}>{RENTAL_TYPE.details}</p>}
+                                `}>{rental.details}</p>}
 
                             <button
-                                onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_PREFERENCE', RENTAL_TYPE.name)}
-                                className={` border border-white ${answers.RENTAL_PREFERENCE === RENTAL_TYPE.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}>
+                                onClick={() => handleAnswer('PROPERTY_SECTION', 'accommodationType', rental.name)}
+                                className={` border border-white ${answers.accommodationType === rental.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}>
                                 <div className='flex gap-2  w-full justify-center'>
-                                    <img alt="" className="h-5 " src={`/assets/img/icons/${RENTAL_TYPE.icon}`} />
-                                    {RENTAL_TYPE.name}
+                                    <img alt="" className="h-5 " src={`/assets/img/icons/${rental.icon}`} />
+                                    {rental.name}
                                 </div>
 
-                                <img alt="" onClick={() => rentalDescription === RENTAL_TYPE.name ? setRentalDescription(null) : setRentalDescription(RENTAL_TYPE.name)} className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
+                                <img alt="" onClick={() => rentalDescription === rental.name ? setRentalDescription(null) : setRentalDescription(rental.name)} className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
                             </button>
 
                         </div>
@@ -495,7 +494,7 @@ const WhereToBeLocatedSection: React.FC<{
     runConfettiHandler: () => void;
     setRunConfetti: (value: boolean) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers, runConfettiHandler, setRunConfetti,previousStepHandler }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, runConfettiHandler, setRunConfetti, previousStepHandler }) => {
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
 
     const [search, setSearch] = useState('');
@@ -536,16 +535,8 @@ const WhereToBeLocatedSection: React.FC<{
             // );
             const response = await axios.post(
                 `https://places.googleapis.com/v1/places:autocomplete`,
-                {
-                    "input": query,
-
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Goog-Api-Key': GOOGLE_API_KEY,
-                    }
-                }
+                { "input": query, },
+                { headers: { 'Content-Type': 'application/json', 'X-Goog-Api-Key': GOOGLE_API_KEY, } }
             );
             const results = response.data.suggestions || [];
             console.log("results==>", results)
@@ -566,31 +557,31 @@ const WhereToBeLocatedSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.PREFERRED_LOCATION === null) {
-            const section = document.getElementById('PREFERRED_LOCATION');
+        if (answers.preferredArea === null) {
+            const section = document.getElementById('preferredArea');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.PREFERRED_LOCATION === null
+    const disabled = answers.preferredArea === null
 
 
 
     return (
         <>
-            <div id="PREFERRED_LOCATION" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.PREFERRED_LOCATION === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="preferredArea" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.preferredArea === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> Where would you like to be located? </p>
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
-                    <PrimaryButton selected={answers.PREFERRED_LOCATION === "Surprise Me"} onClick={() => {
+                    <PrimaryButton selected={answers.preferredArea === "Surprise Me"} onClick={() => {
                         setRunConfetti(true);
                         runConfettiHandler();
-                        handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION', 'Surprise Me')
+                        handleAnswer('PROPERTY_SECTION', 'preferredArea', 'Surprise Me')
                     }} > I Don’t Know Yet - Surprise Me </PrimaryButton>
-                    <PrimaryButton selected={answers.PREFERRED_LOCATION !== "Surprise Me" && answers.PREFERRED_LOCATION !== null} onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION', '')} > I Have A Preferred Area </PrimaryButton>
+                    <PrimaryButton selected={answers.preferredArea !== "Surprise Me" && answers.preferredArea !== null} onClick={() => handleAnswer('PROPERTY_SECTION', 'preferredArea', '')} > I Have A Preferred Area </PrimaryButton>
                 </div>
 
-                {answers.PREFERRED_LOCATION !== "Surprise Me" && answers.PREFERRED_LOCATION !== null &&
+                {answers.preferredArea !== "Surprise Me" && answers.preferredArea !== null &&
                     <div className='px-10 md:px-0 mt-12'>
                         {/* Google Search */}
                         <div className='shadow-[#D9D9D9] mb-3  md:w-[50%] pl-4 pr-8 py-2 mx-auto rounded-full drop-shadow-md shadow-md bg-white mt-5 flex items-center  justify-center gap-3'>
@@ -606,8 +597,8 @@ const WhereToBeLocatedSection: React.FC<{
                         {/* Google Suggestion */}
                         {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>
                             {suggestions.map(searchString => (
-                                <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.PREFERRED_LOCATION_NAME ? 'bg-gray-200' : ''}`}
-                                    onClick={() => handleAnswer('PROPERTY_SECTION', 'PREFERRED_LOCATION_NAME', searchString)} >
+                                <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.areaPreferenceType ? 'bg-gray-200' : ''}`}
+                                    onClick={() => handleAnswer('PROPERTY_SECTION', 'areaPreferenceType', searchString)} >
                                     <img alt="" className="h-3" src="assets/img/icons/location_logo.svg" />
                                     {searchString}
                                 </div>
@@ -629,12 +620,12 @@ const CloseToCampusSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, previousStepHandler }) => {
     // const [value, setValue] = useState(1200);
     const [error, setError] = useState(false)
     const min = 1;
     const max = 20;
-    const value = Number(answers?.DISTANCE_FROM_CAMPUS ?? min);
+    const value = Number(answers?.campusDistanceKm ?? min);
 
     // Calculate percentage position
     const getLeftPosition = () => {
@@ -645,17 +636,17 @@ const CloseToCampusSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.DISTANCE_FROM_CAMPUS === null) {
-            const section = document.getElementById('DISTANCE_FROM_CAMPUS');
+        if (answers.campusDistanceKm === null) {
+            const section = document.getElementById('campusDistanceKm');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.DISTANCE_FROM_CAMPUS === null
+    const disabled = answers.campusDistanceKm === null
 
     return (
         <>
-            <div id="DISTANCE_FROM_CAMPUS" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.DISTANCE_FROM_CAMPUS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="campusDistanceKm" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.campusDistanceKm === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> How close to campus is your preferred rental? </p>
                 <div className="mt-10  px-10 md:px-50">
                     <div className="flex justify-between text-black font-semibold mb-2">
@@ -670,7 +661,7 @@ const CloseToCampusSection: React.FC<{
                             min={min}
                             max={max}
                             value={value}
-                            onChange={(e) => handleAnswer('PROPERTY_SECTION', 'DISTANCE_FROM_CAMPUS', Number(e.target.value))}
+                            onChange={(e) => handleAnswer('PROPERTY_SECTION', 'campusDistanceKm', Number(e.target.value))}
                         />
                         {/* Moving label */}
                         <div
@@ -685,7 +676,7 @@ const CloseToCampusSection: React.FC<{
             </div>
 
             <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler}/>
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
         </>
@@ -698,34 +689,34 @@ const BudgetSection: React.FC<{
     nextStepHandler: () => void;
     handleAnswer: (section: string, key: string, value: unknown) => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, previousStepHandler }) => {
     const [error, setError] = useState(false)
     const min = 500;
     const max = 2000;
 
-    // Use fallback if MONTHLY_BUDGET is null or undefined
-    const MONTHLY_BUDGET = Number(answers.MONTHLY_BUDGET ?? min);
+    // Use fallback if budgetMax is null or undefined
+    const budgetMax = Number(answers.budgetMax ?? min);
 
     // Calculate percentage position
     const getLeftPosition = () => {
-        const percentage = ((MONTHLY_BUDGET - min) / (max - min)) * 100;
+        const percentage = ((budgetMax - min) / (max - min)) * 100;
         return `calc(${percentage}% - 24px)`; // Center the label
     };
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.MONTHLY_BUDGET === null) {
-            const section = document.getElementById('MONTHLY_BUDGET');
+        if (answers.budgetMax === null) {
+            const section = document.getElementById('budgetMax');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.MONTHLY_BUDGET === null
+    const disabled = answers.budgetMax === null
 
     return (
         <>
 
-            <div id="MONTHLY_BUDGET" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.MONTHLY_BUDGET === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="budgetMax" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.budgetMax === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'>
                     What is your monthly budget?
                 </p>
@@ -743,8 +734,8 @@ const BudgetSection: React.FC<{
                             className="custom-slider w-full"
                             min={min}
                             max={max}
-                            value={MONTHLY_BUDGET}
-                            onChange={(e) => handleAnswer('PROPERTY_SECTION', 'MONTHLY_BUDGET', Number(e.target.value))}
+                            value={budgetMax}
+                            onChange={(e) => handleAnswer('PROPERTY_SECTION', 'budgetMax', Number(e.target.value))}
                         />
 
                         {/* Moving label */}
@@ -752,7 +743,7 @@ const BudgetSection: React.FC<{
                             className="absolute top-8 font-bold text-sm"
                             style={{ left: getLeftPosition() }}
                         >
-                            ${MONTHLY_BUDGET}
+                            ${budgetMax}
                         </div>
                     </div>
                 </div>
@@ -760,7 +751,7 @@ const BudgetSection: React.FC<{
             </div>
 
             <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler}  previousStepHandler={previousStepHandler}/>
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
         </>
     );
@@ -772,7 +763,7 @@ const HowLongToStaySection: React.FC<{
     handleAnswer: (section: string, key: string, value: unknown) => void;
     previousStepHandler: () => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, previousStepHandler }) => {
     const dateInputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState(false)
 
@@ -786,40 +777,40 @@ const HowLongToStaySection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.STAY_DURATION === null) {
-            const section = document.getElementById('STAY_DURATION');
+        if (answers.stayDurationMonths === null) {
+            const section = document.getElementById('stayDurationMonths');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.STAY_DURATION === null
+    const disabled = answers.stayDurationMonths === null
 
     return (
         <>
-            <div id="STAY_DURATION" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.STAY_DURATION === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="stayDurationMonths" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.stayDurationMonths === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> How long is your stay? </p>
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
-                    <PrimaryButton selected={answers.STAY_DURATION === '4 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '4 Months')}  > 4 Months </PrimaryButton>
-                    <PrimaryButton selected={answers.STAY_DURATION === '6 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '6 Months')} > 6 Months </PrimaryButton>
-                    <PrimaryButton selected={answers.STAY_DURATION === '8 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '8 Months')} > 8 Months </PrimaryButton>
-                    <PrimaryButton selected={answers.STAY_DURATION === '12 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', '12 Months')}> 12 Months </PrimaryButton>
+                    <PrimaryButton selected={answers.stayDurationMonths === '4 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'stayDurationMonths', '4 Months')}  > 4 Months </PrimaryButton>
+                    <PrimaryButton selected={answers.stayDurationMonths === '6 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'stayDurationMonths', '6 Months')} > 6 Months </PrimaryButton>
+                    <PrimaryButton selected={answers.stayDurationMonths === '8 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'stayDurationMonths', '8 Months')} > 8 Months </PrimaryButton>
+                    <PrimaryButton selected={answers.stayDurationMonths === '12 Months'} onClick={() => handleAnswer('PROPERTY_SECTION', 'stayDurationMonths', '12 Months')}> 12 Months </PrimaryButton>
                 </div>
                 <div className={`border border-white 
                 ${(
-                        answers.STAY_DURATION !== '4 Months' &&
-                        answers.STAY_DURATION !== '6 Months' &&
-                        answers.STAY_DURATION !== '8 Months' &&
-                        answers.STAY_DURATION !== '12 Months' &&
-                        answers.STAY_DURATION !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9]"}
+                        answers.stayDurationMonths !== '4 Months' &&
+                        answers.stayDurationMonths !== '6 Months' &&
+                        answers.stayDurationMonths !== '8 Months' &&
+                        answers.stayDurationMonths !== '12 Months' &&
+                        answers.stayDurationMonths !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9]"}
                  mt-6 md:mt-10 rounded-full mx-15 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>
-                    <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'STAY_DURATION', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
+                    <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'stayDurationMonths', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
                 </div>
 
 
             </div >
 
             <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler}/>
+                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
             </div>
 
 
@@ -832,7 +823,7 @@ const WhenYouAreMovingSection: React.FC<{
     handleAnswer: (section: string, key: string, value: unknown) => void;
     previousStepHandler: () => void;
     answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
-}> = ({ nextStepHandler, handleAnswer, answers,previousStepHandler }) => {
+}> = ({ nextStepHandler, handleAnswer, answers, previousStepHandler }) => {
     const dateInputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState(false)
 
@@ -845,30 +836,30 @@ const WhenYouAreMovingSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.MOVE_IN_DATE === null) {
-            const section = document.getElementById('MOVE_IN_DATE');
+        if (answers.moveInDate === null) {
+            const section = document.getElementById('moveInDate');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.MOVE_IN_DATE === null
+    const disabled = answers.moveInDate === null
 
     return (
         <>
-            <div id="MOVE_IN_DATE" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.MOVE_IN_DATE === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="moveInDate" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.moveInDate === null ? "bg-[#B3322F]/20" : ""}`}>
 
                 <p className='text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto'> When are you moving in? </p>
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10'>
-                    <PrimaryButton selected={answers.MOVE_IN_DATE === 'September 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', 'September 1')}  > September 1 </PrimaryButton>
-                    <PrimaryButton selected={answers.MOVE_IN_DATE === 'May 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', 'May 1')} > May 1 </PrimaryButton>
+                    <PrimaryButton selected={answers.moveInDate === 'September 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'moveInDate', 'September 1')}  > September 1 </PrimaryButton>
+                    <PrimaryButton selected={answers.moveInDate === 'May 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'moveInDate', 'May 1')} > May 1 </PrimaryButton>
                 </div>
 
                 {/* <button className='bg-[#B3322F] w-full md:w-[250px] text-center py-2 text-white  rounded-full mt-10'> May 1 </button> */}
                 <div className={`
-                ${(answers.MOVE_IN_DATE !== 'September 1' && answers.MOVE_IN_DATE !== 'May 1' && answers.MOVE_IN_DATE !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9] border-white border"}
+                ${(answers.moveInDate !== 'September 1' && answers.moveInDate !== 'May 1' && answers.moveInDate !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9] border-white border"}
                  mt-6 md:mt-10 rounded-full   mx-15 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>
-                    <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'MOVE_IN_DATE', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
+                    <input onChange={(e) => handleAnswer('PROPERTY_SECTION', 'moveInDate', `${e.target.value}`)} type="date" className=' input-white-calendar px-10 text-center py-2 text-white focus:outline-none   ' ref={dateInputRef} />
                 </div>
 
             </div>
@@ -886,7 +877,7 @@ const TypeOfRentalSection: React.FC<{
     handleAnswer: (section: string, field: string, value: string) => void;
     previousStepHandler: () => void;
     answers: {
-        RENTAL_TYPE?: string | null;
+        rentalType?: string | null;
     };
 }> = ({
     nextStepHandler,
@@ -904,18 +895,18 @@ const TypeOfRentalSection: React.FC<{
 
         const scrollHandler = () => {
             setError(true)
-            if (answers.RENTAL_TYPE === null) {
-                const section = document.getElementById('RENTAL_TYPE');
+            if (answers.rentalType === null) {
+                const section = document.getElementById('rentalType');
                 section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        const disabled = answers.RENTAL_TYPE === null
+        const disabled = answers.rentalType === null
 
         return (
             <div className="text-center">
 
-                <div id="RENTAL_TYPE" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.RENTAL_TYPE === null ? "bg-[#B3322F]/20" : ""}`}>
+                <div id="rentalType" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.rentalType === null ? "bg-[#B3322F]/20" : ""}`}>
                     <p className="text-2xl text-[#B3322F] font-semibold w-[60%] md:w-[80%] mx-auto ">
                         What type of rental are you looking for?
                     </p>
@@ -924,8 +915,8 @@ const TypeOfRentalSection: React.FC<{
                         {options.map(({ label, value }) => (
                             <PrimaryButton
                                 key={value}
-                                onClick={() => handleAnswer('PROPERTY_SECTION', 'RENTAL_TYPE', value)}
-                                selected={answers.RENTAL_TYPE === value}
+                                onClick={() => handleAnswer('PROPERTY_SECTION', 'rentalType', value)}
+                                selected={answers.rentalType === value}
                             >
                                 {label}
                             </PrimaryButton>

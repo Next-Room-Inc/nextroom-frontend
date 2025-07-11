@@ -15,6 +15,7 @@ import VerifyEmail from "../pages/authentication/VerifyEmail";
 import StudentExperianceCenter from "../pages/student-experiance-center/StudentExperianceCenter";
 import NewsRoom from "../pages/newsroom/NewsRoom";
 import ResendVerification from "../pages/authentication/ResendVerification";
+import Blogs from "../pages/blogs/Blogs";
 
 export const routes = createBrowserRouter([
   {
@@ -83,6 +84,11 @@ export const routes = createBrowserRouter([
   {
     path: ROUTES.NEWSROOM,
     element: <NewsRoom />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.BLOGS,
+    element: <Blogs />,
     errorElement: <NotFoundErrorPage />,
   },
   {

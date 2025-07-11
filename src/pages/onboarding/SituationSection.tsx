@@ -102,30 +102,30 @@ const DisruptionHandlingSection: React.FC<{
     handleAnswer: (section: string, field: string, value: string) => void;
     previousStepHandler: () => void;
     answers: {
-        ROOMMATE_IMPAIRED_DISRUPTIVE?: string | null;
-        LEFT_LIGHTS_ON_SHARED_UTILITIES?: string | null;
+        impairedRoommate?: string | null;
+        lightsOn?: string | null;
     };
 }> = ({ nextStepHandler, answers, handleAnswer ,previousStepHandler}) => {
     const [error, setError] = useState(false)
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.ROOMMATE_IMPAIRED_DISRUPTIVE === null) {
-            const section = document.getElementById('ROOMMATE_IMPAIRED_DISRUPTIVE');
+        if (answers.impairedRoommate === null) {
+            const section = document.getElementById('impairedRoommate');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        else if (answers.LEFT_LIGHTS_ON_SHARED_UTILITIES === null) {
-            const section = document.getElementById('LEFT_LIGHTS_ON_SHARED_UTILITIES');
+        else if (answers.lightsOn === null) {
+            const section = document.getElementById('lightsOn');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.ROOMMATE_IMPAIRED_DISRUPTIVE === null || answers.LEFT_LIGHTS_ON_SHARED_UTILITIES === null
+    const disabled = answers.impairedRoommate === null || answers.lightsOn === null
 
     return (
         <>
 
-            <div id="ROOMMATE_IMPAIRED_DISRUPTIVE" className={`  rounded-2xl mx-1 py-10 ${error && answers.ROOMMATE_IMPAIRED_DISRUPTIVE === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="impairedRoommate" className={`  rounded-2xl mx-1 py-10 ${error && answers.impairedRoommate === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     What would you do if one of your roommates <br />
@@ -138,7 +138,7 @@ const DisruptionHandlingSection: React.FC<{
                         { name: 'Talk To My Roommate', value: 'Talk To My Roommate' },
                         { name: 'Do Nothing', value: 'Do Nothing' },
 
-                    ].map(btn => <PrimaryButton selected={answers.ROOMMATE_IMPAIRED_DISRUPTIVE === btn.value} onClick={() => handleAnswer(sectionName, 'ROOMMATE_IMPAIRED_DISRUPTIVE', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.impairedRoommate === btn.value} onClick={() => handleAnswer(sectionName, 'impairedRoommate', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -146,7 +146,7 @@ const DisruptionHandlingSection: React.FC<{
 
 
 
-            <div id="LEFT_LIGHTS_ON_SHARED_UTILITIES" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.LEFT_LIGHTS_ON_SHARED_UTILITIES === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="lightsOn" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.lightsOn === null ? "bg-[#B3322F]/20" : ""}`}>
                 {/* Question */}
                 <QuestionTitle>
                     What would you do if they left the lights on, and you were sharing utilities?
@@ -158,7 +158,7 @@ const DisruptionHandlingSection: React.FC<{
                         { name: 'Do Nothing', value: 'Do Nothing' },
                         { name: 'Turn Them Off Myself', value: 'Turn Them Off Myself' },
 
-                    ].map(btn => <PrimaryButton selected={answers.LEFT_LIGHTS_ON_SHARED_UTILITIES === btn.value} onClick={() => handleAnswer(sectionName, 'LEFT_LIGHTS_ON_SHARED_UTILITIES', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.lightsOn === btn.value} onClick={() => handleAnswer(sectionName, 'lightsOn', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -177,9 +177,9 @@ const ConflictAndSafetySection: React.FC<{
 
     previousStepHandler: () => void;
     answers: {
-        RENTAL_TYPE?: string | null;
-        ROOMMATE_WITH_ILLlCIT_SUBSTANCES?: string | null;
-        ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION?: string | null;
+        rentalType?: string | null;
+        illicitSubstances?: string | null;
+        verbalPhysicalAltercation?: string | null;
     };
 }> = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
 
@@ -187,23 +187,23 @@ const ConflictAndSafetySection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.ROOMMATE_WITH_ILLlCIT_SUBSTANCES === null) {
-            const section = document.getElementById('ROOMMATE_WITH_ILLlCIT_SUBSTANCES');
+        if (answers.illicitSubstances === null) {
+            const section = document.getElementById('illicitSubstances');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        else if (answers.ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION === null) {
-            const section = document.getElementById('ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION');
+        else if (answers.verbalPhysicalAltercation === null) {
+            const section = document.getElementById('verbalPhysicalAltercation');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
-    const disabled = answers.ROOMMATE_WITH_ILLlCIT_SUBSTANCES === null || answers.ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION === null
+    const disabled = answers.illicitSubstances === null || answers.verbalPhysicalAltercation === null
 
 
     return (
         <>
             {/* Question */}
 
-            <div id="ROOMMATE_WITH_ILLlCIT_SUBSTANCES" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.ROOMMATE_WITH_ILLlCIT_SUBSTANCES === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="illicitSubstances" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.illicitSubstances === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     What would you do if one of your roommates were involved with illicit substances?
                 </QuestionTitle>
@@ -213,7 +213,7 @@ const ConflictAndSafetySection: React.FC<{
                         { name: 'Notify The Landlord', value: 'Notify The Landlord' },
                         { name: 'Talk To My Roommate', value: 'Talk To My Roommate' },
                         { name: 'Do Nothing', value: 'Do Nothing' },
-                    ].map(btn => <PrimaryButton selected={answers.ROOMMATE_WITH_ILLlCIT_SUBSTANCES === btn.value} onClick={() => handleAnswer(sectionName, 'ROOMMATE_WITH_ILLlCIT_SUBSTANCES', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.illicitSubstances === btn.value} onClick={() => handleAnswer(sectionName, 'illicitSubstances', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -222,7 +222,7 @@ const ConflictAndSafetySection: React.FC<{
 
             {/* Question */}
 
-            <div id="ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="verbalPhysicalAltercation" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.verbalPhysicalAltercation === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     What would you do if one of your roommates got into a verbal or physical altercation with you?
                 </QuestionTitle>
@@ -232,7 +232,7 @@ const ConflictAndSafetySection: React.FC<{
                         { name: 'Notify The Landlord', value: 'Notify The Landlord' },
                         { name: 'Talk To My Roommate', value: 'Talk To My Roommate' },
                         { name: 'Do Nothing', value: 'Do Nothing' },
-                    ].map(btn => <PrimaryButton selected={answers.ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION === btn.value} onClick={() => handleAnswer(sectionName, 'ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.verbalPhysicalAltercation === btn.value} onClick={() => handleAnswer(sectionName, 'verbalPhysicalAltercation', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -250,8 +250,8 @@ const ConflictAndSafetySection: React.FC<{
 }
 const PartyAndMoneyConcernsSection: React.FC<{
     answers: {
-        FREQUENT_LOUD_PARTIES?: string | null;
-        ROOMMATE_OWES_MONEY?: string | null;
+        loudParties?: string | null;
+        owedMoney?: string | null;
     }
     nextStepHandler: () => void;
     previousStepHandler: () => void;
@@ -262,23 +262,23 @@ const PartyAndMoneyConcernsSection: React.FC<{
 
     const scrollHandler = () => {
         setError(true)
-        if (answers.FREQUENT_LOUD_PARTIES === null) {
-            const section = document.getElementById('FREQUENT_LOUD_PARTIES');
+        if (answers.loudParties === null) {
+            const section = document.getElementById('loudParties');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
-        else if (answers.ROOMMATE_OWES_MONEY === null) {
-            const section = document.getElementById('ROOMMATE_OWES_MONEY');
+        else if (answers.owedMoney === null) {
+            const section = document.getElementById('owedMoney');
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
-    const disabled = answers.FREQUENT_LOUD_PARTIES === null || answers.ROOMMATE_OWES_MONEY === null
+    const disabled = answers.loudParties === null || answers.owedMoney === null
 
     return (
         <>
             {/* Question */}
 
-            <div id="FREQUENT_LOUD_PARTIES" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.FREQUENT_LOUD_PARTIES === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="loudParties" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.loudParties === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     What would you do if your roommates frequently threw loud or disruptive parties?
                 </QuestionTitle>
@@ -288,7 +288,7 @@ const PartyAndMoneyConcernsSection: React.FC<{
                         { name: 'Notify The Landlord', value: 'Notify The Landlord' },
                         { name: 'Talk To My Roommate', value: 'Talk To My Roommate' },
                         { name: 'Do Nothing', value: 'Do Nothing' },
-                    ].map(btn => <PrimaryButton selected={answers.FREQUENT_LOUD_PARTIES === btn.value} onClick={() => handleAnswer(sectionName, 'FREQUENT_LOUD_PARTIES', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.loudParties === btn.value} onClick={() => handleAnswer(sectionName, 'loudParties', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
@@ -297,7 +297,7 @@ const PartyAndMoneyConcernsSection: React.FC<{
 
             {/* Question */}
 
-            <div id="ROOMMATE_OWES_MONEY" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.ROOMMATE_OWES_MONEY === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="owedMoney" className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.owedMoney === null ? "bg-[#B3322F]/20" : ""}`}>
                 <QuestionTitle>
                     What would you do if one of your roommates owed you money?
                 </QuestionTitle>
@@ -309,13 +309,13 @@ const PartyAndMoneyConcernsSection: React.FC<{
                         { name: 'Ask Landlord For Help', value: 'Ask Landlord For Help' },
                         { name: 'Do Nothing', value: 'Do Nothing' },
 
-                    ].map(btn => <PrimaryButton selected={answers.ROOMMATE_OWES_MONEY === btn.value} onClick={() => handleAnswer(sectionName, 'ROOMMATE_OWES_MONEY', btn.value)}>
+                    ].map(btn => <PrimaryButton selected={answers.owedMoney === btn.value} onClick={() => handleAnswer(sectionName, 'owedMoney', btn.value)}>
                         {btn.name}
                     </PrimaryButton>)}
                 </div>
             </div>
 
-            {answers.ROOMMATE_OWES_MONEY !== null && answers.FREQUENT_LOUD_PARTIES !== null &&
+            {answers.owedMoney !== null && answers.loudParties !== null &&
                 <>
                     <img alt="" className="h-15 mt-20 mb-5 pr-1 mx-auto " src="/assets/img/icons/warningicon.svg" />
 

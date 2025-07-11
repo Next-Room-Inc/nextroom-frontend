@@ -16,6 +16,21 @@
     font-size: 20px;
     font-weight: bolder;
 }
+.blogSlider > .swiper-button-prev:after, .blogSlider >.swiper-button-next:after {
+    color: #B3322F;
+    font-size: 20px;
+    font-weight: bolder;
+ 
+}
+.blogSlider {
+  padding: 0 18px;
+}
+.blogSlider > .swiper-button-prev:after{
+margin-right: 35px;
+} 
+.blogSlider >.swiper-button-next:after {
+ margin-left: 35px;
+}
 /* .blur:hover {
     backdrop-filter: blur(0px);
     

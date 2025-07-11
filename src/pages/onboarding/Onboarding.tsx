@@ -3,16 +3,18 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import ReactConfetti from 'react-confetti';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAuth from '../../custom-hooks/useAuth';
 import OnboardingLayout from '../../layouts/Onboarding.Layout';
+import { useSubmitOnboardingPreferencesMutation, useUpdateOnboardingStatusMutation } from '../../redux/services/onboarding.service';
 import { ROUTES } from '../../utils/constants';
 import { ICONS } from '../../utils/constants/app-info.constant';
+import * as interfaces from "../../utils/interfaces";
 import { ExitConfirmationSection, transitionVariants } from './CommonComponents';
 import LifeStyleSection from './LifeStyleSection';
 import PropertySection from './PropertySection';
 import RoommateSection from './RoommateSection';
 import SituationSection from './SituationSection';
-import useAuth from '../../custom-hooks/useAuth';
-
 
 interface AnswerSections {
     PROPERTY_SECTION: Record<string, unknown>;
@@ -24,58 +26,62 @@ const sectionsList: (keyof AnswerSections)[] = ['PROPERTY_SECTION', 'LIFE_STYLE_
 
 const sections = {
     PROPERTY_SECTION: {
-        RENTAL_TYPE: null,
-        MOVE_IN_DATE: null,
-        STAY_DURATION: null,
-        MONTHLY_BUDGET: null,
-        DISTANCE_FROM_CAMPUS: null,
-        PREFERRED_LOCATION: null,
-        PREFERRED_LOCATION_NAME: '',
-        RENTAL_PREFERENCE: null,
-        BRINGING_ROOMMATES: null,
-        ROOMMATE_COUNT: 0,
-        NEED_ROOMMATE_MATCHING: null,
+        rentalType: null,
+        moveInDate: null,
+        stayDurationMonths: null,
+        budgetMin: '500',
+        budgetMax: null,
+        campusDistanceKm: null,
+        preferredArea: null,
+        areaPreferenceType: '',
+        accommodationType: null,
+        wantsRoommates: null,
+        roommateCount: 0,
+        wantsRoommateMatching: null,
         UNIT_AMENITIS: null,
         COMUNITY_AMENITIS: null
     },
     LIFE_STYLE_SECTION: {
-        AREA_OF_STUDEY: null,
-        OFTEN_DRINK: null,
-        OFTEN_SMOKE: null,
-        RECREATIONAL_SUBSTANCES: null,
-        AT_HOME: null,
-        GOING_OUT: null,
-        BED_TIME: null,
+        studyArea: null,
+        drinkingFrequency: null,
+        smokingFrequency: null,
+        cannabisFrequency: null,
+        tidinessLevel: null,
+        goingOutFrequency: null,
+        bedtime: null,
         SOCIAL: null,
         STAYING_IN: null,
         CAUSES: null,
         PERSONAL: null
     },
     ROOMMATES_SECTION: {
-        COMFORT_DIFFERENT_GENDERS: null,
-        OPENNESS_TO_CULTURAL_DIFFERENCE: null,
-        LIKES_GUESTS: null,
-        OKAY_WITH_ROOMMATE_GUESTS: null,
-        GUEST_CURFEW_WEEKDAYS: null,
-        STUDY_PLANS: null,
-        COOKING_PLANS: null,
-        SHARING_EXPENSES: null,
-        FRIENDSHIP_IMPORTANCE: null,
-        ROOMMATE_COMMUNICATION_FREQUENCY: null
+        genderComfort: null,
+        culturalOpenness: null,
+        guestFrequency: null,
+        roommateGuestsOk: null,
+        weekdayGuestLimit: null,
+        studyInUnit: null,
+        cookingPlans: null,
+        expenseSharing: null,
+        friendshipImportance: null,
+        communicationFrequency: null
     },
     SITUATION_BASED_SECTION: {
-        ROOMMATE_IMPAIRED_DISRUPTIVE: null,
-        LEFT_LIGHTS_ON_SHARED_UTILITIES: null,
-        ROOMMATE_WITH_ILLlCIT_SUBSTANCES: null,
-        ROOMMATE_VERBAL_OR_PHYSICAL_ALTERCATION: null,
-        FREQUENT_LOUD_PARTIES: null,
-        ROOMMATE_OWES_MONEY: null
+        impairedRoommate: null,
+        lightsOn: null,
+        illicitSubstances: null,
+        verbalPhysicalAltercation: null,
+        loudParties: null,
+        owedMoney: null
     },
 }
 
 const Onboarding = () => {
-    const navigate = useNavigate();  
-     const { user } = useAuth();
+    const navigate = useNavigate();
+    const { user } = useAuth();
+    const [submitOnboardingPreferences] = useSubmitOnboardingPreferencesMutation();
+    const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
+
 
     const [exitForm, setExitForm] = useState(false);
     const [section, setSection] = useState<keyof AnswerSections>('PROPERTY_SECTION');
@@ -121,10 +127,68 @@ const Onboarding = () => {
 
     const runConfettiHandler = () => setTimeout(() => { setRunConfetti(false); }, 10000);
 
-    const payload = { name: `${user.firstName + ' ' + user.lastName}`, setRunConfetti, runConfettiHandler, answers, setAnswers, handleAnswer, section, setSection, changeStep, formStep, nextStepHandler, previousStepHandler, nextSectionHandler };
     runConfettiHandler()
 
+    const submitOnboardingPreferencesHandler = async () => {
+        const payload = {
+            lifestylePreference: answers.LIFE_STYLE_SECTION,
+            propertyPreference: answers.PROPERTY_SECTION,
+            roommatePreference: answers.ROOMMATES_SECTION,
+            situationResponse: answers.SITUATION_BASED_SECTION,
+        };
 
+        try {
+            const response = await submitOnboardingPreferences(payload);
+            console.log("🚀 ~ submitOnboardingPreferencesHandler ~ response:", response);
+
+            if (response?.error) {
+                return toast.error((response.error as any)?.data || "Failed to submit onboarding preferences.");
+            }
+
+            toast.success("Onboarding preferences submitted successfully!");
+            // Optionally navigate here
+            // navigate(ROUTES.SEARCH_PROPERTY);
+        } catch (err) {
+            console.error("🚨 Unexpected error in submitOnboardingPreferencesHandler:", err);
+            toast.error("An unexpected error occurred. Please try again.");
+        }
+    };
+
+
+    const updateOnboardingStatusHandler = async (payload: interfaces.updateOnboardingStatusPayload) => {
+        try {
+            const response = await updateOnboardingStatus(payload);
+
+            console.log("🚀 ~ updateOnboardingStatusHandler ~ response:", response);
+
+            if (response?.error) {
+                return toast.error((response.error as any)?.data || "Failed to update onboarding status");
+            }
+            toast.success("Onboarding status updated successfully!");
+            // Optionally navigate here
+            // navigate(ROUTES.SEARCH_PROPERTY);
+        } catch (err) {
+            console.error("🚨 Unexpected error in updateOnboardingStatusHandler:", err);
+            toast.error("An unexpected error occurred. Please try again.");
+        }
+    };
+
+    const payload = {
+        submitOnboardingPreferencesHandler,
+        updateOnboardingStatusHandler,
+        name: `${(user?.firstName || ' ')+ ' ' + (user?.lastName || ' ')}`,
+        setRunConfetti, runConfettiHandler,
+        answers,
+        setAnswers,
+        handleAnswer,
+        section,
+        setSection,
+        changeStep,
+        formStep,
+        nextStepHandler,
+        previousStepHandler,
+        nextSectionHandler
+    };
 
     return (
         <>
@@ -135,7 +199,7 @@ const Onboarding = () => {
                     (section === 'PROPERTY_SECTION' &&
                         formStep[section] === 0 &&
                         runConfetti) ||
-                    (answers['PROPERTY_SECTION']?.PREFERRED_LOCATION === 'Surprise Me' && runConfetti)
+                    (answers['PROPERTY_SECTION']?.preferredArea === 'Surprise Me' && runConfetti)
                 ) && (
                         <motion.div
                             key="confetti"
@@ -155,7 +219,7 @@ const Onboarding = () => {
                         <ExitConfirmationSection setExitForm={setExitForm} />
                     ) : (
                         <>
-                            {formStep[section] !== 0 && <FormStepper {...{ section, answers, setExitForm, setSection, formStep, changeStep }} />}
+                            {formStep[section] !== 0 && <FormStepper {...{ updateOnboardingStatusHandler, section, answers, setExitForm, setSection, formStep, changeStep }} />}
                             {/* <motion.div className="mt-15" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}> */}
                             {section === 'PROPERTY_SECTION' && <PropertySection {...payload} />}
                             {section === 'LIFE_STYLE_SECTION' && <LifeStyleSection {...payload} />}
@@ -164,7 +228,7 @@ const Onboarding = () => {
                             {/* </motion.div> */}
                         </>
                     )}
-                   
+
 
                 </OnboardingLayout>
 
@@ -182,7 +246,8 @@ const FormStepper: React.FC<{
     answers: AnswerSections;
     setExitForm: (value: boolean) => void;
     setSection: (value: keyof AnswerSections) => void;
-}> = ({  setSection, section, answers, setExitForm }) => {
+    updateOnboardingStatusHandler: (payload: interfaces.updateOnboardingStatusPayload) => void
+}> = ({ setSection, section, answers, updateOnboardingStatusHandler }) => {
     const hasAnsweredAnyQuestion = Object.values(answers[section]).some(answer => answer !== null);
 
     const totalQuestions = (sec: keyof AnswerSections) => Object.keys(answers[sec]).length || 1;
@@ -196,9 +261,6 @@ const FormStepper: React.FC<{
 
     return (
         <>
-
-
-
             <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10 mt-10">
                 {steps.map((step, index) => {
                     const progress = (totalAnswered(step.name as keyof AnswerSections) / totalQuestions(step.name as keyof AnswerSections)) * 100;
@@ -228,7 +290,8 @@ const FormStepper: React.FC<{
                                     <img alt="Save" className="h-7" src={ICONS.SAVE_ICON} />
                                     All Answers Saved
                                 </div>
-                                <button onClick={() => setExitForm(true)} className="bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2">
+                                {/* <button onClick={() => setExitForm(true)} className="bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"> */}
+                                <button onClick={() => updateOnboardingStatusHandler({ onboardingFormSkipped: true })} className="bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2">
                                     Start Housing Search Now
                                 </button>
                             </div>

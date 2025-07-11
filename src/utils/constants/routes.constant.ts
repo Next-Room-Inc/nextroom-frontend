@@ -16,5 +16,5 @@ export const ROUTES = {
   SEARCH_PROPERTY: "/search-property",
   NEWSROOM: "/newsroom",
   STUDENT_EXPERIANCE_CENTER: "/student-experiance-center",
- 
+  BLOGS: "/blogs",
 };
