@@ -19,6 +19,8 @@ export const APP_INFO = {
 
 export const IMAGES = {
   FOOTER: "assets/img/images/footer.svg",
+    NOT_FOUND: "https://demofree.sirv.com/nope-not-here.jpg",
+
 };
 
 export const ICONS = {
@@ -51,3 +53,4 @@ export const STUDENT_IMAGES = {
   SQUARE_A_4: "assets/img/students/square/a-4.jpg",
   SQUARE_A_5: "assets/img/students/square/a-5.jpg",
 };
+ 

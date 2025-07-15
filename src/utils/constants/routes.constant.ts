@@ -17,4 +17,5 @@ export const ROUTES = {
   NEWSROOM: "/newsroom",
   STUDENT_EXPERIANCE_CENTER: "/student-experiance-center",
   BLOGS: "/blogs",
+  CHAT: "/chat",
 };

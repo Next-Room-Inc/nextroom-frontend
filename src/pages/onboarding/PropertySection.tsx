@@ -27,7 +27,6 @@ interface PropertySectionParams {
 
 
 const PropertySection = (props: any) => {
-
     const {
         formStep: step,
         section,

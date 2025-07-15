@@ -1,6 +1,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { AvailableUnitsModal } from './AvailableUnitsModal';
+import { toast } from 'react-toastify';
+import { IMAGES } from '../../utils/constants/app-info.constant';
 
 
 export const PrimaryButton: React.FC<{
@@ -57,11 +59,12 @@ export const HousingCard: React.FC<{
     selected?: boolean,
     index: number,
 }> = ({
+    propertyDetails,
     index,
     title,
     imageUrl,
     location,
-    type,
+    property,
     priceRange,
     matchPercent,
     statusText = 'Ready To Move In',
@@ -70,28 +73,44 @@ export const HousingCard: React.FC<{
     setSelected
 }) => {
         const [viewDetails, setViewDetails] = useState(false)
+        const [likedProperty, setLikedProperty] = useState(false)
+        const likedPropertyHandler = () => {
+            const updatedState = !likedProperty;
+            setLikedProperty(updatedState);
+            toast.info(updatedState ? "Demo: Added to Favourites" : "Demo: Removed from Favourites");
+        };
+
         return (
             <>
                 <div
-                    onClick={() => {
-                        console.log(index)
-                        setSelected(index)
-                    }}
+                    onClick={() => setSelected(index)}
                     className={`z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md overflow-hidden relative p-6 mx-5 mt-12 text-white ${bgClass}`}
                 >
                     {/* Like Icon */}
-                    <img
-                        src="/assets/img/search-property/heartinner.svg"
+                    <motion.img
+                        onClick={likedPropertyHandler}
+                        src={`/assets/img/search-property/${likedProperty ? "heartinner.svg" : "heartouter.svg"}`}
                         alt="Like"
-                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50"
-                    />
+                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 cursor-pointer"
 
+                        // Animate on click (when state changes)
+                        animate={{ scale: 1 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 10 }}
+
+                        // Hover animation
+                        whileHover={{ scale: 1.1 }}
+                    />
                     {/* Image section */}
                     <div className="relative w-full md:w-1/4">
-                        <img
+                        {/* <img
                             src={imageUrl}
                             alt={title}
                             className="w-full h-48 object-cover rounded-2xl"
+                        /> */}
+                        <img
+                            src={IMAGES.NOT_FOUND}
+                            alt={title}
+                            className="w-full h-48   rounded-2xl"
                         />
                         <div className="absolute bottom-2 left-4 bg-[#B3322F]/80 text-white text-xs font-semibold px-3 py-1 rounded-sm shadow">
                             {statusText}
@@ -101,7 +120,7 @@ export const HousingCard: React.FC<{
                     {/* Content section */}
                     <div className="w-full md:w-1/2 md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
                         <div className="flex md:justify-start justify-between items-start">
-                            <h2 className="md:text-2xl text-xl font-semibold">{title}</h2>
+                            <h2 className="md:text-2xl text-xl font-semibold">{propertyDetails.name} @{property.propertyName}</h2>
                             <div className="bg-[#57AF4F] text-white px-3 py-0.5 text-center rounded-md text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
                                 {matchPercent} MATCH
                             </div>
@@ -123,15 +142,12 @@ export const HousingCard: React.FC<{
                                     className="h-4 w-4 mt-1.5 mr-2"
                                     alt="Building Icon"
                                 />
-                                {type}
+                                {property?.structureType}
                             </p>
                             <p className="flex items-start font-semibold">
-                                <img
-                                    src="/assets/img/search-property/dollar_icon.svg"
-                                    className="h-4 w-4 mt-1.5 mr-2"
-                                    alt="Dollar Icon"
-                                />
-                                {priceRange} <span className="ml-1 font-normal">/month</span>
+
+                                ${propertyDetails.rentMin} - ${propertyDetails.rentMax}
+                                <span className="ml-1 font-normal">/month</span>
                             </p>
                         </div>
                     </div>
@@ -159,10 +175,11 @@ export const HousingCard: React.FC<{
                     )}
                 </AnimatePresence>
 
-                {selected && viewDetails && <AvailableUnitsModal />}
+                {selected && viewDetails && <AvailableUnitsModal 
+                {...{propertyDetails,property}}
+                />}
 
             </>
         );
     };
 
-    

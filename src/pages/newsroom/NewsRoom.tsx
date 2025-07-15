@@ -3,11 +3,13 @@ import SignupOrLoginModal from '../../components/modals/SignupOrLoginModal'
 import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
 import { Navigation, Pagination } from 'swiper/modules'
 import { APP_INFO } from '../../utils/constants'
+import useAuth from '../../custom-hooks/useAuth'
 
 const NewsRoom = () => {
+  const { isLoggedIn } = useAuth();
   return (
     <SearchPropertyLayout>
-      <SignupOrLoginModal text="Read Full Article" />
+      {!isLoggedIn && <SignupOrLoginModal text="Read Full Article" />}
 
 
       <div className='py-15 md:mx-15 '>
@@ -33,7 +35,7 @@ const NewsRoom = () => {
         </div>
         {/* Info  */}
 
-      <ReadMoreComponent/>
+        <ReadMoreComponent />
       </div>
 
 

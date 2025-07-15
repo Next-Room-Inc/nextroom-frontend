@@ -1,9 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL, baseUrl } from "../endpoints";
-import * as interfaces from "../../utils/interfaces";
 
-export const PromotionServices = createApi({
-  reducerPath: "promotion",
+export const PropertyServices = createApi({
+  reducerPath: "property",
   baseQuery: fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers) => {
@@ -28,14 +27,13 @@ export const PromotionServices = createApi({
   },
   }),
   endpoints: (builder) => ({
-    sendPromotionEmail: builder.mutation({
-      query: (sendPromotionEmailDto: interfaces.SendPromotionEmailPayload) => ({
-        url: API_URL.PROMOTION.SEND_EMAIL.URL(),
-        method: API_URL.PROMOTION.SEND_EMAIL.METHOD,
-        body: sendPromotionEmailDto,
+    getEntrataProperties: builder.query({
+      query: () => ({
+        url: API_URL.PROPERTY.GET_ENTRATA_PROPERTIES.URL(),
+        method: API_URL.PROPERTY.GET_ENTRATA_PROPERTIES.METHOD,
       }),
     }),
   }),
 });
 
-export const { useSendPromotionEmailMutation } = PromotionServices;
+export const { useGetEntrataPropertiesQuery } = PropertyServices;

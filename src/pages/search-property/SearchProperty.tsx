@@ -1,9 +1,13 @@
 import { ArrowLeftIcon, ArrowRightIcon, ChevronUpIcon } from '@heroicons/react/16/solid'
 import { CheckCircleIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { AnimatePresence, motion } from "framer-motion"
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
 import { HousingCard, PrimaryButton } from './ComponComponents'
+import { useGetEntrataPropertiesQuery } from '../../redux/services/property.service'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../utils/constants'
 
 const housingdetails = [
     {
@@ -35,11 +39,33 @@ const housingdetails = [
     },
 ]
 
+ const demoDetails = {
+        title: "Alma @ ByWard Market",
+        imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+        location: "256 Rideau St, Ottawa, ON K1N 0G1",
+        type: "Apartment",
+        priceRange: "$1,350 - $1,999",
+        matchPercent: "96",
+        bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
+    }
+
 
 const SearchProperty = () => {
-    const [feedbackForm, setFeedBackForm] = useState(true);
-    const [ziplineModal, setZiplineModal] = useState(true);
+    const [feedbackForm, setFeedBackForm] = useState(false);
+    const [ziplineModal, setZiplineModal] = useState(false);
     const [selected, setSelected] = useState(null);
+    const { data = [], error, isLoading, isSuccess, isError } = useGetEntrataPropertiesQuery();
+    console.log(data)
+
+
+    // useEffect(() => {
+    //     const feedbackTimeout = setTimeout(() => setFeedBackForm(true), 10000); // 10 seconds
+    //     const ziplineTimeout = setTimeout(() => setZiplineModal(true), 15000); // 15 seconds
+
+    //     // Cleanup when component unmounts
+    //     return () => { clearTimeout(feedbackTimeout); clearTimeout(ziplineTimeout); };
+    // }, []);
+
 
     return (
         <>
@@ -64,11 +90,13 @@ const SearchProperty = () => {
                 </div>
                 {/* properties */}
                 <div className='py-10 md:mx-15'>
-                    {housingdetails.map((propertyDetails, index) => <HousingCard
+                    {(data[0]?.floorplans || []).map((propertyDetails, index) => <HousingCard
                         index={index}
                         selected={selected === index}
                         setSelected={setSelected}
-                        {...propertyDetails}
+                        propertyDetails={propertyDetails}
+                        property ={data[0]}
+                        {...demoDetails}
                     />)}
                 </div>
                 {/* I’ll Search On My Own Instead Button */}
@@ -85,10 +113,10 @@ const SearchProperty = () => {
                 {/* Chat Sticky Button */}
                 <ChatButton />
                 {/* AvailableUnitsModal */}
-                <div className='mx-10 md:mx-20'>
+                {/* <div className='mx-10 md:mx-20'>
                     <h2 className="text-lg font-semibold text-center md:text-left text-gray-700 mb-4">Requested Tour(s)</h2>
                     <TourTimeline />
-                </div>
+                </div> */}
             </SearchPropertyLayout>
         </>
     )
@@ -274,6 +302,7 @@ const TourTimeline = () => {
 
 
 const ChatButton = () => {
+    const navigate = useNavigate()
     const [stage, setStage] = useState<"arrow" | "tap" | "chat">("arrow");
 
     const handleClick = () => {
@@ -310,7 +339,7 @@ const ChatButton = () => {
 
                 {/* Full Button with Icon */}
                 {stage === "chat" && (
-                    <>
+                    <div className='flex items-center gap-2' onClick={()=>navigate(ROUTES.CHAT) }>
                         <ArrowLeftIcon className="w-5 mt-1" />
                         <span className="text-md whitespace-nowrap">tap to chat</span>
                         <img
@@ -318,7 +347,7 @@ const ChatButton = () => {
                             alt="Chat Icon"
                             className="h-10"
                         />
-                    </>
+                    </div>
                 )}
             </motion.button>
         </div>

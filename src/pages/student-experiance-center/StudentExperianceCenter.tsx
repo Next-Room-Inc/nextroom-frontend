@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import SearchPropertyLayout from '../../layouts/SearchProperty.Layout';
 import SignupOrLoginModal from '../../components/modals/SignupOrLoginModal';
+import useAuth from '../../custom-hooks/useAuth';
 
 
 const housingdetails = [
@@ -48,12 +49,14 @@ const housingdetails = [
 ]
 
 const StudentExperianceCenter = () => {
+  const { isLoggedIn } = useAuth();
+
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState('');
 
   return (
     <SearchPropertyLayout>
-      <SignupOrLoginModal text="View Full Report" />
+      {!isLoggedIn && <SignupOrLoginModal text="View Full Report" />}
 
 
       <div className='py-15 md:mx-15'>

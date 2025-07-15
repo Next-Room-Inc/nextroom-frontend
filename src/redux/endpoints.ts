@@ -1,7 +1,7 @@
 // Base URL for the local API
 // export const baseUrl = "http://localhost:8090";
 // Base URL for the dev server API
-export const baseUrl =  import.meta.env.VITE_API_URL;
+export const baseUrl = import.meta.env.VITE_API_URL;
 
 // Enum for HTTP methods
 export enum HttpMethod {
@@ -22,7 +22,7 @@ export const API_URL = {
   //   PLACE_TEXT_SEARCH: {
   //     URL: () => createApiUrl("/promotion/send-email"),
   //     METHOD: HttpMethod.POST,
-  //   }, 
+  //   },
   // },
   AUTH: {
     STUDENT_LOGIN: {
@@ -64,16 +64,22 @@ export const API_URL = {
     SEND_EMAIL: {
       URL: () => createApiUrl("/promotion/send-email"),
       METHOD: HttpMethod.POST,
-    }, 
+    },
   },
   ONBOARDING: {
     SUBMIT_PREFERENCES: {
       URL: () => createApiUrl("/onboarding/student/preferences"),
       METHOD: HttpMethod.POST,
-    }, 
+    },
     UPDATE_STATUS: {
       URL: () => createApiUrl("/onboarding/student/update-status"),
-      METHOD: HttpMethod.POST,
-    }, 
+      METHOD: HttpMethod.PATCH,
+    },
+  },
+  PROPERTY: {
+    GET_ENTRATA_PROPERTIES: {
+      URL: () => createApiUrl("/entrata/fetch/property"),
+      METHOD: HttpMethod.GET,
+    },
   },
 };

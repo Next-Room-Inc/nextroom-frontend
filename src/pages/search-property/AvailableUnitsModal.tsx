@@ -13,6 +13,9 @@ import { Line } from 'react-chartjs-2';
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { PrimaryButton } from "./ComponComponents";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../utils/constants";
+import { IMAGES } from "../../utils/constants/app-info.constant";
 
 const UNIT_DETAILS = {
     title: "1 Bedroom",
@@ -46,7 +49,10 @@ const UNIT_DETAILS = {
         ]
 }
 
-export const AvailableUnitsModal = () => {
+export const AvailableUnitsModal = ({
+    propertyDetails, property
+}) => {
+    const navigate = useNavigate()
     const tabOptions = ["Units", "Building", "History", "Reviews & History"];
     const [selectedTab, setSelectedTab] = useState("Units");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -73,18 +79,29 @@ export const AvailableUnitsModal = () => {
                             <h1 className='underline font-bold'>30 rue Jos-Montferrand, Gatineau</h1>
                             <div className='flex gap-5 my-2'>
                                 <p>2 tenants </p>
-                                <p>1 bed </p>
-                                <p>1 bath </p>
+                                <p>{propertyDetails?.bedrooms} bed </p>
+                                <p>{propertyDetails?.bathrooms} bath </p>
                                 <p className='flex'> <StarIcon className='w-5' /> 4.94 (78)</p>
                             </div>
-                            <h1 className='text-[#B3322F] font-bold'>$1,815 monthly</h1>
+                            <h1 className='text-[#B3322F] font-bold'>${propertyDetails.rentMin} - ${propertyDetails.rentMax} monthly</h1>
                         </div>
                         <div className='md:w-auto w-full'>
-                            <button className='flex shadow-lg py-3 gap-3 px-8 rounded-full mx-auto '>
-                                <img src="/assets/img/search-property/chaticon.svg" alt="Zibi Logo" className="h-5 mx-auto" />
-
+                            <motion.button
+                                onClick={() => navigate(ROUTES.CHAT)}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                className="flex items-center gap-3 shadow-lg py-3 px-8 rounded-full mx-auto bg-white hover:bg-gray-100 text-gray-800 font-medium"
+                            >
+                                <img
+                                    src="/assets/img/search-property/chaticon.svg"
+                                    alt="Zibi Logo"
+                                    className="h-5"
+                                />
                                 Chat With Property
-                            </button>
+                            </motion.button>
                         </div>
                     </div>
                     {/* line */}
@@ -145,8 +162,8 @@ export const AvailableUnitsModal = () => {
                     </div>
                     {/* Unit Details Section */}
                     <div>
-                        {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} />}
-                        {selectedTab === "Building" && <BuildingDetailSection />}
+                        {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} propertyDetails={propertyDetails} property={property} />}
+                        {selectedTab === "Building" && <BuildingDetailSection propertyDetails={propertyDetails} />}
                         {selectedTab === "History" && <HistoryDetailSection />}
                         {selectedTab === "Reviews & History" && <ReviewDetailSection />}
                     </div>
@@ -162,6 +179,8 @@ export const AvailableUnitsModal = () => {
 
 
 const UnitDetailsSection: React.FC<{
+    propertyDetails,
+    property,
     title: string;
     imageUrl: string;
     status: string;
@@ -172,95 +191,110 @@ const UnitDetailsSection: React.FC<{
         alt: string;
     }[];
 }> = ({
+    propertyDetails,
+    property,
     title,
     imageUrl,
     status,
     price,
     amenities,
 }) => {
-        const [viewAllMatches, SetViewAllMatches] = useState(false)
+    console.log(propertyDetails)
+        // const [viewAllMatches, SetViewAllMatches] = useState(false)
         return (
-            <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="rounded-xl shadow-md overflow relative p-6 mx-5 mt-12 text-black bg-[#D9D9D9]">
-                <div className="md:flex">
-                    {/* Image section */}
-                    <div className="relative w-full md:w-1/6">
-                        <img src={imageUrl} alt={title} className="w-full h-48 object-center object-contain rounded-2xl" />
-                    </div>
+            <>
 
-
-                    {/* Content section */}
-                    <div className="w-full md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
-                        <div className="flex md:justify-start justify-between items-start w-full">
-                            <h2 className="md:text-2xl text-xl font-semibold">{title}</h2>
-                            <div className="bg-[#B3322F] text-white px-3 py-0.5 text-center rounded-full text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
-                                {status}
-                            </div>
-                        </div>
-
-                        {/* Details */}
-                        <div className="mt-5 space-y-2 md:text-lg text-md">
-                            <div className="flex flex-col md:flex-row md:items-start justify-between">
-                                <div className="text-center">{price} monthly</div>
-                                <div className="md:mt-0 mt-2">
-                                    <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto" onClick={() => SetViewAllMatches(!viewAllMatches)}>
-                                        View All Matches
-                                    </PrimaryButton>
-
-
+                {
+                    (propertyDetails?.availableUnits?.unit || []).map((unit) => <>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                            className="rounded-xl shadow-md overflow relative p-6 mx-5 mt-12 text-black bg-[#D9D9D9]">
+                            <div className="md:flex">
+                                {/* Image section */}
+                                <div className="relative w-full md:w-1/6">
+                                    <img src={unit?.photos?.[0]?.uri || IMAGES.NOT_FOUND} alt={title} className="w-full h-48 object-center object-contain rounded-2xl" />
                                 </div>
-                            </div>
-                            {viewAllMatches && <ViewAllMatchesComponent />}
 
-                            {/* Amenities */}
-                            <div className="flex flex-col md:flex-row py-3 gap-3">
-                                <div className="grid grid-cols-3 md:grid-cols-6 gap-y-4 gap-x-3 justify-items-center md:justify-items-start py-3">
-                                    {amenities.map((amenity, index) => (
-                                        <div key={index} className="flex items-center gap-1">
-                                            {amenity.label && <span>{amenity.label}</span>}
-                                            <img
-                                                src={amenity.icon}
-                                                className="h-6 w-6"
-                                                alt={amenity.alt}
-                                            />
+
+                                {/* Content section */}
+                                <div className="w-full md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
+                                    <div className="flex md:justify-start justify-between items-start w-full">
+                                        <h2 className="md:text-2xl text-xl font-semibold">{propertyDetails?.bedrooms} Bedrooms</h2>
+                                        <div className="bg-[#B3322F] text-white px-3 py-0.5 text-center rounded-full text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
+                                            {status}
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
 
-                                <div className="flex md:items-start justify-center">
-                                    <PrimaryButton className="bg-[#B3322F] text-white px-3 py-2 text-center rounded-full text-xs mt-2">
-                                        Explore Community Amenities
-                                    </PrimaryButton>
+                                    {/* Details */}
+                                    <div className="mt-5 space-y-2 md:text-lg text-md">
+                                        <div className="flex flex-col md:flex-row md:items-start justify-between">
+                                            <div className="text-center">
+                                                ${unit?.rentMin} - ${unit?.rentMax}{" "}
+                                                  monthly</div>
+                                            
+                                            <div className="md:mt-0 mt-2">
+                                                <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto" onClick={() => SetViewAllMatches(!viewAllMatches)}>
+                                                    View All Matches
+                                                </PrimaryButton>
+
+
+                                            </div>
+                                        </div>
+                                        {/* {viewAllMatches && <ViewAllMatchesComponent />} */}
+
+                                        {/* Amenities */}
+                                        <div className="flex flex-col md:flex-row py-3 gap-3">
+                                            
+                                            <div className="grid grid-cols-3 md:grid-cols-6 gap-y-4 gap-x-3 justify-items-center md:justify-items-start py-3">
+                                                {amenities.map((amenity, index) => (
+                                                    <div key={index} className="flex items-center gap-1">
+                                                        {amenity.label && <span>{amenity.label}</span>}
+                                                        <img
+                                                            src={amenity.icon}
+                                                            className="h-6 w-6"
+                                                            alt={amenity.alt}
+                                                        />
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="flex md:items-start justify-center">
+                                                <PrimaryButton className="bg-[#B3322F] text-white px-3 py-2 text-center rounded-full text-xs mt-2">
+                                                    Explore Community Amenities
+                                                </PrimaryButton>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-col md:flex-row gap-4 md:w-fit py-3">
-                    <PrimaryButton
-                        className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
-                    >
-                        Accept
-                    </PrimaryButton>
-                    <PrimaryButton
-                        className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
-                    >
-                        Request Tour
-                    </PrimaryButton>
-                    <PrimaryButton
-                        className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
-                    >
-                        Decline
-                    </PrimaryButton>
-                </div>
+                            {/* Action Buttons */}
+                            <div className="flex flex-col md:flex-row gap-4 md:w-fit py-3">
+                                <PrimaryButton
+                                    className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
+                                >
+                                    Accept
+                                </PrimaryButton>
+                                <PrimaryButton
+                                    className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
+                                >
+                                    Request Tour
+                                </PrimaryButton>
+                                <PrimaryButton
+                                    className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
+                                >
+                                    Decline
+                                </PrimaryButton>
+                            </div>
 
 
-            </motion.div>
+                        </motion.div>
+                    </>)
+                }
+
+            </>
         );
     };
 
@@ -333,8 +367,9 @@ const MediaGallery = () => {
 };
 
 
-const BuildingDetailSection = () => {
-    const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
+const BuildingDetailSection = ({propertyDetails}) => {
+    // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
+    const description = propertyDetails?.description || "No description Added yet"
     const yearBuilt = "2011"
     const houseRules = "To ensure a respectful and comfortable living environment for everyone, please follow these house rules. Keep noise levels down, especially during quiet hours (typically 10 PM – 7 AM). Guests are welcome, but overnight visitors should be discussed with roommates in advance. Maintain cleanliness in shared areas and dispose of garbage regularly. Smoking, vaping, and illegal substances are strictly prohibited inside the apartment. Be mindful of energy and water usage, and report any maintenance issues promptly. Above all, treat your roommates, neighbors, and the property with respect."
 

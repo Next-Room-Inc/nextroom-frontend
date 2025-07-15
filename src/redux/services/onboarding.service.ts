@@ -6,13 +6,18 @@ export const OnboardingServices = createApi({
   reducerPath: "onboarding",
   baseQuery: fetchBaseQuery({
     baseUrl,
-    prepareHeaders: (headers) => {
+    prepareHeaders: (headers: any) => {
       // Retrieve the token from localStorage
       const token = localStorage.getItem("token");
       if (token) {
         // If the token exists, add it to the Authorization header
         headers.set("Authorization", `Bearer ${token}`);
-      }
+        }
+      console.log("Auth Token:", token);
+
+
+      console.log("Request Headers:", headers);
+
       return headers;
     },
     responseHandler: async (response) => {
