@@ -16,6 +16,7 @@ import StudentExperianceCenter from "../pages/student-experiance-center/StudentE
 import NewsRoom from "../pages/newsroom/NewsRoom";
 import ResendVerification from "../pages/authentication/ResendVerification";
 import Blogs from "../pages/blogs/Blogs";
+import Chat from "../pages/chat/Chat";
 
 export const routes = createBrowserRouter([
   {
@@ -89,6 +90,11 @@ export const routes = createBrowserRouter([
   {
     path: ROUTES.BLOGS,
     element: <Blogs />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.CHAT,
+    element: <Chat />,
     errorElement: <NotFoundErrorPage />,
   },
   {
