@@ -195,9 +195,8 @@ const LivingSection: React.FC<{
 
 
             {/* Next button */}
-            <div className="sticky bottom-4">
                 <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+          
 
         </>
     )
@@ -288,9 +287,8 @@ const GuestAndFriendSection: React.FC<{
 
 
             {/* Next button */}
-            <div className="sticky bottom-4">
                 <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+         
 
         </>
     )
@@ -408,9 +406,9 @@ const CookAndExpensesSection: React.FC<{
 
             {/* Next button */}
 
-            <div className="sticky bottom-4">
+         
                 <NextButton onClick={disabled ? scrollHandler : nextSectionHandler} previousStepHandler={previousStepHandler} />
-            </div>
+       
 
 
         </>

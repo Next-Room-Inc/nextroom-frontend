@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_URL, baseUrl } from "../endpoints";
+import { EntrataProperty } from "../../utils/interfaces/property.interface";
 
 export const PropertyServices = createApi({
   reducerPath: "property",
@@ -27,7 +28,7 @@ export const PropertyServices = createApi({
   },
   }),
   endpoints: (builder) => ({
-    getEntrataProperties: builder.query({
+    getEntrataProperties: builder.query<EntrataProperty[],void>({
       query: () => ({
         url: API_URL.PROPERTY.GET_ENTRATA_PROPERTIES.URL(),
         method: API_URL.PROPERTY.GET_ENTRATA_PROPERTIES.METHOD,

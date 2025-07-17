@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/constants";
+import Loader from "../../components/Loader";
 
 export const NextButton: React.FC<{
     disabled?: boolean;
@@ -15,23 +16,24 @@ export const NextButton: React.FC<{
     className?: string;
 }> = ({ onClick = () => { }, className = '', disabled = false, previousStepHandler = () => { } }) => {
     return (
-        <div className="  sticky bottom-4 z-30">
-            <motion.button
-                disabled={disabled}
-                onClick={onClick}
-                whileTap={{ scale: 0.95 }}
-                whileHover={{ scale: 1.03 }}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                className={`${disabled ? 'bg-[#D9D9D9] ' : 'bg-black hover:bg-[#B3322F]'}  w-[250px] md:w-[180px] text-center py-2 text-white rounded-full mt-10  ${className}`}
-            >
+        <>
+            <div className="  sticky bottom-4 z-30">
+                <motion.button
+                    disabled={disabled}
+                    onClick={onClick}
+                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.03 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    className={`${disabled ? 'bg-[#D9D9D9] ' : 'bg-black hover:bg-[#B3322F]'}  w-[250px] md:w-[180px] text-center py-2 text-white rounded-full mt-10  ${className}`}
+                >
 
-                Next
-            </motion.button>
+                    Next
+                </motion.button>
 
+            </div>
             <motion.button
-                disabled={disabled}
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: 1.03 }}
                 initial={{ opacity: 0, y: 10 }}
@@ -42,9 +44,10 @@ export const NextButton: React.FC<{
                 <ArrowLeftIcon className='w-4.5 h-4.5 border-white border-2 rounded-full p-0.5 ' />
                 Back
             </motion.button>
-        </div>
+        </>
     );
 };
+
 
 export const PrimaryButton: React.FC<{
     selected?: boolean;
@@ -119,7 +122,7 @@ export const ExitConfirmationSection: React.FC<{
                     Resume
                 </PrimaryButton>
 
-                <PrimaryButton button={true} onClick={()=>navigate(ROUTES.SEARCH_PROPERTY)}>
+                <PrimaryButton button={true} onClick={() => navigate(ROUTES.SEARCH_PROPERTY)}>
                     Yes
                 </PrimaryButton>
             </div>
@@ -142,10 +145,11 @@ export const QuestionTitle = ({ children }: { children: React.ReactNode }) => (
 );
 
 
-export const ShareSection = () => {
+export const ShareSection = ({ url = "", qrCodePath = "" }) => {
     const inviteRef = useRef<HTMLDivElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);
-    const url = "nextroom.ca"
+    const [loader, setLoader] = useState(false)
+    // const url = "nextroom.ca"
     const handleShare = async () => {
 
         if (!navigator.share || !navigator.canShare) {
@@ -191,7 +195,7 @@ export const ShareSection = () => {
     };
 
     const handleCopy = () => {
-        const url = "www.nextroom.ca"
+        // const url = "www.nextroom.ca"
         navigator.clipboard.writeText(url)
             .then(() => toast.success("Link copied to clipboard"))
             .catch(() => toast.success("Failed to copy link"));
@@ -199,6 +203,7 @@ export const ShareSection = () => {
 
 
     const handlePrint = async () => {
+        setLoader(true)
         console.log("print")
         if (!inviteRef.current) return;
 
@@ -216,6 +221,7 @@ export const ShareSection = () => {
         link.download = 'invite.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
+        setLoader(false)
     };
 
 
@@ -228,12 +234,16 @@ export const ShareSection = () => {
 
     return (
         <>
-
+            {loader && <Loader />}
 
             {/* Hidden container to capture */}
             <div ref={inviteRef} className="py-30 absolute left-[-9999px] top-0"  >
-                <LetsBecomeRoomMateSection {...{ url }} />
+                <LetsBecomeRoomMateSection {...{ url, qrCodePath }} />
             </div>
+
+            <img alt="" className="h-50 mx-auto  " src={qrCodePath || ""} />
+
+
 
             <button onClick={() => setShowDropdown(!showDropdown)} className='bg-black w-[250px] md:w-[180px] text-center py-2 text-white  rounded-full mt-8'>  Share To Invite </button>
             <AnimatePresence>
@@ -349,9 +359,8 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
 
 
 const LetsBecomeRoomMateSection: React.FC<{
-    url: string
-}> = ({ url }) => {
-    console.log("url==>", url)
+    qrCodePath: string
+}> = ({ qrCodePath }) => {
 
     return (
         <>
@@ -368,11 +377,12 @@ const LetsBecomeRoomMateSection: React.FC<{
                 QR Code or follow the link below:
             </p>
 
-            <p className='text-center px-10'>http://sample.info/?insect=fireman&porter=attraction#cave</p>
-            <img alt="" className="h-35 mx-auto mt-8" src={`/assets/img/icons/qr_code.svg`} />
+            {/* <p className='text-center px-10'>http://sample.info/?insect=fireman&porter=attraction#cave</p> */}
+            {/* <img alt="" className="h-35 mx-auto mt-8" src={`/assets/img/icons/qr_code.svg`} /> */}
+            <img alt="" className="h-60 mx-auto" src={qrCodePath} />
             {/* <QRCode value={url} className="h-35 mx-auto mt-10" /> */}
 
-            <p className='text-lg text-[#B3322F] mt-15 w-full  px-10 text-center mx-auto font-semibold'>What is Next Room?</p>
+            <p className='text-lg text-[#B3322F] mt-10 w-full  px-10 text-center mx-auto font-semibold'>What is Next Room?</p>
 
             <p className='w-[80%] md:[70%] lg:w-[60%] xl:w-[50%] text-center mx-auto mt-3'>
                 Next Room is the future of student housing—built to make finding a place (and people to live with) actually simple. From verified listings to smart roommate matching and easy sublets, it’s everything you wish existed when the group chat said “who’s signing the lease?”

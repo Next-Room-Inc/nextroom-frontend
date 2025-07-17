@@ -33,3 +33,12 @@ export interface StudentUser {
   onboardingFormSubmitted?: boolean;
   onboardingFormSkipped?: boolean;
 }
+
+
+export interface CreateInviteResponse {
+  slug: string;
+  url: string;
+  qrCodePath: string;
+  status: string
+  inviterName: string;
+}

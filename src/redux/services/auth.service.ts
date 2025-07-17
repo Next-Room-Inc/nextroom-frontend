@@ -6,6 +6,16 @@ export const AuthServices = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
     baseUrl,
+    prepareHeaders: (headers) => {
+      // Retrieve the token from localStorage
+      const token = localStorage.getItem("token");
+      if (token) {
+        // If the token exists, add it to the Authorization header
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+
     responseHandler: async (response) => {
       console.log("🚀 ~ responseHandler: ~ response:", response);
       return response.headers.get("content-type")?.includes("application/json")
@@ -60,6 +70,13 @@ export const AuthServices = createApi({
         body: dto,
       }),
     }),
+    createInvite: builder.query<interfaces.CreateInviteResponse, void>({
+      query: () => ({
+        url: API_URL.AUTH.CRAETE_INVITE.URL(),
+        method: API_URL.AUTH.CRAETE_INVITE.METHOD,
+        body: {},
+      }),
+    }),
   }),
 });
 
@@ -69,5 +86,6 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useVerifyEmailMutation,
-  useResendVerificationMutation
+  useResendVerificationMutation,
+  useCreateInviteQuery,
 } = AuthServices;

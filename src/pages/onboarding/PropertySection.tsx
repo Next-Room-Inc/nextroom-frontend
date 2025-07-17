@@ -4,7 +4,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 // import QRCode from "react-qr-code";
+import { ArrowPathIcon } from '@heroicons/react/20/solid';
 import { useNavigate } from 'react-router-dom';
+import { LoaderComponent } from '../../components/Loader';
+import { useCreateInviteQuery } from '../../redux/services/auth.service';
 import { ROUTES } from '../../utils/constants';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
@@ -146,12 +149,29 @@ const WelcomeScreen: React.FC<{
 
 
 const SkipNextQuestionSection = () => {
-
+    const { data, isLoading, isError, error, refetch } = useCreateInviteQuery();
+    console.log(data, isError, error)
     return (
         <>
             <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
-            <ShareSection />
+            {isLoading ? <div className='mt-5'>
+                <LoaderComponent />
+                <p>Please wait creating Invite...</p>
 
+            </div> : isError ?
+                <div className='flex items-center justify-center mt-4 gap-4'>
+                   <div className='font-semibold '>{ "Fail to fetch data Retry."}</div> 
+                    <motion.div
+                    onClick={refetch}
+                        whileHover={{ scale: 1.2, rotate: 90 }}
+                        transition={{ duration: 0.6, ease: 'easeInOut' }}
+                    >
+                        <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
+                    </motion.div>
+                </div > :
+
+                <ShareSection {...data} />
+            }
         </>
     )
 }
@@ -290,7 +310,7 @@ const RoommatesSection: React.FC<{
         wantsRoommateMatching?: string;
     };
 }> = ({ handleAnswer, answers, nextSectionHandler, previousStepHandler }) => {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     // const [count, setcount] = useState(0)
     // const [skipQuestionSection, setSkipQuestionSection] = useState(false)
     const count = answers?.roommateCount || 0
@@ -311,13 +331,14 @@ const RoommatesSection: React.FC<{
         }
     }
 
-    const disabled = answers.wantsRoommates === null || answers.wantsRoommateMatching === null
+    const disabled = answers.wantsRoommates === null || answers.wantsRoommates === 'Yes' ? answers.wantsRoommateMatching === null : false
 
     const nextHandler = () => {
-        if (answers?.wantsRoommateMatching === 'No') {
-            navigate(ROUTES.SEARCH_PROPERTY)
-        }
-        else { nextSectionHandler() }
+        nextSectionHandler()
+        // if (answers?.wantsRoommateMatching === 'No') {
+        //     navigate(ROUTES.SEARCH_PROPERTY)
+        // }
+        // else { nextSectionHandler() }
     }
 
     return (
@@ -331,62 +352,62 @@ const RoommatesSection: React.FC<{
                 </div>
             </div>
 
+            {answers.wantsRoommates === 'Yes' && <>
 
+                <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> How many roommates are joining you? </p>
 
-            <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> How many roommates are joining you? </p>
+                <div className='flex justify-center items-center px-15'>
+                    <div className='flex gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-3 rounded-full shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-auto'>
 
-            <div className='flex justify-center items-center px-15'>
-                <div className='flex gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-3 rounded-full shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-auto'>
-
-                    {/* Decrement Button */}
-                    <motion.button
-                        whileTap={{ scale: 0.85 }}
-                        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
-                        onClick={decrement}
-                    >
-                        -
-                    </motion.button>
-
-                    {/* Animate the count change */}
-                    <AnimatePresence mode="wait" initial={false}>
-                        <motion.span
-                            key={count}
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            transition={{ duration: 0.1 }}
+                        {/* Decrement Button */}
+                        <motion.button
+                            whileTap={{ scale: 0.85 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                            className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
+                            onClick={decrement}
                         >
-                            {count}
-                        </motion.span>
-                    </AnimatePresence>
+                            -
+                        </motion.button>
 
-                    {/* Increment Button */}
-                    <motion.button
-                        whileTap={{ scale: 0.85 }}
-                        transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                        className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
-                        onClick={increment}
-                    >
-                        +
-                    </motion.button>
+                        {/* Animate the count change */}
+                        <AnimatePresence mode="wait" initial={false}>
+                            <motion.span
+                                key={count}
+                                initial={{ scale: 0.8, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                exit={{ scale: 0.8, opacity: 0 }}
+                                transition={{ duration: 0.1 }}
+                            >
+                                {count}
+                            </motion.span>
+                        </AnimatePresence>
 
+                        {/* Increment Button */}
+                        <motion.button
+                            whileTap={{ scale: 0.85 }}
+                            transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                            className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
+                            onClick={increment}
+                        >
+                            +
+                        </motion.button>
+
+                    </div>
                 </div>
-            </div>
 
 
-            <div id="wantsRoommateMatching" className={` rounded-2xl mx-1 py-10 ${error && answers.wantsRoommateMatching === null ? "bg-[#B3322F]/20" : ""}`}>
-                <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
-                <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
-                    <PrimaryButton selected={answers?.wantsRoommateMatching === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'Yes')}> Yes </PrimaryButton>
-                    <PrimaryButton selected={answers?.wantsRoommateMatching === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'No')} > No </PrimaryButton>
+                <div id="wantsRoommateMatching" className={` rounded-2xl mx-1 py-10 ${error && answers.wantsRoommateMatching === null ? "bg-[#B3322F]/20" : ""}`}>
+                    <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
+                    <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
+                        <PrimaryButton selected={answers?.wantsRoommateMatching === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'Yes')}> Yes </PrimaryButton>
+                        <PrimaryButton selected={answers?.wantsRoommateMatching === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'No')} > No </PrimaryButton>
+                    </div>
                 </div>
-            </div>
 
-            {
-                answers?.wantsRoommateMatching === 'No' ? <SkipNextQuestionSection /> : ""
-            }
-
+                {
+                    answers?.wantsRoommateMatching === 'No' ? <SkipNextQuestionSection /> : ""
+                }
+            </>}
             <NextButton onClick={disabled ? scrollHandler : nextHandler} previousStepHandler={previousStepHandler} />
 
         </>
@@ -477,9 +498,8 @@ const LookingForSection: React.FC<{
                 </div>
             </div>
 
-            <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -606,9 +626,9 @@ const WhereToBeLocatedSection: React.FC<{
                     </div>
                 }
             </div >
-            <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
         </>
     )
 }
@@ -674,9 +694,8 @@ const CloseToCampusSection: React.FC<{
 
             </div>
 
-            <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -749,9 +768,7 @@ const BudgetSection: React.FC<{
 
             </div>
 
-            <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
         </>
     );
 };
@@ -808,9 +825,7 @@ const HowLongToStaySection: React.FC<{
 
             </div >
 
-            <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
 
 
         </>
@@ -863,9 +878,7 @@ const WhenYouAreMovingSection: React.FC<{
 
             </div>
 
-            <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
 
         </>
     )

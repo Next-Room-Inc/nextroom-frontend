@@ -176,7 +176,7 @@ const Onboarding = () => {
     const payload = {
         submitOnboardingPreferencesHandler,
         updateOnboardingStatusHandler,
-        name: `${(user?.firstName || ' ')+ ' ' + (user?.lastName || ' ')}`,
+        name: `${(user?.firstName || ' ') + ' ' + (user?.lastName || ' ')}`,
         setRunConfetti, runConfettiHandler,
         answers,
         setAnswers,
@@ -269,7 +269,7 @@ const FormStepper: React.FC<{
                             <motion.div className="text-black hidden md:block py-1 group-hover:opacity-100 opacity-0 shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white">
                                 {step.label}
                             </motion.div>
-                            <motion.div className="w-full bg-[#D9D9D9] rounded-full h-8 overflow-hidden">
+                            <motion.div  whileHover={{ scale: 1.03 }} className="w-full bg-[#D9D9D9] rounded-full h-8 overflow-hidden">
                                 <motion.div onClick={() => setSection(step.name as keyof AnswerSections)} className="w-full h-full" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}>
                                     <motion.div className="bg-[#B3322F] rounded-full h-full" initial={{ width: '0%' }} animate={{ width: `${progress}%` }} transition={{ duration: 1, ease: 'easeOut' }} />
                                 </motion.div>
@@ -280,9 +280,14 @@ const FormStepper: React.FC<{
                 {hasAnsweredAnyQuestion && (
                     <Popover className="relative">
                         <PopoverButton className="focus:outline-none items-center gap-x-1 text-sm/6 font-semibold text-gray-900">
-                            <div className="bg-white pt-3 pb-2 px-4 drop-shadow-md shadow-md rounded-full">
+                            <motion.div
+                                className="bg-white pt-3 pb-2 px-4 drop-shadow-md shadow-md rounded-full"
+                                whileHover={{ scale: 1.1, y: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ type: 'spring', stiffness: 300 }}
+                            >
                                 <img alt="Arrow Down" className="h-3" src={ICONS.ARROW_DOWN_RED} />
-                            </div>
+                            </motion.div>
                         </PopoverButton>
                         <PopoverPanel className="absolute -left-18 md:-left-15 z-10 mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
                             <div className="w-max px-3 shrink rounded-xl bg-white py-2 md:py-4 text-[14px] font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
@@ -291,9 +296,14 @@ const FormStepper: React.FC<{
                                     All Answers Saved
                                 </div>
                                 {/* <button onClick={() => setExitForm(true)} className="bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"> */}
-                                <button onClick={() => updateOnboardingStatusHandler({ onboardingFormSkipped: true })} className="bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2">
+                                <motion.button
+                                    whileHover={{ scale: 1.02 }}
+                                    whileTap={{ scale: 0.90 }}
+                                    transition={{ type: 'spring', stiffness: 300 }}
+
+                                    onClick={() => updateOnboardingStatusHandler({ onboardingFormSkipped: true })} className="cursor-pointer bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2">
                                     Start Housing Search Now
-                                </button>
+                                </motion.button>
                             </div>
                         </PopoverPanel>
                     </Popover>

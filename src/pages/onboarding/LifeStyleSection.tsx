@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { LoaderComponent } from '../../components/Loader';
+import { useGetAllStudentInterestsQuery } from '../../redux/services/onboarding.service';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import { MultiSelect, NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
+import { Interest, InterestCategory } from '../../utils/interfaces';
 const sectionName = 'LIFE_STYLE_SECTION'
 
 interface Params {
@@ -29,7 +32,7 @@ const LifeStyleSection = (props: any) => {
         nextSectionHandler,
         name
     } = props
-     const formStep = step[section]
+    const formStep = step[section]
     const [exitForm, setExitForm] = useState(false);
 
     const params: Params = {
@@ -77,75 +80,78 @@ const LifeStyleSection = (props: any) => {
 
 export default LifeStyleSection
 
-const socialOptions = [
-    'Going out/clubbing',
-    'Concerts/live music',
-    'Campus events',
-    'Shopping',
-    'Eating out',
-    'Sports',
-    'Group hangouts',
-    'Escape rooms',
-    'Bars',
-    'Movie theatres',
-    'Museums',
-    'Festivals',
-    'Bowling',
-    'Cafés',
-]
-const stayingInOptions = [
-    'Movies',
-    'Board games',
-    'Gaming',
-    'Reading',
-    'Cooking/Baking',
-    'Online shopping',
-    'Journaling'
-]
+// const socialOptions = [
+//     'Going out/clubbing',
+//     'Concerts/live music',
+//     'Campus events',
+//     'Shopping',
+//     'Eating out',
+//     'Sports',
+//     'Group hangouts',
+//     'Escape rooms',
+//     'Bars',
+//     'Movie theatres',
+//     'Museums',
+//     'Festivals',
+//     'Bowling',
+//     'Cafés',
+// ]
+// const stayingInOptions = [
+//     'Movies',
+//     'Board games',
+//     'Gaming',
+//     'Reading',
+//     'Cooking/Baking',
+//     'Online shopping',
+//     'Journaling'
+// ]
 
-const causesInOptions = [
-    'Mental health awareness',
-    'LGBTQ+ advocacy ',
-    'Feminism',
-    'Black Lives Matter',
-    'Climate change',
-    'Social development',
-    'Volunteering',
-    'Politics',
-    'World peace',
-    'Equality ',
-    'Disability rights',
-    'Campus activism',
-    'Sustainability',
-    'Animal rights',
-    'Human rights'
-]
-const personalInOptions = [
-    'Entrepreneur',
-    'Collector',
-    'Thrifting',
-    'Investing',
-    'Side quests',
-    'Gym and wellness',
-    'Meditation ',
-    'Yoga',
-    'Trying new things',
-    'Betting/gambling',
-    'Investing',
-    'Sports',
-    'Vlogging/content creation',
-    'Podcast',
-    'Going on walks',
-    'Camping',
-    'Travelling',
-    'Photography',
-    'Singing',
-    'Dancing',
-    'Learning new languages',
-    'Art',
-    'Boating',
-    'Studying'
-]
+// const causesInOptions = [
+//     'Mental health awareness',
+//     'LGBTQ+ advocacy',
+//     'Feminism',
+//     'Black Lives Matter',
+//     'Climate change',
+//     'Social development',
+//     'Volunteering',
+//     'Politics',
+//     'World peace',
+//     'Equality',
+//     'Disability rights',
+//     'Campus activism',
+//     'Sustainability',
+//     'Animal rights',
+//     'Human rights'
+// ]
+// const personalInOptions = [
+//     'Entrepreneur',
+//     'Collector',
+//     'Thrifting',
+//     'Investing',
+//     'Side quests',
+//     'Gym and wellness',
+//     'Meditation',
+//     'Yoga',
+//     'Trying new things',
+//     'Betting/gambling',
+//     'Investing',
+//     'Sports',
+//     'Vlogging/content creation',
+//     'Podcast',
+//     'Going on walks',
+//     'Camping',
+//     'Travelling',
+//     'Photography',
+//     'Singing',
+//     'Dancing',
+//     'Learning new languages',
+//     'Art',
+//     'Boating',
+//     'Studying'
+// ]
+
+
+
 
 const WhatDoYouEnjoySections: React.FC<{
     answers: {
@@ -158,6 +164,16 @@ const WhatDoYouEnjoySections: React.FC<{
     handleAnswer: (section: string, field: string, value: string[]) => void;
     previousStepHandler: () => void;
 }> = ({ nextSectionHandler, answers, handleAnswer, previousStepHandler }) => {
+
+    const { data = [], isLoading } = useGetAllStudentInterestsQuery()
+
+    const getInterestNames = (category: string): string[] =>
+        data?.find((d: InterestCategory) => d.categoryName === category)?.interests?.map((i: Interest) => i.interestName) || [];
+
+    const socialOptions = getInterestNames("Social");
+    const stayingInOptions = getInterestNames("Staying In");
+    const causesInOptions = getInterestNames("Causes");
+    const personalInOptions = getInterestNames("Personal");
 
     const [selectedSocials, setSelectedSocials] = useState<string[]>(answers.SOCIAL || []);
     const [selectedStayingIn, setSelectedStayingIn] = useState<string[]>(answers.STAYING_IN || []);
@@ -194,7 +210,6 @@ const WhatDoYouEnjoySections: React.FC<{
         }
     }
 
-
     return (
         <div id="enjoy" className={`${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
             <QuestionTitle>What Do You Enjoy?</QuestionTitle>
@@ -206,20 +221,17 @@ const WhatDoYouEnjoySections: React.FC<{
                             <span className=' '>{title}  </span>
                             <img alt="" className="h-10 " src={`/assets/img/icons/${img}`} />
                         </p>
-                        <MultiSelect
-                            options={options}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
+
+                        {isLoading ? <LoaderComponent /> :
+                            <MultiSelect
+                                options={options}
+                                selected={selected}
+                                setSelected={setSelected}
+                            />}
                     </div>
                 ))}
             </div>
-
-
-            <div className="sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStep} previousStepHandler={previousStepHandler} />
-            </div>
-
+            <NextButton onClick={disabled ? scrollHandler : nextStep} previousStepHandler={previousStepHandler} />
         </div>
     );
 };
@@ -292,9 +304,9 @@ const BedTimeSections: React.FC<{
                 </div>
             </div>
 
-            <div className=" sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -362,9 +374,9 @@ const LifestylePreferencesSection: React.FC<{
                 </div>
             </div>
 
-            <div className=" sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     );
@@ -444,9 +456,9 @@ const DrinkAndSmokeSection: React.FC<{
             </div>
 
 
-            <div className=" sticky bottom-4">
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -456,7 +468,7 @@ const LetsLearnAboutLifeStyleSection: React.FC<{
     nextStepHandler: () => void;
     name: string
 }> = ({ nextStepHandler, name }) => {
-   
+
     return (
         <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F]'>Let's learn about your lifestyle, <br /> <span className='font-bold'>{name}</span></p>
@@ -531,9 +543,9 @@ const AreaOfStudyDescription: React.FC<{
                     </div>
                 </div>
 
-                <div className=" sticky bottom-4">
-                    <NextButton onClick={disabled ? scrollHandler : nextStep} previousStepHandler={previousStepHandler} />
-                </div>
+
+                <NextButton onClick={disabled ? scrollHandler : nextStep} previousStepHandler={previousStepHandler} />
+
 
             </div>
         );

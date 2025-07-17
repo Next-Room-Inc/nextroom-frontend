@@ -1,4 +1,4 @@
-import { PlusIcon, StarIcon } from "@heroicons/react/20/solid";
+import { StarIcon } from "@heroicons/react/20/solid";
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -8,14 +8,15 @@ import {
     Tooltip
 } from 'chart.js';
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Line } from 'react-chartjs-2';
+import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { PrimaryButton } from "./ComponComponents";
-import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../utils/constants";
 import { IMAGES } from "../../utils/constants/app-info.constant";
+import { Property, PropertyDetails } from "../../utils/interfaces/property.interface";
+import { PrimaryButton } from "./ComponComponents";
 
 const UNIT_DETAILS = {
     title: "1 Bedroom",
@@ -49,138 +50,141 @@ const UNIT_DETAILS = {
         ]
 }
 
-export const AvailableUnitsModal = ({
+
+export const AvailableUnitsModal: React.FC<{
+    propertyDetails: PropertyDetails; property: Property;
+}> = ({
     propertyDetails, property
 }) => {
-    const navigate = useNavigate()
-    const tabOptions = ["Units", "Building", "History", "Reviews & History"];
-    const [selectedTab, setSelectedTab] = useState("Units");
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const handleSelectTab = (tab: string) => {
-        setSelectedTab(tab);
-        setIsDropdownOpen(false);
-    };
+        const navigate = useNavigate()
+        const tabOptions = ["Units", "Building", "History", "Reviews & History"];
+        const [selectedTab, setSelectedTab] = useState("Units");
+        const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+        const handleSelectTab = (tab: string) => {
+            setSelectedTab(tab);
+            setIsDropdownOpen(false);
+        };
 
-    return (
-        <>
-            <AnimatePresence>
+        return (
+            <>
+                <AnimatePresence>
 
-                <motion.div
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -50 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="  mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40" >
-                    {/* Image Gallery */}
-                    <MediaGallery />
-                    {/* section property details */}
-                    <div className='flex justify-between flex-col md:flex-row'>
-                        <div className='md:text-left text-center'>
-                            <h1 className='underline font-bold'>30 rue Jos-Montferrand, Gatineau</h1>
-                            <div className='flex gap-5 my-2'>
-                                <p>2 tenants </p>
-                                <p>{propertyDetails?.bedrooms} bed </p>
-                                <p>{propertyDetails?.bathrooms} bath </p>
-                                <p className='flex'> <StarIcon className='w-5' /> 4.94 (78)</p>
+                    <motion.div
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -50 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="  mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40" >
+                        {/* Image Gallery */}
+                        <MediaGallery />
+                        {/* section property details */}
+                        <div className='flex justify-between flex-col md:flex-row'>
+                            <div className='md:text-left text-center'>
+                                <h1 className='underline font-bold'>30 rue Jos-Montferrand, Gatineau</h1>
+                                <div className='flex gap-5 my-2'>
+                                    <p>2 tenants </p>
+                                    <p>{propertyDetails?.bedrooms} bed </p>
+                                    <p>{propertyDetails?.bathrooms} bath </p>
+                                    <p className='flex'> <StarIcon className='w-5' /> 4.94 (78)</p>
+                                </div>
+                                <h1 className='text-[#B3322F] font-bold'>${propertyDetails.rentMin} - ${propertyDetails.rentMax} monthly</h1>
                             </div>
-                            <h1 className='text-[#B3322F] font-bold'>${propertyDetails.rentMin} - ${propertyDetails.rentMax} monthly</h1>
-                        </div>
-                        <div className='md:w-auto w-full'>
-                            <motion.button
-                                onClick={() => navigate(ROUTES.CHAT)}
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                className="flex items-center gap-3 shadow-lg py-3 px-8 rounded-full mx-auto bg-white hover:bg-gray-100 text-gray-800 font-medium"
-                            >
-                                <img
-                                    src="/assets/img/search-property/chaticon.svg"
-                                    alt="Zibi Logo"
-                                    className="h-5"
-                                />
-                                Chat With Property
-                            </motion.button>
-                        </div>
-                    </div>
-                    {/* line */}
-                    <hr className='my-10 text-[#000000]' />
-
-                    {/* Tab Selector */}
-                    {/* Desktop View */}
-                    <div className="hidden lg:flex justify-between bg-white my-10 shadow-md px-5 py-4 rounded-full text-sm font-medium w-[60%]">
-                        {tabOptions.map((tab, idx) => (
-                            <div
-                                key={tab}
-                                className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
-                                    } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
-                                onClick={() => setSelectedTab(tab)}
-                            >
-                                {tab}
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Mobile View */}
-                    <div className="lg:hidden py-6 px-6 relative z-50">
-                        {/* Toggle Button */}
-                        <div
-                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                            className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium cursor-pointer relative z-50"
-                        >
-                            {selectedTab}
-                        </div>
-
-                        {/* Dropdown */}
-                        <AnimatePresence>
-                            {isDropdownOpen && (
-                                <motion.div
-                                    key="dropdown"
-                                    initial={{ opacity: 0, y: -10 }}
+                            <div className='md:w-auto w-full'>
+                                <motion.button
+                                    onClick={() => navigate(ROUTES.CHAT)}
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    transition={{ duration: 0.2 }}
-                                    className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                    className="flex items-center gap-3 shadow-lg py-3 px-8 rounded-full mx-auto bg-white hover:bg-gray-100 text-gray-800 font-medium"
                                 >
-                                    {tabOptions.map((tab) => (
-                                        <div
-                                            key={tab}
-                                            className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
-                                                }`}
-                                            onClick={() => handleSelectTab(tab)}
-                                        >
-                                            {tab}
-                                        </div>
-                                    ))}
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                                    <img
+                                        src="/assets/img/search-property/chaticon.svg"
+                                        alt="Zibi Logo"
+                                        className="h-5"
+                                    />
+                                    Chat With Property
+                                </motion.button>
+                            </div>
+                        </div>
+                        {/* line */}
+                        <hr className='my-10 text-[#000000]' />
+
+                        {/* Tab Selector */}
+                        {/* Desktop View */}
+                        <div className="hidden lg:flex justify-between bg-white my-10 shadow-md px-5 py-4 rounded-full text-sm font-medium w-[60%]">
+                            {tabOptions.map((tab, idx) => (
+                                <div
+                                    key={tab}
+                                    className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                                        } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
+                                    onClick={() => setSelectedTab(tab)}
+                                >
+                                    {tab}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Mobile View */}
+                        <div className="lg:hidden py-6 px-6 relative z-50">
+                            {/* Toggle Button */}
+                            <div
+                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                            >
+                                {selectedTab}
+                            </div>
+
+                            {/* Dropdown */}
+                            <AnimatePresence>
+                                {isDropdownOpen && (
+                                    <motion.div
+                                        key="dropdown"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+                                    >
+                                        {tabOptions.map((tab) => (
+                                            <div
+                                                key={tab}
+                                                className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
+                                                    }`}
+                                                onClick={() => handleSelectTab(tab)}
+                                            >
+                                                {tab}
+                                            </div>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
 
 
 
-                    </div>
-                    {/* Unit Details Section */}
-                    <div>
-                        {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} propertyDetails={propertyDetails} property={property} />}
-                        {selectedTab === "Building" && <BuildingDetailSection propertyDetails={propertyDetails} />}
-                        {selectedTab === "History" && <HistoryDetailSection />}
-                        {selectedTab === "Reviews & History" && <ReviewDetailSection />}
-                    </div>
-                </motion.div>
+                        </div>
+                        {/* Unit Details Section */}
+                        <div>
+                            {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} propertyDetails={propertyDetails} property={property} />}
+                            {selectedTab === "Building" && <BuildingDetailSection propertyDetails={propertyDetails} />}
+                            {selectedTab === "History" && <HistoryDetailSection />}
+                            {selectedTab === "Reviews & History" && <ReviewDetailSection />}
+                        </div>
+                    </motion.div>
 
-            </AnimatePresence>
+                </AnimatePresence>
 
-        </>
-    )
-}
+            </>
+        )
+    }
 
 
 
 
 const UnitDetailsSection: React.FC<{
-    propertyDetails,
-    property,
+    propertyDetails: PropertyDetails;
+    property: Property;
     title: string;
     imageUrl: string;
     status: string;
@@ -192,14 +196,11 @@ const UnitDetailsSection: React.FC<{
     }[];
 }> = ({
     propertyDetails,
-    property,
     title,
-    imageUrl,
     status,
-    price,
     amenities,
-}) => {
-    console.log(propertyDetails)
+ }) => {
+        console.log(propertyDetails)
         // const [viewAllMatches, SetViewAllMatches] = useState(false)
         return (
             <>
@@ -232,10 +233,12 @@ const UnitDetailsSection: React.FC<{
                                         <div className="flex flex-col md:flex-row md:items-start justify-between">
                                             <div className="text-center">
                                                 ${unit?.rentMin} - ${unit?.rentMax}{" "}
-                                                  monthly</div>
-                                            
+                                                monthly</div>
+
                                             <div className="md:mt-0 mt-2">
-                                                <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto" onClick={() => SetViewAllMatches(!viewAllMatches)}>
+                                                <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto" 
+                                                // onClick={() => SetViewAllMatches(!viewAllMatches)}
+                                                >
                                                     View All Matches
                                                 </PrimaryButton>
 
@@ -246,7 +249,7 @@ const UnitDetailsSection: React.FC<{
 
                                         {/* Amenities */}
                                         <div className="flex flex-col md:flex-row py-3 gap-3">
-                                            
+
                                             <div className="grid grid-cols-3 md:grid-cols-6 gap-y-4 gap-x-3 justify-items-center md:justify-items-start py-3">
                                                 {amenities.map((amenity, index) => (
                                                     <div key={index} className="flex items-center gap-1">
@@ -367,7 +370,9 @@ const MediaGallery = () => {
 };
 
 
-const BuildingDetailSection = ({propertyDetails}) => {
+const BuildingDetailSection:React.FC<{
+    propertyDetails:PropertyDetails
+}> = ({ propertyDetails }) => {
     // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
     const description = propertyDetails?.description || "No description Added yet"
     const yearBuilt = "2011"
@@ -772,167 +777,167 @@ const ChartComponent = () => {
 }
 
 
-const ViewAllMatchesComponent = () => {
-    const [selectedUser, setSelectedUser] = useState<boolean | null>(null);
+// const ViewAllMatchesComponent = () => {
+//     const [selectedUser, setSelectedUser] = useState<boolean | null>(null);
 
-    const statusList = [
-        { label: "Accepted", borderColor: "border-green-500" },
-        { label: "Pending", borderColor: "border-yellow-400" },
-        { label: "No Response", borderColor: "border-red-500" },
-        { label: "Open", icon: "/assets/img/icons/owl_icon.svg" }, // gray icon (owl-like)
-    ];
+//     const statusList = [
+//         { label: "Accepted", borderColor: "border-green-500" },
+//         { label: "Pending", borderColor: "border-yellow-400" },
+//         { label: "No Response", borderColor: "border-red-500" },
+//         { label: "Open", icon: "/assets/img/icons/owl_icon.svg" }, // gray icon (owl-like)
+//     ];
 
-    const users = [
-        "/assets/img/search-property/student_profile (1).png",
-        "/assets/img/search-property/student_profile (2).png",
-        "/assets/img/search-property/student_profile (3).png",
-        "/assets/img/search-property/student_profile (4).png",
-        "/assets/img/search-property/student_profile (5).png",
-        "/assets/img/search-property/student_profile (2).png",
-        "/assets/img/search-property/student_profile (3).png",
-        "/assets/img/search-property/student_profile (4).png",
-        "/assets/img/search-property/student_profile (5).png",
-    ];
-    const users2 = [
-        "/assets/img/search-property/student_profile (1).png",
-        "/assets/img/search-property/student_profile (2).png",
-        "/assets/img/search-property/student_profile (3).png",
-        "/assets/img/search-property/student_profile (4).png",
-    ];
+//     const users = [
+//         "/assets/img/search-property/student_profile (1).png",
+//         "/assets/img/search-property/student_profile (2).png",
+//         "/assets/img/search-property/student_profile (3).png",
+//         "/assets/img/search-property/student_profile (4).png",
+//         "/assets/img/search-property/student_profile (5).png",
+//         "/assets/img/search-property/student_profile (2).png",
+//         "/assets/img/search-property/student_profile (3).png",
+//         "/assets/img/search-property/student_profile (4).png",
+//         "/assets/img/search-property/student_profile (5).png",
+//     ];
+//     const users2 = [
+//         "/assets/img/search-property/student_profile (1).png",
+//         "/assets/img/search-property/student_profile (2).png",
+//         "/assets/img/search-property/student_profile (3).png",
+//         "/assets/img/search-property/student_profile (4).png",
+//     ];
 
-    return (
-        <motion.div
-            key="dropdown"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="
-            absolute 
-            left-1/2 
-            -translate-x-1/2 
-            md:left-auto md:right-0 md:translate-x-0 
-            mt-2 md:mx-4 
-            bg-red-100 shadow-xl rounded-2xl py-4 text-sm z-40 
-            w-[350px] md:w-[420px]
-        "
-        >
+//     return (
+//         <motion.div
+//             key="dropdown"
+//             initial={{ opacity: 0, y: -10 }}
+//             animate={{ opacity: 1, y: 0 }}
+//             exit={{ opacity: 0, y: -10 }}
+//             transition={{ duration: 0.2 }}
+//             className="
+//             absolute 
+//             left-1/2 
+//             -translate-x-1/2 
+//             md:left-auto md:right-0 md:translate-x-0 
+//             mt-2 md:mx-4 
+//             bg-red-100 shadow-xl rounded-2xl py-4 text-sm z-40 
+//             w-[350px] md:w-[420px]
+//         "
+//         >
 
-            <PrimaryButton className="mx-auto">
-                <PlusIcon className="h-4 mt-1 mr-2" />
-                Invite Roommates
-            </PrimaryButton>
-            {/* Staus Samples  */}
-            {/* Status Circles */}
-            <div className="flex justify-center gap-5 mb-6 my-8">
-                {statusList.map((status, idx) => (
-                    <div key={idx} className="flex flex-col items-center text-sm">
-                        {status.icon ? (
-                            <div>
+//             <PrimaryButton className="mx-auto">
+//                 <PlusIcon className="h-4 mt-1 mr-2" />
+//                 Invite Roommates
+//             </PrimaryButton>
+//             {/* Staus Samples  */}
+//             {/* Status Circles */}
+//             <div className="flex justify-center gap-5 mb-6 my-8">
+//                 {statusList.map((status, idx) => (
+//                     <div key={idx} className="flex flex-col items-center text-sm">
+//                         {status.icon ? (
+//                             <div>
 
-                                <img src={status.icon} alt="Open" className="w-15 h-15  bg-[#D9D9D9] rounded-full p-2" />
-                            </div>
-                        ) : (
-                            <div
-                                className={`w-15 h-15 rounded-full border-3 ${status.borderColor}`}
-                            ></div>
-                        )}
-                        <span className="mt-2">{status.label}</span>
-                    </div>
-                ))}
-            </div>
-            {/* Title */}
-            <h2 className="text-xl font-semibold mb-6 text-center">Organize Your Matches</h2>
-            {/* Profile Images */}
-            <div className="w-full py-4 shadow-md px-4 mb-2">
-                <Swiper
-                    spaceBetween={5}
-                    slidesPerView={5}
-                    breakpoints={{
-                        640: { slidesPerView: 4 },
-                        768: { slidesPerView: 4 },
-                    }}
-                >
-                    {users.map((src, idx) => (
-                        <SwiperSlide key={idx}>
-                            <img
-                                src={src}
-                                alt={`User ${idx + 1}`}
-                                className="w-15 h-15 rounded-full object-cover "
-                                onClick={() => setSelectedUser(!selectedUser)}
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
-            {/*  */}
-            <p className="text-center text-[12px]">Drag And Drop To Edit Roommate Options</p>
-            <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5 bg-[#B3322F] rounded-full my-5">
-                {users2.map((src, idx) => (
+//                                 <img src={status.icon} alt="Open" className="w-15 h-15  bg-[#D9D9D9] rounded-full p-2" />
+//                             </div>
+//                         ) : (
+//                             <div
+//                                 className={`w-15 h-15 rounded-full border-3 ${status.borderColor}`}
+//                             ></div>
+//                         )}
+//                         <span className="mt-2">{status.label}</span>
+//                     </div>
+//                 ))}
+//             </div>
+//             {/* Title */}
+//             <h2 className="text-xl font-semibold mb-6 text-center">Organize Your Matches</h2>
+//             {/* Profile Images */}
+//             <div className="w-full py-4 shadow-md px-4 mb-2">
+//                 <Swiper
+//                     spaceBetween={5}
+//                     slidesPerView={5}
+//                     breakpoints={{
+//                         640: { slidesPerView: 4 },
+//                         768: { slidesPerView: 4 },
+//                     }}
+//                 >
+//                     {users.map((src, idx) => (
+//                         <SwiperSlide key={idx}>
+//                             <img
+//                                 src={src}
+//                                 alt={`User ${idx + 1}`}
+//                                 className="w-15 h-15 rounded-full object-cover "
+//                                 onClick={() => setSelectedUser(!selectedUser)}
+//                             />
+//                         </SwiperSlide>
+//                     ))}
+//                 </Swiper>
+//             </div>
+//             {/*  */}
+//             <p className="text-center text-[12px]">Drag And Drop To Edit Roommate Options</p>
+//             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5 bg-[#B3322F] rounded-full my-5">
+//                 {users2.map((src, idx) => (
 
-                    <img
-                        src={src}
-                        alt={`User ${idx + 1}`}
-                        className="w-15 h-15 rounded-full object-cover "
-                        onClick={() => setSelectedUser(!selectedUser)}
+//                     <img
+//                         src={src}
+//                         alt={`User ${idx + 1}`}
+//                         className="w-15 h-15 rounded-full object-cover "
+//                         onClick={() => setSelectedUser(!selectedUser)}
 
-                    />
-                ))}
-            </div>
-            {/* Title */}
-            <h2 className="text-xl font-semibold mb-6 text-center">Rommate Options</h2>
-            <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
-                {users2.map((src, idx) => (
+//                     />
+//                 ))}
+//             </div>
+//             {/* Title */}
+//             <h2 className="text-xl font-semibold mb-6 text-center">Rommate Options</h2>
+//             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
+//                 {users2.map((src, idx) => (
 
-                    <img
-                        src={src}
-                        alt={`User ${idx + 1}`}
-                        className="w-15 h-15 rounded-full object-cover "
-                        onClick={() => setSelectedUser(!selectedUser)}
+//                     <img
+//                         src={src}
+//                         alt={`User ${idx + 1}`}
+//                         className="w-15 h-15 rounded-full object-cover "
+//                         onClick={() => setSelectedUser(!selectedUser)}
 
-                    />
-                ))}
-            </div>
-            <PrimaryButton className="mx-auto">
-                Group Chat
-            </PrimaryButton>
-            <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
-                {users2.map((src, idx) => (
+//                     />
+//                 ))}
+//             </div>
+//             <PrimaryButton className="mx-auto">
+//                 Group Chat
+//             </PrimaryButton>
+//             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
+//                 {users2.map((src, idx) => (
 
-                    <img
-                        src={src}
-                        alt={`User ${idx + 1}`}
-                        className="w-15 h-15 rounded-full object-cover "
-                        onClick={() => setSelectedUser(!selectedUser)}
+//                     <img
+//                         src={src}
+//                         alt={`User ${idx + 1}`}
+//                         className="w-15 h-15 rounded-full object-cover "
+//                         onClick={() => setSelectedUser(!selectedUser)}
 
-                    />
-                ))}
-            </div>
-            <PrimaryButton className="mx-auto">
-                Group Chat
-            </PrimaryButton>
+//                     />
+//                 ))}
+//             </div>
+//             <PrimaryButton className="mx-auto">
+//                 Group Chat
+//             </PrimaryButton>
 
 
 
-            {/*User Details  */}
-            {selectedUser && (
-                <motion.div
-                    key="feedback-modal"
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: 100, opacity: 0 }}
-                    transition={{ duration: 0.9, ease: "easeInOut" }}
-                    className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg 
-               md:rounded-bl-xl md:rounded-tl-xl z-10 
-               md:rounded-br-none md:rounded-tr-none 
-               rounded-br-xl rounded-tr-xl"
-                >
-                    <h2 className="text-xl font-semibold text-center">Amanda H.</h2>
-                    <h2 className="text-base text-center mb-2">20 Years old</h2>
-                    <PrimaryButton className="mx-auto">Chat</PrimaryButton>
-                </motion.div>
-            )}
+//             {/*User Details  */}
+//             {selectedUser && (
+//                 <motion.div
+//                     key="feedback-modal"
+//                     initial={{ x: 100, opacity: 0 }}
+//                     animate={{ x: 0, opacity: 1 }}
+//                     exit={{ x: 100, opacity: 0 }}
+//                     transition={{ duration: 0.9, ease: "easeInOut" }}
+//                     className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg 
+//                md:rounded-bl-xl md:rounded-tl-xl z-10 
+//                md:rounded-br-none md:rounded-tr-none 
+//                rounded-br-xl rounded-tr-xl"
+//                 >
+//                     <h2 className="text-xl font-semibold text-center">Amanda H.</h2>
+//                     <h2 className="text-base text-center mb-2">20 Years old</h2>
+//                     <PrimaryButton className="mx-auto">Chat</PrimaryButton>
+//                 </motion.div>
+//             )}
 
-        </motion.div>
-    )
-}
+//         </motion.div>
+//     )
+// }

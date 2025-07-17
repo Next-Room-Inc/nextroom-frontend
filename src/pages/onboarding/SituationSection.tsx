@@ -164,9 +164,9 @@ const DisruptionHandlingSection: React.FC<{
                 </div>
             </div>
 
-            <div className="sticky bottom-4">
+         
                 <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+      
 
         </>
     )
@@ -241,9 +241,9 @@ const ConflictAndSafetySection: React.FC<{
 
 
             {/* Next button */}
-            <div className="sticky bottom-4">
+          
                 <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+          
 
         </>
     )
@@ -328,9 +328,9 @@ const PartyAndMoneyConcernsSection: React.FC<{
 
 
             {/* Next button */}
-            <div className="sticky bottom-4">
+         
                 <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-            </div>
+          
 
         </>
     )

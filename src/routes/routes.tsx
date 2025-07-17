@@ -17,6 +17,7 @@ import NewsRoom from "../pages/newsroom/NewsRoom";
 import ResendVerification from "../pages/authentication/ResendVerification";
 import Blogs from "../pages/blogs/Blogs";
 import Chat from "../pages/chat/Chat";
+import { OnboardingValidation } from "./onboarding.validations";
 
 export const routes = createBrowserRouter([
   {
@@ -26,7 +27,10 @@ export const routes = createBrowserRouter([
   },
   {
     path: ROUTES.ONBOARDING,
-    element: <Onboarding />,
+    element:
+      <OnboardingValidation>
+        <Onboarding />
+      </OnboardingValidation>,
     errorElement: <NotFoundErrorPage />,
   },
   {

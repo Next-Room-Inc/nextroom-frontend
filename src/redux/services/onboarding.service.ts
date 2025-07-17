@@ -1,6 +1,7 @@
 import { API_URL, baseUrl } from "../endpoints";
 import * as interfaces from "../../utils/interfaces";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { StudentInterestsResponse } from "../../utils/interfaces";
 
 export const OnboardingServices = createApi({
   reducerPath: "onboarding",
@@ -46,10 +47,17 @@ export const OnboardingServices = createApi({
         body: dto,
       }),
     }),
+    getAllStudentInterests: builder.query<StudentInterestsResponse, void>({
+      query: () => ({
+        url: API_URL.ONBOARDING.GET_ALL_INTERESTS.URL(),
+        method: API_URL.ONBOARDING.GET_ALL_INTERESTS.METHOD,
+      }),
+    }),
   }),
 });
 
 export const {
   useSubmitOnboardingPreferencesMutation,
   useUpdateOnboardingStatusMutation,
+  useGetAllStudentInterestsQuery
 } = OnboardingServices;

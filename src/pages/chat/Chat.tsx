@@ -1,6 +1,6 @@
 import { ArrowLeftIcon, GlobeAltIcon, PaperAirplaneIcon, PaperClipIcon, PhotoIcon } from "@heroicons/react/20/solid";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
 const messages = [
     { sender: "Anna G.", text: "I’m studying Economics and you?", isSelf: false },
@@ -40,7 +40,7 @@ const slideVariants = {
 
 
 const Chat = () => {
-    const [selectedChat, setSelectedChat] = useState(null)
+    const [selectedChat, setSelectedChat] = useState<number | null>(null)
     return (
         <AnimatePresence initial={false} mode="wait">
             <div className="h-screen flex bg-gray-100 md:p-4">
@@ -56,7 +56,10 @@ const Chat = () => {
 export default Chat;
 
 
-const ChatSideBar = ({ selectedChat, setSelectedChat }) => {
+const ChatSideBar: React.FC<{
+    selectedChat: number | null,
+    setSelectedChat: (value: number) => void
+}> = ({ selectedChat, setSelectedChat }) => {
     return <>
         <motion.div
             key="sidebar"
@@ -76,7 +79,7 @@ const ChatSideBar = ({ selectedChat, setSelectedChat }) => {
             />
 
             {/* Active Users */}
-            <ActiveChatBar {...{ selectedChat, setSelectedChat }}/>
+            <ActiveChatBar {...{ selectedChat, setSelectedChat }} />
             {/* Adjusted scrollable section */}
             <div className="pr-2">
                 <ul className="max-h-[calc(100vh-200px)]  md:max-h-[calc(100vh-160px)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
@@ -106,7 +109,10 @@ const ChatSideBar = ({ selectedChat, setSelectedChat }) => {
         </motion.div>
     </>
 }
-const ChatWindow = ({ selectedChat, setSelectedChat }) => {
+const ChatWindow: React.FC<{
+    selectedChat: number | null,
+    setSelectedChat: (value: number | null) => void
+}> = ({ selectedChat, setSelectedChat }) => {
     return <>
         {selectedChat ? <motion.div
             key="chat"
@@ -142,7 +148,7 @@ const ChatWindow = ({ selectedChat, setSelectedChat }) => {
                     <span className="text-green-500 text-sm md:flex hidden">Online</span>
                 </div>
             </div>
-                    <hr className="w-[95%] mx-auto text-gray-300 shadow mb-4 hidden md:flex"/>
+            <hr className="w-[95%] mx-auto text-gray-300 shadow mb-4 hidden md:flex" />
             {/* Messages */}
             <div className="flex-1 overflow-y-auto py-2 space-y-4 px-6">
                 {messages.map((msg, index) => (
@@ -181,7 +187,7 @@ const ChatWindow = ({ selectedChat, setSelectedChat }) => {
                 Automatic Translation Is On.{" "}
                 <span className="text-red-500 cursor-pointer">Turn Off</span>
             </div>
-                    <hr className="w-[95%] mx-auto text-gray-300 shadow mb-4 hidden md:flex"/>
+            <hr className="w-[95%] mx-auto text-gray-300 shadow mb-4 hidden md:flex" />
 
             <div className="flex items-center gap-1    px-4 pb-4">
                 {/* Icons */}
@@ -238,29 +244,31 @@ const ChatWindow = ({ selectedChat, setSelectedChat }) => {
 }
 
 
-const ActiveChatBar = ({selectedChat, setSelectedChat}) =>{
-    return<>
+const ActiveChatBar: React.FC<{
+    setSelectedChat: (value: number) => void
+}> = ({ setSelectedChat }) => {
+    return <>
         <div className="mb-4 mt-2 block md:hidden">
-                <ul className=" flex max-h-[200px] overflow-x-auto gap-4 items-center justify-center">
-                    {[1,2,3,4].map((contact, idx) => (
-                        <motion.li
-                            whileHover={{ scale: 0.95, }}
-                            whileTap={{ scale: 0.95 }}
-                            onClick={() => setSelectedChat(idx + 1)}
-                            key={idx}
-                            className={`min-w-fit cursor-pointer`}
-                        >
-                            <span className="relative inline-block border-1 border-green-400 rounded-full">
-                        <img
-                            alt=""
-                            src="/assets/img/search-property/student_profile (2).png"
-                            className="size-14 rounded-full"
-                        />
-                        <span className="absolute top-2 right-0 block size-2 rounded-full bg-green-400 ring-2 ring-green-400" />
-                    </span>
-                        </motion.li>
-                    ))}
-                </ul>
-            </div>
+            <ul className=" flex max-h-[200px] overflow-x-auto gap-4 items-center justify-center">
+                {[1, 2, 3, 4].map((_, idx) => (
+                    <motion.li
+                        whileHover={{ scale: 0.95, }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => setSelectedChat(idx + 1)}
+                        key={idx}
+                        className={`min-w-fit cursor-pointer`}
+                    >
+                        <span className="relative inline-block border-1 border-green-400 rounded-full">
+                            <img
+                                alt=""
+                                src="/assets/img/search-property/student_profile (2).png"
+                                className="size-14 rounded-full"
+                            />
+                            <span className="absolute top-2 right-0 block size-2 rounded-full bg-green-400 ring-2 ring-green-400" />
+                        </span>
+                    </motion.li>
+                ))}
+            </ul>
+        </div>
     </>
 }

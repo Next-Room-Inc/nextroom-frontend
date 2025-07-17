@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { AvailableUnitsModal } from './AvailableUnitsModal';
 import { toast } from 'react-toastify';
 import { IMAGES } from '../../utils/constants/app-info.constant';
+import { Property, PropertyDetails } from '../../utils/interfaces/property.interface';
 
 
 export const PrimaryButton: React.FC<{
@@ -48,24 +49,23 @@ export const PrimaryButton: React.FC<{
 
 export const HousingCard: React.FC<{
     title: string;
-    imageUrl: string;
+    property: Property;
+    propertyDetails: PropertyDetails;
     location: string;
     type: string;
     priceRange: string;
     matchPercent: string;
     statusText?: string;
     bgClass?: string; // Tailwind background class (e.g., bg-gradient-to-r from-red-500 to-red-800)
-    setSelected: (value: any) => void
+    setSelected: (value: number | null) => void
     selected?: boolean,
     index: number,
 }> = ({
+    property,
     propertyDetails,
     index,
     title,
-    imageUrl,
     location,
-    property,
-    priceRange,
     matchPercent,
     statusText = 'Ready To Move In',
     bgClass = 'bg-gradient-to-r from-[#B3322F] to-[#4D1614]', // default if not provided

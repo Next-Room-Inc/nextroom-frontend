@@ -1,70 +1,69 @@
 import { ArrowLeftIcon, ArrowRightIcon, ChevronUpIcon } from '@heroicons/react/16/solid'
-import { CheckCircleIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { ArrowPathIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { AnimatePresence, motion } from "framer-motion"
-import { Fragment, useEffect, useState } from 'react'
-import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
-import { HousingCard, PrimaryButton } from './ComponComponents'
-import { useGetEntrataPropertiesQuery } from '../../redux/services/property.service'
-import { toast } from 'react-toastify'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { LoaderComponent } from '../../components/Loader'
+import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
+import { useGetEntrataPropertiesQuery } from '../../redux/services/property.service'
 import { ROUTES } from '../../utils/constants'
+import { HousingCard, PrimaryButton } from './ComponComponents'
 
-const housingdetails = [
-    {
-        title: "Alma @ ByWard Market",
-        imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-        location: "256 Rideau St, Ottawa, ON K1N 0G1",
-        type: "Apartment",
-        priceRange: "$1,350 - $1,999",
-        matchPercent: "96",
-        bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
-    },
-    {
-        title: "Alma @ ByWard Market",
-        imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-        location: "256 Rideau St, Ottawa, ON K1N 0G1",
-        type: "Apartment",
-        priceRange: "$1,350 - $1,999",
-        matchPercent: "96",
-        bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
-    },
-    {
-        title: "Alma @ ByWard Market",
-        imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-        location: "256 Rideau St, Ottawa, ON K1N 0G1",
-        type: "Apartment",
-        priceRange: "$1,350 - $1,999",
-        matchPercent: "96",
-        bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
-    },
-]
+// const housingdetails = [
+//     {
+//         title: "Alma @ ByWard Market",
+//         imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+//         location: "256 Rideau St, Ottawa, ON K1N 0G1",
+//         type: "Apartment",
+//         priceRange: "$1,350 - $1,999",
+//         matchPercent: "96",
+//         bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
+//     },
+//     {
+//         title: "Alma @ ByWard Market",
+//         imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+//         location: "256 Rideau St, Ottawa, ON K1N 0G1",
+//         type: "Apartment",
+//         priceRange: "$1,350 - $1,999",
+//         matchPercent: "96",
+//         bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
+//     },
+//     {
+//         title: "Alma @ ByWard Market",
+//         imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+//         location: "256 Rideau St, Ottawa, ON K1N 0G1",
+//         type: "Apartment",
+//         priceRange: "$1,350 - $1,999",
+//         matchPercent: "96",
+//         bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
+//     },
+// ]
 
- const demoDetails = {
-        title: "Alma @ ByWard Market",
-        imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-        location: "256 Rideau St, Ottawa, ON K1N 0G1",
-        type: "Apartment",
-        priceRange: "$1,350 - $1,999",
-        matchPercent: "96",
-        bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
-    }
+const demoDetails = {
+    title: "Alma @ ByWard Market",
+    imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+    location: "256 Rideau St, Ottawa, ON K1N 0G1",
+    type: "Apartment",
+    priceRange: "$1,350 - $1,999",
+    matchPercent: "96",
+    bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
+}
 
 
 const SearchProperty = () => {
     const [feedbackForm, setFeedBackForm] = useState(false);
     const [ziplineModal, setZiplineModal] = useState(false);
-    const [selected, setSelected] = useState(null);
-    const { data = [], error, isLoading, isSuccess, isError } = useGetEntrataPropertiesQuery();
-    console.log(data)
+    const [selected, setSelected] = useState<number | null>(null);
+    const { data = [], isLoading, isError, refetch } = useGetEntrataPropertiesQuery();
 
 
-    // useEffect(() => {
-    //     const feedbackTimeout = setTimeout(() => setFeedBackForm(true), 10000); // 10 seconds
-    //     const ziplineTimeout = setTimeout(() => setZiplineModal(true), 15000); // 15 seconds
+    useEffect(() => {
+        const feedbackTimeout = setTimeout(() => setFeedBackForm(true), 10000); // 10 seconds
+        const ziplineTimeout = setTimeout(() => setZiplineModal(true), 15000); // 15 seconds
 
-    //     // Cleanup when component unmounts
-    //     return () => { clearTimeout(feedbackTimeout); clearTimeout(ziplineTimeout); };
-    // }, []);
+        // Cleanup when component unmounts
+        return () => { clearTimeout(feedbackTimeout); clearTimeout(ziplineTimeout); };
+    }, []);
 
 
     return (
@@ -90,14 +89,31 @@ const SearchProperty = () => {
                 </div>
                 {/* properties */}
                 <div className='py-10 md:mx-15'>
-                    {(data[0]?.floorplans || []).map((propertyDetails, index) => <HousingCard
-                        index={index}
-                        selected={selected === index}
-                        setSelected={setSelected}
-                        propertyDetails={propertyDetails}
-                        property ={data[0]}
-                        {...demoDetails}
-                    />)}
+                    {
+                        isLoading ? <div>
+                            <LoaderComponent />
+                            <p className='text-center'>Please wait....</p>
+                        </div> : isError ?
+                            <div className='flex items-center justify-center mt-4 gap-4'>
+                                <div className='font-semibold '>{"Fail to fetch data Retry."}</div>
+                                <motion.div
+                                    onClick={refetch}
+                                    whileHover={{ scale: 1.2, rotate: 90 }}
+                                    transition={{ duration: 0.6, ease: 'easeInOut' }}
+                                >
+                                    <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
+                                </motion.div>
+                            </div > : <>
+
+                                {(data[0]?.floorplans || []).map((propertyDetails, index) => <HousingCard
+                                    index={index}
+                                    selected={selected === index}
+                                    setSelected={setSelected}
+                                    propertyDetails={propertyDetails}
+                                    property={data[0]}
+                                    {...demoDetails}
+                                />)}
+                            </>}
                 </div>
                 {/* I’ll Search On My Own Instead Button */}
                 <div className='flex  justify-center py-10'>
@@ -125,93 +141,93 @@ const SearchProperty = () => {
 export default SearchProperty;
 
 
-const TourTimeline = () => {
-    const tourData = [
-        {
-            name: "You",
-            status: "Requested",
-            date: "September 15 2025",
-            image: "/assets/img/search-property/student_profile (1).png", // replace with your image path
-            color: "text-gray-600",
-        },
-        {
-            name: "uOttawa Student",
-            status: "Accepted",
-            date: "September 15 2025",
-            image: "/assets/img/search-property/student_profile (2).png",
-            color: "text-green-600",
-        },
-        {
-            name: "uOttawa Student",
-            status: "Pending",
-            date: "September 15 2025",
-            image: "/assets/img/search-property/student_profile (3).png",
-            color: "text-yellow-600",
-        },
-    ];
+// const TourTimeline = () => {
+//     const tourData = [
+//         {
+//             name: "You",
+//             status: "Requested",
+//             date: "September 15 2025",
+//             image: "/assets/img/search-property/student_profile (1).png", // replace with your image path
+//             color: "text-gray-600",
+//         },
+//         {
+//             name: "uOttawa Student",
+//             status: "Accepted",
+//             date: "September 15 2025",
+//             image: "/assets/img/search-property/student_profile (2).png",
+//             color: "text-green-600",
+//         },
+//         {
+//             name: "uOttawa Student",
+//             status: "Pending",
+//             date: "September 15 2025",
+//             image: "/assets/img/search-property/student_profile (3).png",
+//             color: "text-yellow-600",
+//         },
+//     ];
 
-    return (
-        <div className="bg-white rounded-4xl shadow-md p-4 w-full  px-8 mx-auto">
-
-
-            <div className={`flex  flex-col md:items-center md:flex-row justify-between py-10`}>
-                {tourData.map((item, index) => (
-                    <Fragment key={index}>
-
-                        {index !== 0 && (
-                            <>
-                                <div className={`hidden md:block h-1  border-t-4 border-[#B3322F] mx-2 ${[0, 1].includes(index) ? 'w-full' : 'w-80'}`}> </div>
-                                <div className={`block md:hidden w-1  ml-15 border-l-4 border-[#B3322F] my-2 ${[0, 1].includes(index) ? 'h-30' : 'h-15'}`}></div>
-                            </>
-                        )}
+//     return (
+//         <div className="bg-white rounded-4xl shadow-md p-4 w-full  px-8 mx-auto">
 
 
+//             <div className={`flex  flex-col md:items-center md:flex-row justify-between py-10`}>
+//                 {tourData.map((item, index) => (
+//                     <Fragment key={index}>
 
-                        <div className="flex md:flex-col items-center md:text-center min-w-35 md:-mx-4.5  -my-3 overflow-hidden">
-                            <p className="hidden md:block mt-2 text-sm font-semibold   w-full mb-2">{item.name}</p>
-                            <div className="w-30 h-30 rounded-full overflow-hidden border-2 border-gray-300">
-                                <img src={item.image} alt={item.name} className='w-full h-full' />
-                            </div>
-                            <div className='md:ml-0 ml-4'>
-                                <p className="md:hidden block mt-2 text-sm font-semibold   w-full">{item.name}</p>
-
-                                <p className={`text-md font-semibold ${item.color}`}>{item.status}</p>
-                                <p className="text-sm  w-full">{item.date}</p>
-                            </div>
-                        </div>
+//                         {index !== 0 && (
+//                             <>
+//                                 <div className={`hidden md:block h-1  border-t-4 border-[#B3322F] mx-2 ${[0, 1].includes(index) ? 'w-full' : 'w-80'}`}> </div>
+//                                 <div className={`block md:hidden w-1  ml-15 border-l-4 border-[#B3322F] my-2 ${[0, 1].includes(index) ? 'h-30' : 'h-15'}`}></div>
+//                             </>
+//                         )}
 
 
-                        {index === 0 && (
-                            <>
+
+//                         <div className="flex md:flex-col items-center md:text-center min-w-35 md:-mx-4.5  -my-3 overflow-hidden">
+//                             <p className="hidden md:block mt-2 text-sm font-semibold   w-full mb-2">{item.name}</p>
+//                             <div className="w-30 h-30 rounded-full overflow-hidden border-2 border-gray-300">
+//                                 <img src={item.image} alt={item.name} className='w-full h-full' />
+//                             </div>
+//                             <div className='md:ml-0 ml-4'>
+//                                 <p className="md:hidden block mt-2 text-sm font-semibold   w-full">{item.name}</p>
+
+//                                 <p className={`text-md font-semibold ${item.color}`}>{item.status}</p>
+//                                 <p className="text-sm  w-full">{item.date}</p>
+//                             </div>
+//                         </div>
 
 
-                                <div className="hidden md:block h-1 w-full border-t-4 border-[#B3322F] mx-2"></div>
-                                <div className="block md:hidden w-1 ml-15 h-30 border-l-4 border-[#B3322F] my-2"></div>
+//                         {index === 0 && (
+//                             <>
 
 
-                                <div className={`flex md:flex-col items-center  md:-mx-4.5 -my-4.5  `}>
-                                    <p className="hidden md:block text-md font-semibold   -mt-10 md:ml-0 ml-4">Let's Go!</p>
-                                    <CheckCircleIcon className="w-30 h-30 md:w-20 md:h-20 text-[#B3322F]" />
-                                    <p className="md:hidden block text-md font-semibold    md:ml-0 ml-4">Let's Go!</p>
-
-                                </div>
-                            </>
-                        )}
+//                                 <div className="hidden md:block h-1 w-full border-t-4 border-[#B3322F] mx-2"></div>
+//                                 <div className="block md:hidden w-1 ml-15 h-30 border-l-4 border-[#B3322F] my-2"></div>
 
 
-                    </Fragment>
-                ))}
-            </div>
+//                                 <div className={`flex md:flex-col items-center  md:-mx-4.5 -my-4.5  `}>
+//                                     <p className="hidden md:block text-md font-semibold   -mt-10 md:ml-0 ml-4">Let's Go!</p>
+//                                     <CheckCircleIcon className="w-30 h-30 md:w-20 md:h-20 text-[#B3322F]" />
+//                                     <p className="md:hidden block text-md font-semibold    md:ml-0 ml-4">Let's Go!</p>
 
-            <div className="my-4 border-t pt-4 md:px-4 text-sm text-gray-800 text-center md:flex gap-5 items-center">
-                <p className='md:mt-2'><span className="font-semibold">Unit 308</span></p>
-                <button className="mt-2 px-4 py-1 text-sm border border-[#B3322F] rounded-full text-[#B3322F] hover:bg-red-50 transition">
-                    Withdraw Tour Request
-                </button>
-            </div>
-        </div>
-    );
-}
+//                                 </div>
+//                             </>
+//                         )}
+
+
+//                     </Fragment>
+//                 ))}
+//             </div>
+
+//             <div className="my-4 border-t pt-4 md:px-4 text-sm text-gray-800 text-center md:flex gap-5 items-center">
+//                 <p className='md:mt-2'><span className="font-semibold">Unit 308</span></p>
+//                 <button className="mt-2 px-4 py-1 text-sm border border-[#B3322F] rounded-full text-[#B3322F] hover:bg-red-50 transition">
+//                     Withdraw Tour Request
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// }
 // const TourTimeline = () => {
 //     const isMobile = true
 //     const tourData = [
@@ -339,7 +355,7 @@ const ChatButton = () => {
 
                 {/* Full Button with Icon */}
                 {stage === "chat" && (
-                    <div className='flex items-center gap-2' onClick={()=>navigate(ROUTES.CHAT) }>
+                    <div className='flex items-center gap-2' onClick={() => navigate(ROUTES.CHAT)}>
                         <ArrowLeftIcon className="w-5 mt-1" />
                         <span className="text-md whitespace-nowrap">tap to chat</span>
                         <img

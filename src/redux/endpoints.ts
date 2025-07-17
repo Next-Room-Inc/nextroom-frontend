@@ -49,6 +49,10 @@ export const API_URL = {
       URL: () => createApiUrl("/auth/resend-verification"),
       METHOD: HttpMethod.POST,
     },
+    CRAETE_INVITE: {
+      URL: () => createApiUrl("/invite/create"),
+      METHOD: HttpMethod.POST,
+    },
   },
   LISTINGS: {
     GET_ALL: {
@@ -74,6 +78,10 @@ export const API_URL = {
     UPDATE_STATUS: {
       URL: () => createApiUrl("/onboarding/student/update-status"),
       METHOD: HttpMethod.PATCH,
+    },
+    GET_ALL_INTERESTS: {
+      URL: () => createApiUrl("/onboarding/student/interests"),
+      METHOD: HttpMethod.GET,
     },
   },
   PROPERTY: {
