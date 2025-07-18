@@ -160,9 +160,9 @@ const SkipNextQuestionSection = () => {
 
             </div> : isError ?
                 <div className='flex items-center justify-center mt-4 gap-4'>
-                   <div className='font-semibold '>{ "Fail to fetch data Retry."}</div> 
+                    <div className='font-semibold '>{"Fail to fetch data Retry."}</div>
                     <motion.div
-                    onClick={refetch}
+                        onClick={refetch}
                         whileHover={{ scale: 1.2, rotate: 90 }}
                         transition={{ duration: 0.6, ease: 'easeInOut' }}
                     >
@@ -570,7 +570,7 @@ const WhereToBeLocatedSection: React.FC<{
         }
     };
 
-    console.log(loading)
+    // console.log(loading)
 
     const [error, setError] = useState(false)
 
@@ -605,7 +605,7 @@ const WhereToBeLocatedSection: React.FC<{
                         {/* Google Search */}
                         <div className='shadow-[#D9D9D9] mb-3  md:w-[50%] pl-4 pr-8 py-2 mx-auto rounded-full drop-shadow-md shadow-md bg-white mt-5 flex items-center  justify-center gap-3'>
                             <input
-                                onChange={(e) => setSearch(e.target.value)}
+                                onChange={(e) => { setLoading(true); setSearch(e.target.value) }}
                                 value={search}
                                 placeholder='Start searching for your preferred area or address (e.g. The Glebe or Rideau Centre)'
                                 className=' focus:outline-none  w-full px-2 py-2'
@@ -615,13 +615,23 @@ const WhereToBeLocatedSection: React.FC<{
                         </div>
                         {/* Google Suggestion */}
                         {search.length > 0 && <div className='shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs'>
-                            {suggestions.map(searchString => (
-                                <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.areaPreferenceType ? 'bg-gray-200' : ''}`}
-                                    onClick={() => handleAnswer('PROPERTY_SECTION', 'areaPreferenceType', searchString)} >
-                                    <img alt="" className="h-3" src="assets/img/icons/location_logo.svg" />
-                                    {searchString}
-                                </div>
-                            ))}
+                            {loading ? <div>
+                                <LoaderComponent />
+                            </div> : <div>
+                                {suggestions?.length > 0 ?
+                                    suggestions.map(searchString => (
+                                        <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.areaPreferenceType ? 'bg-gray-200' : ''}`}
+                                            onClick={() => handleAnswer('PROPERTY_SECTION', 'areaPreferenceType', searchString)} >
+                                            <img alt="" className="h-3" src="assets/img/icons/location_logo.svg" />
+                                            {searchString}
+                                        </div>
+                                    )) : <div className='py-5'>
+                                        Oops! We couldn't find a match. Try searching for another place.
+                                    </div>
+                                }
+                            </div>
+
+                            }
                         </div>}
                     </div>
                 }
