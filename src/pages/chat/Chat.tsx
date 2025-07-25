@@ -39,27 +39,36 @@ const slideVariants = {
 
 
 
-const Chat = () => {
-    const [selectedChat, setSelectedChat] = useState<number | null>(null)
-    return (
-        <AnimatePresence initial={false} mode="wait">
-            <div className="h-screen flex bg-gray-100 md:p-4">
-                {/* Sidebar */}
-                <ChatSideBar {...{ selectedChat, setSelectedChat }} />
-                {/* Chat Window */}
-                <ChatWindow {...{ selectedChat, setSelectedChat }} />
-            </div>
-        </AnimatePresence >
-    );
-};
+const Chat: React.FC<{
+    closeChat?: ( ) => void;
+    chatModal?: boolean;
+}> = ({
+    closeChat = () => { },
+    chatModal = false
+}) => {
+        const [selectedChat, setSelectedChat] = useState<number | null>(null)
+
+        return (
+            <AnimatePresence initial={false} mode="wait">
+                <div className="h-screen flex bg-gray-100 md:p-4">
+                    {/* Sidebar */}
+                    <ChatSideBar {...{ selectedChat, setSelectedChat, closeChat, chatModal }} />
+                    {/* Chat Window */}
+                    <ChatWindow {...{ selectedChat, setSelectedChat }} />
+                </div>
+            </AnimatePresence >
+        );
+    };
 
 export default Chat;
 
 
 const ChatSideBar: React.FC<{
+    closeChat: () => void;
+    chatModal: boolean;
     selectedChat: number | null,
     setSelectedChat: (value: number) => void
-}> = ({ selectedChat, setSelectedChat }) => {
+}> = ({ selectedChat, setSelectedChat, chatModal = true, closeChat = () => { } }) => {
     return <>
         <motion.div
             key="sidebar"
@@ -71,7 +80,13 @@ const ChatSideBar: React.FC<{
 
 
             className={`${!selectedChat ? "w-full" : "hidden md:block"} md:w-1/4 bg-white rounded-2xl shadow p-4`}>
-            <h2 className="text-lg font-semibold mb-4">Chats</h2>
+            <h2 className="text-lg font-semibold mb-4 flex gap-3">
+                <ArrowLeftIcon
+                    onClick={closeChat}
+                    className={`w-6 text-black cursor-pointer transition-transform duration-200 ease-in-out hover:-translate-x-1 ${chatModal ? "flex" : "hidden"
+                        }`}
+                />                Chats
+            </h2>
 
             <input
                 className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-full shadow-sm focus:outline-none"

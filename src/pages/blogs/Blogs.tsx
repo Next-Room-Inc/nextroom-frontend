@@ -129,7 +129,7 @@ const Blogs = () => {
               className={` bg-black hover:bg-[#B3322F]' lg:w-[40%]  md:w-[50%]  px-20 mx-auto text-center py-2 text-white rounded-full flex justify-center items-center`}
             >
 
-              Sing Up Or Login <ArrowRightIcon className="h-4 mt-1 ml-2" />
+              Sign-Up Or Login <ArrowRightIcon className="h-4 mt-1 ml-2" />
             </motion.button>
           </div>
 

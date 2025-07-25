@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { ICONS } from '../../utils/constants/app-info.constant';
+import { ICONS } from '../../../utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 const sectionName = 'ROOMMATES_SECTION'
 

@@ -84,11 +84,11 @@ const ForgotPassword = () => {
             positions={["bottom", "right"]} // preferred positions by priority
             content={<PopOverComponent />}
           >
-            <h1 className="text-[#B3322F] md:-mt-8 mb-5 flex justify-center">
+            <h1 className="text-[#B3322F] mt-8 mb-5 font-bold md:text-4xl text-2xl flex justify-center items-center">
               Forgot Password
               <img
                 src={`${APP_INFO.IMG_BASE_URL}/icons/question_mark_circle.png`}
-                className="ml-2 h-5 mt-1"
+                className="ml-2 h-6 mt-3"
                 onMouseEnter={() => setIsPopoverOpen(true)}
                 onMouseLeave={() => setIsPopoverOpen(false)}
                 onClick={() => setIsPopoverOpen(!isPopoverOpen)}

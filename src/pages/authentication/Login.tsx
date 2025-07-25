@@ -57,7 +57,7 @@ const Login = () => {
       {isLoading && <Loader />}
       <AuthLayout>
         <form onSubmit={formik.handleSubmit}>
-          <h1 className="text-[#B3322F] md:-mt-8 mb-5">Login</h1>
+          <h1 className="text-[#B3322F] mt-8 mb-5 font-bold text-4xl">Login</h1>
           {/* Email */}
           <div>
             <div className="mt-2 flex">

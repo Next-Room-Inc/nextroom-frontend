@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { LoaderComponent } from '../../components/Loader';
-import { useGetAllStudentInterestsQuery } from '../../redux/services/onboarding.service';
-import { ICONS } from '../../utils/constants/app-info.constant';
+import { LoaderComponent } from '../../../components/Loader';
+import { useGetAllStudentInterestsQuery } from '../../../redux/services/onboarding.service';
+import { ICONS } from '../../../utils/constants/app-info.constant';
 import { MultiSelect, NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
-import { Interest, InterestCategory } from '../../utils/interfaces';
+import { Interest, InterestCategory } from '../../../utils/interfaces';
 const sectionName = 'LIFE_STYLE_SECTION'
 
 interface Params {
@@ -166,7 +166,7 @@ const WhatDoYouEnjoySections: React.FC<{
 }> = ({ nextSectionHandler, answers, handleAnswer, previousStepHandler }) => {
 
     const { data = [], isLoading } = useGetAllStudentInterestsQuery()
-
+    console.log(data)
     const getInterestNames = (category: string): string[] =>
         data?.find((d: InterestCategory) => d.categoryName === category)?.interests?.map((i: Interest) => i.interestName) || [];
 
@@ -174,6 +174,7 @@ const WhatDoYouEnjoySections: React.FC<{
     const stayingInOptions = getInterestNames("Staying In");
     const causesInOptions = getInterestNames("Causes");
     const personalInOptions = getInterestNames("Personal");
+    console.log(causesInOptions)
 
     const [selectedSocials, setSelectedSocials] = useState<string[]>(answers.SOCIAL || []);
     const [selectedStayingIn, setSelectedStayingIn] = useState<string[]>(answers.STAYING_IN || []);

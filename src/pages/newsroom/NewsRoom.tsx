@@ -1,9 +1,11 @@
+import { motion } from "framer-motion"
+import React, { useState } from 'react'
+import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SignupOrLoginModal from '../../components/modals/SignupOrLoginModal'
-import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
-import { Navigation, Pagination } from 'swiper/modules'
-import { APP_INFO } from '../../utils/constants'
 import useAuth from '../../custom-hooks/useAuth'
+import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
+import { APP_INFO } from '../../utils/constants'
 
 const NewsRoom = () => {
   const { isLoggedIn } = useAuth();
@@ -12,7 +14,7 @@ const NewsRoom = () => {
       {!isLoggedIn && <SignupOrLoginModal text="Read Full Article" />}
 
 
-      <div className='py-15 md:mx-15 '>
+      <div className='pt-15 md:mx-15 '>
         <div className='mx-4'>
           {/* title */}
           <h2 className="text-xl font-bold text-[#B3322F] mb-3 flex md:ml-2 justify-center md:justify-start">
@@ -30,12 +32,13 @@ const NewsRoom = () => {
         </div>
         {/* Slider */}
 
-        <div className=' mx-5   bg-white shadow-xl rounded-2xl    my-4'>
+
+        <div className=' mx-5 my-4'>
           <FlowSliderComponent />
         </div>
+
         {/* Info  */}
 
-        <ReadMoreComponent />
       </div>
 
 
@@ -80,9 +83,10 @@ const slidersList = [
 ];
 
 export const FlowSliderComponent = () => {
+  const [selected, setSelected] = useState<any | null>(null)
   return (
     <>
-      <div className="w-full py-5">
+      <div className="w-full py-5   bg-white shadow-xl rounded-2xl    my-4">
         <Swiper
           spaceBetween={20}
           slidesPerView={1}
@@ -129,8 +133,15 @@ export const FlowSliderComponent = () => {
                       near Ottawa campuses while you study.</p>
 
                     <div className='md:text-left text-center'>
-                      <button
-                        className='bg-[#B3322F]  mt-4 text-white text-sm md:px-15 px-20 py-3 rounded-full cursor-pointer mx-auto'>Read More</button>
+                      <motion.button
+                        whileHover={{ scale: 0.90 }}
+                        whileTap={{ scale: 0.97 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                        onClick={() => setSelected(true)}
+                        className="bg-[#B3322F] mt-4 text-white text-sm md:px-15 md:w-auto w-full py-3 rounded-full cursor-pointer mx-auto shadow-sm"
+                      >
+                        Read More
+                      </motion.button>
                     </div>
                   </div>
                 </div>
@@ -138,14 +149,27 @@ export const FlowSliderComponent = () => {
             </SwiperSlide>
           ))}
         </Swiper>
+
       </div>
+      {selected && (
+        <motion.div
+          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+        >
+          <ReadMoreComponent {...{ setSelected }} />
+        </motion.div>
+      )}
     </>
   );
 };
 
-const ReadMoreComponent = () => {
+const ReadMoreComponent: React.FC<{
+  setSelected: (value: any | null) => void
+}> = ({ setSelected }) => {
   return (
-    <div className='mx-5   bg-white shadow-xl rounded-2xl px-5 py-4'>
+    <div className='    bg-white shadow-xl rounded-2xl px-5 py-4'>
       <h1 className='text-[#B3322F] text-2xl font-bold'>Site Updates Now Live!</h1>
       <p className='font-semibold'> <span className='mr-3 '>September 1, 2025</span> Written By Aidan Fitzmaurice — Founder</p>
 
@@ -166,9 +190,16 @@ const ReadMoreComponent = () => {
       />
       <div className='text-center'>
 
-        <button className="bg-[#B3322F] text-sm mt-6 py-2 px-10 rounded-full mx-auto  w-fit font-semibold text-white"   >
-          Close
-        </button>
+        <motion.button
+          whileHover={{ scale: 0.97 }}
+          whileTap={{ scale: 0.90 }}
+          transition={{ type: "spring", stiffness: 300, damping: 15 }}
+          className="bg-[#B3322F] text-sm mt-6 py-2 px-10 rounded-full mx-auto  w-fit font-semibold text-white" onClick={() => setSelected(null)}
+        >
+          close
+        </motion.button>
+
+
       </div>
     </div>
   )

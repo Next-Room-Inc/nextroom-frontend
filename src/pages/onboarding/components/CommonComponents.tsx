@@ -4,10 +4,11 @@ import { useRef, useState } from "react";
 import { motion } from 'framer-motion';
 import html2canvas from "html2canvas";
 import { toast } from "react-toastify";
-import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../utils/constants";
-import Loader from "../../components/Loader";
+import { ROUTES } from "../../../utils/constants";
+import Loader, { LoaderComponent } from "../../../components/Loader";
+import { useCreateInviteQuery } from "../../../redux/services/auth.service";
 
 export const NextButton: React.FC<{
     disabled?: boolean;
@@ -245,8 +246,17 @@ export const ShareSection = ({ url = "", qrCodePath = "" }) => {
 
 
 
-            <button onClick={() => setShowDropdown(!showDropdown)} className='bg-black w-[250px] md:w-[180px] text-center py-2 text-white  rounded-full mt-8'>  Share To Invite </button>
-            <AnimatePresence>
+            <motion.button
+                whileHover={{ scale: 1.03, boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.25)" }}
+                whileTap={{ scale: 0.96 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
+                onClick={() => setShowDropdown(!showDropdown)}
+                className="bg-black w-[250px] md:w-[180px] text-center py-2 text-white rounded-full mt-8 transition-all"
+            >
+                Share To Invite
+            </motion.button>
+
+           
                 {showDropdown && (
                     <motion.div
                         className="mx-10"
@@ -275,7 +285,7 @@ export const ShareSection = ({ url = "", qrCodePath = "" }) => {
                         </div>
                     </motion.div>
                 )}
-            </AnimatePresence>
+            
 
         </>
     )
@@ -379,7 +389,7 @@ const LetsBecomeRoomMateSection: React.FC<{
 
             {/* <p className='text-center px-10'>http://sample.info/?insect=fireman&porter=attraction#cave</p> */}
             {/* <img alt="" className="h-35 mx-auto mt-8" src={`/assets/img/icons/qr_code.svg`} /> */}
-            <img alt="" className="h-60 mx-auto" src={qrCodePath} />
+            <img alt="" className="h-60 mx-auto mt-10" src={qrCodePath} />
             {/* <QRCode value={url} className="h-35 mx-auto mt-10" /> */}
 
             <p className='text-lg text-[#B3322F] mt-10 w-full  px-10 text-center mx-auto font-semibold'>What is Next Room?</p>
@@ -395,6 +405,34 @@ const LetsBecomeRoomMateSection: React.FC<{
                 Fast. Verified. Student-focused. Join your friend on Next Room today!<br />
                 Your future home is waiting—together.
             </p>
+        </>
+    )
+}
+
+
+export const SkipNextQuestionSection = () => {
+    const { data, isLoading, isError, error, refetch } = useCreateInviteQuery();
+    console.log(data, isError, error)
+    return (
+        <>
+            {isLoading ? <div className='mt-5'>
+                <LoaderComponent />
+                <p>Please wait creating Invite...</p>
+
+            </div> : isError ?
+                <div className='flex items-center justify-center mt-4 gap-4'>
+                    <div className='font-semibold '>{"Fail to fetch data Retry."}</div>
+                    <motion.div
+                        onClick={refetch}
+                        whileHover={{ scale: 1.2, rotate: 90 }}
+                        transition={{ duration: 0.6, ease: 'easeInOut' }}
+                    >
+                        <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
+                    </motion.div>
+                </div > :
+
+                <ShareSection {...data} />
+            }
         </>
     )
 }

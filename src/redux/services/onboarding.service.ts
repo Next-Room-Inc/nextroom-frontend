@@ -34,7 +34,12 @@ export const OnboardingServices = createApi({
   }),
   endpoints: (builder) => ({
     submitOnboardingPreferences: builder.mutation({
-      query: (dto: interfaces.SubmitOnboardingPreferencesPayload) => ({
+      query: (dto: {
+        propertyPreference?: Record<string, unknown>;
+        lifestylePreference?: Record<string, unknown>;
+        roommatePreference?: Record<string, unknown>;
+        situationResponse?: Record<string, unknown>;
+    }) => ({
         url: API_URL.ONBOARDING.SUBMIT_PREFERENCES.URL(),
         method: API_URL.ONBOARDING.SUBMIT_PREFERENCES.METHOD,
         body: dto,

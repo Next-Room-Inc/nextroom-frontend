@@ -4,13 +4,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 // import QRCode from "react-qr-code";
-import { ArrowPathIcon } from '@heroicons/react/20/solid';
-import { useNavigate } from 'react-router-dom';
-import { LoaderComponent } from '../../components/Loader';
-import { useCreateInviteQuery } from '../../redux/services/auth.service';
-import { ROUTES } from '../../utils/constants';
-import { ICONS } from '../../utils/constants/app-info.constant';
-import { NextButton, PrimaryButton, ShareSection, transitionVariants } from "./CommonComponents";
+import { LoaderComponent } from '../../../components/Loader';
+import { ICONS } from '../../../utils/constants/app-info.constant';
+import { updateOnboardingStatusPayload } from '../../../utils/interfaces';
+import { NextButton, PrimaryButton, SkipNextQuestionSection, transitionVariants } from "./CommonComponents";
 
 
 interface PropertySectionParams {
@@ -26,11 +23,13 @@ interface PropertySectionParams {
     handleAnswer: (section: string, field: string, value: unknown) => void;
     exitForm: boolean;
     setExitForm: React.Dispatch<React.SetStateAction<boolean>>;
+    updateOnboardingStatusHandler: (payload: updateOnboardingStatusPayload) => void
 }
 
 
 const PropertySection = (props: any) => {
     const {
+        updateOnboardingStatusHandler,
         formStep: step,
         section,
         answers,
@@ -47,6 +46,7 @@ const PropertySection = (props: any) => {
     const [exitForm, setExitForm] = useState(false);
 
     const params: PropertySectionParams = {
+        updateOnboardingStatusHandler,
         formStep,
         name,
         nextStepHandler,
@@ -102,8 +102,8 @@ export default PropertySection
 const WelcomeScreen: React.FC<{
     name: string;
     nextStepHandler: () => void;
-}> = ({ name, nextStepHandler }) => {
-    const navigate = useNavigate()
+    updateOnboardingStatusHandler: (payload: updateOnboardingStatusPayload) => void;
+}> = ({ name, nextStepHandler, updateOnboardingStatusHandler }) => {
     const [runConfetti, setRunConfetti] = useState(false);
     setTimeout(() => {
         setRunConfetti(false);
@@ -129,7 +129,7 @@ const WelcomeScreen: React.FC<{
                         Get Started
                     </PrimaryButton>
 
-                    <PrimaryButton button={true} onClick={() => navigate(ROUTES.SEARCH_PROPERTY)} >
+                    <PrimaryButton button={true} onClick={() => updateOnboardingStatusHandler({ onboardingFormSkipped: true })} >
                         I’ll Search On My Own
                     </PrimaryButton>
                 </div>
@@ -148,33 +148,7 @@ const WelcomeScreen: React.FC<{
 
 
 
-const SkipNextQuestionSection = () => {
-    const { data, isLoading, isError, error, refetch } = useCreateInviteQuery();
-    console.log(data, isError, error)
-    return (
-        <>
-            <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
-            {isLoading ? <div className='mt-5'>
-                <LoaderComponent />
-                <p>Please wait creating Invite...</p>
 
-            </div> : isError ?
-                <div className='flex items-center justify-center mt-4 gap-4'>
-                    <div className='font-semibold '>{"Fail to fetch data Retry."}</div>
-                    <motion.div
-                        onClick={refetch}
-                        whileHover={{ scale: 1.2, rotate: 90 }}
-                        transition={{ duration: 0.6, ease: 'easeInOut' }}
-                    >
-                        <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
-                    </motion.div>
-                </div > :
-
-                <ShareSection {...data} />
-            }
-        </>
-    )
-}
 
 const AmenitiesSection: React.FC<{
     previousStepHandler: () => void;
@@ -405,7 +379,11 @@ const RoommatesSection: React.FC<{
                 </div>
 
                 {
-                    answers?.wantsRoommateMatching === 'No' ? <SkipNextQuestionSection /> : ""
+                    answers?.wantsRoommateMatching === 'No' ? <div>
+                        <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
+                        <SkipNextQuestionSection />
+                    </div>
+                        : ""
                 }
             </>}
             <NextButton onClick={disabled ? scrollHandler : nextHandler} previousStepHandler={previousStepHandler} />

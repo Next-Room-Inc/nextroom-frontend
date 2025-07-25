@@ -17,11 +17,11 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <Header darkMode={false} />
     <main className="flex-grow flex justify-center items-center p-5">
       <div className="w-full max-w-md text-center">
-      <img
+      {/* <img
             alt=""
             src={APP_INFO.PRIMARY_LOGO}
             className="h-20 md:h-35 w-auto mx-auto"
-          />
+          /> */}
           {children}
           </div>
     </main>

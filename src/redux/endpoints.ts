@@ -77,7 +77,7 @@ export const API_URL = {
     },
     UPDATE_STATUS: {
       URL: () => createApiUrl("/onboarding/student/update-status"),
-      METHOD: HttpMethod.PATCH,
+      METHOD: HttpMethod.POST,
     },
     GET_ALL_INTERESTS: {
       URL: () => createApiUrl("/onboarding/student/interests"),

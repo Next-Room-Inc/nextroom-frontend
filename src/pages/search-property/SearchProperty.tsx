@@ -2,12 +2,11 @@ import { ArrowLeftIcon, ArrowRightIcon, ChevronUpIcon } from '@heroicons/react/1
 import { ArrowPathIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { LoaderComponent } from '../../components/Loader'
 import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
 import { useGetEntrataPropertiesQuery } from '../../redux/services/property.service'
-import { ROUTES } from '../../utils/constants'
-import { HousingCard, PrimaryButton } from './ComponComponents'
+import Chat from '../chat/Chat'
+import { HousingCard, PrimaryButton } from './components/ComponComponents'
 
 // const housingdetails = [
 //     {
@@ -51,6 +50,7 @@ const demoDetails = {
 
 
 const SearchProperty = () => {
+    const [chat, setChat] = useState(false);
     const [feedbackForm, setFeedBackForm] = useState(false);
     const [ziplineModal, setZiplineModal] = useState(false);
     const [selected, setSelected] = useState<number | null>(null);
@@ -68,6 +68,19 @@ const SearchProperty = () => {
 
     return (
         <>
+            {chat &&
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    className="fixed inset-0 z-[9999999] flex items-center justify-center bg-black/40"
+                >
+                    <div className="w-[98%]  bg-white rounded-xl shadow-xl overflow-hidden">
+                        <Chat closeChat={() => setChat(false)} chatModal={chat} />
+                    </div>
+                </motion.div>
+            }
             <SearchPropertyLayout>
                 {/* Filters */}
                 <ResponsiveTabSelector />
@@ -127,7 +140,7 @@ const SearchProperty = () => {
                 {/* Zip Line Modal */}
                 {ziplineModal && <ZipLineModal onClose={() => setZiplineModal(false)} />}
                 {/* Chat Sticky Button */}
-                <ChatButton />
+                <ChatButton setChat={setChat} />
                 {/* AvailableUnitsModal */}
                 {/* <div className='mx-10 md:mx-20'>
                     <h2 className="text-lg font-semibold text-center md:text-left text-gray-700 mb-4">Requested Tour(s)</h2>
@@ -317,9 +330,15 @@ export default SearchProperty;
 // }
 
 
-const ChatButton = () => {
-    const navigate = useNavigate()
+const ChatButton: React.FC<{
+    setChat: (value: boolean) => void
+}> = ({ setChat }) => {
     const [stage, setStage] = useState<"arrow" | "tap" | "chat">("arrow");
+
+    const chatButtonHandler = () => {
+        setChat(true);
+        setStage('arrow')
+    }
 
     const handleClick = () => {
         if (stage === "tap") {
@@ -329,6 +348,19 @@ const ChatButton = () => {
         }
     };
 
+    const MovingChatArrow = () => <motion.div
+        animate={{
+            x: [-4, -8, -4], // left and back smoothly
+        }}
+        transition={{
+            duration: 0.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+        }}
+    >
+        <ArrowLeftIcon className="w-6" />
+    </motion.div>
+
     return (
         <div className="fixed right-0 bottom-15 z-50">
             <motion.button
@@ -337,31 +369,40 @@ const ChatButton = () => {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 50 }}
                 transition={{ duration: 0.3 }}
-                className={`flex items-center gap-2 bg-white text-[#B3322F] font-medium shadow-md px-5 py-3 rounded-l-full border border-gray-200 hover:bg-gray-50 transition-all relative  `}
+                className={`flex items-center gap-2 duration-300 hover:scale-102 hover:opacity-90 cursor-pointer bg-white text-[#B3322F] font-medium shadow-md px-5 py-3 rounded-l-full border border-gray-200 hover:bg-gray-50 transition-all relative  `}
             >
                 {/* Arrow Icon Only */}
                 {stage === "arrow" && (
-                    <ArrowLeftIcon className="w-6" />
+                    <MovingChatArrow />
                 )}
 
                 {/* Tap to Chat */}
                 {stage === "tap" && (
-                    <>
-                        <ArrowLeftIcon className="w-6   text-[#B3322F]" />
+                    <div className="flex items-center gap-2  ">
+                        <div className="transition-transform duration-300 group-hover:-translate-x-1">
+                            <MovingChatArrow />
+                        </div>
 
-                        <span className="text-md whitespace-nowrap">tap to chat</span>
-                    </>
+                        <span className="text-md whitespace-nowrap transition-colors duration-300 group-hover:text-[#B3322F]">
+                            tap to chat
+                        </span>
+                    </div>
                 )}
 
                 {/* Full Button with Icon */}
                 {stage === "chat" && (
-                    <div className='flex items-center gap-2' onClick={() => navigate(ROUTES.CHAT)}>
-                        <ArrowLeftIcon className="w-5 mt-1" />
-                        <span className="text-md whitespace-nowrap">tap to chat</span>
+                    <div
+                        className="flex items-center gap-2 "
+                        onClick={chatButtonHandler}
+                    >
+                        <MovingChatArrow />
+                        <span className="text-md whitespace-nowrap -mt-1 transition-colors duration-300 hover:text-[#B3322F]">
+                            tap to chat
+                        </span>
                         <img
                             src="/assets/img/search-property/chat_icon.svg"
                             alt="Chat Icon"
-                            className="h-10"
+                            className="h-10 transition-transform duration-300 hover:rotate-6"
                         />
                     </div>
                 )}
@@ -423,12 +464,11 @@ const FeedbackForm = ({ onClose }: { onClose: () => void }) => {
                     </div>
 
                     {/* Optional Message */}
-                    <p className="bg-gray-100 text-[11px] text-gray-700 text-center px-4 py-3 rounded-md shadow-sm mx-2">
-                        Your opinion matters! Let us know how we're doing or what you'd like to
-                        see next. <br />
-                        <span className="text-gray-500">(optional)</span>
-                    </p>
-
+                    <textarea
+                        className="bg-gray-100 text-sm text-gray-700 px-4 py-3 rounded-md shadow-sm  w-full resize-none focus:outline-none focus:ring-2 focus:ring-gray-300"
+                        placeholder="Your opinion matters! Let us know how we're doing or what you'd like to see next. (Optional)"
+                        rows={4}
+                    />
                     {/* Submit Button */}
                     <div className="flex justify-center mt-5">
                         <PrimaryButton color="black" className="w-24 h-7 text-xs" onClick={onClose}>

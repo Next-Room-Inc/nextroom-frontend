@@ -10,11 +10,12 @@ import { useSubmitOnboardingPreferencesMutation, useUpdateOnboardingStatusMutati
 import { ROUTES } from '../../utils/constants';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import * as interfaces from "../../utils/interfaces";
-import { ExitConfirmationSection, transitionVariants } from './CommonComponents';
-import LifeStyleSection from './LifeStyleSection';
-import PropertySection from './PropertySection';
-import RoommateSection from './RoommateSection';
-import SituationSection from './SituationSection';
+import { ExitConfirmationSection, transitionVariants } from './components/CommonComponents';
+import LifeStyleSection from './components/LifeStyleSection';
+import PropertySection from './components/PropertySection';
+import RoommateSection from './components/RoommateSection';
+import SituationSection from './components/SituationSection';
+import Loader from '../../components/Loader';
 
 interface AnswerSections {
     PROPERTY_SECTION: Record<string, unknown>;
@@ -78,14 +79,15 @@ const sections = {
 
 const Onboarding = () => {
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, handleUpdateUser } = useAuth();
     const [submitOnboardingPreferences] = useSubmitOnboardingPreferencesMutation();
     const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
 
 
+    const [loader, setLoader] = useState(false);
     const [exitForm, setExitForm] = useState(false);
-    const [section, setSection] = useState<keyof AnswerSections>('PROPERTY_SECTION');
-    const [formStep, setFormStep] = useState({ PROPERTY_SECTION: 0, LIFE_STYLE_SECTION: 0, ROOMMATES_SECTION: 0, SITUATION_BASED_SECTION: 0 });
+    const [section, setSection] = useState<keyof AnswerSections>('LIFE_STYLE_SECTION');
+    const [formStep, setFormStep] = useState({ PROPERTY_SECTION: 0, LIFE_STYLE_SECTION: 5, ROOMMATES_SECTION: 0, SITUATION_BASED_SECTION: 0 });
     const [answers, setAnswers] = useState<AnswerSections>(sections);
     const [runConfetti, setRunConfetti] = useState(true);
 
@@ -129,44 +131,105 @@ const Onboarding = () => {
 
     runConfettiHandler()
 
-    const submitOnboardingPreferencesHandler = async () => {
-        const payload = {
-            lifestylePreference: answers.LIFE_STYLE_SECTION,
-            propertyPreference: answers.PROPERTY_SECTION,
-            roommatePreference: answers.ROOMMATES_SECTION,
-            situationResponse: answers.SITUATION_BASED_SECTION,
+    type PreferenceObject = Record<string, any>; // Replace with more specific types if available
+
+    type PayloadType = {
+        propertyPreference?: PreferenceObject;
+        lifestylePreference?: PreferenceObject;
+        roommatePreference?: PreferenceObject;
+        situationResponse?: PreferenceObject;
+    };
+
+   const submitOnboardingPreferencesHandler = async (section: string | null = null) => {
+    setLoader(true);
+
+    const preparePayload = (payload: PayloadType): PayloadType => {
+        const joinArrayFields = (obj: PreferenceObject | undefined, fields: string[]): void => {
+            if (!obj) return;
+            fields.forEach((field: string) => {
+                if (Array.isArray(obj[field])) {
+                    obj[field] = obj[field].join(',');
+                }
+            });
         };
 
-        try {
-            const response = await submitOnboardingPreferences(payload);
-            console.log("🚀 ~ submitOnboardingPreferencesHandler ~ response:", response);
-
-            if (response?.error) {
-                return toast.error((response.error as any)?.data || "Failed to submit onboarding preferences.");
+        const normalizeBooleanFields = (obj: PreferenceObject | undefined): void => {
+            if (!obj) return;
+            for (const key in obj) {
+                if (obj[key] === "Yes") obj[key] = true;
+                else if (obj[key] === "No") obj[key] = false;
             }
+        };
 
-            toast.success("Onboarding preferences submitted successfully!");
-            // Optionally navigate here
-            // navigate(ROUTES.SEARCH_PROPERTY);
-        } catch (err) {
-            console.error("🚨 Unexpected error in submitOnboardingPreferencesHandler:", err);
-            toast.error("An unexpected error occurred. Please try again.");
-        }
+        joinArrayFields(payload.propertyPreference, ['UNIT_AMENITIS', 'COMUNITY_AMENITIS']);
+        joinArrayFields(payload.lifestylePreference, ['studyArea', 'SOCIAL', 'STAYING_IN', 'CAUSES', 'PERSONAL']);
+
+        ['propertyPreference', 'lifestylePreference', 'roommatePreference', 'situationResponse']
+            .forEach((key) => normalizeBooleanFields(payload[key as keyof PayloadType]));
+
+        return payload;
     };
+
+    let payload: PayloadType = {
+        propertyPreference: answers.PROPERTY_SECTION,
+        lifestylePreference: answers.LIFE_STYLE_SECTION,
+        roommatePreference: answers.ROOMMATES_SECTION,
+        situationResponse: answers.SITUATION_BASED_SECTION,
+    };
+
+    console.log("payload==>", payload);
+    payload = preparePayload(payload);
+    console.log(section, "payload try==>", payload);
+
+    // Optional logic for clearing partial sections
+    // const clearSections: Record<string, (keyof PayloadType)[]> = {
+    //     PROPERTY_SECTION: ['lifestylePreference', 'roommatePreference', 'situationResponse'],
+    //     LIFE_STYLE_SECTION: ['roommatePreference', 'situationResponse'],
+    //     ROOMMATES_SECTION: ['situationResponse']
+    // };
+
+    // if (section && clearSections[section]) {
+    //     clearSections[section].forEach((key) => {
+    //         payload[key] = undefined;
+    //     });
+    // }
+
+    try {
+        const response = await submitOnboardingPreferences(payload);
+        console.log("🚀 ~ submitOnboardingPreferencesHandler ~ response:", response);
+
+        if (response?.error) {
+            setLoader(false);
+            return toast.error("Oops! Please answer all onboarding questions before submitting.");
+        }
+
+        await updateOnboardingStatusHandler({ onboardingFormSubmitted: true });
+
+    } catch (err) {
+        console.error("🚨 Unexpected error in submitOnboardingPreferencesHandler:", err);
+        toast.error("An unexpected error occurred. Please try again.");
+    }
+
+    setLoader(false);
+};
 
 
     const updateOnboardingStatusHandler = async (payload: interfaces.updateOnboardingStatusPayload) => {
+        setLoader(true)
         try {
             const response = await updateOnboardingStatus(payload);
 
             console.log("🚀 ~ updateOnboardingStatusHandler ~ response:", response);
 
             if (response?.error) {
+                setLoader(false)
                 return toast.error((response.error as any)?.data || "Failed to update onboarding status");
             }
-            toast.success("Onboarding status updated successfully!");
+            handleUpdateUser(payload)
+            toast.success("Onboarding submission updated successfully!");
             // Optionally navigate here
-            // navigate(ROUTES.SEARCH_PROPERTY);
+            setLoader(false)
+            navigate(ROUTES.SEARCH_PROPERTY);
         } catch (err) {
             console.error("🚨 Unexpected error in updateOnboardingStatusHandler:", err);
             toast.error("An unexpected error occurred. Please try again.");
@@ -192,6 +255,9 @@ const Onboarding = () => {
 
     return (
         <>
+            {
+                loader && <Loader />
+            }
             <AnimatePresence>
 
                 {/* ReactConfetti */}
@@ -269,7 +335,7 @@ const FormStepper: React.FC<{
                             <motion.div className="text-black hidden md:block py-1 group-hover:opacity-100 opacity-0 shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white">
                                 {step.label}
                             </motion.div>
-                            <motion.div  whileHover={{ scale: 1.03 }} className="w-full bg-[#D9D9D9] rounded-full h-8 overflow-hidden">
+                            <motion.div whileHover={{ scale: 1.03 }} className="w-full bg-[#D9D9D9] rounded-full h-8 overflow-hidden">
                                 <motion.div onClick={() => setSection(step.name as keyof AnswerSections)} className="w-full h-full" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] }}>
                                     <motion.div className="bg-[#B3322F] rounded-full h-full" initial={{ width: '0%' }} animate={{ width: `${progress}%` }} transition={{ duration: 1, ease: 'easeOut' }} />
                                 </motion.div>

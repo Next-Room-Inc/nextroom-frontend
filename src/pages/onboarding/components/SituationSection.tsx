@@ -1,8 +1,8 @@
+import { ArrowRightIcon } from '@heroicons/react/16/solid';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { ICONS } from '../../utils/constants/app-info.constant';
-import { NextButton, PrimaryButton, QuestionTitle, ShareSection, transitionVariants } from './CommonComponents';
-import { ArrowRightIcon } from '@heroicons/react/16/solid';
+import { ICONS } from '../../../utils/constants/app-info.constant';
+import { NextButton, PrimaryButton, QuestionTitle, SkipNextQuestionSection, transitionVariants } from './CommonComponents';
 const sectionName = 'SITUATION_BASED_SECTION'
 
 interface Params {
@@ -11,11 +11,13 @@ interface Params {
     nextStepHandler: () => void;
     previousStepHandler: () => void;
     nextSectionHandler: () => void;
+    submitOnboardingPreferencesHandler: () => void;
     propertyValue: number;
     answers: Record<string, unknown>; // Assuming unknown type for answers keys
     handleAnswer: (section: string, field: string, value: unknown) => void;
     exitForm: boolean;
     setExitForm: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,7 +30,8 @@ const SituationSection = (props: any) => {
         nextStepHandler,
         previousStepHandler,
         nextSectionHandler,
-        name
+        name,
+        submitOnboardingPreferencesHandler
     } = props;
 
     const formStep = step[section];
@@ -44,7 +47,8 @@ const SituationSection = (props: any) => {
         handleAnswer,
         exitForm,
         setExitForm,
-        nextSectionHandler
+        nextSectionHandler,
+        submitOnboardingPreferencesHandler,
     };
 
     const formSteps = [
@@ -105,7 +109,7 @@ const DisruptionHandlingSection: React.FC<{
         impairedRoommate?: string | null;
         lightsOn?: string | null;
     };
-}> = ({ nextStepHandler, answers, handleAnswer ,previousStepHandler}) => {
+}> = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
     const [error, setError] = useState(false)
 
     const scrollHandler = () => {
@@ -164,9 +168,9 @@ const DisruptionHandlingSection: React.FC<{
                 </div>
             </div>
 
-         
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-      
+
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -241,9 +245,9 @@ const ConflictAndSafetySection: React.FC<{
 
 
             {/* Next button */}
-          
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-          
+
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -328,16 +332,17 @@ const PartyAndMoneyConcernsSection: React.FC<{
 
 
             {/* Next button */}
-         
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-          
+
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
 }
 const AllSetSection: React.FC<{
     nextSectionHandler: () => void;
-}> = ({ nextSectionHandler }) => {
+    submitOnboardingPreferencesHandler: () => void;
+}> = ({ submitOnboardingPreferencesHandler }) => {
 
     return (
         <>
@@ -356,10 +361,10 @@ const AllSetSection: React.FC<{
                 It’s not too late to invite your roommates!
             </p>
 
-            <ShareSection />
+            <SkipNextQuestionSection />
 
             {/* Next button */}
-            <PrimaryButton onClick={nextSectionHandler} selected={true} className='mx-auto bg-black mt-10 border'  >
+            <PrimaryButton onClick={submitOnboardingPreferencesHandler} selected={true} className='mx-auto bg-black mt-10 border'  >
                 Find Me A Home <ArrowRightIcon className=' ml-2 mt-0.5 w-5' />
             </PrimaryButton>
 

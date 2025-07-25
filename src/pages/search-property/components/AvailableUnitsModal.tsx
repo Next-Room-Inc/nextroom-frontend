@@ -13,10 +13,11 @@ import { Line } from 'react-chartjs-2';
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ROUTES } from "../../utils/constants";
-import { IMAGES } from "../../utils/constants/app-info.constant";
-import { Property, PropertyDetails } from "../../utils/interfaces/property.interface";
+import { ROUTES } from "../../../utils/constants";
+import { IMAGES } from "../../../utils/constants/app-info.constant";
+import { Property, PropertyDetails } from "../../../utils/interfaces/property.interface";
 import { PrimaryButton } from "./ComponComponents";
+import GoogleMapComponent from "../../../components/GoogleMap";
 
 const UNIT_DETAILS = {
     title: "1 Bedroom",
@@ -199,7 +200,7 @@ const UnitDetailsSection: React.FC<{
     title,
     status,
     amenities,
- }) => {
+}) => {
         console.log(propertyDetails)
         // const [viewAllMatches, SetViewAllMatches] = useState(false)
         return (
@@ -236,7 +237,7 @@ const UnitDetailsSection: React.FC<{
                                                 monthly</div>
 
                                             <div className="md:mt-0 mt-2">
-                                                <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto" 
+                                                <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto"
                                                 // onClick={() => SetViewAllMatches(!viewAllMatches)}
                                                 >
                                                     View All Matches
@@ -321,9 +322,11 @@ const MediaGallery = () => {
                     slidesPerView={1}
                 >
                     {imageList.map((item, index) => (
-                        <SwiperSlide key={index}>
-                            <img src={item.src} alt={item.alt} className="w-full h-[250px] object-cover rounded-xl" />
-                        </SwiperSlide>
+                        <>
+                            <SwiperSlide key={index}>
+                                {index < 4 ? <img src={item.src} alt={item.alt} className="w-full h-[250px] object-cover rounded-xl" /> : <GoogleMapComponent />}
+                            </SwiperSlide>
+                        </>
                     ))}
                 </Swiper>
             </div>
@@ -357,11 +360,12 @@ const MediaGallery = () => {
 
                 </div>
                 <div className="w-1/3">
-                    <img
+                    {/* <img
                         src={imageList[0].src}
                         alt={imageList[0].alt}
                         className="w-full h-full object-cover rounded-xl"
-                    />
+                    /> */}
+                    <GoogleMapComponent />
                 </div>
 
             </div>
@@ -370,8 +374,8 @@ const MediaGallery = () => {
 };
 
 
-const BuildingDetailSection:React.FC<{
-    propertyDetails:PropertyDetails
+const BuildingDetailSection: React.FC<{
+    propertyDetails: PropertyDetails
 }> = ({ propertyDetails }) => {
     // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
     const description = propertyDetails?.description || "No description Added yet"
@@ -813,12 +817,12 @@ const ChartComponent = () => {
 //             exit={{ opacity: 0, y: -10 }}
 //             transition={{ duration: 0.2 }}
 //             className="
-//             absolute 
-//             left-1/2 
-//             -translate-x-1/2 
-//             md:left-auto md:right-0 md:translate-x-0 
-//             mt-2 md:mx-4 
-//             bg-red-100 shadow-xl rounded-2xl py-4 text-sm z-40 
+//             absolute
+//             left-1/2
+//             -translate-x-1/2
+//             md:left-auto md:right-0 md:translate-x-0
+//             mt-2 md:mx-4
+//             bg-red-100 shadow-xl rounded-2xl py-4 text-sm z-40
 //             w-[350px] md:w-[420px]
 //         "
 //         >
@@ -927,9 +931,9 @@ const ChartComponent = () => {
 //                     animate={{ x: 0, opacity: 1 }}
 //                     exit={{ x: 100, opacity: 0 }}
 //                     transition={{ duration: 0.9, ease: "easeInOut" }}
-//                     className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg 
-//                md:rounded-bl-xl md:rounded-tl-xl z-10 
-//                md:rounded-br-none md:rounded-tr-none 
+//                     className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg
+//                md:rounded-bl-xl md:rounded-tl-xl z-10
+//                md:rounded-br-none md:rounded-tr-none
 //                rounded-br-xl rounded-tr-xl"
 //                 >
 //                     <h2 className="text-xl font-semibold text-center">Amanda H.</h2>
