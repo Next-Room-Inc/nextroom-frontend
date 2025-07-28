@@ -18,6 +18,7 @@ import ResendVerification from "../pages/authentication/ResendVerification";
 import Blogs from "../pages/blogs/Blogs";
 import Chat from "../pages/chat/Chat";
 import { OnboardingValidation } from "./onboarding.validations";
+import StudentsDashboard from "../pages/student-dashboard/StudentsDashboard";
 
 export const routes = createBrowserRouter([
   {
@@ -99,6 +100,11 @@ export const routes = createBrowserRouter([
   {
     path: ROUTES.CHAT,
     element: <Chat />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.STUDENTS_DASHBOARD,
+    element: <StudentsDashboard />,
     errorElement: <NotFoundErrorPage />,
   },
   {
