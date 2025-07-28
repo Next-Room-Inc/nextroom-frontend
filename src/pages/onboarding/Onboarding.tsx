@@ -86,8 +86,8 @@ const Onboarding = () => {
 
     const [loader, setLoader] = useState(false);
     const [exitForm, setExitForm] = useState(false);
-    const [section, setSection] = useState<keyof AnswerSections>('LIFE_STYLE_SECTION');
-    const [formStep, setFormStep] = useState({ PROPERTY_SECTION: 0, LIFE_STYLE_SECTION: 5, ROOMMATES_SECTION: 0, SITUATION_BASED_SECTION: 0 });
+    const [section, setSection] = useState<keyof AnswerSections>('PROPERTY_SECTION');
+    const [formStep, setFormStep] = useState({ PROPERTY_SECTION: 0, LIFE_STYLE_SECTION: 0, ROOMMATES_SECTION: 0, SITUATION_BASED_SECTION: 0 });
     const [answers, setAnswers] = useState<AnswerSections>(sections);
     const [runConfetti, setRunConfetti] = useState(true);
 
