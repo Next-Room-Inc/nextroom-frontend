@@ -1,19 +1,33 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { useState, useEffect } from "react";
+import { Bars3Icon, BellIcon, PhoneIcon } from "@heroicons/react/20/solid";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Wave from 'react-wavify';
 import useAuth from "../custom-hooks/useAuth";
 import { APP_INFO, ROUTES } from "../utils/constants";
-import { Link, useNavigate } from "react-router-dom";
-import Wave from 'react-wavify'
-import { motion } from "framer-motion";
 
 
 export default function Header({ darkMode = true }) {
   const navigate = useNavigate()
+  const location = useLocation()
+  const isStudentDashboard = location.pathname === ROUTES.STUDENTS_DASHBOARD
+
   const { handleLogout, isLoggedIn } = useAuth();
   const [selectedLang, setSelectedLang] = useState("en");
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [headerColor, setHeaderColor] = useState('bg-black');
+
+  const StudentDashboardIcons = () => <div className={`${isStudentDashboard ? "flex": "hidden"} gap-2`}>
+    <span className="relative inline-block">
+      <BellIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
+      <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]" />
+    </span>
+    <PhoneIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
+    {/* <InformationCircleIcon className=" md:text-white md:bg-black text-black bg-white  h-8.5 -mt-0.5 -ml-1 rounded-full rotate-10" /> */}
+    <span className="md:text-black md:bg-white text-white bg-black text-lg   md:text-xl rounded-full h-7.5 w-7.5 text-center">𝓲</span>
+  </div>
 
   const languages = [
     { code: "en", label: "English" },
@@ -52,6 +66,11 @@ export default function Header({ darkMode = true }) {
       class: `px-2 md:px-4`,
     },
     {
+      name: <Link to={ROUTES.STUDENTS_DASHBOARD}>Dashboard</Link>,
+      href: "#",
+      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+    },
+    {
       name: <div onClick={handleLogout}>Log Out</div>,
       href: "#",
       class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
@@ -61,6 +80,7 @@ export default function Header({ darkMode = true }) {
       href: "#",
       class: "py-2 md:hidden",
     },
+    { name: <StudentDashboardIcons />, href: "#", class: "px-2 md:hidden" },
     { name: "Refer & Earn", href: "#", class: "px-2 md:hidden" },
     { name: "List Your Property", href: "#", class: "px-2 md:hidden" },
     {
@@ -120,7 +140,7 @@ export default function Header({ darkMode = true }) {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
+      className={`fixed top-0 w-full z-1000 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
         } ${darkMode ? headerColor : "bg-transparent"}`}
     >
       <nav
@@ -189,11 +209,12 @@ export default function Header({ darkMode = true }) {
             </span>
 
           </div>
+          <div className="hidden md:flex mx-6"><StudentDashboardIcons /></div>
           <div className=" hidden lg:inline">
             {navbar.map((i, index) => (
               <span
                 key={index}
-                className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
+                className={`${isStudentDashboard ? "hidden": "flex"} border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
                   ? "text-white border-white hover:text-black hover:bg-white"
                   : "text-dark border-dark hover:text-white hover:bg-black"
                   }`}
@@ -207,13 +228,14 @@ export default function Header({ darkMode = true }) {
           <Popover className="relative">
             <PopoverButton className="focus:outline-none inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 ">
               <div className=" flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100  py-2 px-7 rounded-full lg:-mt-2 mt-3 ml-2 cursor-pointer transition-all duration-300 ease-in-out">
-                <img
+                {/* <img
                   src={`${APP_INFO.IMG_BASE_URL}icons/menu_icon.svg`}
                   className={`h-3.2 bg-white mr-4 my-auto`}
-                />
+                /> */}
+                <Bars3Icon className={`h-10 md:h-6 bg-none text-black mr-3 my-auto`} />
                 <img
                   src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.svg`}
-                  className={`h-7 bg-[#B3322F] rounded-full p-1`}
+                  className={`h-7 bg-[#B3322F] rounded-full p-1 mt-1.5 md:mt-0`}
                 />
               </div>
             </PopoverButton>
