@@ -209,7 +209,7 @@ export default function Header({ darkMode = true }) {
             </span>
 
           </div>
-          <div className="hidden md:flex mx-6"><StudentDashboardIcons /></div>
+          <div className={`hidden md:flex ${isStudentDashboard ? "flex": "hidden"}`}><StudentDashboardIcons /></div>
           <div className=" hidden lg:inline">
             {navbar.map((i, index) => (
               <span
