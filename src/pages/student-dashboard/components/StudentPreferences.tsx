@@ -115,7 +115,7 @@ const RoommateReportModal = ({ onClose }: { onClose: () => void }) => {
                 {/* Submit Button */}
                 <div className="flex justify-center mt-5">
                     <PrimaryButton
-                        selected={true} 
+                        selected={true}
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >
@@ -143,14 +143,14 @@ const RoommateRemoveModal = ({ onClose }: { onClose: () => void }) => {
                 {/* Submit Button */}
                 <div className="flex justify-center mt-5 gap-5">
                     <PrimaryButton
-                        selected={true} 
+                        selected={true}
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >
                         Cancel
                     </PrimaryButton>
                     <PrimaryButton
-                        selected={true} 
+                        selected={true}
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >
@@ -193,7 +193,7 @@ const EditRoommateModal = ({ onClose }: { onClose: () => void }) => {
                 {/* Submit Button */}
                 <div className="flex justify-center mt-5 gap-5">
                     <PrimaryButton
-                        selected={true} 
+                        selected={true}
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >
@@ -303,7 +303,7 @@ const GuarantorReportModal = ({ onClose }: { onClose: () => void }) => {
                 {/* Submit Button */}
                 <div className="flex justify-center mt-5">
                     <PrimaryButton
-                        selected={true} 
+                        selected={true}
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >
@@ -332,14 +332,14 @@ const GuarantorRemoveModal = ({ onClose }: { onClose: () => void }) => {
                 <div className="flex justify-center mt-5 gap-5">
                     <PrimaryButton
                         selected={true}
-                       
+
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >
                         Cancel
                     </PrimaryButton>
                     <PrimaryButton
-                        selected={true} 
+                        selected={true}
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >
@@ -390,7 +390,7 @@ const EditGuarantorModal = ({ onClose }: { onClose: () => void }) => {
                 {/* Submit Button */}
                 <div className="flex justify-center mt-5 gap-5">
                     <PrimaryButton
-                        selected={true} 
+                        selected={true}
                         className="w-20 py-3 text-xs"
                         onClick={onClose}
                     >

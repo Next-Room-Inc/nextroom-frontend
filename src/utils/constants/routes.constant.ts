@@ -13,6 +13,7 @@ export const ROUTES = {
   UNDER_CONSTRUCTION: "/under-construction",
   // students
   STUDENTS_DASHBOARD: "/students-dashboard",
+  STUDENTS_DASHBOARD_TABS: "/students-dashboard/:tab",
   SEARCH_PROPERTY: "/search-property",
   NEWSROOM: "/newsroom",
   STUDENT_EXPERIANCE_CENTER: "/student-experiance-center",

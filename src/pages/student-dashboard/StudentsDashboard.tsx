@@ -1,42 +1,47 @@
-import { useState } from "react";
-import StudentDashboard from "../../layouts/StudentDashboard.Layout"
-import { ResponsiveTabSelector } from "./components/ResponsiveTabSelector"
-import { UpcomingEvents } from "./components/UpcomingEvents";
-import StudentPreferences from "./components/StudentPreferences";
-import MyHousingSearch from "./components/MyHousingSearch";
-import Matches from "./components/Matches";
+import { useParams } from "react-router-dom";
+import StudentDashboard from "../../layouts/StudentDashboard.Layout";
 import Explore from "./components/Explore";
+import Matches from "./components/Matches";
+import MyHousingSearch from "./components/MyHousingSearch";
+import { ResponsiveTabSelector } from "./components/ResponsiveTabSelector";
+import StudentPreferences from "./components/StudentPreferences";
+import { UpcomingEvents } from "./components/UpcomingEvents";
+
+// Tab labels for display
+const tabOptionsObject = {
+  "my-housing": "My House Search",
+  "matches": "Matches",
+  "explore": "Explore",
+  "profile-and-preferences": "Profile And Preferences",
+};
+
+// Components corresponding to each tab
+const Components = {
+  "my-housing": <MyHousingSearch />,
+  "matches": <Matches />,
+  "explore": <Explore />,
+  "profile-and-preferences": (
+    <>
+      <StudentPreferences />
+      <UpcomingEvents />
+    </>
+  ),
+};
 
 const StudentsDashboard = () => {
-  // const profile = <div className="flex items-center justify-center gap-4">
-  //   <img
-  //     src="/assets/img/search-property/student_profile (1).png"
-  //     alt={"loading..."}
-  //     className="w-6 h-6 rounded-full"
-  //   />
-  //   Profile & Preferences</div>
-  const tabOptions = ["My Housing Search", "Matches", "Explore", "Profile & Preferences"];
-  const [selectedTab, setSelectedTab] = useState(tabOptions[0])
+  const { tab = "my-housing" } = useParams(); // Default to "my-housing" if no tab is in the URL
+  const tabOptions = Object.keys(tabOptionsObject);
 
-  
   return (
-    <>
-
-      {/* Main Layout */}
-      <StudentDashboard>
-        <div className="my-5">
-          <ResponsiveTabSelector {...{ tabOptions, selectedTab, setSelectedTab }} />
-          <div className="mx-5 md:mx-10">
-            {selectedTab === tabOptions[0] && <MyHousingSearch/>}
-            {selectedTab === tabOptions[1] && <Matches/>}
-            {selectedTab === tabOptions[2] && <Explore/>}
-            {selectedTab === tabOptions[3] && <><StudentPreferences /> <UpcomingEvents /></>}
-
-          </div>
+    <StudentDashboard>
+      <div className="my-5">
+        <ResponsiveTabSelector {...{ tabOptions, tab, tabOptionsObject }} />
+        <div className="mx-5 md:mx-10">
+          {Components[tab]}
         </div>
-      </StudentDashboard>
-    </>
-  )
-}
+      </div>
+    </StudentDashboard>
+  );
+};
 
-export default StudentsDashboard
+export default StudentsDashboard;
