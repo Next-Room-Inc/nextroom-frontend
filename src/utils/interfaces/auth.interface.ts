@@ -34,11 +34,10 @@ export interface StudentUser {
   onboardingFormSkipped?: boolean;
 }
 
-
 export interface CreateInviteResponse {
   slug: string;
   url: string;
   qrCodePath: string;
-  status: string
+  status: string;
   inviterName: string;
 }

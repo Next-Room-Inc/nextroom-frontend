@@ -155,13 +155,13 @@ const AmenitiesSection: React.FC<{
     handleAnswer: (sectino: string, key: string, value: string | number | string[]) => void;
     nextStepHandler: () => void;
     answers: {
-        UNIT_AMENITIS?: string[] | [];
-        COMUNITY_AMENITIS?: string[] | [];
+        unitAmenities?: string[] | [];
+        communityAmenities?: string[] | [];
     };
 }> = ({ handleAnswer, answers, nextStepHandler, previousStepHandler }) => {
     const [error] = useState(false)
-    const [selectedUnitAmenities, setSelectedUnitAmenities] = useState<string[]>(answers.UNIT_AMENITIS || [])
-    const [selectedComunityAmenities, setSelectedComunityAmenities] = useState<string[]>(answers.COMUNITY_AMENITIS || [])
+    const [selectedUnitAmenities, setSelectedUnitAmenities] = useState<string[]>(answers.unitAmenities || [])
+    const [selectedComunityAmenities, setSelectedComunityAmenities] = useState<string[]>(answers.communityAmenities || [])
 
     const handleUnitAmenityToggle = (amenity: string) => {
         setSelectedUnitAmenities((prev: string[]) =>
@@ -180,17 +180,17 @@ const AmenitiesSection: React.FC<{
 
     // const scrollHandler = () => {
     //     setError(true)
-    //     if (answers.UNIT_AMENITIS === null) {
-    //         const section = document.getElementById('UNIT_AMENITIS');
+    //     if (answers.unitAmenities === null) {
+    //         const section = document.getElementById('unitAmenities');
     //         section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     //     }
-    //     else if (answers.COMUNITY_AMENITIS === null) {
-    //         const section = document.getElementById('COMUNITY_AMENITIS');
+    //     else if (answers.communityAmenities === null) {
+    //         const section = document.getElementById('communityAmenities');
     //         section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     //     }
     // }
 
-    // const disabled = answers.UNIT_AMENITIS === null || answers.COMUNITY_AMENITIS === null
+    // const disabled = answers.unitAmenities === null || answers.communityAmenities === null
 
     const unitAmenities = [
         { name: "In-Unit Washer/Dryer", icon: "Washer_Dryer.svg" },
@@ -217,14 +217,14 @@ const AmenitiesSection: React.FC<{
 
 
     const nextButtonHandler = () => {
-        handleAnswer('PROPERTY_SECTION', 'UNIT_AMENITIS', selectedUnitAmenities)
-        handleAnswer('PROPERTY_SECTION', 'COMUNITY_AMENITIS', selectedComunityAmenities)
+        handleAnswer('PROPERTY_SECTION', 'unitAmenities', selectedUnitAmenities)
+        handleAnswer('PROPERTY_SECTION', 'communityAmenities', selectedComunityAmenities)
         nextStepHandler()
     }
     return (
         <>
             <p className='text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto'> What type of amenities are you looking for? </p>
-            <div id="UNIT_AMENITIS" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.UNIT_AMENITIS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="unitAmenities" className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.unitAmenities === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Unit Amenities </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit   ">
                     {unitAmenities.map((amenity, index) => (
@@ -245,7 +245,7 @@ const AmenitiesSection: React.FC<{
                     ))}
                 </div>
             </div>
-            <div id="COMUNITY_AMENITIS" className={`rounded-2xl mx-1 py-10 ${error && answers.COMUNITY_AMENITIS === null ? "bg-[#B3322F]/20" : ""}`}>
+            <div id="communityAmenities" className={`rounded-2xl mx-1 py-10 ${error && answers.communityAmenities === null ? "bg-[#B3322F]/20" : ""}`}>
                 <p className='text-2xl  font-semibold w-full  px-10 text-center mx-auto'> Community Amenities </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8 mt-6  mx-auto max-w-fit">
                     {comunityAmenities.map((amenity, index) => (
@@ -276,12 +276,12 @@ const AmenitiesSection: React.FC<{
 
 const RoommatesSection: React.FC<{
     previousStepHandler: () => void;
-    handleAnswer: (sectino: string, key: string, value: string | number) => void;
+    handleAnswer: (sectino: string, key: string, value: string | number | boolean) => void;
     nextSectionHandler: () => void;
     answers: {
-        wantsRoommates?: string;
+        wantsRoommates?: boolean;
         roommateCount?: number;
-        wantsRoommateMatching?: string;
+        wantsRoommateMatching?: boolean;
     };
 }> = ({ handleAnswer, answers, nextSectionHandler, previousStepHandler }) => {
     // const navigate = useNavigate()
@@ -305,7 +305,7 @@ const RoommatesSection: React.FC<{
         }
     }
 
-    const disabled = answers.wantsRoommates === null || answers.wantsRoommates === 'Yes' ? answers.wantsRoommateMatching === null : false
+    const disabled = answers.wantsRoommates === null || answers.wantsRoommates ? answers.wantsRoommateMatching === null : false
 
     const nextHandler = () => {
         nextSectionHandler()
@@ -321,12 +321,12 @@ const RoommatesSection: React.FC<{
                 <p className='text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto'> Would you like to bring any roommates? </p>
 
                 <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
-                    <PrimaryButton selected={answers?.wantsRoommates === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommates', 'Yes')} > Yes </PrimaryButton>
-                    <PrimaryButton selected={answers?.wantsRoommates === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommates', 'No')} > No </PrimaryButton>
+                    <PrimaryButton selected={answers?.wantsRoommates} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommates', true)} > Yes </PrimaryButton>
+                    <PrimaryButton selected={!answers?.wantsRoommates} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommates', false)} > No </PrimaryButton>
                 </div>
             </div>
 
-            {answers.wantsRoommates === 'Yes' && <>
+            {answers.wantsRoommates && <>
 
                 <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> How many roommates are joining you? </p>
 
@@ -373,13 +373,13 @@ const RoommatesSection: React.FC<{
                 <div id="wantsRoommateMatching" className={` rounded-2xl mx-1 py-10 ${error && answers.wantsRoommateMatching === null ? "bg-[#B3322F]/20" : ""}`}>
                     <p className='text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto'> Do you want help finding additional roommates? </p>
                     <div className='flex flex-col md:flex-row gap-6 justify-center items-center mt-15 text-md px-10'>
-                        <PrimaryButton selected={answers?.wantsRoommateMatching === 'Yes'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'Yes')}> Yes </PrimaryButton>
-                        <PrimaryButton selected={answers?.wantsRoommateMatching === 'No'} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', 'No')} > No </PrimaryButton>
+                        <PrimaryButton selected={answers?.wantsRoommateMatching} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', true)}> Yes </PrimaryButton>
+                        <PrimaryButton selected={!answers?.wantsRoommateMatching} onClick={() => handleAnswer('PROPERTY_SECTION', 'wantsRoommateMatching', false)} > No </PrimaryButton>
                     </div>
                 </div>
 
                 {
-                    answers?.wantsRoommateMatching === 'No' ? <div>
+                    !answers?.wantsRoommateMatching ? <div>
                         <p className='text-2xl text-[#B3322F] mt-10 font-semibold w-full  px-10 text-center mx-auto'> Skip the next questions, invite your friends now! </p>
                         <SkipNextQuestionSection />
                     </div>
@@ -490,12 +490,12 @@ const WhereToBeLocatedSection: React.FC<{
     handleAnswer: (section: string, key: string, value: unknown) => void;
     runConfettiHandler: () => void;
     setRunConfetti: (value: boolean) => void;
-    answers: Record<string, unknown>; // You can later replace 'unknown' with a stricter type
+    answers: any; // You can later replace 'unknown' with a stricter type
 }> = ({ nextStepHandler, handleAnswer, answers, runConfettiHandler, setRunConfetti, previousStepHandler }) => {
     const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
-
-    const [search, setSearch] = useState('');
-    const [suggestions, setSuggestions] = useState<string[]>([]);
+    console.log("area====>", answers)
+    const [search, setSearch] = useState(answers?.areaPreferenceType || '');
+    const [suggestions, setSuggestions] = useState<string[]>(answers?.areaPreferenceType ? [answers?.areaPreferenceType] : []);
     const [loading, setLoading] = useState(false);
 
     // const suggestions = [
@@ -507,6 +507,8 @@ const WhereToBeLocatedSection: React.FC<{
     // ];
 
     useEffect(() => {
+        if (answers?.areaPreferenceType === search) return
+
         const delayDebounce = setTimeout(() => {
             if (search.trim().length > 0) fetchSuggestions(search);
         }, 500);
@@ -517,19 +519,6 @@ const WhereToBeLocatedSection: React.FC<{
     const fetchSuggestions = async (query: string) => {
         try {
             setLoading(true);
-            // const response = await axios.get(
-            //     `https://maps.googleapis.com/maps/api/place/textsearch/json?key=${GOOGLE_API_KEY}&query=${query}`,
-            //     // {
-            //     //     headers: {
-            //     //         'Content-Type': 'application/json',
-            //     //         'X-Goog-Api-Key': GOOGLE_API_KEY,
-            //     //         'X-Goog-FieldMask': 'places.displayName,places.formattedAddress'
-            //     //     },
-            //     //     // data: {
-            //     //     //     textQuery: query
-            //     //     // }
-            //     // }
-            // );
             const response = await axios.post(
                 `https://places.googleapis.com/v1/places:autocomplete`,
                 { "input": query, },
@@ -575,7 +564,7 @@ const WhereToBeLocatedSection: React.FC<{
                         runConfettiHandler();
                         handleAnswer('PROPERTY_SECTION', 'preferredArea', 'Surprise Me')
                     }} > I Don’t Know Yet - Surprise Me </PrimaryButton>
-                    <PrimaryButton selected={answers.preferredArea !== "Surprise Me" && answers.preferredArea !== null} onClick={() => handleAnswer('PROPERTY_SECTION', 'preferredArea', '')} > I Have A Preferred Area </PrimaryButton>
+                    <PrimaryButton selected={answers.preferredArea !== "Surprise Me" && answers.preferredArea !== null} onClick={() => handleAnswer('PROPERTY_SECTION', 'preferredArea', 'Yes')} > I Have A Preferred Area </PrimaryButton>
                 </div>
 
                 {answers.preferredArea !== "Surprise Me" && answers.preferredArea !== null &&

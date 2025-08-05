@@ -1,12 +1,13 @@
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactConfetti from 'react-confetti';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import Loader from '../../components/Loader';
 import useAuth from '../../custom-hooks/useAuth';
 import OnboardingLayout from '../../layouts/Onboarding.Layout';
-import { useSubmitOnboardingPreferencesMutation, useUpdateOnboardingStatusMutation } from '../../redux/services/onboarding.service';
+import { useGetSubmittedPreferencesByStudentIdQuery, useSubmitOnboardingPreferencesMutation, useUpdateOnboardingStatusMutation } from '../../redux/services/onboarding.service';
 import { ROUTES } from '../../utils/constants';
 import { ICONS } from '../../utils/constants/app-info.constant';
 import * as interfaces from "../../utils/interfaces";
@@ -15,7 +16,6 @@ import LifeStyleSection from './components/LifeStyleSection';
 import PropertySection from './components/PropertySection';
 import RoommateSection from './components/RoommateSection';
 import SituationSection from './components/SituationSection';
-import Loader from '../../components/Loader';
 
 interface AnswerSections {
     PROPERTY_SECTION: Record<string, unknown>;
@@ -39,8 +39,8 @@ const sections = {
         wantsRoommates: null,
         roommateCount: 0,
         wantsRoommateMatching: null,
-        UNIT_AMENITIS: null,
-        COMUNITY_AMENITIS: null
+        // UNIT_AMENITIS: null,
+        // COMUNITY_AMENITIS: null
     },
     LIFE_STYLE_SECTION: {
         studyArea: null,
@@ -77,12 +77,15 @@ const sections = {
     },
 }
 
+
+
+
 const Onboarding = () => {
     const navigate = useNavigate();
     const { user, handleUpdateUser } = useAuth();
+    const { studentId = '', firstName = '', lastName = '' } = user || {}
     const [submitOnboardingPreferences] = useSubmitOnboardingPreferencesMutation();
     const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
-
 
     const [loader, setLoader] = useState(false);
     const [exitForm, setExitForm] = useState(false);
@@ -92,12 +95,49 @@ const Onboarding = () => {
     const [runConfetti, setRunConfetti] = useState(true);
 
 
+    // const { data: preferncesStatus = [] } = useGetPrefercesStatusQuery(user?.studentId)
+    const { data: submittedPreferences = [] } = useGetSubmittedPreferencesByStudentIdQuery(studentId);
+
+
+    //  Using useEffect to Assgin the already answerd questinos :
+    useEffect(() => {
+        if (!submittedPreferences) return;
+
+        // Destructure and remove unwanted fields before merging
+        const {
+            customMoveInDate = "",
+            customStayDuration = "",
+            ...cleanedPropertyPreference
+        } = submittedPreferences.propertyPreference || {};
+
+        setAnswers(prev => ({
+            PROPERTY_SECTION: {
+                ...prev.PROPERTY_SECTION,
+                ...cleanedPropertyPreference,
+            },
+            LIFE_STYLE_SECTION: {
+                ...prev.LIFE_STYLE_SECTION,
+                ...submittedPreferences.lifestylePreference,
+            },
+            ROOMMATES_SECTION: {
+                ...prev.ROOMMATES_SECTION,
+                ...submittedPreferences.roommatePreference,
+            },
+            SITUATION_BASED_SECTION: {
+                ...prev.SITUATION_BASED_SECTION,
+                ...submittedPreferences.situationResponse,
+            },
+        }));
+    }, [submittedPreferences, sections]);
+
+
     const handleAnswer = (section: keyof AnswerSections, field: string, value: unknown) => {
         setAnswers(prev => ({ ...prev, [section]: { ...prev[section], [field]: value } }));
     };
 
     const changeStep = (delta: number) => {
         setFormStep(prev => ({ ...prev, [section]: Math.max(0, prev[section] + delta) }));
+
     };
 
     const nextStepHandler = () => {
@@ -114,10 +154,15 @@ const Onboarding = () => {
         }));
     };
 
-    const nextSectionHandler = () => {
+    const nextSectionHandler = async () => {
         console.log("hit")
         const currentIndex = sectionsList.indexOf(section);
         const nextIndex = currentIndex + 1;
+
+        console.log(currentIndex, "changingStep :", nextIndex)
+
+        //  saving the records for one section
+        await submitOnboardingPreferencesHandler(sectionsList[currentIndex])
 
         if (nextIndex < sectionsList.length) {
             setSection(sectionsList[nextIndex]);
@@ -140,78 +185,101 @@ const Onboarding = () => {
         situationResponse?: PreferenceObject;
     };
 
-   const submitOnboardingPreferencesHandler = async (section: string | null = null) => {
-    setLoader(true);
+    const submitOnboardingPreferencesHandler = async (section: keyof AnswerSections | null = null) => {
+        setLoader(true);
 
-    const preparePayload = (payload: PayloadType): PayloadType => {
-        const joinArrayFields = (obj: PreferenceObject | undefined, fields: string[]): void => {
-            if (!obj) return;
-            fields.forEach((field: string) => {
-                if (Array.isArray(obj[field])) {
-                    obj[field] = obj[field].join(',');
+        const preparePayload = (payload: PayloadType): PayloadType => {
+            const joinArrayFields = (obj: PreferenceObject | undefined, fields: string[]): void => {
+                if (!obj) return;
+                fields.forEach((field: string) => {
+                    if (Array.isArray(obj[field])) {
+                        obj[field] = obj[field].join(',');
+                    }
+                });
+            };
+
+            const normalizeBooleanFields = (obj: PreferenceObject | undefined): void => {
+                if (!obj) return;
+                for (const key in obj) {
+                    if (obj[key] === "Yes") obj[key] = true;
+                    else if (obj[key] === "No") obj[key] = false;
                 }
-            });
+            };
+
+            joinArrayFields(payload.propertyPreference, ['UNIT_AMENITIS', 'COMUNITY_AMENITIS']);
+            joinArrayFields(payload.lifestylePreference, ['studyArea', 'SOCIAL', 'STAYING_IN', 'CAUSES', 'PERSONAL']);
+
+            ['propertyPreference', 'lifestylePreference', 'roommatePreference', 'situationResponse']
+                .forEach((key) => normalizeBooleanFields(payload[key as keyof PayloadType]));
+
+            return payload;
         };
 
-        const normalizeBooleanFields = (obj: PreferenceObject | undefined): void => {
-            if (!obj) return;
-            for (const key in obj) {
-                if (obj[key] === "Yes") obj[key] = true;
-                else if (obj[key] === "No") obj[key] = false;
-            }
+        let payload: PayloadType = {
+            propertyPreference: answers.PROPERTY_SECTION,
+            lifestylePreference: answers.LIFE_STYLE_SECTION,
+            roommatePreference: answers.ROOMMATES_SECTION,
+            situationResponse: answers.SITUATION_BASED_SECTION,
         };
 
-        joinArrayFields(payload.propertyPreference, ['UNIT_AMENITIS', 'COMUNITY_AMENITIS']);
-        joinArrayFields(payload.lifestylePreference, ['studyArea', 'SOCIAL', 'STAYING_IN', 'CAUSES', 'PERSONAL']);
 
-        ['propertyPreference', 'lifestylePreference', 'roommatePreference', 'situationResponse']
-            .forEach((key) => normalizeBooleanFields(payload[key as keyof PayloadType]));
+        // Reduce payload to only the selected section if passed
+        if (section) {
+            const sectionMap: Record<keyof AnswerSections, keyof PayloadType> = {
+                PROPERTY_SECTION: 'propertyPreference',
+                LIFE_STYLE_SECTION: 'lifestylePreference',
+                ROOMMATES_SECTION: 'roommatePreference',
+                SITUATION_BASED_SECTION: 'situationResponse',
+            };
 
-        return payload;
-    };
+            const selectedKey = sectionMap[section];
 
-    let payload: PayloadType = {
-        propertyPreference: answers.PROPERTY_SECTION,
-        lifestylePreference: answers.LIFE_STYLE_SECTION,
-        roommatePreference: answers.ROOMMATES_SECTION,
-        situationResponse: answers.SITUATION_BASED_SECTION,
-    };
-
-    console.log("payload==>", payload);
-    payload = preparePayload(payload);
-    console.log(section, "payload try==>", payload);
-
-    // Optional logic for clearing partial sections
-    // const clearSections: Record<string, (keyof PayloadType)[]> = {
-    //     PROPERTY_SECTION: ['lifestylePreference', 'roommatePreference', 'situationResponse'],
-    //     LIFE_STYLE_SECTION: ['roommatePreference', 'situationResponse'],
-    //     ROOMMATES_SECTION: ['situationResponse']
-    // };
-
-    // if (section && clearSections[section]) {
-    //     clearSections[section].forEach((key) => {
-    //         payload[key] = undefined;
-    //     });
-    // }
-
-    try {
-        const response = await submitOnboardingPreferences(payload);
-        console.log("🚀 ~ submitOnboardingPreferencesHandler ~ response:", response);
-
-        if (response?.error) {
-            setLoader(false);
-            return toast.error("Oops! Please answer all onboarding questions before submitting.");
+            // Keep only the selected section, set others to undefined
+            payload = {
+                propertyPreference: selectedKey === 'propertyPreference' ? answers.PROPERTY_SECTION : undefined,
+                lifestylePreference: selectedKey === 'lifestylePreference' ? answers.LIFE_STYLE_SECTION : undefined,
+                roommatePreference: selectedKey === 'roommatePreference' ? answers.ROOMMATES_SECTION : undefined,
+                situationResponse: selectedKey === 'situationResponse' ? answers.SITUATION_BASED_SECTION : undefined,
+            };
         }
 
-        await updateOnboardingStatusHandler({ onboardingFormSubmitted: true });
+        console.log("payload==>", payload);
+        payload = preparePayload(payload);
+        console.log(section, "payload try==>", payload);
 
-    } catch (err) {
-        console.error("🚨 Unexpected error in submitOnboardingPreferencesHandler:", err);
-        toast.error("An unexpected error occurred. Please try again.");
-    }
+        // Optional logic for clearing partial sections
+        // const clearSections: Record<string, (keyof PayloadType)[]> = {
+        //     PROPERTY_SECTION: ['lifestylePreference', 'roommatePreference', 'situationResponse'],
+        //     LIFE_STYLE_SECTION: ['roommatePreference', 'situationResponse'],
+        //     ROOMMATES_SECTION: ['situationResponse']
+        // };
 
-    setLoader(false);
-};
+        // if (section && clearSections[section]) {
+        //     clearSections[section].forEach((key) => {
+        //         payload[key] = undefined;
+        //     });
+        // }
+
+
+
+        try {
+            const response = await submitOnboardingPreferences({ studentId, dto: payload });
+            console.log("🚀 ~ submitOnboardingPreferencesHandler ~ response:", response);
+
+            if (response?.error) {
+                setLoader(false);
+                return toast.error("Oops! Please answer all onboarding questions before submitting.");
+            }
+            toast.success("Answers Saved Successfully");
+            // await updateOnboardingStatusHandler({ onboardingFormSubmitted: true });
+
+        } catch (err) {
+            console.error("🚨 Unexpected error in submitOnboardingPreferencesHandler:", err);
+            toast.error("An unexpected error occurred. Please try again.");
+        }
+
+        setLoader(false);
+    };
 
 
     const updateOnboardingStatusHandler = async (payload: interfaces.updateOnboardingStatusPayload) => {
@@ -236,10 +304,11 @@ const Onboarding = () => {
         }
     };
 
+
     const payload = {
         submitOnboardingPreferencesHandler,
         updateOnboardingStatusHandler,
-        name: `${(user?.firstName || ' ') + ' ' + (user?.lastName || ' ')}`,
+        name: `${(firstName || ' ') + ' ' + (lastName || ' ')}`,
         setRunConfetti, runConfettiHandler,
         answers,
         setAnswers,

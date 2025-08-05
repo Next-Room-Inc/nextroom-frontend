@@ -72,8 +72,19 @@ export const API_URL = {
   },
   ONBOARDING: {
     SUBMIT_PREFERENCES: {
-      URL: () => createApiUrl("/onboarding/student/preferences"),
-      METHOD: HttpMethod.POST,
+      URL: (studentId: any) =>
+        createApiUrl(`/onboarding/student/${studentId}/onboarding-preferences`),
+      METHOD: HttpMethod.PUT,
+    },
+    GET_SUBMIT_PREFERENCES_BY_STUDENT_ID: {
+      URL: (studentId: any) =>
+        createApiUrl(`/onboarding/student/${studentId}/onboarding-preferences`),
+      METHOD: HttpMethod.GET,
+    },
+    GET_PREFERENCES_STATUS: {
+      URL: (studentId: any) =>
+        createApiUrl(`/onboarding/student/${studentId}/onboarding-status`),
+      METHOD: HttpMethod.GET,
     },
     UPDATE_STATUS: {
       URL: () => createApiUrl("/onboarding/student/update-status"),

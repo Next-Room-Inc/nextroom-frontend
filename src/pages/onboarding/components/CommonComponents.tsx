@@ -256,36 +256,36 @@ export const ShareSection = ({ url = "", qrCodePath = "" }) => {
                 Share To Invite
             </motion.button>
 
-           
-                {showDropdown && (
-                    <motion.div
-                        className="mx-10"
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                    >
-                        <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-8 rounded-xl shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-max mx-auto">
-                            {buttons.map((button) => (
-                                <motion.button
-                                    onClick={button.onClick}
-                                    key={button.name}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="bg-[#B3322F] text-white rounded-full flex w-full md:w-[200px] items-center justify-center py-2 text-center gap-2 transition-all"
-                                >
-                                    <p>{button.name}</p>
-                                    <img
-                                        alt=""
-                                        className="h-4"
-                                        src={`/assets/img/icons/${button.icon}`}
-                                    />
-                                </motion.button>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            
+
+            {showDropdown && (
+                <motion.div
+                    className="mx-10"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                    <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-8 rounded-xl shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-max mx-auto">
+                        {buttons.map((button) => (
+                            <motion.button
+                                onClick={button.onClick}
+                                key={button.name}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-[#B3322F] text-white rounded-full flex w-full md:w-[200px] items-center justify-center py-2 text-center gap-2 transition-all"
+                            >
+                                <p>{button.name}</p>
+                                <img
+                                    alt=""
+                                    className="h-4"
+                                    src={`/assets/img/icons/${button.icon}`}
+                                />
+                            </motion.button>
+                        ))}
+                    </div>
+                </motion.div>
+            )}
+
 
         </>
     )
@@ -352,6 +352,81 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                         className="hover:bg-[#f3f3f3] py-1 px-2 rounded-md text-left text-[#333] transition-all"
                     >
                         {item}
+                    </button>
+                ))}
+                {filteredOptions.length > 5 && (
+                    <button
+                        onClick={() => setShowAll(!showAll)}
+                        className="text-[#B3322F] text-sm font-medium mt-2 underline hover:text-[#8a1d1b] transition cursor-pointer"
+                    >
+                        {showAll ? 'View Less' : 'View More'}
+                    </button>
+                )}
+            </div>
+        </div>
+    );
+};
+interface MultiSelectWithIdsProps {
+    idToValueMapping: Record<string, string>
+    options: string[];
+    selected: string[];
+    setSelected: (item: any) => void;
+    placeholder?: string;
+}
+
+export const MultiSelectWithIds: React.FC<MultiSelectWithIdsProps> = ({
+    options,
+    selected,
+    setSelected,
+    placeholder = "No selection yet",
+    idToValueMapping = {}
+}) => {
+    const [showAll, setShowAll] = useState(false);
+    console.log("idToValueMapping===>", idToValueMapping)
+    const filteredOptions = options.filter((item) => !selected.includes(item));
+    const onSelect = (item: string) => setSelected((prev: any) => [...prev, item]);
+    const onDeselect = (item: string) => setSelected((prev: any) => prev.filter((i: any) => i !== item));
+
+    // Limit displayed options if showAll is false
+    const displayOptions = showAll ? filteredOptions : filteredOptions.slice(0, 5);
+
+    return (
+        <div className="space-y-6">
+            {/* Selected Items */}
+            <div className="flex flex-wrap gap-2 shadow-md shadow-[#D9D9D9] min-h-10 px-4 py-4 mx-auto rounded-4xl bg-white">
+                {selected.length === 0 && (
+                    <span className="text-gray-400 text-sm">{placeholder}</span>
+                )}
+                <AnimatePresence>
+                    {selected.map((item) => (
+                        <motion.div
+                            key={item}
+                            className="bg-[#B3322F] text-white px-3 py-1 rounded-full text-xs flex items-center gap-2"
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                        >
+                            <span
+                                className="font-bold text-white cursor-pointer"
+                                onClick={() => onDeselect(item)}
+                            >
+                                ×
+                            </span>
+                            {idToValueMapping[item]}
+                        </motion.div>
+                    ))}
+                </AnimatePresence>
+            </div>
+
+            {/* Option List (Single Column) */}
+            <div className="flex flex-col gap-2 text-left shadow-md shadow-[#D9D9D9] px-4 py-4 mx-auto rounded-3xl bg-white text-sm">
+                {displayOptions.map((item) => (
+                    <button
+                        key={item}
+                        onClick={() => onSelect(item)}
+                        className="hover:bg-[#f3f3f3] py-1 px-2 rounded-md text-left text-[#333] transition-all"
+                    >
+                        {idToValueMapping[item]}
                     </button>
                 ))}
                 {filteredOptions.length > 5 && (

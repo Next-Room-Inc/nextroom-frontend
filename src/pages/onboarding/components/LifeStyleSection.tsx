@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { LoaderComponent } from '../../../components/Loader';
 import { useGetAllStudentInterestsQuery } from '../../../redux/services/onboarding.service';
 import { ICONS } from '../../../utils/constants/app-info.constant';
-import { MultiSelect, NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
+import { MultiSelect, MultiSelectWithIds, NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 import { Interest, InterestCategory } from '../../../utils/interfaces';
 const sectionName = 'LIFE_STYLE_SECTION'
 
@@ -168,18 +168,27 @@ const WhatDoYouEnjoySections: React.FC<{
     const { data = [], isLoading } = useGetAllStudentInterestsQuery()
     console.log(data)
     const getInterestNames = (category: string): string[] =>
-        data?.find((d: InterestCategory) => d.categoryName === category)?.interests?.map((i: Interest) => i.interestName) || [];
+        data?.find((d: InterestCategory) => d.categoryName === category)?.interests?.map((i: Interest) => i.interestId) || [];
+    const interestNameToIdMap = data.reduce((map, category) => {
+        category.interests.forEach(interest => {
+            map[interest.interestId] = interest.interestName;
+        });
+        return map;
+    }, {} as Record<string, string>);
 
     const socialOptions = getInterestNames("Social");
     const stayingInOptions = getInterestNames("Staying In");
     const causesInOptions = getInterestNames("Causes");
     const personalInOptions = getInterestNames("Personal");
-    console.log(causesInOptions)
+    console.log("causesInOptions===>", causesInOptions)
+    // const [selected, setSelected] = useState<string[]>(answers.SOCIAL || []);
 
     const [selectedSocials, setSelectedSocials] = useState<string[]>(answers.SOCIAL || []);
     const [selectedStayingIn, setSelectedStayingIn] = useState<string[]>(answers.STAYING_IN || []);
     const [selectedCauses, setSelectedCauses] = useState<string[]>(answers.CAUSES || []);
     const [selectedPersonal, setSelectedPersonal] = useState<string[]>(answers.PERSONAL || []);
+    // console.log("selectedSocials===>", selectedSocials)
+
 
     const nextStep = () => {
         handleAnswer(sectionName, 'SOCIAL', selectedSocials);
@@ -197,8 +206,6 @@ const WhatDoYouEnjoySections: React.FC<{
     ];
 
     const [error, setError] = useState(false)
-
-
     const totalSelected = selectedSocials.length + selectedStayingIn.length + selectedCauses.length + selectedPersonal.length
     const disabled = totalSelected < 1
 
@@ -224,7 +231,8 @@ const WhatDoYouEnjoySections: React.FC<{
                         </p>
 
                         {isLoading ? <LoaderComponent /> :
-                            <MultiSelect
+                            <MultiSelectWithIds
+                                idToValueMapping={interestNameToIdMap}
                                 options={options}
                                 selected={selected}
                                 setSelected={setSelected}
@@ -236,6 +244,114 @@ const WhatDoYouEnjoySections: React.FC<{
         </div>
     );
 };
+// const WhatDoYouEnjoySections: React.FC<{
+//     answers: {
+//         SOCIAL?: string[] | null;
+//         STAYING_IN?: string[] | null;
+//         CAUSES?: string[] | null;
+//         PERSONAL?: string[] | null;
+//     }
+//     nextSectionHandler: () => void;
+//     handleAnswer: (section: string, field: string, value: string[]) => void;
+//     previousStepHandler: () => void;
+// }> = ({ nextSectionHandler, answers, handleAnswer, previousStepHandler }) => {
+
+//     const { data = [], isLoading } = useGetAllStudentInterestsQuery()
+//     console.log(data)
+//     const getInterestNames = (category: string): string[] =>
+//         data?.find((d: InterestCategory) => d.categoryName === category)?.interests?.map((i: Interest) => i.interestName) || [];
+
+//     const socialOptions = getInterestNames("Social");
+//     const stayingInOptions = getInterestNames("Staying In");
+//     const causesInOptions = getInterestNames("Causes");
+//     const personalInOptions = getInterestNames("Personal");
+//     console.log("causesInOptions===>", causesInOptions)
+
+//     const [selectedSocials, setSelectedSocials] = useState<string[]>(answers.SOCIAL || []);
+//     const [selectedStayingIn, setSelectedStayingIn] = useState<string[]>(answers.STAYING_IN || []);
+//     const [selectedCauses, setSelectedCauses] = useState<string[]>(answers.CAUSES || []);
+//     const [selectedPersonal, setSelectedPersonal] = useState<string[]>(answers.PERSONAL || []);
+//     console.log("selectedSocials===>", selectedSocials)
+
+
+//     const nextStep = () => {
+
+//         const interestNameToIdMap: Record<string, string> = {};
+//         data.forEach(category => {
+//             category.interests.forEach(interest => {
+//                 interestNameToIdMap[interest.interestName] = interest.interestId;
+//             });
+//         });
+
+//         const getInterestIds = (names: string[]) =>
+//             names.map(name => interestNameToIdMap[name]).filter(Boolean);
+
+
+//         const socialIds = getInterestIds(selectedSocials);
+//         const stayingInIds = getInterestIds(selectedStayingIn);
+//         const causesIds = getInterestIds(selectedCauses);
+//         const personalIds = getInterestIds(selectedPersonal);
+
+//         handleAnswer(sectionName, 'SOCIAL', socialIds);
+//         handleAnswer(sectionName, 'STAYING_IN', stayingInIds);
+//         handleAnswer(sectionName, 'CAUSES', causesIds);
+//         handleAnswer(sectionName, 'PERSONAL', personalIds);
+
+
+//         // handleAnswer(sectionName, 'SOCIAL', selectedSocials);
+//         // handleAnswer(sectionName, 'STAYING_IN', selectedStayingIn);
+//         // handleAnswer(sectionName, 'CAUSES', selectedCauses);
+//         // handleAnswer(sectionName, 'PERSONAL', selectedPersonal);
+//         nextSectionHandler();
+//     };
+
+//     const sections = [
+//         { title: 'Social', options: socialOptions, selected: selectedSocials, setSelected: setSelectedSocials, img: 'social.svg' },
+//         { title: 'Staying In', options: stayingInOptions, selected: selectedStayingIn, setSelected: setSelectedStayingIn, img: 'staying_in.svg' },
+//         { title: 'Causes', options: causesInOptions, selected: selectedCauses, setSelected: setSelectedCauses, img: 'causes.svg' },
+//         { title: 'Personal', options: personalInOptions, selected: selectedPersonal, setSelected: setSelectedPersonal, img: 'personal.svg' }
+//     ];
+
+//     const [error, setError] = useState(false)
+
+
+//     const totalSelected = selectedSocials.length + selectedStayingIn.length + selectedCauses.length + selectedPersonal.length
+//     const disabled = totalSelected < 1
+
+
+//     const scrollHandler = () => {
+//         setError(true)
+//         if (disabled) {
+//             const section = document.getElementById('enjoy');
+//             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+//         }
+//     }
+
+//     return (
+//         <div id="enjoy" className={`${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
+//             <QuestionTitle>What Do You Enjoy?</QuestionTitle>
+
+//             <div className="flex flex-wrap justify-center gap-6 md:px-16 mt-10">
+//                 {sections.map(({ title, options, selected, setSelected, img }) => (
+//                     <div id={title} key={title} className={`w-full sm:w-[45%] lg:w-[23%] rounded-2xl mx-1 md:px-2 px-10 py-5  `} >
+//                         <p className="justify-center items-center bg-[#B3322F] text-white rounded-full   mb-4 flex w-full">
+//                             <span className=' '>{title}  </span>
+//                             <img alt="" className="h-10 " src={`/assets/img/icons/${img}`} />
+//                         </p>
+
+//                         {isLoading ? <LoaderComponent /> :
+//                             <MultiSelect
+//                                 options={options}
+//                                 selected={selected}
+//                                 setSelected={setSelected}
+//                             />}
+//                     </div>
+//                 ))}
+//             </div>
+//             <NextButton onClick={disabled ? scrollHandler : nextStep} previousStepHandler={previousStepHandler} />
+//         </div>
+//     );
+// };
 
 
 const BedTimeSections: React.FC<{
@@ -494,7 +610,11 @@ const AreaOfStudyDescription: React.FC<{
 }>
 
     = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
-        const [selected, setSelected] = useState<string[]>(answers.studyArea || []);
+
+        console.log("studyArea===>", answers)
+
+
+        const [selected, setSelected] = useState<string[]>([]);
         const [error, setError] = useState(false)
 
         const suggestions = [
@@ -513,6 +633,7 @@ const AreaOfStudyDescription: React.FC<{
             "Undeclared / General Studies",
             "Other / Not Listed",
         ];
+
 
         const nextStep = () => {
             handleAnswer(sectionName, 'studyArea', selected)

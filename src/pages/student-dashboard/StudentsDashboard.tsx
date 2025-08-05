@@ -6,6 +6,7 @@ import MyHousingSearch from "./components/MyHousingSearch";
 import { ResponsiveTabSelector } from "./components/ResponsiveTabSelector";
 import StudentPreferences from "./components/StudentPreferences";
 import { UpcomingEvents } from "./components/UpcomingEvents";
+import { JSX } from "react";
 
 // Tab labels for display
 const tabOptionsObject = {
@@ -16,7 +17,7 @@ const tabOptionsObject = {
 };
 
 // Components corresponding to each tab
-const Components = {
+const Components: Record<keyof typeof tabOptionsObject, JSX.Element> = {
   "my-housing": <MyHousingSearch />,
   "matches": <Matches />,
   "explore": <Explore />,
@@ -29,15 +30,19 @@ const Components = {
 };
 
 const StudentsDashboard = () => {
-  const { tab = "my-housing" } = useParams(); // Default to "my-housing" if no tab is in the URL
+  const { tab = "profile-and-preferences" } = useParams(); // Default to "my-housing" if no tab is in the URL
   const tabOptions = Object.keys(tabOptionsObject);
+
+  const isValidTab = (value: string): value is keyof typeof Components => {
+    return Object.keys(Components).includes(value);
+  };
 
   return (
     <StudentDashboard>
       <div className="my-5">
         <ResponsiveTabSelector {...{ tabOptions, tab, tabOptionsObject }} />
         <div className="mx-5 md:mx-10">
-          {Components[tab]}
+          {isValidTab(tab) ? Components[tab] : <div>Invalid tab</div>}
         </div>
       </div>
     </StudentDashboard>

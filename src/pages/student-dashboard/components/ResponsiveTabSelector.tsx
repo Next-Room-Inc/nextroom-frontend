@@ -1,7 +1,9 @@
+import { Popover, PopoverButton } from '@headlessui/react';
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PropertyFilters from "../../../components/PropertyFilters";
 
 export const ResponsiveTabSelector: React.FC<{
     tabOptions: string[],
@@ -10,7 +12,8 @@ export const ResponsiveTabSelector: React.FC<{
 }> = ({ tabOptions, tab, tabOptionsObject }) => {
     const navigate = useNavigate();
 
-    const [selectedProfileTab, setSelectedProfileTab] = useState("My Dashboard");
+    const [filter, setFilter] = useState(false);
+    // const [selectedProfileTab, setSelectedProfileTab] = useState("My Dashboard");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [profileDropDownStatus, setProfileDropDownStatus] = useState(false);
 
@@ -25,66 +28,108 @@ export const ResponsiveTabSelector: React.FC<{
     return (
         <>
             {/* Desktop View */}
-            <div className="hidden lg:flex justify-between bg-white mt-10 mb-4 mx-10 shadow-md px-5 py-4 rounded-full text-sm font-medium">
-                {tabOptions.map((t, idx) => (
-                    <div
-                        key={t}
-                        className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
-                            } ${tab === t ? "text-[#B3322F] font-semibold" : ""}`}
-                        onClick={() => { handleSelectTab(t) }}
-                    >
-                        {/* {idx === 3 ? <>{tabOptionsObject?.[t]} ({selectedProfileTab}) </> : tabOptionsObject?.[t]} */}
-                        {tabOptionsObject?.[t]}
-                    </div>
-                ))}
-            </div>
+            <div className="flex justify-center items-center mt-10 mx-10 gap-2 pt-3  pb-6">
 
-            {/* Mobile View */}
-            <div className="lg:hidden py-6 px-6 relative z-50">
-                {/* Toggle Button */}
-                <div
-                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="text-center bg-white flex items-center justify-center text-[#B3322F] shadow-md px-5 py-3 rounded-full text-sm font-medium cursor-pointer relative z-50"
-                >
-                    {/* {tab === tabOptions[3] ? <>{tab} ({selectedProfileTab})</> : tab} */}
-                    {tabOptionsObject?.[tab]}
-                    <ChevronDownIcon className='h-7 ml-2 mt-1 text-[#B3322F]' />
+
+                <div className="hidden lg:flex justify-between bg-white   shadow-md px-5 py-4 rounded-full text-sm font-medium w-full">
+                    {tabOptions.map((t, idx) => (
+                        <div
+                            key={t}
+                            className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                                } ${tab === t ? "text-[#B3322F] font-semibold" : ""}`}
+                            onClick={() => { handleSelectTab(t) }}
+                        >
+                            {/* {idx === 3 ? <>{tabOptionsObject?.[t]} ({selectedProfileTab}) </> : tabOptionsObject?.[t]} */}
+                            {tabOptionsObject?.[t]}
+                        </div>
+                    ))}
+                    <div></div>
                 </div>
 
-                {/* Dropdown */}
-                <AnimatePresence>
-                    {isDropdownOpen && (
+                {/* Mobile View */}
+                <div className="lg:hidden   relative z-50 w-full">
+                    {/* Toggle Button */}
+                    <div
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                    >
+                        {/* {tab === tabOptions[3] ? <>{tab} ({selectedProfileTab})</> : tab} */}
+                        {tabOptionsObject?.[tab]}
+                        <ChevronDownIcon className='h-7 ml-2 mt-1 text-[#B3322F]' />
+                    </div>
+
+                    {/* Dropdown */}
+                    <AnimatePresence>
+                        {isDropdownOpen && (
+                            <motion.div
+                                key="dropdown"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-100"
+                            >
+                                {tabOptions.map((t, index: number) => (
+                                    <div
+                                        key={index}
+                                        className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
+                                            }`}
+                                        onClick={() => { handleSelectTab(t) }}
+                                    >
+                                        {/* {index === 3 ? selectedProfileTab : tab} */}
+                                        {/* {index === 3 ? <>{tabOptionsObject?.[t]} ({selectedProfileTab}) </> : tabOptionsObject?.[t]} */}
+                                        {tabOptionsObject?.[t]}
+                                    </div>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+
+
+                </div>
+
+                {(tab === "matches" || tab === "explore") && <Popover className="relative">
+                    <PopoverButton className="focus:outline-none items-center gap-x-1 text-sm/6 font-semibold text-gray-900 mt-3">
                         <motion.div
-                            key="dropdown"
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.2 }}
-                            className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-100"
+                            onClick={() => setFilter(!filter)}
+                            className="bg-white pt-3 pb-2 px-4 drop-shadow-md shadow-md rounded-full"
+                            whileHover={{ scale: 1.1, }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
                         >
-                            {tabOptions.map((t, index: number) => (
-                                <div
-                                    key={t}
-                                    className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
-                                        }`}
-                                    onClick={() => { handleSelectTab(t) }}
-                                >
-                                    {/* {index === 3 ? selectedProfileTab : tab} */}
-                                    {/* {index === 3 ? <>{tabOptionsObject?.[t]} ({selectedProfileTab}) </> : tabOptionsObject?.[t]} */}
-                                    {tabOptionsObject?.[t]}
-                                </div>
-                            ))}
+                            <ChevronDownIcon className="text-[#B3322F] w-6" />
                         </motion.div>
-                    )}
-                </AnimatePresence>
+                    </PopoverButton>
+                    {/* <PopoverPanel className="absolute  top-35 left-7 md:-left-120 z-10 mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
+                        <div className="w-max px-3 shrink rounded-xl bg-white py-2 md:py-4 text-[14px] font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
+                            <PropertyFilters />
 
-
-
+                        </div>
+                    </PopoverPanel> */}
+                </Popover>}
             </div>
 
 
-            <AnimatePresence>
-                {/* {selectedTab === tabOptions[3] && ( */}
+            {filter && <AnimatePresence>
+                {(
+                    <motion.div
+                        key="dropdown"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-0 right-0 md:mt-2  mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+                    >
+                        <PropertyFilters />
+
+                    </motion.div>)}
+            </AnimatePresence>}
+
+
+
+
+            {/* <AnimatePresence>
                 {profileDropDownStatus && (
                     <motion.div
                         key="dropdown"
@@ -119,7 +164,7 @@ export const ResponsiveTabSelector: React.FC<{
                         </div>
                     </motion.div>
                 )}
-            </AnimatePresence>
+            </AnimatePresence> */}
 
 
         </>

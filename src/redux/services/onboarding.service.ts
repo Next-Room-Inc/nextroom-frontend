@@ -13,9 +13,8 @@ export const OnboardingServices = createApi({
       if (token) {
         // If the token exists, add it to the Authorization header
         headers.set("Authorization", `Bearer ${token}`);
-        }
+      }
       console.log("Auth Token:", token);
-
 
       console.log("Request Headers:", headers);
 
@@ -28,19 +27,26 @@ export const OnboardingServices = createApi({
         : response.text();
     },
     validateStatus: (response, result) => {
-      console.log("🚀 ~ response, result:", response, result);
+      console.log("🚀 ~ response:", response);
+      console.log("🚀 ~  result:", result);
       return [201, 200].includes(response.status);
     },
   }),
   endpoints: (builder) => ({
     submitOnboardingPreferences: builder.mutation({
-      query: (dto: {
-        propertyPreference?: Record<string, unknown>;
-        lifestylePreference?: Record<string, unknown>;
-        roommatePreference?: Record<string, unknown>;
-        situationResponse?: Record<string, unknown>;
-    }) => ({
-        url: API_URL.ONBOARDING.SUBMIT_PREFERENCES.URL(),
+      query: ({
+        studentId,
+        dto,
+      }: {
+        studentId: string;
+        dto: {
+          propertyPreference?: Record<string, unknown>;
+          lifestylePreference?: Record<string, unknown>;
+          roommatePreference?: Record<string, unknown>;
+          situationResponse?: Record<string, unknown>;
+        };
+      }) => ({
+        url: API_URL.ONBOARDING.SUBMIT_PREFERENCES.URL(studentId),
         method: API_URL.ONBOARDING.SUBMIT_PREFERENCES.METHOD,
         body: dto,
       }),
@@ -58,11 +64,27 @@ export const OnboardingServices = createApi({
         method: API_URL.ONBOARDING.GET_ALL_INTERESTS.METHOD,
       }),
     }),
+    getSubmittedPreferencesByStudentId: builder.query<any, string>({
+      query: (studentId: string) => ({
+        url: API_URL.ONBOARDING.GET_SUBMIT_PREFERENCES_BY_STUDENT_ID.URL(
+          studentId
+        ),
+        method: API_URL.ONBOARDING.GET_SUBMIT_PREFERENCES_BY_STUDENT_ID.METHOD,
+      }),
+    }),
+    getPreferencesStatus: builder.query<any, void>({
+      query: (studentId: any) => ({
+        url: API_URL.ONBOARDING.GET_PREFERENCES_STATUS.URL(studentId),
+        method: API_URL.ONBOARDING.GET_PREFERENCES_STATUS.METHOD,
+      }),
+    }),
   }),
 });
 
 export const {
   useSubmitOnboardingPreferencesMutation,
   useUpdateOnboardingStatusMutation,
-  useGetAllStudentInterestsQuery
+  useGetAllStudentInterestsQuery,
+  useGetPreferencesStatusQuery,
+  useGetSubmittedPreferencesByStudentIdQuery,
 } = OnboardingServices;
