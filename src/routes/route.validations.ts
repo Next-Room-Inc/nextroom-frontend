@@ -14,10 +14,10 @@ export const IsLoginValidation: React.FC<IsLoginValidationProps> = ({
   const navigate = useNavigate(); // Get navigate function
   const currentPath = window.location.pathname;
   const token = localStorage.getItem("token");
- 
+
   useEffect(() => {
-     const token = localStorage.getItem("token");
-    console.log(token,currentPath,ROUTES.BAESPATH)
+    const token = localStorage.getItem("token");
+
     if (!token && currentPath === ROUTES.BAESPATH) {
       navigate(ROUTES.SIGNUP);
     } else if (!token) {
@@ -28,9 +28,7 @@ export const IsLoginValidation: React.FC<IsLoginValidationProps> = ({
         navigate(ROUTES.BAESPATH); // Redirect to home page
       }
     }
-   }, [isLoggedIn, navigate, currentPath, token]);
- 
-  
+  }, [isLoggedIn, navigate, currentPath, token]);
 
   if (!token && currentPath !== ROUTES.LOGIN) {
     return null; // Optionally return null or a loading spinner while redirecting

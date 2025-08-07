@@ -19,7 +19,7 @@ export default function Header({ darkMode = true }) {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [headerColor, setHeaderColor] = useState('bg-black');
 
-  const StudentDashboardIcons = () => <div className={`${isStudentDashboard ? "flex": "hidden"} gap-2`}>
+  const StudentDashboardIcons = () => <div className={`${isStudentDashboard ? "flex" : "hidden"} gap-2`}>
     <span className="relative inline-block">
       <BellIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
       <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]" />
@@ -67,6 +67,16 @@ export default function Header({ darkMode = true }) {
     },
     {
       name: <Link to={ROUTES.STUDENTS_DASHBOARD}>Dashboard</Link>,
+      href: "#",
+      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+    },
+    {
+      name: <Link to={ROUTES.ONBOARDING}>Onboarding</Link>,
+      href: "#",
+      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+    },
+    {
+      name: <Link to={ROUTES.SEARCH_PROPERTY}>Search Property</Link>,
       href: "#",
       class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
     },
@@ -209,12 +219,12 @@ export default function Header({ darkMode = true }) {
             </span>
 
           </div>
-          <div className={`hidden md:flex ${isStudentDashboard ? "flex": "hidden"}`}><StudentDashboardIcons /></div>
+          <div className={`hidden md:flex ${isStudentDashboard ? "flex" : "hidden"}`}><StudentDashboardIcons /></div>
           <div className=" hidden lg:inline">
             {navbar.map((i, index) => (
               <span
                 key={index}
-                className={`${isStudentDashboard ? "hidden": "flex"} border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
+                className={`${isStudentDashboard ? "hidden" : "flex"} border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
                   ? "text-white border-white hover:text-black hover:bg-white"
                   : "text-dark border-dark hover:text-white hover:bg-black"
                   }`}

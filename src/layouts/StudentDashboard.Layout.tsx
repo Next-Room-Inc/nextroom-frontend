@@ -1,13 +1,14 @@
 import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import AuthenticateduserLayout from "./Authenticateduser.Layout";
 
 type Props = {
   children: React.ReactNode;
 };
 
 const StudentDashboard: React.FC<Props> = ({ children }) => (
-  <>
+  <AuthenticateduserLayout>
     <div className="min-h-screen flex flex-col bg-[url('/assets/img/backgrounds/backgrounds_7.png')] bg-cover bg-no-repeat bg-fixed">
       <Header darkMode />
 
@@ -17,7 +18,7 @@ const StudentDashboard: React.FC<Props> = ({ children }) => (
       </main>
     </div>
     <Footer />
-  </>
+  </AuthenticateduserLayout>
 );
 
 export default StudentDashboard;

@@ -11,6 +11,7 @@ import { useGetEntrataPropertiesQuery } from '../../../redux/services/property.s
 import { IMAGES } from '../../../utils/constants/app-info.constant'
 import { Property, PropertyDetails } from '../../../utils/interfaces'
 import { AvailableUnitsModal } from './AvailableUnitsModal'
+import useAuth from '../../../custom-hooks/useAuth'
 
 const MyHousingSearch = () => {
     const tabOptions = ["Active", "Archived"];
@@ -144,8 +145,8 @@ export const MatchingHousingCard: React.FC<{
             //     setSelected(null);
             //     setViewDetails(false)
             // } else {
-                setSelected(index);
-                setViewDetails(true)
+            setSelected(index);
+            setViewDetails(true)
             // }
         }
 
@@ -336,7 +337,7 @@ const MessageRoommateComponent = () => {
 
     const ImageComponent = () => <img src="/assets/img/search-property/student_profile (1).png" alt={"loading..."} className="w-8 rounded-full" />
 
-    const roommatesOptions:any[] = [
+    const roommatesOptions: any[] = [
         <div className='flex items-center gap-4'> <ImageComponent /> Anna G</div>,
         <div className='flex items-center gap-4'> <ImageComponent />Rae L.</div>,
         <div className='flex items-center gap-4'> <ImageComponent /> Sam H.</div>,
@@ -367,7 +368,7 @@ const MessageRoommateComponent = () => {
                 <div className='hidden md:flex flex-col    items-center  bg-white w-full md:w-1/4 rounded-2xl shadow md:p-4 py-8'>
                     <h1 className="font-bold text-sm text-center my-5">What Do You Need Help With?</h1>
                     {roommatesOptions.map((opt) => (
-                        <div className='flex items-center gap-3 justify-between w-3/4  cursor-pointer hover:bg-gray-100 px-8 py-2 rounded-2xl'  onClick={() => setSelectedChat(opt)}>
+                        <div className='flex items-center gap-3 justify-between w-3/4  cursor-pointer hover:bg-gray-100 px-8 py-2 rounded-2xl' onClick={() => setSelectedChat(opt)}>
                             {opt} <span className=" block size-3.5 rounded-full bg-[#B3322F] " />
 
                         </div>
@@ -602,7 +603,7 @@ const ReportRoommateConcernComponent = () => {
 
     const ImageComponent = () => <img src="/assets/img/search-property/student_profile (1).png" alt={"loading..."} className="w-8 rounded-full" />
 
-    const roommatesOptions:any[] = [
+    const roommatesOptions: any[] = [
         <div className='flex items-center gap-4'> <ImageComponent /> Anna G</div>,
         <div className='flex items-center gap-4'> <ImageComponent /> Rae L.</div>,
         <div className='flex items-center gap-4'> <ImageComponent /> Sam H.</div>
@@ -706,9 +707,14 @@ const ReportRoommateConcernComponent = () => {
 
 
 
-const WelcomeComponent:React.FC<{
-    onClick:()=> void
+const WelcomeComponent: React.FC<{
+    onClick: () => void
 }> = ({ onClick }) => {
+
+    const { user } = useAuth()
+    const { firstName = '', lastName = '' } = user || {}
+
+
     return <div className='text-center bg-white w-full md:w-[80%] mx-auto text-[#B3322F] py-10 md:py-20 shadow-md rounded-4xl mt-5 md:mt-20 px-6'>
 
         <div className='flex flex-wrap gap-10 justify-center items-center py-5 mb-10'>
@@ -731,7 +737,7 @@ const WelcomeComponent:React.FC<{
         </div>
 
 
-        <p className='text-xl'>Hello <span className='font-bold'>[Student Name]</span>!</p>
+        <p className='text-xl'>Hello <span className='font-bold'>{(firstName || ' ') + ' ' + (lastName || ' ')}</span>!</p>
         <p className='text-xl'>Welcome Home.</p>
 
         <p className='mt-10'>Start Searching And The Places You Have Interacted With Will Appear Here</p>

@@ -1,10 +1,11 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { LoaderComponent } from '../../../components/Loader';
+import { CustomSelect } from '../../../components/Select';
 import { useGetAllStudentInterestsQuery } from '../../../redux/services/onboarding.service';
 import { ICONS } from '../../../utils/constants/app-info.constant';
-import { MultiSelect, MultiSelectWithIds, NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 import { Interest, InterestCategory } from '../../../utils/interfaces';
+import { MultiSelectWithIds, NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 const sectionName = 'LIFE_STYLE_SECTION'
 
 interface Params {
@@ -602,10 +603,10 @@ const LetsLearnAboutLifeStyleSection: React.FC<{
 
 const AreaOfStudyDescription: React.FC<{
     answers: {
-        studyArea?: string[] | null;
+        studyArea?: string | null;
     }
     nextStepHandler: () => void;
-    handleAnswer: (section: string, field: string, value: string[]) => void;
+    handleAnswer: (section: string, field: string, value: string) => void;
     previousStepHandler: () => void;
 }>
 
@@ -614,7 +615,7 @@ const AreaOfStudyDescription: React.FC<{
         console.log("studyArea===>", answers)
 
 
-        const [selected, setSelected] = useState<string[]>([]);
+        const [selected, setSelected] = useState<string>(answers?.studyArea || '');
         const [error, setError] = useState(false)
 
         const suggestions = [
@@ -657,7 +658,7 @@ const AreaOfStudyDescription: React.FC<{
                 <div id="studyArea" className={`mt-10 rounded-2xl mx-1 py-10 ${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
                     <p className="text-3xl text-[#B3322F] mb-10 px-10">What best describes your area of study?</p>
                     <div className='lg:w-[50%] md:w-[75%] mx-auto px-10'>
-                        <MultiSelect
+                        <CustomSelect
                             setSelected={setSelected}
                             options={suggestions}
                             selected={selected}

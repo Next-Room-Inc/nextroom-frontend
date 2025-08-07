@@ -1,20 +1,10 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { API_URL, baseUrl } from "../endpoints";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { API_URL } from "../endpoints";
+import { baseQuery } from "../functions";
 
 export const ListingServices = createApi({
   reducerPath: "listing",
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers) => {
-      // Retrieve the token from localStorage
-      const token = localStorage.getItem("token");
-      if (token) {
-        // If the token exists, add it to the Authorization header
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQuery,
   endpoints: (builder) => ({
     getAllListings: builder.query({
       query: () => ({

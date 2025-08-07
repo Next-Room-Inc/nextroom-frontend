@@ -1,37 +1,12 @@
-import { API_URL, baseUrl } from "../endpoints";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import * as interfaces from "../../utils/interfaces";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { StudentInterestsResponse } from "../../utils/interfaces";
+import { API_URL } from "../endpoints";
+import { baseQuery } from "../functions";
 
 export const OnboardingServices = createApi({
   reducerPath: "onboarding",
-  baseQuery: fetchBaseQuery({
-    baseUrl,
-    prepareHeaders: (headers: any) => {
-      // Retrieve the token from localStorage
-      const token = localStorage.getItem("token");
-      if (token) {
-        // If the token exists, add it to the Authorization header
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      console.log("Auth Token:", token);
-
-      console.log("Request Headers:", headers);
-
-      return headers;
-    },
-    responseHandler: async (response) => {
-      console.log("🚀 ~ responseHandler: ~ response:", response);
-      return response.headers.get("content-type")?.includes("application/json")
-        ? response.json()
-        : response.text();
-    },
-    validateStatus: (response, result) => {
-      console.log("🚀 ~ response:", response);
-      console.log("🚀 ~  result:", result);
-      return [201, 200].includes(response.status);
-    },
-  }),
+  baseQuery: baseQuery,
   endpoints: (builder) => ({
     submitOnboardingPreferences: builder.mutation({
       query: ({
