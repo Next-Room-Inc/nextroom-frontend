@@ -7,6 +7,7 @@ import { Property, PropertyDetails } from '../../../utils/interfaces';
 import { AnimatePresence, motion } from "framer-motion";
 import { AvailableUnitsModal } from '../../search-property/components/AvailableUnitsModal';
 import { IMAGES } from '../../../utils/constants/app-info.constant';
+import PulseHoverLayout from '../../../layouts/PulseHover.Layout';
 
 
 const demoDetails = {
@@ -95,7 +96,7 @@ export const MatchingHousingCard: React.FC<{
         };
 
         return (
-            <>
+            <PulseHoverLayout>
                 <div
                     onClick={() => setSelected(index)}
                     className={`z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md overflow-hidden relative p-6 mx-5 mt-12 text-white ${bgClass}`}
@@ -193,6 +194,6 @@ export const MatchingHousingCard: React.FC<{
                     {...{ propertyDetails, property }}
                 />}
 
-            </>
+            </PulseHoverLayout>
         );
     };

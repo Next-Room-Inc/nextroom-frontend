@@ -118,6 +118,11 @@ const Onboarding = () => {
             LIFE_STYLE_SECTION: {
                 ...prev.LIFE_STYLE_SECTION,
                 ...submittedPreferences.lifestylePreference,
+                SOCIAL: submittedPreferences?.socialInterestIds || [],
+                STAYING_IN: submittedPreferences?.stayingInInterestIds || [],
+                CAUSES: submittedPreferences?.causesInterestIds || [],
+                PERSONAL: submittedPreferences?.personalInterestIds || [],
+
             },
             ROOMMATES_SECTION: {
                 ...prev.ROOMMATES_SECTION,
@@ -240,6 +245,13 @@ const Onboarding = () => {
                 lifestylePreference: selectedKey === 'lifestylePreference' ? answers.LIFE_STYLE_SECTION : undefined,
                 roommatePreference: selectedKey === 'roommatePreference' ? answers.ROOMMATES_SECTION : undefined,
                 situationResponse: selectedKey === 'situationResponse' ? answers.SITUATION_BASED_SECTION : undefined,
+                ...(selectedKey === 'lifestylePreference' ? {
+                    "socialInterestIds": answers.LIFE_STYLE_SECTION.SOCIAL || [],
+                    "stayingInInterestIds": answers.LIFE_STYLE_SECTION.STAYING_IN || [],
+                    "causesInterestIds": answers.LIFE_STYLE_SECTION.CAUSES || [],
+                    "personalInterestIds": answers.LIFE_STYLE_SECTION.PERSONAL || []
+                } : {})
+
             };
         }
 

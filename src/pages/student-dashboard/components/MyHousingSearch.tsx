@@ -12,6 +12,7 @@ import { IMAGES } from '../../../utils/constants/app-info.constant'
 import { Property, PropertyDetails } from '../../../utils/interfaces'
 import { AvailableUnitsModal } from './AvailableUnitsModal'
 import useAuth from '../../../custom-hooks/useAuth'
+import PulseHoverLayout from '../../../layouts/PulseHover.Layout'
 
 const MyHousingSearch = () => {
     const tabOptions = ["Active", "Archived"];
@@ -151,7 +152,7 @@ export const MatchingHousingCard: React.FC<{
         }
 
         return (
-            <>
+            <PulseHoverLayout>
                 <div
                     onClick={CardClickHandler}
                     className={`z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md overflow-hidden relative p-6 mx-5 mt-6 text-white ${bgClass}`}
@@ -272,7 +273,7 @@ export const MatchingHousingCard: React.FC<{
                     </AnimatePresence>
                 </>}
 
-            </>
+            </PulseHoverLayout>
         );
     };
 
