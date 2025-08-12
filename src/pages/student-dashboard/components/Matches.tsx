@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { AvailableUnitsModal } from '../../search-property/components/AvailableUnitsModal';
 import { IMAGES } from '../../../utils/constants/app-info.constant';
 import PulseHoverLayout from '../../../layouts/PulseHover.Layout';
+import { Button } from '../../../components/Button';
 
 
 const demoDetails = {
@@ -177,15 +178,15 @@ export const MatchingHousingCard: React.FC<{
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="bg-[#D9D9D9]/50 md:h-30 h-35 mx-5 -mt-5 pt-5 rounded-xl flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4"
                         >
-                            <button
+                            <Button
                                 className="bg-[#B3322F] text-white w-50 py-2 rounded-full"
                                 onClick={() => setViewDetails(true)}
                             >
                                 View Details
-                            </button>
-                            <button className="bg-black text-white w-50 py-2 rounded-full">
+                            </Button>
+                            <Button className="bg-black text-white w-50 py-2 rounded-full">
                                 Continue
-                            </button>
+                            </Button>
                         </motion.div>
                     )}
                 </AnimatePresence>

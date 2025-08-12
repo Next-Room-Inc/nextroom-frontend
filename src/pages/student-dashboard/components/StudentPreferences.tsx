@@ -6,6 +6,11 @@ import Invite from '../../../components/Invite';
 import { ModalOverlay } from '../../../components/ModalOverLay';
 import { APP_INFO } from '../../../utils/constants';
 import { PrimaryButton } from '../../onboarding/components/CommonComponents';
+import { Button } from '../../../components/Button';
+import { useForgotPasswordMutation, useResetPasswordMutation } from '../../../redux/services/auth.service';
+import useAuth from '../../../custom-hooks/useAuth';
+import { toast } from 'react-toastify';
+import Loader, { LoaderComponent } from '../../../components/Loader';
 
 const options = [
     "Roommate Preferences",
@@ -465,7 +470,22 @@ const GuarantorPreferences = () => {
     )
 }
 const ResetPassword = () => {
+    const { user } = useAuth()
+    const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+
+    const handleSubmit = async () => {
+        try {
+            const { data, error } = await forgotPassword({ email: user.email });
+            if (error) return toast.error(error?.data || "Password reset failed.");
+            toast.success(data?.message || "Password reset email sent!");
+        } catch (err) {
+            console.error("Unexpected error:", err);
+            toast.error("Something went wrong. Please try again.");
+        }
+    };
+
     return <>
+        {isLoading && <Loader />}
         <div className='h-full w-full flex items-center justify-center  '>
             <div className='text-center py-20 px-4'>
 
@@ -476,17 +496,13 @@ const ResetPassword = () => {
                 </p>
 
                 <p className='px-4 my-4 md:mt-2 md:mb-0'>You can reset your password at anytime by clicking below:</p>
-                <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    whileHover={{ scale: 1.03 }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                <Button
+                    onClick={handleSubmit}
                     className={`hover:bg-black bg-[#B3322F]   md:w-[180px] text-center py-2 text-white rounded-full mt-5 w-full`}
                 >
 
                     Reset Password
-                </motion.button>
+                </Button>
 
             </div>
 
@@ -530,10 +546,10 @@ const ProfilePhotoUploader: React.FC<{
                 src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.svg`}
                 className={`h-60 w-60 bg-[#CCCCCC] rounded-full p-5 mx-auto`}
             />
-            <button onClick={handleButtonClick} className="text-[#B3322F]  hover:bg-gray-200 cursor-pointer  flex justify-center items-center shadow bg-white px-4 py-2 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px]">
+            <Button onClick={handleButtonClick} className="text-[#B3322F]  hover:bg-gray-200 cursor-pointer  flex justify-center items-center shadow bg-white px-4 py-2 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px]">
                 <ArrowUpTrayIcon className="w-4 mr-2 text-[#B3322F]  cursor-pointer" />
                 Upload Profile Photo
-            </button>
+            </Button>
 
             {/* Hidden file input */}
             <input
@@ -632,26 +648,20 @@ const ImageHandler: React.FC<{
             {/* Buttons */}
             <div className="flex justify-center gap-3 py-4">
                 {isEditing ? (
-                    <button
+                    <Button
                         className="px-4 py-1 rounded-full bg-white border shadow-md hover:bg-gray-100 transition"
                         onClick={handleCropSubmit}
                     >
                         Crop
-                    </button>
+                    </Button>
                 ) : (
                     <>
-                        <button
+                        <Button
                             className="px-4 py-1 rounded-full bg-white border shadow hover:bg-gray-100"
                             onClick={handleEditAgain}
                         >
                             Edit
-                        </button>
-                        {/* <button
-              className="px-4 py-1 rounded-full bg-green-500 text-white shadow hover:bg-green-600 transition"
-              onClick={handleConfirm}
-            >
-              Confirm
-            </button> */}
+                        </Button>
                     </>
                 )}
             </div>
@@ -688,7 +698,7 @@ const ChangeOnboardingAnswers = () => {
 
 const ChangeNameOrEmail = () => {
     const [updateForm, setUpdateForm] = useState("Name")
-    const [formSubmitted, setFormSubmitted] = useState(true)
+    const [formSubmitted, setFormSubmitted] = useState(false)
     return <>
         <div className='h-full w-full flex items-center justify-center  px-5 py-5'>
             {formSubmitted ?

@@ -93,7 +93,7 @@ const HomeSection: React.FC<{
             <img alt="" className="h-50 -my-5 pr-1 mx-auto " src="/assets/img/icons/situationicon.svg" />
             <p className='text-md pb-10'>Please answer these to <br />
                 the best of your abilities   </p>
-            {/* <button className='bg-[#B3322F] w-[250px] text-center py-2 mx-auto text-white flex rounded-full justify-center'>  <img alt="" className="h-3 pl-2 mt-1.5" src={ICONS.ARROW_RIGHT_WHITE} /> </button> */}
+            {/* <Button className='bg-[#B3322F] w-[250px] text-center py-2 mx-auto text-white flex rounded-full justify-center'>  <img alt="" className="h-3 pl-2 mt-1.5" src={ICONS.ARROW_RIGHT_WHITE} /> </button> */}
             <div className='flex justify-center'>
                 <PrimaryButton selected={true} onClick={nextStepHandler} icon={ICONS.ARROW_RIGHT_WHITE}> Get Started</PrimaryButton>
             </div>

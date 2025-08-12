@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NumberInput } from './NumberInput';
+import { Button } from './Button';
 
 const PropertyFilters = () => {
     const [price, setPrice] = useState<number>(1250);
@@ -104,7 +105,7 @@ const PropertyFilters = () => {
                         {amenitiesList.map((amenity) => {
                             const selected = selectedAmenities.includes(amenity.label);
                             return (
-                                <button
+                                <Button
                                     key={amenity.label}
                                     onClick={() => toggleAmenity(amenity.label)}
                                     className={`flex items-center gap-1 px-3 py-1.5 rounded-full border shadow-sm ${selected
@@ -114,7 +115,7 @@ const PropertyFilters = () => {
                                 >
                                     <span><img src={`/assets/img/search-property/${amenity.icon}`} className='w-4' /></span>
                                     <span>{amenity.label}</span>
-                                </button>
+                                </Button>
                             );
                         })}
                     </div>
@@ -142,12 +143,12 @@ const PropertyFilters = () => {
             </div>
             {/* Buttons */}
             <div className=" lg:w-[20%] md:w-[50%] w-full flex flex-col gap-6">
-                <button className=" py-2 md:px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
+                <Button className=" py-2 md:px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
                     Update Roommate Preferences
-                </button>
-                <button className=" py-2 :px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
+                </Button>
+                <Button className=" py-2 :px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
                     Search Specific Properties
-                </button>
+                </Button>
             </div>
         </div>
     )

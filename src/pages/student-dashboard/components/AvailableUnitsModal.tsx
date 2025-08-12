@@ -16,8 +16,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { ROUTES } from "../../../utils/constants";
 import { IMAGES } from "../../../utils/constants/app-info.constant";
 import { Property, PropertyDetails } from "../../../utils/interfaces/property.interface";
- import GoogleMapComponent from "../../../components/GoogleMap";
-import { PrimaryButton } from "../../../components/Button";
+import GoogleMapComponent from "../../../components/GoogleMap";
+import { Button, PrimaryButton } from "../../../components/Button";
 
 const UNIT_DETAILS = {
     title: "1 Bedroom",
@@ -405,8 +405,8 @@ const HistoryDetailSection = () => {
                 <div className="md:w-[50%] w-full">
                     <p className="text-center font-bold mb-3 text-[#B3322F] ">Price Changes Year Over Year <br className="md:hidden flex" /> (2021-2024)</p>
                     <div className="flex gap-3  justify-center mx-auto ">
-                        <button className="bg-[#B3322F] text-white  py-1 w-25 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Studio </button>
-                        <button className="bg-[#B3322F] text-white  py-1 w-25 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> 1 Bedroom </button>
+                        <Button className="bg-[#B3322F] text-white  py-1 w-25 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Studio </Button>
+                        <Button className="bg-[#B3322F] text-white  py-1 w-25 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> 1 Bedroom </Button>
                     </div>
                     <div>
                         <ChartComponent />
@@ -525,7 +525,7 @@ const ReviewDetailSection = () => {
                         <p>
                             About two months into my lease, the heating stopped working in the middle of a cold snap. I submitted a repair request through the online portal, and to my surprise, the property manager got back to me the same day. A technician came by the next morning and had it fixed within an hour. I was honestly expecting a longer wait based on past rentals, so I was impressed. It's not a perfect apartment—noise can be an issue on weekends—but the quick response made me feel like the management actually cares.
                         </p>
-                        <button className="text-red-600 text-xs font-semibold mt-1">View More</button>
+                        <Button className="text-red-600 text-xs font-semibold mt-1">View More</Button>
                     </div>
                 </section>
 
@@ -569,7 +569,7 @@ const ReviewDetailSection = () => {
                             <StepComponent />
                         </div>
 
-                        <button className="text-red-600 text-xs font-semibold mt-2">View More</button>
+                        <Button className="text-red-600 text-xs font-semibold mt-2">View More</Button>
                     </div>
                 </section>
 

@@ -86,6 +86,6 @@ input[type="range"].custom-slider::-moz-range-thumb {
   cursor: pointer;
 }
 
-/* * {
+/* {
   cursor: url("/assets/gif/pulse.gif"), auto;
 } */

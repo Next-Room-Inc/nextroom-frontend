@@ -8,6 +8,7 @@ import { LoaderComponent } from '../../../components/Loader';
 import { ICONS } from '../../../utils/constants/app-info.constant';
 import { updateOnboardingStatusPayload } from '../../../utils/interfaces';
 import { NextButton, PrimaryButton, SkipNextQuestionSection, transitionVariants } from "./CommonComponents";
+import { Button } from '../../../components/Button';
 
 
 interface PropertySectionParams {
@@ -280,7 +281,7 @@ const RoommatesSection: React.FC<{
     nextSectionHandler: () => void;
     answers: {
         wantsRoommates?: boolean;
-        roommateCount?: number;
+        roommateCount?: number | null;
         wantsRoommateMatching?: boolean;
     };
 }> = ({ handleAnswer, answers, nextSectionHandler, previousStepHandler }) => {
@@ -460,7 +461,7 @@ const LookingForSection: React.FC<{
                                 opacity-0 hidden md:flex
                                 `}>{rental.details}</p>}
 
-                            <button
+                            <Button
                                 onClick={() => handleAnswer('PROPERTY_SECTION', 'accommodationType', rental.name)}
                                 className={` border border-white ${answers.accommodationType === rental.name ? 'bg-[#B3322F] hover:bg-[#b3312fa2]' : 'bg-[#D9D9D9] hover:bg-[#d9d9d9a4]'}bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}>
                                 <div className='flex gap-2  w-full justify-center'>
@@ -469,7 +470,7 @@ const LookingForSection: React.FC<{
                                 </div>
 
                                 <img alt="" onClick={() => rentalDescription === rental.name ? setRentalDescription(null) : setRentalDescription(rental.name)} className="h-6 relative right-1 mr-2 group" src={`/assets/img/icons/question_circle_icon.svg`} />
-                            </button>
+                            </Button>
 
                         </div>
                     ))}
@@ -846,7 +847,7 @@ const WhenYouAreMovingSection: React.FC<{
                     <PrimaryButton selected={answers.moveInDate === 'May 1'} onClick={() => handleAnswer('PROPERTY_SECTION', 'moveInDate', 'May 1')} > May 1 </PrimaryButton>
                 </div>
 
-                {/* <button className='bg-[#B3322F] w-full md:w-[250px] text-center py-2 text-white  rounded-full mt-10'> May 1 </button> */}
+                {/* <Button className='bg-[#B3322F] w-full md:w-[250px] text-center py-2 text-white  rounded-full mt-10'> May 1 </Button> */}
                 <div className={`
                 ${(answers.moveInDate !== 'September 1' && answers.moveInDate !== 'May 1' && answers.moveInDate !== null) ? "bg-[#B3322F]" : "bg-[#D9D9D9] border-white border"}
                  mt-6 md:mt-10 rounded-full   mx-15 md:w-max md:mx-auto`} onClick={handleDateWrapperClick}>

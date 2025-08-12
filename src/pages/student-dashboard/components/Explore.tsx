@@ -8,6 +8,7 @@ import { ArrowPathIcon } from '@heroicons/react/20/solid';
 import { LoaderComponent } from '../../../components/Loader';
 import { useGetEntrataPropertiesQuery } from '../../../redux/services/property.service';
 import PulseHoverLayout from '../../../layouts/PulseHover.Layout';
+import { Button } from '../../../components/Button';
 
 const demoDetails = {
     title: "Alma @ ByWard Market",
@@ -175,15 +176,15 @@ export const ExploreHousingCard: React.FC<{
                             transition={{ duration: 0.3, ease: "easeInOut" }}
                             className="bg-[#D9D9D9]/50 md:h-30 h-35 mx-5 -mt-5 pt-5 rounded-xl flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4"
                         >
-                            <button
+                            <Button
                                 className="bg-[#B3322F] text-white w-50 py-2 rounded-full"
                                 onClick={() => setViewDetails(true)}
                             >
                                 View Details
-                            </button>
-                            <button className="bg-black text-white w-50 py-2 rounded-full">
+                            </Button>
+                            <Button className="bg-black text-white w-50 py-2 rounded-full">
                                 Continue
-                            </button>
+                            </Button>
                         </motion.div>
                     )}
                 </AnimatePresence>

@@ -1,4 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import { Button } from "./Button";
 
 type NumberInputProps = {
     label: string;
@@ -14,18 +15,18 @@ export function NumberInput({ label, value = 0, onChange }: NumberInputProps) {
         <div className=" flex items-start justify-center gap-2">
             <div className="text-md text-gray-500   h-full flex items-center w-full">{label}</div>
             <div className="flex items-center rounded-md px-2 py-1  bg-white">
-                <button
+                <Button
                     type="button"
                     onClick={handleDecrement}
                     className="p-1 disabled:opacity-30"
                     disabled={value <= 0}
                 >
                     <ChevronDownIcon className="w-4 h-4 text-gray-600" />
-                </button>
+                </Button>
                 <span className='w-6 text-center'>{value || "Any"} </span>
-                <button type="button" onClick={handleIncrement} className="p-1">
+                <Button type="button" onClick={handleIncrement} className="p-1">
                     <ChevronUpIcon className="w-4 h-4 text-gray-600" />
-                </button>
+                </Button>
             </div>
         </div>
     );

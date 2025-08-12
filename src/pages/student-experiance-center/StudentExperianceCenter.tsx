@@ -13,6 +13,7 @@ import { Line } from 'react-chartjs-2';
 import SearchPropertyLayout from '../../layouts/SearchProperty.Layout';
 import SignupOrLoginModal from '../../components/modals/SignupOrLoginModal';
 import useAuth from '../../custom-hooks/useAuth';
+import { Button } from '../../components/Button';
 
 
 const housingdetails = [
@@ -98,10 +99,10 @@ const StudentExperianceCenter = () => {
       </div>
 
       <div className='text-center '>
-        <button className="rounded-full flex text-white bg-[#B3322F] text-xs font-semibold mt-2 mx-auto py-2 px-8">
+        <Button className="rounded-full flex text-white bg-[#B3322F] text-xs font-semibold mt-2 mx-auto py-2 px-8">
           View More
           <ChevronDownIcon className='h-6 -mt-1 ml-1' />
-        </button>
+        </Button>
       </div>
 
     </SearchPropertyLayout>
@@ -172,34 +173,12 @@ export const HousingCard: React.FC<{
                 <p className='font-bold mr-2'>Status : </p>
                 {status}
               </p>
-              <button
+              <Button
                 onClick={() => selected ? setSelected(null) : setSelected(index)}
-                className='bg-[#B3322F]  mt-4 text-white text-sm px-10 py-1.5 rounded-full cursor-pointer'>View Report</button>
+                className='bg-[#B3322F]  mt-4 text-white text-sm px-10 py-1.5 rounded-full cursor-pointer'>View Report</Button>
             </div>
           </div>
         </div>
-        {/* Buttons */}
-        {/* <AnimatePresence>
-          {selected && (
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="bg-[#D9D9D9]/50 md:h-30 h-35 mx-5 -mt-5 pt-5 rounded-xl flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4"
-            >
-              <button
-                className="bg-[#B3322F]   w-50 py-2 rounded-full"
-                onClick={() => setViewDetails(true)}
-              >
-                View Details
-              </button>
-              <button className="bg-black   w-50 py-2 rounded-full">
-                Continue
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence> */}
 
         {selected && <RepairDetailsModal />}
         {selected && <RepairReportModal />}

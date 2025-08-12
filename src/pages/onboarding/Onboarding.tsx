@@ -30,15 +30,16 @@ const sections = {
         rentalType: null,
         moveInDate: null,
         stayDurationMonths: null,
-        budgetMin: '500',
+        budgetMin: null,
         budgetMax: null,
         campusDistanceKm: null,
         preferredArea: null,
-        areaPreferenceType: '',
+        areaPreferenceType: null,
         accommodationType: null,
         wantsRoommates: null,
-        roommateCount: 0,
+        roommateCount: null,
         wantsRoommateMatching: null,
+
         // UNIT_AMENITIS: null,
         // COMUNITY_AMENITIS: null
     },
@@ -107,6 +108,7 @@ const Onboarding = () => {
         const {
             customMoveInDate = "",
             customStayDuration = "",
+            wantsAdditionalRoommates = "",
             ...cleanedPropertyPreference
         } = submittedPreferences.propertyPreference || {};
 
@@ -118,10 +120,10 @@ const Onboarding = () => {
             LIFE_STYLE_SECTION: {
                 ...prev.LIFE_STYLE_SECTION,
                 ...submittedPreferences.lifestylePreference,
-                SOCIAL: submittedPreferences?.socialInterestIds || [],
-                STAYING_IN: submittedPreferences?.stayingInInterestIds || [],
-                CAUSES: submittedPreferences?.causesInterestIds || [],
-                PERSONAL: submittedPreferences?.personalInterestIds || [],
+                SOCIAL: submittedPreferences?.socialInterestIds?.length ? submittedPreferences?.socialInterestIds : null,
+                STAYING_IN: submittedPreferences?.stayingInInterestIds?.length ? submittedPreferences?.stayingInInterestIds : null,
+                CAUSES: submittedPreferences?.causesInterestIds?.length ? submittedPreferences?.causesInterestIds : null,
+                PERSONAL: submittedPreferences?.personalInterestIds?.length ? submittedPreferences?.personalInterestIds : null,
 
             },
             ROOMMATES_SECTION: {
@@ -138,18 +140,20 @@ const Onboarding = () => {
 
     const handleAnswer = (section: keyof AnswerSections, field: string, value: unknown) => {
         setAnswers(prev => ({ ...prev, [section]: { ...prev[section], [field]: value } }));
+        console.log("---<>><><><>", section, field, value)
     };
 
-    const changeStep = (delta: number) => {
+    const changeStep = async (delta: number) => {
         setFormStep(prev => ({ ...prev, [section]: Math.max(0, prev[section] + delta) }));
-
     };
 
-    const nextStepHandler = () => {
+    const nextStepHandler = async () => {
         setFormStep((prevState) => ({
             ...prevState,
             [section]: prevState[section] + 1,
         }));
+        const currentIndex = sectionsList.indexOf(section);
+        await submitOnboardingPreferencesHandler(sectionsList[currentIndex])
     };
 
     const previousStepHandler = () => {
@@ -255,6 +259,7 @@ const Onboarding = () => {
             };
         }
 
+        console.log("answers==>", answers);
         console.log("payload==>", payload);
         payload = preparePayload(payload);
         console.log(section, "payload try==>", payload);
@@ -405,12 +410,13 @@ const FormStepper: React.FC<{
         { label: 'Roommates', name: 'ROOMMATES_SECTION' },
         { label: 'Situation-Based', name: 'SITUATION_BASED_SECTION' },
     ];
-
+    console.log("answers==>", answers)
     return (
         <>
             <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10 mt-10">
                 {steps.map((step, index) => {
                     const progress = (totalAnswered(step.name as keyof AnswerSections) / totalQuestions(step.name as keyof AnswerSections)) * 100;
+                    console.log("===>>>>", step, totalAnswered(step.name as keyof AnswerSections), totalQuestions(step.name as keyof AnswerSections), progress)
                     return (
                         <div key={step.label + index} className={`${section === step.name ? 'w-[70%]' : 'w-[10%]'} md:w-[25%] group`}>
                             <motion.div className="text-black hidden md:block py-1 group-hover:opacity-100 opacity-0 shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white">
@@ -442,7 +448,7 @@ const FormStepper: React.FC<{
                                     <img alt="Save" className="h-7" src={ICONS.SAVE_ICON} />
                                     All Answers Saved
                                 </div>
-                                {/* <button onClick={() => setExitForm(true)} className="bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"> */}
+                                {/* <Button onClick={() => setExitForm(true)} className="bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"> */}
                                 <motion.button
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.90 }}

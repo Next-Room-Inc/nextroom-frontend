@@ -1,119 +1,120 @@
- import { ImageGallery } from "../../components/ImageGallery";
+import { Button } from "../../components/Button";
+import { ImageGallery } from "../../components/ImageGallery";
 import { APP_INFO, ICONS } from "../../utils/constants/app-info.constant";
 
 const listings = [
-    {
-      logo: `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/logo.png`,
-      address: "211 Rideau St, Ottawa, ON K1N 5Y3",
-      listingId: 2,
-      title: "Studio",
-      price: 1899,
-      bedroomCount: 1,
-      bathroomCount: 1,
-      availableFrom: "Apr 30, 2025",
-      checkAvailability: true,
-      availableUnits: 2,
-      hasParking: false,
-      hasDishwasher: true,
-      hasLaundry: true,
-      isAccessible: false,
-      hasGammingRoom: true,
-      hasFitnessCenter: true,
-      hasBikeStorage: true,
-      hasOutDoorPatio: true,
-      duration: "3 Years",
-      maxNumberOfTenants: 1,
-      yearBuilt: 2011,
-      avgAreaCost: 2750,
-      nearbyListings: 2000,
-      image: `${APP_INFO.IMG_BASE_URL}/images/envoy_plan_b.jpg`,
-      images: [
-        `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/1.png`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/2.png`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/3.png`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/4.png`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/5.png`,
-      ],
-    },
-    {
-      logo: `${APP_INFO.IMG_BASE_URL}/groups/Theo/logo.png`,
-      address: "305 Rideau St, Ottawa, ON K1N 9E5",
-      listingId: 3,
-      title: "Solo",
-      price: 2750,
-      bedroomCount: 1,
-      bathroomCount: 1,
-      availableFrom: "Apr 30, 2025",
-      checkAvailability: true,
-      availableUnits: 2,
-      hasParking: false,
-      hasDishwasher: true,
-      hasLaundry: true,
-      isAccessible: false,
-      hasGammingRoom: true,
-      hasFitnessCenter: true,
-      hasBikeStorage: false,
-      hasOutDoorPatio: false,
-      hasWifi:true,
-      hasArtStudio:true,
-      hasPentHouseLounge:true,
-      hasStudyLounge:true,
-      hasFurnishedSuites:true,
-      hasAccessControl:true,
-      duration: "3 Years",
-      maxNumberOfTenants: 1,
-      yearBuilt: 2011,
-      avgAreaCost: 2750,
-      nearbyListings: 2900,
-      image: null,
-      images: [
-        `${APP_INFO.IMG_BASE_URL}/groups/Theo/1.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Theo/2.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Theo/3.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Theo/4.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/Theo/5.jpg`,
-      ],
-    },
-    {
-      logo: `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/logo.png`,
-      address: "111 Cooper St, Ottawa, ON K2P 2E3",
-      listingId: 1,
-      title: "2 Bedroom",
-      price: 2750,
-      bedroomCount: 2, // Studio, no separate bedroom
-      bathroomCount: 1,
-      availableFrom: "Apr 30, 2025",
-      checkAvailability: true,
-      availableUnits: 2,
-      hasParking: false,
-      hasDishwasher: true,
-      hasLaundry: true,
-      isAccessible: false,
-      hasGammingRoom: true,
-      hasFitnessCenter: true,
-      hasBikeStorage: false,
-      hasOutDoorPatio: false,
-      duration: "3 Years",
-      maxNumberOfTenants: 1,
-      yearBuilt: 2011,
-      avgAreaCost: 2750,
-      nearbyListings: 2900,
-      image: `${APP_INFO.IMG_BASE_URL}/images/envoy_plan_c.jpg`,
-      images: [
-        `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/1.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/2.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/3.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/4.jpg`,
-        `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/5.jpg`,
-      ],
-    },
-  ];
+  {
+    logo: `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/logo.png`,
+    address: "211 Rideau St, Ottawa, ON K1N 5Y3",
+    listingId: 2,
+    title: "Studio",
+    price: 1899,
+    bedroomCount: 1,
+    bathroomCount: 1,
+    availableFrom: "Apr 30, 2025",
+    checkAvailability: true,
+    availableUnits: 2,
+    hasParking: false,
+    hasDishwasher: true,
+    hasLaundry: true,
+    isAccessible: false,
+    hasGammingRoom: true,
+    hasFitnessCenter: true,
+    hasBikeStorage: true,
+    hasOutDoorPatio: true,
+    duration: "3 Years",
+    maxNumberOfTenants: 1,
+    yearBuilt: 2011,
+    avgAreaCost: 2750,
+    nearbyListings: 2000,
+    image: `${APP_INFO.IMG_BASE_URL}/images/envoy_plan_b.jpg`,
+    images: [
+      `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/1.png`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/2.png`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/3.png`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/4.png`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/5.png`,
+    ],
+  },
+  {
+    logo: `${APP_INFO.IMG_BASE_URL}/groups/Theo/logo.png`,
+    address: "305 Rideau St, Ottawa, ON K1N 9E5",
+    listingId: 3,
+    title: "Solo",
+    price: 2750,
+    bedroomCount: 1,
+    bathroomCount: 1,
+    availableFrom: "Apr 30, 2025",
+    checkAvailability: true,
+    availableUnits: 2,
+    hasParking: false,
+    hasDishwasher: true,
+    hasLaundry: true,
+    isAccessible: false,
+    hasGammingRoom: true,
+    hasFitnessCenter: true,
+    hasBikeStorage: false,
+    hasOutDoorPatio: false,
+    hasWifi: true,
+    hasArtStudio: true,
+    hasPentHouseLounge: true,
+    hasStudyLounge: true,
+    hasFurnishedSuites: true,
+    hasAccessControl: true,
+    duration: "3 Years",
+    maxNumberOfTenants: 1,
+    yearBuilt: 2011,
+    avgAreaCost: 2750,
+    nearbyListings: 2900,
+    image: null,
+    images: [
+      `${APP_INFO.IMG_BASE_URL}/groups/Theo/1.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Theo/2.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Theo/3.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Theo/4.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/Theo/5.jpg`,
+    ],
+  },
+  {
+    logo: `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/logo.png`,
+    address: "111 Cooper St, Ottawa, ON K2P 2E3",
+    listingId: 1,
+    title: "2 Bedroom",
+    price: 2750,
+    bedroomCount: 2, // Studio, no separate bedroom
+    bathroomCount: 1,
+    availableFrom: "Apr 30, 2025",
+    checkAvailability: true,
+    availableUnits: 2,
+    hasParking: false,
+    hasDishwasher: true,
+    hasLaundry: true,
+    isAccessible: false,
+    hasGammingRoom: true,
+    hasFitnessCenter: true,
+    hasBikeStorage: false,
+    hasOutDoorPatio: false,
+    duration: "3 Years",
+    maxNumberOfTenants: 1,
+    yearBuilt: 2011,
+    avgAreaCost: 2750,
+    nearbyListings: 2900,
+    image: `${APP_INFO.IMG_BASE_URL}/images/envoy_plan_c.jpg`,
+    images: [
+      `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/1.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/2.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/3.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/4.jpg`,
+      `${APP_INFO.IMG_BASE_URL}/groups/1Eleven/5.jpg`,
+    ],
+  },
+];
 
-  interface ListingsProps {
-    showModalHandler:(name:string, value:boolean)=> void
-  }
+interface ListingsProps {
+  showModalHandler: (name: string, value: boolean) => void
+}
 
-export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
+export const Listings: React.FC<ListingsProps> = ({ showModalHandler }) => {
   //   const [auth, setAuth] = useLocalStorage("auth");
   //   const handleJoinOffer = async () => {
   //     await addDoc(collection(db, "marketing"), {
@@ -133,24 +134,24 @@ export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
     <div className="mt-6 mx-3 lg:mx-0">
       {/* BUTTONS */}
       <div className="pb-8 gap-4 flex">
-        <button
+        <Button
           // type="submit"
           className="w-[10rem] text-center rounded-xl bg-[#7C221F]  px-3 py-2 text-lg text-white shadow-xs hover:bg-[#B3322F] "
         >
           All (3)
-        </button>
-        {/* <button
+        </Button>
+        {/* <Button
           // type="submit"
           className="w-[10rem] text-center rounded-xl border border-[#7C221F]  px-3 py-2 text-lg text-[#7C221F] shadow-xs hover:bg-[#7C221F] hover:text-white"
         >
           1B (4)
-        </button>
-        <button
+        </Button>
+        <Button
           // type="submit"
           className="w-[10rem] text-center rounded-xl border outline-[#7C221F]  px-3 py-2 text-lg text-[#7C221F] shadow-xs hover:bg-[#7C221F] hover:text-white "
         >
           2B (6)
-        </button> */}
+        </Button> */}
       </div>
       {/* CLV Detilas */}
       {/* <div className=" sm:flex mb-6 justify-between items-center">
@@ -164,13 +165,13 @@ export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
           <h2>255 Stewart Street Ottawa, ON</h2>
         </div>
         <div className="i">
-          <button
+          <Button
             // type="submit"
             onClick={handleJoinOffer}
             className="flex w-[40%] mx-auto mt-5 sm:mx-0 sm:mt-0 lg:w-full items-center justify-center rounded-full bg-[#7C221F]  px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-[#B3322F] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Contact Agent
-          </button>
+          </Button>
         </div>
       </div> */}
 
@@ -178,20 +179,20 @@ export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
         <div>
           <div className=" lg:flex  justify-between mt-10 mb-6">
             <div>
-            <img
-              alt="Your Company"
-              src={listing.logo}
-              className="h-20 w-auto"
-            />
-            <h2 className="font-semibold">{listing.address}</h2>
+              <img
+                alt="Your Company"
+                src={listing.logo}
+                className="h-20 w-auto"
+              />
+              <h2 className="font-semibold">{listing.address}</h2>
             </div>
-            <button
-            onClick={()=>  showModalHandler("rentFree",true)}
-          // type="submit"
-          className=" mt-auto w-[10rem] h-10 text-center rounded-xl bg-[#7C221F]  px-3 py-2 text-lg text-white shadow-xs hover:bg-[#B3322F] "
-        >
-          Contact us
-        </button>
+            <Button
+              onClick={() => showModalHandler("rentFree", true)}
+              // type="submit"
+              className=" mt-auto w-[10rem] h-10 text-center rounded-xl bg-[#7C221F]  px-3 py-2 text-lg text-white shadow-xs hover:bg-[#B3322F] "
+            >
+              Contact us
+            </Button>
           </div>
           {/* CLV Detilas */}
 
@@ -390,12 +391,12 @@ export const Listings: React.FC<ListingsProps>  = ({showModalHandler}) => {
                       )}
 
 
- 
-      
-      
-      
-      
-      
+
+
+
+
+
+
                     </div>
                   </div>
 

@@ -29,7 +29,7 @@ const RoommateSection = (props: any) => {
         nextSectionHandler,
         name
     } = props
-     const formStep = step[section]
+    const formStep = step[section]
     const [exitForm, setExitForm] = useState(false);
 
     const params: Params = {
@@ -79,14 +79,14 @@ export default RoommateSection
 const HomeSection: React.FC<{
     nextStepHandler: () => void;
     name: string
-}> = ({ nextStepHandler , name }) => {
+}> = ({ nextStepHandler, name }) => {
     return (
         <div className='text-center mt-35'>
             <p className='text-3xl text-[#B3322F]'>Let's discover your roommate preferences, <br /> <span className='font-bold'>{name}</span></p>
             <img alt="" className="h-30 py-5 pr-1 mx-auto " src="/assets/img/icons/roomateicon.svg" />
             <p className='text-md pb-10'> This allows us to match you with your<br />
                 perfect roommate   </p>
-            {/* <button className='bg-[#B3322F] w-[250px] text-center py-2 mx-auto text-white flex rounded-full justify-center'>  <img alt="" className="h-3 pl-2 mt-1.5" src={ICONS.ARROW_RIGHT_WHITE} /> </button> */}
+            {/* <Button className='bg-[#B3322F] w-[250px] text-center py-2 mx-auto text-white flex rounded-full justify-center'>  <img alt="" className="h-3 pl-2 mt-1.5" src={ICONS.ARROW_RIGHT_WHITE} /> </button> */}
             <div className='flex justify-center'>
                 <PrimaryButton selected={true} onClick={nextStepHandler} icon={ICONS.ARROW_RIGHT_WHITE}> Get Started</PrimaryButton>
             </div>
@@ -103,7 +103,7 @@ const LivingSection: React.FC<{
         culturalOpenness?: string | null;
         guestFrequency?: string | null;
     };
-}> = ({ nextStepHandler, answers, handleAnswer , previousStepHandler}) => {
+}> = ({ nextStepHandler, answers, handleAnswer, previousStepHandler }) => {
 
 
 
@@ -195,8 +195,8 @@ const LivingSection: React.FC<{
 
 
             {/* Next button */}
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-          
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -287,8 +287,8 @@ const GuestAndFriendSection: React.FC<{
 
 
             {/* Next button */}
-                <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
-         
+            <NextButton onClick={disabled ? scrollHandler : nextStepHandler} previousStepHandler={previousStepHandler} />
+
 
         </>
     )
@@ -406,9 +406,9 @@ const CookAndExpensesSection: React.FC<{
 
             {/* Next button */}
 
-         
-                <NextButton onClick={disabled ? scrollHandler : nextSectionHandler} previousStepHandler={previousStepHandler} />
-       
+
+            <NextButton onClick={disabled ? scrollHandler : nextSectionHandler} previousStepHandler={previousStepHandler} />
+
 
 
         </>

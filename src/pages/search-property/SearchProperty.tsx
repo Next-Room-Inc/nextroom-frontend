@@ -6,6 +6,8 @@ import { LoaderComponent } from '../../components/Loader'
 import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
 import { useGetEntrataPropertiesQuery } from '../../redux/services/property.service'
 import { HousingCard, PrimaryButton } from './components/ComponComponents'
+import { NumberInput } from '../../components/NumberInput'
+import PropertyFilters from '../../components/PropertyFilters'
 
 // const housingdetails = [
 //     {
@@ -218,9 +220,9 @@ export default SearchProperty;
 
 //             <div className="my-4 border-t pt-4 md:px-4 text-sm text-gray-800 text-center md:flex gap-5 items-center">
 //                 <p className='md:mt-2'><span className="font-semibold">Unit 308</span></p>
-//                 <button className="mt-2 px-4 py-1 text-sm border border-[#B3322F] rounded-full text-[#B3322F] hover:bg-red-50 transition">
+//                 <Button className="mt-2 px-4 py-1 text-sm border border-[#B3322F] rounded-full text-[#B3322F] hover:bg-red-50 transition">
 //                     Withdraw Tour Request
-//                 </button>
+//                 </Button>
 //             </div>
 //         </div>
 //     );
@@ -305,9 +307,9 @@ export default SearchProperty;
 
 //             <div className="my-4 border-t pt-3 text-sm text-gray-800 text-center">
 //                 <p><span className="font-semibold">Unit 308</span></p>
-//                 <button className="mt-2 px-4 py-1 text-sm border border-[#B3322F] rounded-full text-[#B3322F] hover:bg-red-50 transition">
+//                 <Button className="mt-2 px-4 py-1 text-sm border border-[#B3322F] rounded-full text-[#B3322F] hover:bg-red-50 transition">
 //                     Withdraw Tour Request
-//                 </button>
+//                 </Button>
 //             </div>
 //         </div>
 //     );
@@ -538,126 +540,10 @@ const ResponsiveTabSelector = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+                        className="absolute left-0 right-0  mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
                     >
 
-                        <div className="flex lg:flex-row flex-col justify-between gap-2 p-4 space-y-6 text-sm font-medium text-gray-800 mx-auto">
-                            <div className='md:w-[60%] w-full flex flex-col gap-10'>
-                                {/* Price Slider */}
-                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Price</p>
-                                    <div className=" w-full">
-                                        <div className="flex justify-between text-black font-semibold mb-2">
-                                            <p>$500</p>
-                                            <p>$2000</p>
-                                        </div>
-
-                                        <div className="relative w-full">
-                                            {/* Slider */}
-                                            <input
-                                                type="range"
-                                                className="custom-slider w-full"
-                                                min={500}
-                                                max={2000}
-                                                value={price}
-                                                onChange={(e) => setPrice(+e.target.value)}
-                                            />
-
-                                            {/* Moving label */}
-                                            <div
-                                                className="absolute top-8 font-bold text-sm"
-                                                style={{ left: getPriceLeftPosition() }}
-                                            >
-                                                ${price}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Distance Slider */}
-                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Distance <br className='md:flex hidden' />From Campus</p>
-                                    <div className="w-full">
-                                        <div className="flex justify-between text-black font-semibold mb-2">
-                                            <p>1</p>
-                                            <p>50</p>
-                                        </div>
-
-                                        <div className="relative w-full">
-                                            {/* Slider */}
-                                            <input
-                                                type="range"
-                                                className="custom-slider w-full"
-                                                min={1}
-                                                max={50}
-                                                value={distance}
-                                                onChange={(e) => setDistance(+e.target.value)}
-                                            />
-
-                                            {/* Moving label */}
-                                            <div
-                                                className="absolute top-8 font-bold text-sm"
-                                                style={{ left: getDistanceLeftPosition() }}
-                                            >
-                                                {distance}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Amenities */}
-                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Amenities</p>
-                                    <div className="flex flex-wrap gap-4 md:gap-2">
-                                        {amenitiesList.map((amenity) => {
-                                            const selected = selectedAmenities.includes(amenity.label);
-                                            return (
-                                                <button
-                                                    key={amenity.label}
-                                                    onClick={() => toggleAmenity(amenity.label)}
-                                                    className={`flex items-center gap-1 px-3 py-1.5 rounded-full border shadow-sm ${selected
-                                                        ? 'bg-[#B3322F] text-white border-[#B3322F]'
-                                                        : 'bg-white text-black border-gray-300'
-                                                        }`}
-                                                >
-                                                    <span><img src={`/assets/img/search-property/${amenity.icon}`} className='w-4' /></span>
-                                                    <span>{amenity.label}</span>
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                </div>
-
-                                {/* Unit Size */}
-                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Unit Size</p>
-                                    <div className="flex flex-col md:flex-row justify-start gap-3  ">
-                                        <NumberInput label="Beds" value={selectedBeds || 0} onChange={setSelectedBeds} />
-                                        <NumberInput label="Bathrooms" value={selectedBaths || 0} onChange={setSelectedBaths} />
-                                        <NumberInput label="Occupancy" value={selectedOccupancies || 0} onChange={setSelectedOccupancies} />
-                                    </div>
-                                </div>
-
-                                {/* Location */}
-                                <div className='flex flex-col md:flex-row  md:gap-8 gap-4 md:items-end'>
-                                    <p className=" md:text-lg text-md md:text-black text-[#B3322F] font-semibold mb-1 md:w-35 text-left">Location</p>
-                                    <input
-                                        type="text"
-                                        placeholder="Search..."
-                                        className="md:w-50 w-full px-4 py-2 rounded-full shadow-md outline-none"
-                                    />
-                                </div>
-                            </div>
-                            {/* Buttons */}
-                            <div className=" lg:w-[20%] md:w-[50%] w-full flex flex-col gap-6">
-                                <button className=" py-2 md:px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
-                                    Update Roommate Preferences
-                                </button>
-                                <button className=" py-2 :px-10 bg-[#B3322F] text-white rounded-full font-semibold shadow-md">
-                                    Search Specific Properties
-                                </button>
-                            </div>
-                        </div>
+                        <PropertyFilters />
 
 
                     </motion.div>
@@ -667,35 +553,4 @@ const ResponsiveTabSelector = () => {
     );
 };
 
-// 🔽 Dropdown Component
-type NumberInputProps = {
-    label: string;
-    value: number;
-    onChange: (val: number) => void;
-};
-
-function NumberInput({ label, value = 0, onChange }: NumberInputProps) {
-    const handleIncrement = () => onChange(value + 1);
-    const handleDecrement = () => onChange(Math.max(0, value - 1));
-
-    return (
-        <div className=" flex items-start justify-center gap-2">
-            <div className="text-md text-gray-500   h-full flex items-center w-full">{label}</div>
-            <div className="flex items-center rounded-md px-2 py-1  bg-white">
-                <button
-                    type="button"
-                    onClick={handleDecrement}
-                    className="p-1 disabled:opacity-30"
-                    disabled={value <= 0}
-                >
-                    <ChevronDownIcon className="w-4 h-4 text-gray-600" />
-                </button>
-                <span className='w-6 text-center'>{value || "Any"} </span>
-                <button type="button" onClick={handleIncrement} className="p-1">
-                    <ChevronUpIcon className="w-4 h-4 text-gray-600" />
-                </button>
-            </div>
-        </div>
-    );
-}
 

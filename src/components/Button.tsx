@@ -40,3 +40,33 @@ export const PrimaryButton: React.FC<{
             </motion.button>
         )
     };
+export const Button: React.FC<{
+    disabled?: boolean;
+    children?: React.ReactNode;
+    onClick?: () => void;
+    className?: string;
+    button?: boolean;
+}
+> = ({
+    children = '',
+    onClick = () => { },
+    className = ' text-center py-2 text-white rounded-full flex items-center justify-center',
+    disabled = false
+}) => {
+
+
+        return (
+            <motion.button
+                disabled={disabled}
+                onClick={onClick}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className={` ${className} cursor-pointer `}
+            >
+                {children}
+            </motion.button>
+        )
+    };
