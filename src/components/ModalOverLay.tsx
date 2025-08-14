@@ -16,7 +16,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children })
         animate={{ opacity: 0.5 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.25 }}
-        className="fixed inset-0 bg-black z-40"
+        className="fixed inset-0 bg-black z-40 "
         onClick={onClose}
       />
 
@@ -26,10 +26,10 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children })
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 40, opacity: 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed inset-0 flex items-center justify-center z-50"
+        className="fixed inset-0 flex items-center justify-center z-555555555 "
       >
         <div
-          className="bg-white w-full max-w-2xl rounded-2xl px-6 py-10 relative shadow-lg mx-4"
+          className="bg-white md:w-2/4 md:max-w-ful w-[90%] rounded-2xl px-6 py-10 relative shadow-lg mx-4 overflow-y-scroll   max-h-[90vh]"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
@@ -49,4 +49,3 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({ onClose, children })
   );
 };
 
- 

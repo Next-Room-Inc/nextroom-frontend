@@ -19,6 +19,7 @@ import Blogs from "../pages/blogs/Blogs";
 import Chat from "../pages/chat/Chat";
 import { OnboardingValidation } from "./onboarding.validations";
 import StudentsDashboard from "../pages/student-dashboard/StudentsDashboard";
+import LandLordsDashboard from "../pages/dashboard/landlord-dashboard/LandLordsDashboard";
 
 export const routes = createBrowserRouter([
   {
@@ -110,6 +111,16 @@ export const routes = createBrowserRouter([
   {
     path: ROUTES.STUDENTS_DASHBOARD_TABS,
     element: <StudentsDashboard />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.LANDLORDS_DASHBOARD,
+    element: <LandLordsDashboard />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
+    path: ROUTES.LANDLORDS_DASHBOARD_TABS,
+    element: <LandLordsDashboard />,
     errorElement: <NotFoundErrorPage />,
   },
   {

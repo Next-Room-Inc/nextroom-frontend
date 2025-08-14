@@ -89,3 +89,60 @@ input[type="range"].custom-slider::-moz-range-thumb {
 /* {
   cursor: url("/assets/gif/pulse.gif"), auto;
 } */
+
+/* Scrollbar css */
+
+/* For Chrome, Edge, and Safari */
+.scrollbar::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+/* .scrollbar::-webkit-scrollbar-track { */
+/* background: rgb(255, 255, 255); */
+/* border-radius: 0px; */
+/* } */
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #b3322f; /* Scrollbar color */
+  border-radius: 4px; /* Rounded edges */
+}
+
+/* Hide scrollbar arrows in WebKit browsers */
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* For Firefox */
+.scrollbar {
+  scrollbar-width: thicker;
+  scrollbar-color: #b3322f;
+  cursor: pointer;
+}
+
+/* complete porkect scrollable setting */
+
+/* For Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* *::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+} */
+
+*::-webkit-scrollbar-thumb {
+  background-color: #b3322f;
+  border-radius: 5px;
+}
+
+/* Hide scrollbar arrows in WebKit browsers */
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #b3322f; /* thumb and track */
+  cursor: pointer;
+}

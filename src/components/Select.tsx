@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 export const CustomSelect: React.FC<{
     options: string[];
     selected: string;
@@ -50,4 +51,70 @@ export const CustomSelect: React.FC<{
     );
 };
 
+type Option = {
+    value: string;
+    name: string;
+};
 
+type SelectProps = {
+    options: Option[];
+    selectedIndex?: number; // controlled selected index (optional)
+    onChange?: (selectedIndex: number) => void;
+    className?: string;
+};
+
+export const Select: React.FC<SelectProps> = ({
+    options,
+    selectedIndex = 0,
+    onChange,
+    className = "",
+}) => {
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+    const handleSelect = (index: number) => {
+        if (onChange) onChange(index);
+        setIsDropdownOpen(false);
+    };
+
+    return (
+        <div className={`relative z-50 md:w-fit w-full ${className}`}>
+            {/* Toggle Button */}
+            <div
+                onClick={() => setIsDropdownOpen((open) => !open)}
+                className="text-center bg-white flex items-center justify-center text-[#B3322F] shadow-md md:w-fit w-full py-2 px-12 rounded-full text-sm font-medium cursor-pointer relative z-50 select-none"
+            >
+                {options[selectedIndex]?.name}
+                <ChevronDownIcon className="h-7 ml-2 mt-1 text-[#B3322F]" />
+            </div>
+
+            {/* Dropdown */}
+            <AnimatePresence>
+                {isDropdownOpen && (
+                    <motion.div
+                        key="dropdown"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-10 py-4 text-sm z-50"
+                    >
+                        {options.map((option, index) => (
+                            <div
+                                key={option.value}
+                                className={`text-center flex items-center justify-center py-2 cursor-pointer hover:text-[#B3322F] ${index === selectedIndex
+                                    ? "text-[#B3322F] font-semibold"
+                                    : "text-gray-900"
+                                    }`}
+                                onClick={() => handleSelect(index)}
+                            >
+                                {option.name}
+                            </div>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
+};
+
+export default Select;

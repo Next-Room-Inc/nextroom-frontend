@@ -11,12 +11,17 @@ export const ROUTES = {
   VERIFY_EMAIL: "/verify-email",
   RESEND_VERIFICATION: "/resend-verification",
   UNDER_CONSTRUCTION: "/under-construction",
-  // students
-  STUDENTS_DASHBOARD: "/students-dashboard",
-  STUDENTS_DASHBOARD_TABS: "/students-dashboard/:tab",
   SEARCH_PROPERTY: "/search-property",
   NEWSROOM: "/newsroom",
   STUDENT_EXPERIANCE_CENTER: "/student-experiance-center",
   BLOGS: "/blogs",
   CHAT: "/chat",
+
+  // students
+  STUDENTS_DASHBOARD: "/students-dashboard",
+  STUDENTS_DASHBOARD_TABS: "/students-dashboard/:tab",
+
+  // landlord
+  LANDLORDS_DASHBOARD: "/landlords-dashboard",
+  LANDLORDS_DASHBOARD_TABS: "/landlords-dashboard/:tab",
 };

@@ -3,7 +3,7 @@ import StudentDashboard from "../../layouts/StudentDashboard.Layout";
 import Explore from "./components/Explore";
 import Matches from "./components/Matches";
 import MyHousingSearch from "./components/MyHousingSearch";
-import { ResponsiveTabSelector } from "./components/ResponsiveTabSelector";
+import { ResponsiveTabSelector } from "./common/ResponsiveTabSelector";
 import StudentPreferences from "./components/StudentPreferences";
 import { UpcomingEvents } from "./components/UpcomingEvents";
 import { JSX } from "react";

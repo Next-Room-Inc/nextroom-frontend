@@ -152,8 +152,8 @@ const Onboarding = () => {
             ...prevState,
             [section]: prevState[section] + 1,
         }));
-        const currentIndex = sectionsList.indexOf(section);
-        await submitOnboardingPreferencesHandler(sectionsList[currentIndex])
+        // const currentIndex = sectionsList.indexOf(section);
+        // await submitOnboardingPreferencesHandler(sectionsList[currentIndex])
     };
 
     const previousStepHandler = () => {
