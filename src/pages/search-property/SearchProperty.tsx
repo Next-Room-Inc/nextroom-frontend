@@ -1,13 +1,12 @@
-import { ArrowRightIcon, ChevronUpIcon } from '@heroicons/react/16/solid'
-import { ArrowPathIcon, ChevronDownIcon, XMarkIcon } from '@heroicons/react/20/solid'
+import { ArrowRightIcon } from '@heroicons/react/16/solid'
+import { ArrowPathIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from 'react'
 import { LoaderComponent } from '../../components/Loader'
+import PropertyFilters from '../../components/PropertyFilters'
 import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
 import { useGetEntrataPropertiesQuery } from '../../redux/services/property.service'
 import { HousingCard, PrimaryButton } from './components/ComponComponents'
-import { NumberInput } from '../../components/NumberInput'
-import PropertyFilters from '../../components/PropertyFilters'
 
 // const housingdetails = [
 //     {
@@ -439,25 +438,7 @@ const ResponsiveTabSelector = () => {
     const tabOptions = ["My Housing", "Matches", "Explore", "My Preferences"];
     const [selectedTab, setSelectedTab] = useState("My Housing");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [price, setPrice] = useState<number>(1250);
-    const [distance, setDistance] = useState<number>(8);
-    const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
-    const [selectedBeds, setSelectedBeds] = useState<number | null>(null);
-    const [selectedBaths, setSelectedBaths] = useState<number | null>(null);
-    const [selectedOccupancies, setSelectedOccupancies] = useState<number | null>(null);
 
-    const toggleAmenity = (label: string) => {
-        setSelectedAmenities((prev) =>
-            prev.includes(label) ? prev.filter((a) => a !== label) : [...prev, label]
-        );
-    };
-
-    const amenitiesList = [
-        { label: 'Free Parking', icon: 'free_parking.svg' },
-        { label: 'Air Conditioning', icon: 'air_conditioning.svg' },
-        { label: 'Washer/Dryer', icon: 'washer.svg' },
-        { label: 'Dishwasher', icon: 'dishwasher.svg' },
-    ];
 
     const handleSelectTab = (tab: string) => {
         setSelectedTab(tab);
@@ -465,15 +446,6 @@ const ResponsiveTabSelector = () => {
     };
 
 
-    // Calculate percentage position
-    const getPriceLeftPosition = () => {
-        const percentage = ((price - 500) / (2000 - 500)) * 100;
-        return `calc(${percentage}% - 24px)`; // Center the label
-    };
-    const getDistanceLeftPosition = () => {
-        const percentage = ((distance - 1) / (50 - 1)) * 100;
-        return `calc(${percentage}% - 24px)`; // Center the label
-    };
 
 
 

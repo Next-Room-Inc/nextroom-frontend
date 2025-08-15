@@ -1,14 +1,13 @@
-import { AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 // import QRCode from "react-qr-code";
+import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/20/solid";
 import { motion } from 'framer-motion';
 import html2canvas from "html2canvas";
-import { toast } from "react-toastify";
-import { ArrowLeftIcon, ArrowPathIcon } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../../utils/constants";
+import { toast } from "react-toastify";
 import Loader, { LoaderComponent } from "../../../components/Loader";
 import { useCreateInviteQuery } from "../../../redux/services/auth.service";
+import { ROUTES } from "../../../utils/constants";
 
 export const NextButton: React.FC<{
     disabled?: boolean;

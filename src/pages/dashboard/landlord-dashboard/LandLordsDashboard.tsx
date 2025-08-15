@@ -1,17 +1,17 @@
-import React, { JSX } from 'react'
-import LandlordDashboardLayout from '../../../layouts/LandlordDashboard.Layout'
-import Support from './components/Support';
+import { Cog8ToothIcon } from '@heroicons/react/20/solid';
+import { JSX } from 'react';
+import { useParams } from 'react-router-dom';
+import LandlordDashboardLayout from '../../../layouts/LandlordDashboard.Layout';
 import Analytics from './components/Analytics';
 import BillingAndSubscription from './components/BillingAndSubscription';
+import { ResponsiveTabSelector } from './components/common/ResponsiveTabSelector';
 import Employees from './components/Employees';
-import Renters from './components/Renters';
+import Home from './components/Home';
 import Leads from './components/Leads';
 import ManageProperties from './components/ManageProperties';
-import Home from './components/Home';
-import { useParams } from 'react-router-dom';
-import { ResponsiveTabSelector } from './components/common/ResponsiveTabSelector';
-import { Cog8ToothIcon } from '@heroicons/react/20/solid';
+import Renters from './components/Renters';
 import Setting from './components/Setting';
+import Support from './components/Support';
 
 const tabOptionsObject = {
     "home": "Home",

@@ -83,22 +83,22 @@ export default Analytics
 
 const PropertyMatches = () => {
     return (
-        <di>
-
-        </di>
+        <div>
+            PropertyMatches
+        </div>
     )
 }
 const ToursBookedMatches = () => {
     return (
-        <di>
-
-        </di>
+        <div>
+            ToursBookedMatches
+        </div>
     )
 }
 const TenantReportsMatches = () => {
     return (
-        <di>
-
-        </di>
+        <div>
+            TenantReportsMatches
+        </div>
     )
 }

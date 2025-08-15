@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react'
-import { Button, PrimaryButton } from '../../../../components/Button'
+import { ArrowUpTrayIcon, CalendarDateRangeIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/20/solid';
+import { motion } from 'framer-motion';
+import React, { useRef, useState } from 'react';
+import { Button, PrimaryButton } from '../../../../components/Button';
 import { DropDownSelector } from '../../../../components/DropDownSelector';
-import { ArrowUpTrayIcon, CalendarDateRangeIcon, CheckCircleIcon, TicketIcon, XCircleIcon } from '@heroicons/react/20/solid';
-import { AnimatePresence, motion } from 'framer-motion'
 import { ModalOverlay } from '../../../../components/ModalOverLay';
 
 
@@ -133,7 +133,9 @@ const LeadsComponent = () => {
     )
 }
 
-const AcceptActionHandler = ({ close }) => {
+const AcceptActionHandler: React.FC<{
+    close: () => void
+}> = ({ close }) => {
     const [confirmModal, setConfirmModal] = useState(false)
     const confimHandler = () => {
         setConfirmModal(true)
@@ -157,7 +159,9 @@ const AcceptActionHandler = ({ close }) => {
             </>}
         </div>)
 }
-const CancelActionHandler = ({ close }) => {
+const CancelActionHandler: React.FC<{
+    close: () => void
+}> = ({ close }) => {
     const [confirmModal, setConfirmModal] = useState(false)
     const confimHandler = () => {
         setConfirmModal(true)
@@ -181,7 +185,9 @@ const CancelActionHandler = ({ close }) => {
             </>}
         </div>)
 }
-const DeclineActionHandler = ({ close }) => {
+const DeclineActionHandler: React.FC<{
+    close: () => void
+}> = ({ close }) => {
     const [confirmModal, setConfirmModal] = useState(false)
     const confimHandler = () => {
         setConfirmModal(true)
@@ -206,11 +212,17 @@ const DeclineActionHandler = ({ close }) => {
         </div>)
 }
 
-const DatePicker = ({ label, value, onChange }) => {
-    const inputRef = useRef(null);
+interface DatePickerProps {
+    label: string;
+    value: string | null;
+    onChange: (date: any) => void;
+}
+
+const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange }) => {
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const openPicker = () => {
-        inputRef.current?.showPicker?.();
+        inputRef.current?.showPicker?.(); // opens date picker in supporting browsers
         inputRef.current?.focus();
     };
 
@@ -218,7 +230,7 @@ const DatePicker = ({ label, value, onChange }) => {
         <div className="mb-6 text-center">
             <p className="font-semibold">{label}</p>
             <div
-                className="border border-white shadow-md mt-3 rounded-full mx-auto md:w-max  text-center flex items-center justify-center cursor-pointer hover:shadow-lg transition"
+                className="border border-white shadow-md mt-3 rounded-full mx-auto md:w-max text-center flex items-center justify-center cursor-pointer hover:shadow-lg transition"
                 onClick={openPicker}
             >
                 <input
@@ -233,7 +245,10 @@ const DatePicker = ({ label, value, onChange }) => {
     );
 };
 
-const RescheduleActionHandler = ({ close }) => {
+
+const RescheduleActionHandler: React.FC<{
+    close: () => void
+}> = ({ close }) => {
     const [currentDate, setCurrentDate] = useState(null);
     const [rescheduleDate, setRescheduleDate] = useState(null);
 
@@ -268,7 +283,9 @@ const RescheduleActionHandler = ({ close }) => {
     );
 };
 
-const ReportActionHandler = ({ close }) => {
+const ReportActionHandler: React.FC<{
+    close: () => void
+}> = ({ close }) => {
     const [urgency, setUrgency] = useState<string | number | null>('');
     const [roommate, setRoommate] = useState<string | number | null>('');
     const [, setImages] = useState<FileList | null>(null);

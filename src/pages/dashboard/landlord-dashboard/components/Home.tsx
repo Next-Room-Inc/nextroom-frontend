@@ -1,7 +1,6 @@
-import { ChartBarIcon, CurrencyDollarIcon, HomeIcon, QuestionMarkCircleIcon, UsersIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { ChartBarIcon, CurrencyDollarIcon, HomeIcon, UsersIcon, XMarkIcon } from '@heroicons/react/20/solid';
+import { motion } from "framer-motion";
 import { useState } from 'react';
-import { Button } from '../../../../components/Button';
-import { AnimatePresence, motion } from "framer-motion";
 import { CreditCard, CreditCardForm } from '../../../../components/Card';
 
 const cardIconClass = "  className w-15 md:w-20"
@@ -127,7 +126,7 @@ export default Home
 const PaymentDetailsForm: React.FC<{
     paymentModal: boolean;
     setPaymentModal: (value: boolean) => void;
-}> = ({ paymentModal, setPaymentModal }) => {
+}> = ({ setPaymentModal }) => {
     const [cardNumber, setCardNumber] = useState("1234 5678 7890 2077");
     const [name, setName] = useState("John Smith");
     const [expiryDate, setExpiryDate] = useState("07/28");

@@ -2,15 +2,16 @@ import { ArrowLeftIcon, ArrowUpTrayIcon, CheckIcon, ChevronDownIcon, LockClosedI
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useRef, useState } from 'react';
 import { CircleStencil, Cropper, CropperRef } from 'react-advanced-cropper';
+import { toast } from 'react-toastify';
+import { Button } from '../../../components/Button';
 import Invite from '../../../components/Invite';
+import Loader from '../../../components/Loader';
 import { ModalOverlay } from '../../../components/ModalOverLay';
+import useAuth from '../../../custom-hooks/useAuth';
+import { useForgotPasswordMutation } from '../../../redux/services/auth.service';
 import { APP_INFO } from '../../../utils/constants';
 import { PrimaryButton } from '../../onboarding/components/CommonComponents';
-import { Button } from '../../../components/Button';
-import { useForgotPasswordMutation, useResetPasswordMutation } from '../../../redux/services/auth.service';
-import useAuth from '../../../custom-hooks/useAuth';
-import { toast } from 'react-toastify';
-import Loader, { LoaderComponent } from '../../../components/Loader';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 const options = [
     "Roommate Preferences",
@@ -475,8 +476,14 @@ const ResetPassword = () => {
 
     const handleSubmit = async () => {
         try {
-            const { data, error } = await forgotPassword({ email: user.email });
-            if (error) return toast.error(error?.data || "Password reset failed.");
+            const { data, error } = await forgotPassword({ email: user?.['email'] || "" });
+            if (error) {
+                const errorMessage =
+                    "data" in error
+                        ? (error as FetchBaseQueryError).data as string
+                        : "Password reset failed.";
+                return toast.error(errorMessage);
+            }
             toast.success(data?.message || "Password reset email sent!");
         } catch (err) {
             console.error("Unexpected error:", err);

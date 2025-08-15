@@ -6,16 +6,16 @@ import React from "react"
 export const DropDownSelector: React.FC<{
     options: Array<string | number | null>
     selected: string | number | null
-    onSelect: (value: string | number | null) => void
-    className?:string
-}> = ({ options, selected, onSelect ,className ="md:hidden px-5 py-4  w-full bg-[#B3322F] text-white text-center flex items-center justify-center"}) => {
+    onSelect: (value: any) => void
+    className?: string
+}> = ({ options, selected, onSelect, className = "md:hidden px-5 py-4  w-full bg-[#B3322F] text-white text-center flex items-center justify-center" }) => {
     const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
 
     const handleSelect = (option: string | number | null) => {
         onSelect(option)
         setIsDropdownOpen(false)
     }
-console.log("ss===>",selected)
+    console.log("ss===>", selected)
     return (
         <div>
 

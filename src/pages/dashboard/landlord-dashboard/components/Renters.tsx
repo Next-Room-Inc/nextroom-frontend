@@ -1,9 +1,9 @@
+import { ArrowUpTrayIcon, CheckIcon } from '@heroicons/react/20/solid'
+import { motion } from 'framer-motion'
 import React, { useRef, useState } from 'react'
 import { Button, PrimaryButton } from '../../../../components/Button'
-import { ModalOverlay } from '../../../../components/ModalOverLay'
 import { DropDownSelector } from '../../../../components/DropDownSelector'
-import { ArrowUpTrayIcon, CheckIcon } from '@heroicons/react/20/solid'
-import { AnimatePresence, motion } from 'framer-motion'
+import { ModalOverlay } from '../../../../components/ModalOverLay'
 import Chat from '../../../chat/Chat'
 
 const Renters = () => {
@@ -191,7 +191,7 @@ const rentersData = [
 
 
 // ===================== Sample Data =====================
-const ReportActionHandler = ({ close }) => {
+const ReportActionHandler: React.FC<{ close: () => void }> = ({ close }) => {
     const [urgency, setUrgency] = useState<string | number | null>('');
     const [roommate, setRoommate] = useState<string | number | null>('');
     const [, setImages] = useState<FileList | null>(null);
@@ -316,7 +316,7 @@ const ReportActionHandler = ({ close }) => {
 }
 
 
-const StudentDetailsModal = ({ close }) => {
+const StudentDetailsModal: React.FC<{ close: () => void }> = ({ close }) => {
     return (
         <div className="md:px-5">
             {/* Profile Image */}

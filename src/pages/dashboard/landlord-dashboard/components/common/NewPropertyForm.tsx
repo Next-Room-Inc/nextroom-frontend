@@ -1,11 +1,11 @@
+import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { motion } from 'framer-motion';
 import React, { useRef, useState } from "react";
-import { ResponsiveTab } from "./ResponsiveTab";
+import { PrimaryButton } from "../../../../../components/Button";
 import { DropDownSelector } from "../../../../../components/DropDownSelector";
 import { NumberInput } from "../../../../../components/NumberInput";
-import { comunityAmenities, unitAmenities } from "../../../../../static-data";
-import { AnimatePresence, motion } from 'framer-motion';
-import { PrimaryButton } from "../../../../../components/Button";
-import { ArrowUpTrayIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { comunityAmenities } from "../../../../../static-data";
+import { ResponsiveTab } from "./ResponsiveTab";
 
 // Constants
 const tabOptions = ["Basic Information", "Building"];
@@ -31,7 +31,7 @@ const NewPropertyForm = () => {
 export default NewPropertyForm;
 
 const BasicInformationForm = () => {
-    const [yearBuilt, setYearBuilt] = useState(yearBuiltOptions[0]);
+    const [yearBuilt, setYearBuilt] = useState<number>(yearBuiltOptions[0]);
 
     return (
         <div className="flex flex-col gap-4 text-[#B3322F] font-semibold mb-4">
@@ -78,7 +78,6 @@ const BuildingForm = () => {
 
     const [price, setPrice] = useState<number>(1250);
     const [distance, setDistance] = useState<number>(8);
-    const [selectedAmenities, setSelectedAmenities] = useState<string[]>([]);
     const [selectedBeds, setSelectedBeds] = useState<number | null>(null);
     const [selectedBaths, setSelectedBaths] = useState<number | null>(null);
     const [selectedOccupancies, setSelectedOccupancies] = useState<number | null>(null);
@@ -88,7 +87,6 @@ const BuildingForm = () => {
     const [selectedUnitAmenities, setSelectedUnitAmenities] = useState<string[]>([])
     const [selectedComunityAmenities, setSelectedComunityAmenities] = useState<string[]>([])
 
-    console.log("-==--??", selectedUnitAmenities, selectedComunityAmenities)
     const handleUnitAmenityToggle = (amenity: string) => {
         setSelectedUnitAmenities((prev: string[]) =>
             prev.includes(amenity)
@@ -187,7 +185,7 @@ const BuildingForm = () => {
                         <p className=" md:text-lg text-md text-[#B3322F]  font-semibold mb-1  text-left">Unit Amenities</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6  mx-auto w-full">
                             {comunityAmenities.map((amenity, index) => (
-                                <AmenitiesButton key={index} selected={selectedComunityAmenities.includes(amenity.name)} onClick={() => handleCommunityAmenityToggle(amenity.name)}>
+                                <AmenitiesButton key={index} selected={selectedUnitAmenities.includes(amenity.name)} onClick={() => handleUnitAmenityToggle(amenity.name)}>
                                     <div className='flex items-center w-full gap-2 px-4'>
                                         <div className='flex-shrink-0 w-6 h-6'>
                                             <img

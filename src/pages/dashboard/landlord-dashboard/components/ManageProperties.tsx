@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Button, PrimaryButton } from '../../../../components/Button';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { AnimatePresence, motion } from 'framer-motion';
 import Select from '../../../../components/Select';
 import { IMAGES } from '../../../../utils/constants/app-info.constant';
 import NewPropertyForm from './common/NewPropertyForm';
@@ -103,10 +101,6 @@ const ManageProperties = () => {
                         property={propertyData.property}
                         propertyDetails={propertyData.propertyDetails}
                         location={propertyData.location}
-                        type={propertyData.type}
-                        priceRange={propertyData.priceRange}
-                        matchPercent={propertyData.matchPercent}
-                        statusText={propertyData.statusText}
                     />
                 ))}
             </div>
@@ -132,10 +126,6 @@ const ManageProperties = () => {
                         property={propertyData.property}
                         propertyDetails={propertyData.propertyDetails}
                         location={propertyData.location}
-                        type={propertyData.type}
-                        priceRange={propertyData.priceRange}
-                        matchPercent={propertyData.matchPercent}
-                        statusText={propertyData.statusText}
                     />
                 ))}
             </div>
@@ -204,14 +194,11 @@ const PropertyUnitCard: React.FC<{
     property: Property;
     propertyDetails: PropertyDetails;
     location: string;
-    type: string;
-    priceRange: string;
     bgClass?: string; // Tailwind background class (e.g., bg-gradient-to-r from-red-500 to-red-800)
-    setSelected: (value: number | null) => void
 }> = ({
+    title,
     property,
     propertyDetails,
-    title,
     location,
     bgClass = 'bg-gradient-to-r from-[#B3322F] to-[#4D1614]',
 }) => {

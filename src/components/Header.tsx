@@ -66,7 +66,12 @@ export default function Header({ darkMode = true }) {
       class: `px-2 md:px-4`,
     },
     {
-      name: <Link to={ROUTES.STUDENTS_DASHBOARD}>Dashboard</Link>,
+      name: <Link to={ROUTES.STUDENTS_DASHBOARD}>Student Dashboard</Link>,
+      href: "#",
+      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+    },
+    {
+      name: <Link to={ROUTES.LANDLORDS_DASHBOARD}>Landlord Dashboard</Link>,
       href: "#",
       class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
     },
