@@ -1,18 +1,17 @@
 import { toast } from "react-toastify";
-import { APP_INFO } from "../utils/constants";
- 
+import { APP_INFO } from "@src/utils/constants";
+
 interface BannerProps {
-  showModalHandler:(name:string, value:boolean)=> void,
-  submitted:boolean
+  showModalHandler: (name: string, value: boolean) => void,
+  submitted: boolean
 }
 
-export const Banner: React.FC<BannerProps> = ({showModalHandler, submitted}) => {
+export const Banner: React.FC<BannerProps> = ({ showModalHandler, submitted }) => {
   return (
     <>
       <div
-        className={`flex items-center gap-x-6 px-6 py-2.5 sm:px-3.5 sm:before:flex-1 ${
-          !submitted ? "bg-red-800" : "bg-green-500"
-        }`}
+        className={`flex items-center gap-x-6 px-6 py-2.5 sm:px-3.5 sm:before:flex-1 ${!submitted ? "bg-red-800" : "bg-green-500"
+          }`}
       >
         <p
           className="text-sm/6 text-white cursor-pointer w-full text-center"

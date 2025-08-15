@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 // import { useNavigate } from "react-router-dom";
-// import useAuth from "../custom-hooks/useAuth";
-// import { ROUTES } from "../utils/constants";
+// import useAuth from "@src/custom-hooks/useAuth";
+// import { ROUTES } from "@src/utils/constants";
 // import { LoaderComponent } from "../components/Loader";
 // import { toast } from "react-toastify";
- 
+
 export const OnboardingValidation: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {

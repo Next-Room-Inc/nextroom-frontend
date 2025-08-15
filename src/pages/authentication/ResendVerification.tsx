@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { LoaderComponent } from "../../components/Loader";
-import StudentSignupLayout from "../../layouts/StudentSignup.Layout";
-import { useResendVerificationMutation } from "../../redux/services/auth.service";
-import { ROUTES } from "../../utils/constants";
-import { ResendVerificationSchema } from "../../utils/schemas/auth.schema";
+import StudentSignupLayout from "@src/layouts/StudentSignup.Layout";
+import { useResendVerificationMutation } from "@src/redux/services/auth.service";
+import { ROUTES } from "@src/utils/constants";
+import { ResendVerificationSchema } from "@src/utils/schemas/auth.schema";
 
 
 const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;

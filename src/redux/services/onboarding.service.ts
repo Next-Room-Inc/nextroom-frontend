@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import * as interfaces from "../../utils/interfaces";
-import { StudentInterestsResponse } from "../../utils/interfaces";
+import * as interfaces from "@src/utils/interfaces";
+import { StudentInterestsResponse } from "@src/utils/interfaces";
 import { API_URL } from "../endpoints";
 import { baseQuery } from "../functions";
 

@@ -1,25 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "../pages/authentication/Login";
-import Signup from "../pages/authentication/Signup";
-import { NotFoundErrorPage } from "../pages/error/NotFoundErrorPage";
-import Home from "../pages/home/Home";
-import { ROUTES } from "../utils/constants";
+import Login from "@src/pages/authentication/Login";
+import Signup from "@src/pages/authentication/Signup";
+import { NotFoundErrorPage } from "@src/pages/error/NotFoundErrorPage";
+import Home from "@src/pages/home/Home";
+import { ROUTES } from "@src/utils/constants";
 import { IsLoginValidation } from "./route.validations";
-import { UnderConstruction } from "../pages/error/UnderConstruction";
-import Offers from "../pages/offers/Offers";
-import ForgotPassword from "../pages/authentication/ForgotPassword";
-import ResetPassword from "../pages/authentication/ResetPassword";
-import Onboarding from "../pages/onboarding/Onboarding";
-import SearchProperty from "../pages/search-property/SearchProperty";
-import VerifyEmail from "../pages/authentication/VerifyEmail";
-import StudentExperianceCenter from "../pages/student-experiance-center/StudentExperianceCenter";
-import NewsRoom from "../pages/newsroom/NewsRoom";
-import ResendVerification from "../pages/authentication/ResendVerification";
-import Blogs from "../pages/blogs/Blogs";
-import Chat from "../pages/chat/Chat";
+import { UnderConstruction } from "@src/pages/error/UnderConstruction";
+import Offers from "@src/pages/offers/Offers";
+import ForgotPassword from "@src/pages/authentication/ForgotPassword";
+import ResetPassword from "@src/pages/authentication/ResetPassword";
+import Onboarding from "@src/pages/onboarding/Onboarding";
+import SearchProperty from "@src/pages/search-property/SearchProperty";
+import VerifyEmail from "@src/pages/authentication/VerifyEmail";
+import StudentExperianceCenter from "@src/pages/student-experiance-center/StudentExperianceCenter";
+import NewsRoom from "@src/pages/newsroom/NewsRoom";
+import ResendVerification from "@src/pages/authentication/ResendVerification";
+import Blogs from "@src/pages/blogs/Blogs";
+import Chat from "@src/pages/chat/Chat";
 import { OnboardingValidation } from "./onboarding.validations";
-import StudentsDashboard from "../pages/student-dashboard/StudentsDashboard";
-import LandLordsDashboard from "../pages/dashboard/landlord-dashboard/LandLordsDashboard";
+import LandLordsDashboard from "@src/pages/dashboard/landlord-dashboard/LandLordsDashboard";
+import StudentsDashboard from "@src/pages/dashboard/student-dashboard/StudentsDashboard";
 
 export const routes = createBrowserRouter([
   {

@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { PrimaryButton } from "../../../../../components/Button";
 import { DropDownSelector } from "../../../../../components/DropDownSelector";
 import { NumberInput } from "../../../../../components/NumberInput";
-import { comunityAmenities } from "../../../../../static-data";
+import { comunityAmenities } from "@src/static-data/index";
 import { ResponsiveTab } from "./ResponsiveTab";
 
 // Constants

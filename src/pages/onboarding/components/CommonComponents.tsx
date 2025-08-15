@@ -6,8 +6,8 @@ import html2canvas from "html2canvas";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader, { LoaderComponent } from "../../../components/Loader";
-import { useCreateInviteQuery } from "../../../redux/services/auth.service";
-import { ROUTES } from "../../../utils/constants";
+import { useCreateInviteQuery } from "@src/redux/services/auth.service";
+import { ROUTES } from "@src/utils/constants";
 
 export const NextButton: React.FC<{
     disabled?: boolean;

@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from '@heroicons/react/16/solid';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { ICONS } from '../../../utils/constants/app-info.constant';
+import { ICONS } from '@src/utils/constants/app-info.constant';
 import { NextButton, PrimaryButton, QuestionTitle, SkipNextQuestionSection, transitionVariants } from './CommonComponents';
 const sectionName = 'SITUATION_BASED_SECTION'
 

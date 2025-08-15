@@ -2,8 +2,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { AvailableUnitsModal } from './AvailableUnitsModal';
 import { toast } from 'react-toastify';
-import { IMAGES } from '../../../utils/constants/app-info.constant';
-import { Property, PropertyDetails } from '../../../utils/interfaces/property.interface';
+import { IMAGES } from '@src/utils/constants/app-info.constant';
+import { Property, PropertyDetails } from '@src/utils/interfaces/property.interface';
 import { Button } from '../../../components/Button';
 
 

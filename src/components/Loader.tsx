@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { APP_INFO } from "../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 
 const Loader = () => {
   return (

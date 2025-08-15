@@ -13,44 +13,14 @@ import { Line } from 'react-chartjs-2';
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ROUTES } from "../../../utils/constants";
-import { IMAGES } from "../../../utils/constants/app-info.constant";
-import { Property, PropertyDetails } from "../../../utils/interfaces/property.interface";
+import { ROUTES } from "@src/utils/constants";
+import { IMAGES } from "@src/utils/constants/app-info.constant";
+import { Property, PropertyDetails } from "@src/utils/interfaces/property.interface";
 import { PrimaryButton } from "./ComponComponents";
 import GoogleMapComponent from "../../../components/GoogleMap";
 import { Button } from "../../../components/Button";
+import { UNIT_DETAILS } from "@src/static-data";
 
-const UNIT_DETAILS = {
-    title: "1 Bedroom",
-    imageUrl: "/assets/img/search-property/blueprint_1.png",
-    status: "Popular",
-    price: "$1,815",
-    amenities:
-        [
-            {
-                label: "1",
-                icon: "/assets/img/search-property/bed_black_icon.svg",
-                alt: "Bed Icon",
-            },
-            {
-                label: "1",
-                icon: "/assets/img/search-property/bath_black_icon.svg",
-                alt: "Bath Icon",
-            },
-            {
-                icon: "/assets/img/search-property/washer_black_icon.svg",
-                alt: "Washer Icon",
-            },
-            {
-                icon: "/assets/img/search-property/wahingmachine_black_icon.svg",
-                alt: "Washing Machine Icon",
-            },
-            {
-                icon: "/assets/img/search-property/parking_black_icon.svg",
-                alt: "Parking Icon",
-            },
-        ]
-}
 
 
 export const AvailableUnitsModal: React.FC<{

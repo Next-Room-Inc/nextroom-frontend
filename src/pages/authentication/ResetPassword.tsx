@@ -6,12 +6,12 @@ import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Loader from "../../components/Loader";
 import PasswordChecklist from "../../components/PasswordChecklist";
-import AuthLayout from "../../layouts/Auth.Layout";
-import { useResetPasswordMutation } from "../../redux/services/auth.service";
-import { APP_INFO, ROUTES } from "../../utils/constants";
+import AuthLayout from "@src/layouts/Auth.Layout";
+import { useResetPasswordMutation } from "@src/redux/services/auth.service";
+import { APP_INFO, ROUTES } from "@src/utils/constants";
 import {
   ResetPasswordSchema,
-} from "../../utils/schemas/auth.schema";
+} from "@src/utils/schemas/auth.schema";
 import { motion } from "framer-motion";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
@@ -149,19 +149,19 @@ const ResetPassword = () => {
             Reset
           </button> */}
 
-             <motion.button
-                      disabled={validationError}
-                      type="submit"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className={`px-20 mt-5 rounded-full ${validationError ? "bg-[#b3312f5e]" : ""
-                        } cursor-pointer bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
-                    >
-                      Forgot Password
-                    </motion.button>
+          <motion.button
+            disabled={validationError}
+            type="submit"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`px-20 mt-5 rounded-full ${validationError ? "bg-[#b3312f5e]" : ""
+              } cursor-pointer bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
+          >
+            Forgot Password
+          </motion.button>
           {/* Links  */}
           {/* <p className="mt-4 text-center text-sm/6 text-gray-500 font-semibold underline">
             <Link to={ROUTES.LOGIN}>Log in</Link>

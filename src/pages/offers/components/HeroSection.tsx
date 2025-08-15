@@ -1,7 +1,7 @@
 // `${APP_INFO.IMG_BASE_URL}/groups/Byward_Market/4.png`
 
-import { Button } from "../../components/Button";
-import { APP_INFO } from "../../utils/constants";
+import { Button } from "../../../components/Button";
+import { APP_INFO } from "@src/utils/constants";
 
 
 interface HeroSectionProps {

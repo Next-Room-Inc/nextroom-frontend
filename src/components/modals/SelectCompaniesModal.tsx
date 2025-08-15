@@ -1,8 +1,8 @@
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { useState } from "react";
-import { APP_INFO } from "../../utils/constants";
-import { SendPromotionEmailPayload } from "../../utils/interfaces";
+import { APP_INFO } from "@src/utils/constants";
+import { SendPromotionEmailPayload } from "@src/utils/interfaces";
 
 const mailingLists = [
   {
@@ -63,7 +63,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
         {/* Modal */}
         <fieldset>
           <legend className="text-sm font-semibold text-white text-center">
-          I'm Interested In...
+            I'm Interested In...
           </legend>
           <div className="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-4 justify-center ">
             {mailingLists.map((mailingList) => {

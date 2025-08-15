@@ -10,44 +10,14 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import SearchPropertyLayout from '../../layouts/SearchProperty.Layout';
+import SearchPropertyLayout from '@src/layouts/SearchProperty.Layout';
 import SignupOrLoginModal from '../../components/modals/SignupOrLoginModal';
-import useAuth from '../../custom-hooks/useAuth';
+import useAuth from '@src/custom-hooks/useAuth';
 import { Button } from '../../components/Button';
+import { housingdetails } from '@src/static-data';
 
 
-const housingdetails = [
-  {
-    imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    repairType: "Broken Washing Machine",
-    status: "Complete",
-    date: "September 15, 2025",
-  },
-  {
-    imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    repairType: "Broken Washing Machine",
-    status: "Complete",
-    date: "September 15, 2025",
-  },
-  {
-    imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    repairType: "Broken Washing Machine",
-    status: "Complete",
-    date: "September 15, 2025",
-  },
-  {
-    imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    repairType: "Broken Washing Machine",
-    status: "Complete",
-    date: "September 15, 2025",
-  },
-  {
-    imageUrl: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
-    repairType: "Broken Washing Machine",
-    status: "Complete",
-    date: "September 15, 2025",
-  },
-]
+
 
 const StudentExperianceCenter = () => {
   const { isLoggedIn } = useAuth();

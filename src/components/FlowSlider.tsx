@@ -1,6 +1,6 @@
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { APP_INFO } from "../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 
 const features = [
   {
@@ -64,11 +64,11 @@ export const FlowSlider = () => {
                 <div className="absolute inset-0  p-5 flex flex-col justify-end text-white cursor-pointer ">
                   <div className="flex items-center gap-3 mb-2">
                     <div className=" bg-[#B3322F] p-5 rounded-full">
-                    <img
-                      src={`${APP_INFO.IMG_BASE_URL}images/${feature.icon}`}
-                      alt=""
-                      className={feature.className}
-                    />
+                      <img
+                        src={`${APP_INFO.IMG_BASE_URL}images/${feature.icon}`}
+                        alt=""
+                        className={feature.className}
+                      />
                     </div>
                     <div className="text-left">
                       <h3 className="text-lg font-semibold mb-1">

@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from "framer-motion"
 import { useEffect, useState } from 'react'
 import { LoaderComponent } from '../../components/Loader'
 import PropertyFilters from '../../components/PropertyFilters'
-import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
-import { useGetEntrataPropertiesQuery } from '../../redux/services/property.service'
+import SearchPropertyLayout from '@src/layouts/SearchProperty.Layout'
+import { useGetEntrataPropertiesQuery } from '@src/redux/services/property.service'
 import { HousingCard, PrimaryButton } from './components/ComponComponents'
 
 // const housingdetails = [

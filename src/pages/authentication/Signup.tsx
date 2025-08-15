@@ -7,13 +7,13 @@ import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 // import GiveAwayModal from "../../components/modals/GiveAwayModal";
 import PasswordChecklist from "../../components/PasswordChecklist";
-// import useAuth from "../../custom-hooks/useAuth";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
-import StudentSignupLayout from "../../layouts/StudentSignup.Layout";
-import { useStudentSignupMutation } from "../../redux/services/auth.service";
-import { APP_INFO } from "../../utils/constants";
-import { StudentSignupPayload } from "../../utils/interfaces";
-import { SignupSchema } from "../../utils/schemas/auth.schema";
+// import useAuth from "@src/custom-hooks/useAuth";
+import { useLocalStorage } from "@src/hooks/useLocalStorage";
+import StudentSignupLayout from "@src/layouts/StudentSignup.Layout";
+import { useStudentSignupMutation } from "@src/redux/services/auth.service";
+import { APP_INFO } from "@src/utils/constants";
+import { StudentSignupPayload } from "@src/utils/interfaces";
+import { SignupSchema } from "@src/utils/schemas/auth.schema";
 import { ArrowUpTrayIcon, EyeIcon } from "@heroicons/react/20/solid";
 import { CropperRef, Cropper, CircleStencil } from 'react-advanced-cropper';
 import 'react-advanced-cropper/dist/style.css'
@@ -256,7 +256,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
               className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
             />
           </div>
-          {formik.values.password && formik.touched.password   && formik.values.password.length ? (
+          {formik.values.password && formik.touched.password && formik.values.password.length ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -271,7 +271,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
       {/* Confirm Password */}
       <div className="mb-2">
         <div className="mt-4">
-          <div className={`${inputClass} relative ${formik.values.confirmPassword &&  formik.touched.password && formik.errors.password
+          <div className={`${inputClass} relative ${formik.values.confirmPassword && formik.touched.password && formik.errors.password
             ? "  outline-1 outline-red-600"
             : "  outline-1 outline-gray-300"} `}>
             <input

@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Loader from "../../components/Loader";
-import useAuth from "../../custom-hooks/useAuth";
-import AuthLayout from "../../layouts/Auth.Layout";
-import { useStudentLoginMutation } from "../../redux/services/auth.service";
-import { ROUTES } from "../../utils/constants";
-import { LoginSchema } from "../../utils/schemas/auth.schema";
+import useAuth from "@src/custom-hooks/useAuth";
+import AuthLayout from "@src/layouts/Auth.Layout";
+import { useStudentLoginMutation } from "@src/redux/services/auth.service";
+import { ROUTES } from "@src/utils/constants";
+import { LoginSchema } from "@src/utils/schemas/auth.schema";
 import { useState } from 'react'
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { motion } from "framer-motion";

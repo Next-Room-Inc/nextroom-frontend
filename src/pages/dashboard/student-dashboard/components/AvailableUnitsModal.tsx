@@ -13,11 +13,11 @@ import { Line } from 'react-chartjs-2';
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ROUTES } from "../../../utils/constants";
-import { IMAGES } from "../../../utils/constants/app-info.constant";
-import { Property, PropertyDetails } from "../../../utils/interfaces/property.interface";
-import GoogleMapComponent from "../../../components/GoogleMap";
-import { Button, PrimaryButton } from "../../../components/Button";
+import { ROUTES } from "@src/utils/constants";
+import { IMAGES } from "@src/utils/constants/app-info.constant";
+import { Property, PropertyDetails } from "@src/utils/interfaces/property.interface";
+import GoogleMapComponent from "../../../../components/GoogleMap";
+import { Button, PrimaryButton } from "../../../../components/Button";
 
 const UNIT_DETAILS = {
     title: "1 Bedroom",

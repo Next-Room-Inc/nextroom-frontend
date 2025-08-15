@@ -5,11 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import Confetti from 'react-confetti';
 // import QRCode from "react-qr-code";
 import { LoaderComponent } from '../../../components/Loader';
-import { ICONS } from '../../../utils/constants/app-info.constant';
-import { updateOnboardingStatusPayload } from '../../../utils/interfaces';
+import { ICONS } from '@src/utils/constants/app-info.constant';
+import { updateOnboardingStatusPayload } from '@src/utils/interfaces';
 import { NextButton, PrimaryButton, SkipNextQuestionSection, transitionVariants } from "./CommonComponents";
 import { Button } from '../../../components/Button';
-import { comunityAmenities, unitAmenities } from '../../../static-data';
+import { comunityAmenities, unitAmenities } from '@src/static-data/index';
 
 
 interface PropertySectionParams {

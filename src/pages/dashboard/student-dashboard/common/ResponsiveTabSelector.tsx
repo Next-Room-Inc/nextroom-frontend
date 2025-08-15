@@ -3,7 +3,7 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropertyFilters from "../../../components/PropertyFilters";
+import PropertyFilters from "../../../../components/PropertyFilters";
 
 export const ResponsiveTabSelector: React.FC<{
     tabOptions: string[],

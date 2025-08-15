@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { ICONS } from '../utils/constants/app-info.constant';
- 
+import { ICONS } from '@src/utils/constants/app-info.constant';
+
 const StudentSignupLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [initialStep, setInitialStep] = useState(true)
 
@@ -16,9 +16,9 @@ const StudentSignupLayout: React.FC<{ children: React.ReactNode }> = ({ children
     >
       <Header darkMode={true} />
       {/* left */}
-      <div    className="flex flex-1 flex-row   border-[#B3322F] border-b-4 " >
+      <div className="flex flex-1 flex-row   border-[#B3322F] border-b-4 " >
         <div className={` 
-         ${initialStep ? 'hidden md:flex' : 'flex' } 
+         ${initialStep ? 'hidden md:flex' : 'flex'} 
         bg-white bg-[url(/assets/img/backgrounds/signup_bg_2.png)] bg-cover bg-center w-full md:max-w-md min-h-full items-center justify-center`}
         >
           <div className="w-full ">

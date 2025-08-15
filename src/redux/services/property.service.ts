@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { EntrataProperty } from "../../utils/interfaces/property.interface";
+import { EntrataProperty } from "@src/utils/interfaces/property.interface";
 import { API_URL } from "../endpoints";
 import { baseQuery } from "../functions";
 

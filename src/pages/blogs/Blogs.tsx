@@ -1,10 +1,11 @@
 import { ArrowRightIcon, ChevronDownIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid"
-import SearchPropertyLayout from "../../layouts/SearchProperty.Layout"
+import SearchPropertyLayout from "@src/layouts/SearchProperty.Layout"
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { APP_INFO } from "../../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 import { motion } from 'framer-motion';
+import { blogsList } from "@src/static-data";
 
 
 const Blogs = () => {
@@ -146,32 +147,7 @@ const Blogs = () => {
 export default Blogs
 
 
-const blogsList = [
-  {
-    image: `slider_1.png`,
-    title: "What’s Driving Ottawa’s Rising Rental Prices in 2025?",
-    date: "September 1, 2025",
-    trending: true,
-  },
-  {
-    title: "What’s Driving Ottawa’s Rising Rental Prices in 2025?",
-    date: "September 1, 2025",
-    trending: true,
-    image: `slider_2.png`,
-  },
-  {
-    title: "What’s Driving Ottawa’s Rising Rental Prices in 2025?",
-    date: "September 1, 2025",
-    trending: true,
-    image: `slider_3.png`,
-  },
-  {
-    title: "What’s Driving Ottawa’s Rising Rental Prices in 2025?",
-    date: "September 1, 2025",
-    trending: true,
-    image: `slider_4.png`,
-  },
-];
+
 
 export const BlogSliderComponent = () => {
   return (

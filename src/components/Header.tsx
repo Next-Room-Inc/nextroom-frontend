@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Wave from 'react-wavify';
-import useAuth from "../custom-hooks/useAuth";
-import { APP_INFO, ROUTES } from "../utils/constants";
+import useAuth from "@src/custom-hooks/useAuth";
+import { APP_INFO, ROUTES } from "@src/utils/constants";
 
 
 export default function Header({ darkMode = true }) {

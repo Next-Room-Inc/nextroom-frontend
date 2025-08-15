@@ -1,4 +1,4 @@
-import { APP_INFO } from "../../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 
 interface RentFreeModalProps {
   showModalHandler: (name: string, value: boolean) => void; // Assuming this is a function without parameters that returns void

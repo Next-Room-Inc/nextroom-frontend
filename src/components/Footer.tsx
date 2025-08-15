@@ -1,7 +1,7 @@
 import { SVGProps, useState } from "react";
 import { JSX } from "react/jsx-runtime";
-import { APP_INFO, ROUTES } from "../utils/constants";
-import { IMAGES } from "../utils/constants/app-info.constant";
+import { APP_INFO, ROUTES } from "@src/utils/constants";
+import { IMAGES } from "@src/utils/constants/app-info.constant";
 import { Link } from "react-router-dom";
 
 const footerNavigation = {
@@ -147,11 +147,10 @@ const Footer = () => {
                         role="button"
                         tabIndex={0}
                         onClick={() => setSelectedLang(lang.code)}
-                        className={`cursor-pointer transition duration-300  ${
-                          selectedLang === lang.code
-                            ? "underline underline-offset-4 font-bold"
-                            : "hover:text-gray-300"
-                        }`}
+                        className={`cursor-pointer transition duration-300  ${selectedLang === lang.code
+                          ? "underline underline-offset-4 font-bold"
+                          : "hover:text-gray-300"
+                          }`}
                       >
                         {lang.label}
                       </span>
@@ -175,16 +174,14 @@ const Footer = () => {
                     <img
                       src={`${APP_INFO.IMG_BASE_URL}icons/down-arrow.png`}
                       alt=""
-                      className={`h-2 w-3 mt-3 ${
-                        companyOpen ? "rotate-180" : ""
-                      } md:hidden transition-all duration-300 ease-in-out`}
+                      className={`h-2 w-3 mt-3 ${companyOpen ? "rotate-180" : ""
+                        } md:hidden transition-all duration-300 ease-in-out`}
                     />
                   </div>
                   <ul
                     role="list"
-                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${
-                      companyOpen ? "max-h-96" : "max-h-0"
-                    } md:max-h-none`}
+                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${companyOpen ? "max-h-96" : "max-h-0"
+                      } md:max-h-none`}
                   >
                     {footerNavigation.company.map((item) => (
                       <li key={item.name}>
@@ -212,16 +209,14 @@ const Footer = () => {
                     <img
                       src={`${APP_INFO.IMG_BASE_URL}icons/down-arrow.png`}
                       alt=""
-                      className={`h-2 w-3 mt-3 ${
-                        partnersOpen ? "rotate-180" : ""
-                      } md:hidden transition-all duration-300 ease-in-out`}
+                      className={`h-2 w-3 mt-3 ${partnersOpen ? "rotate-180" : ""
+                        } md:hidden transition-all duration-300 ease-in-out`}
                     />
                   </div>
                   <ul
                     role="list"
-                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${
-                      partnersOpen ? "max-h-96" : "max-h-0"
-                    } md:max-h-none`}
+                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${partnersOpen ? "max-h-96" : "max-h-0"
+                      } md:max-h-none`}
                   >
                     {footerNavigation.partners.map((item) => (
                       <li key={item.name}>
@@ -249,16 +244,14 @@ const Footer = () => {
                     <img
                       src={`${APP_INFO.IMG_BASE_URL}icons/down-arrow.png`}
                       alt=""
-                      className={`h-2 w-3 mt-3 ${
-                        supportOpen ? "rotate-180" : ""
-                      } md:hidden transition-all duration-300 ease-in-out`}
+                      className={`h-2 w-3 mt-3 ${supportOpen ? "rotate-180" : ""
+                        } md:hidden transition-all duration-300 ease-in-out`}
                     />
                   </div>
                   <ul
                     role="list"
-                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${
-                      supportOpen ? "max-h-96" : "max-h-0"
-                    } md:max-h-none`}
+                    className={`mt-4 space-y-1 transition-all duration-300 ease-in-out overflow-hidden ${supportOpen ? "max-h-96" : "max-h-0"
+                      } md:max-h-none`}
                   >
                     {footerNavigation.support.map((item) => (
                       <li key={item.name}>

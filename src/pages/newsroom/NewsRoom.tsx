@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import SignupOrLoginModal from '../../components/modals/SignupOrLoginModal'
-import useAuth from '../../custom-hooks/useAuth'
-import SearchPropertyLayout from '../../layouts/SearchProperty.Layout'
-import { APP_INFO } from '../../utils/constants'
+import useAuth from '@src/custom-hooks/useAuth'
+import SearchPropertyLayout from '@src/layouts/SearchProperty.Layout'
+import { APP_INFO } from '@src/utils/constants'
 
 const NewsRoom = () => {
   const { isLoggedIn } = useAuth();

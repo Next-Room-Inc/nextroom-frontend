@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../utils/constants";
+import { ROUTES } from "@src/utils/constants";
 import { motion } from "framer-motion";
 
 const SignupOrLoginModal: React.FC<{

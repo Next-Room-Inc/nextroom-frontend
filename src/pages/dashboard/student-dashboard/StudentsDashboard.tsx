@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import StudentDashboard from "../../layouts/StudentDashboard.Layout";
+import StudentDashboard from "@src/layouts/StudentDashboard.Layout";
 import Explore from "./components/Explore";
 import Matches from "./components/Matches";
 import MyHousingSearch from "./components/MyHousingSearch";

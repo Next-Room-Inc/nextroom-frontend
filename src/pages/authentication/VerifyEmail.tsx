@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LoaderComponent } from "../../components/Loader";
-import StudentSignupLayout from "../../layouts/StudentSignup.Layout";
-import { useVerifyEmailMutation } from "../../redux/services/auth.service";
-import { ROUTES } from "../../utils/constants";
+import StudentSignupLayout from "@src/layouts/StudentSignup.Layout";
+import { useVerifyEmailMutation } from "@src/redux/services/auth.service";
+import { ROUTES } from "@src/utils/constants";
 import { motion } from "framer-motion";
 
 const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full cursor-pointer`;

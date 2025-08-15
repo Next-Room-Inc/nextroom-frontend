@@ -1,7 +1,7 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/20/solid";
 import { motion } from 'framer-motion';
 import { useState } from "react";
-import Chat from "../pages/chat/Chat";
+import Chat from "@src/pages/chat/Chat";
 
 export const ChatButton = () => {
     const [chat, setChat] = useState(false);

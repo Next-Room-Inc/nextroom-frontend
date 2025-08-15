@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { APP_INFO } from "../../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 
 export const NotFoundErrorPage = () => {
   return (
@@ -20,7 +20,7 @@ export const NotFoundErrorPage = () => {
           Sorry, we couldn’t find the page you’re looking for.
         </p>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-        <Link
+          <Link
             to="/"
             className="rounded-md bg-[#7C221F] px-3.5 py-2.5 text-sm font-semibold text-postgres shadow-sm hover:bg-[#B3322F] text-white"
           >

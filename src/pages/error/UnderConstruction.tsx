@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { APP_INFO } from "../../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 
 export const UnderConstruction = () => {
   return (

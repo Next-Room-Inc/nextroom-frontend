@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
-import { useSendPromotionEmailMutation } from "../../redux/services/promotions.service";
-import { SendPromotionEmailPayload } from "../../utils/interfaces";
-import { HeroSection } from "./HeroSection";
+import { SendPromotionEmailPayload } from "@src/utils/interfaces";
+import { HeroSection } from "./components/HeroSection";
 import { Banner } from "../../components/Banner";
-import { Listings } from "./Listings";
+import { Listings } from "./components/Listings";
 import Loader from "../../components/Loader";
 import RentFreeModal from "../../components/modals/RentFreeModal";
 import SelectCompaniesModal from "../../components/modals/SelectCompaniesModal";
+import { useSendPromotionEmailMutation } from "@src/redux/services/promotions.service";
 
 const Offers = () => {
   const [sendPromotionEmail, { isLoading }] = useSendPromotionEmailMutation();
@@ -57,7 +57,7 @@ const Offers = () => {
       {(showModal?.rentFree && false) && (
         <RentFreeModal {...{ showModalHandler, showModal }} />
       )}
-      {(showModal?.selectCompanies && false ) && (
+      {(showModal?.selectCompanies && false) && (
         <SelectCompaniesModal
           {...{ showModalHandler, showModal, submitValueHandler }}
         />

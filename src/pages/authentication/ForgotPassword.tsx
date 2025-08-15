@@ -4,10 +4,10 @@ import { Popover } from "react-tiny-popover";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import Loader from "../../components/Loader";
-import AuthLayout from "../../layouts/Auth.Layout";
-import { useForgotPasswordMutation } from "../../redux/services/auth.service";
-import { APP_INFO } from "../../utils/constants";
-import { ForgotPasswordSchema } from "../../utils/schemas/auth.schema";
+import AuthLayout from "@src/layouts/Auth.Layout";
+import { useForgotPasswordMutation } from "@src/redux/services/auth.service";
+import { APP_INFO } from "@src/utils/constants";
+import { ForgotPasswordSchema } from "@src/utils/schemas/auth.schema";
 import { motion } from "framer-motion";
 
 const inputClass = `block w-full rounded-full shadow-md bg-white px-3 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-gray-600 sm:text-sm/6`;
@@ -118,7 +118,7 @@ const ForgotPassword = () => {
             ) : null}
           </div>
 
-        
+
 
           {/*  Button */}
           <motion.button

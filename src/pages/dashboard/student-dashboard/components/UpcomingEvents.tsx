@@ -3,12 +3,12 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { ModalOverlay } from '../../../components/ModalOverLay'
-import { APP_INFO } from '../../../utils/constants'
-import { PrimaryButton } from '../../onboarding/components/CommonComponents'
+import { ModalOverlay } from '../../../../components/ModalOverLay'
+import { APP_INFO } from '@src/utils/constants'
+import { PrimaryButton } from '../../../onboarding/components/CommonComponents'
 
 export const UpcomingEvents = () => {
-    const [selectedEvent, setSelectedEvent] = useState<null |number>(null)
+    const [selectedEvent, setSelectedEvent] = useState<null | number>(null)
     type ModalType = 'signup' | 'complete' | 'cancel' | null
     const [activeModal, setActiveModal] = useState<ModalType>(null)
 
@@ -255,7 +255,7 @@ function EventSignupModal({
 
             <div className="flex justify-center mt-5">
                 <PrimaryButton
-                    selected 
+                    selected
                     className="w-full md:w-60 py-3 text-xs"
                     onClick={() => {
                         onClose()
@@ -289,14 +289,14 @@ function EventSignupCompletionModal({
 
             <div className="flex justify-center flex-col md:flex-row mt-6 gap-4">
                 <PrimaryButton
-                    selected 
+                    selected
                     className="w-full md:w-60 py-3 text-xs"
                     onClick={onClose}
                 >
                     Close
                 </PrimaryButton>
                 <PrimaryButton
-                    selected 
+                    selected
                     className="w-full md:w-60 py-3 text-xs"
                     onClick={() => {
                         onClose()

@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react'
 import Loader, { LoaderComponent } from './Loader';
-import { useCreateInviteQuery } from '../redux/services/auth.service';
+import { useCreateInviteQuery } from '@src/redux/services/auth.service';
 import { ArrowPathIcon } from '@heroicons/react/20/solid';
 import { motion } from 'framer-motion';
 import html2canvas from 'html2canvas';
 import { toast } from 'react-toastify';
 
 const Invite = () => {
-   const { data, isLoading, isError, error, refetch } = useCreateInviteQuery();
+    const { data, isLoading, isError, error, refetch } = useCreateInviteQuery();
     console.log(data, isError, error)
     return (
         <>
@@ -125,7 +125,7 @@ export const ShareSection = ({ url = "", qrCodePath = "" }) => {
 
     return (
         <div className='text-center'>
-        
+
             {loader && <Loader />}
 
             {/* Hidden container to capture */}
@@ -147,36 +147,36 @@ export const ShareSection = ({ url = "", qrCodePath = "" }) => {
                 Share To Invite
             </motion.button>
 
-           
-                {showDropdown && (
-                    <motion.div
-                        className="mx-10"
-                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                    >
-                        <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-8 rounded-xl shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-max mx-auto">
-                            {buttons.map((button) => (
-                                <motion.button
-                                    onClick={button.onClick}
-                                    key={button.name}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="bg-[#B3322F] text-white rounded-full flex w-full md:w-[200px] items-center justify-center py-2 text-center gap-2 transition-all"
-                                >
-                                    <p>{button.name}</p>
-                                    <img
-                                        alt=""
-                                        className="h-4"
-                                        src={`/assets/img/icons/${button.icon}`}
-                                    />
-                                </motion.button>
-                            ))}
-                        </div>
-                    </motion.div>
-                )}
-            
+
+            {showDropdown && (
+                <motion.div
+                    className="mx-10"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                    <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-8 rounded-xl shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-max mx-auto">
+                        {buttons.map((button) => (
+                            <motion.button
+                                onClick={button.onClick}
+                                key={button.name}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-[#B3322F] text-white rounded-full flex w-full md:w-[200px] items-center justify-center py-2 text-center gap-2 transition-all"
+                            >
+                                <p>{button.name}</p>
+                                <img
+                                    alt=""
+                                    className="h-4"
+                                    src={`/assets/img/icons/${button.icon}`}
+                                />
+                            </motion.button>
+                        ))}
+                    </div>
+                </motion.div>
+            )}
+
 
         </div>
     )

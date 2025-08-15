@@ -1,14 +1,15 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import { IMAGES } from '../../../utils/constants/app-info.constant';
-import { Property, PropertyDetails } from '../../../utils/interfaces';
-import { AvailableUnitsModal } from './AvailableUnitsModal';
+import React, { useState } from 'react'
+import { useGetEntrataPropertiesQuery } from '@src/redux/services/property.service';
+import { LoaderComponent } from '../../../../components/Loader';
 import { ArrowPathIcon } from '@heroicons/react/20/solid';
-import { LoaderComponent } from '../../../components/Loader';
-import { useGetEntrataPropertiesQuery } from '../../../redux/services/property.service';
-import PulseHoverLayout from '../../../layouts/PulseHover.Layout';
-import { Button } from '../../../components/Button';
+import { toast } from 'react-toastify';
+import { Property, PropertyDetails } from '@src/utils/interfaces';
+import { AnimatePresence, motion } from "framer-motion";
+import { AvailableUnitsModal } from '../../../search-property/components/AvailableUnitsModal';
+import { IMAGES } from '@src/utils/constants/app-info.constant';
+import PulseHoverLayout from '@src/layouts/PulseHover.Layout';
+import { Button } from '../../../../components/Button';
+
 
 const demoDetails = {
     title: "Alma @ ByWard Market",
@@ -20,7 +21,7 @@ const demoDetails = {
     bgClass: "bg-gradient-to-br from-[#B3322F] to-[#4D1614]",
 }
 
-const Explore = () => {
+const Matches = () => {
     const [selected, setSelected] = useState<number | null>(null);
     const { data = [], isLoading, isError, refetch } = useGetEntrataPropertiesQuery();
 
@@ -43,7 +44,7 @@ const Explore = () => {
                             </motion.div>
                         </div > : <>
 
-                            {(data[0]?.floorplans || []).map((propertyDetails, index) => <ExploreHousingCard
+                            {(data[0]?.floorplans || []).map((propertyDetails, index) => <MatchingHousingCard
                                 index={index}
                                 selected={selected === index}
                                 setSelected={setSelected}
@@ -58,10 +59,11 @@ const Explore = () => {
     )
 }
 
-export default Explore
+export default Matches
 
 
-export const ExploreHousingCard: React.FC<{
+
+export const MatchingHousingCard: React.FC<{
     title: string;
     property: Property;
     propertyDetails: PropertyDetails;

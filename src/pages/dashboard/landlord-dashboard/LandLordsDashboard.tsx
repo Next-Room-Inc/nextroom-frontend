@@ -1,7 +1,7 @@
 import { Cog8ToothIcon } from '@heroicons/react/20/solid';
 import { JSX } from 'react';
 import { useParams } from 'react-router-dom';
-import LandlordDashboardLayout from '../../../layouts/LandlordDashboard.Layout';
+import LandlordDashboardLayout from '@src/layouts/LandlordDashboard.Layout';
 import Analytics from './components/Analytics';
 import BillingAndSubscription from './components/BillingAndSubscription';
 import { ResponsiveTabSelector } from './components/common/ResponsiveTabSelector';

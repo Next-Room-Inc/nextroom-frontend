@@ -1,7 +1,7 @@
 import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { APP_INFO } from "../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 
 const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <>

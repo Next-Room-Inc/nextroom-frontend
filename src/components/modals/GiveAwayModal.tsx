@@ -1,4 +1,4 @@
-import { APP_INFO } from "../../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 
 interface GiveAwayModalProps {
   handleNext: () => void;

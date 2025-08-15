@@ -1,8 +1,8 @@
 // useAuth.ts
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../utils/constants";
-import * as interfaces from "../utils/interfaces";
+import { ROUTES } from "@src/utils/constants";
+import * as interfaces from "@src/utils/interfaces";
 
 interface LoginResponse {
   token: string;
@@ -48,12 +48,12 @@ const useAuth = () => {
   // handleUpdateUser
   const handleUpdateUser = (userPayload: Partial<interfaces.StudentUser>) => {
     const updatedUser: interfaces.StudentUser = {
-    ...user,
-    ...userPayload,
-  };
+      ...user,
+      ...userPayload,
+    };
 
-  localStorage.setItem("user", JSON.stringify(updatedUser));
-  setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+    setUser(updatedUser);
   };
 
   return {

@@ -3,14 +3,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { useRef, useState } from 'react';
 import { CircleStencil, Cropper, CropperRef } from 'react-advanced-cropper';
 import { toast } from 'react-toastify';
-import { Button } from '../../../components/Button';
-import Invite from '../../../components/Invite';
-import Loader from '../../../components/Loader';
-import { ModalOverlay } from '../../../components/ModalOverLay';
-import useAuth from '../../../custom-hooks/useAuth';
-import { useForgotPasswordMutation } from '../../../redux/services/auth.service';
-import { APP_INFO } from '../../../utils/constants';
-import { PrimaryButton } from '../../onboarding/components/CommonComponents';
+import { Button } from '../../../../components/Button';
+import Invite from '../../../../components/Invite';
+import Loader from '../../../../components/Loader';
+import { ModalOverlay } from '../../../../components/ModalOverLay';
+import useAuth from '@src/custom-hooks/useAuth';
+import { useForgotPasswordMutation } from '@src/redux/services/auth.service';
+import { APP_INFO } from '@src/utils/constants';
+import { PrimaryButton } from '../../../onboarding/components/CommonComponents';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 
 const options = [

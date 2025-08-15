@@ -1,6 +1,6 @@
 import { TypeAnimation } from "react-type-animation";
 import { FlowSlider } from "../../components/FlowSlider";
-import { APP_INFO } from "../../utils/constants";
+import { APP_INFO } from "@src/utils/constants";
 import Blur from "../../components/Blur";
 import { useRef, useEffect } from "react";
 import { useInView } from 'react-intersection-observer';

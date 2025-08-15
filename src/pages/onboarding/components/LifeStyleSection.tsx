@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { LoaderComponent } from '../../../components/Loader';
 import { CustomSelect } from '../../../components/Select';
-import { useGetAllStudentInterestsQuery } from '../../../redux/services/onboarding.service';
-import { ICONS } from '../../../utils/constants/app-info.constant';
-import { Interest, InterestCategory } from '../../../utils/interfaces';
+import { useGetAllStudentInterestsQuery } from '@src/redux/services/onboarding.service';
+import { ICONS } from '@src/utils/constants/app-info.constant';
+import { Interest, InterestCategory } from '@src/utils/interfaces';
 import { NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 import { MultiSelectWithIds } from '../../../components/MultiSelect';
 const sectionName = 'LIFE_STYLE_SECTION'

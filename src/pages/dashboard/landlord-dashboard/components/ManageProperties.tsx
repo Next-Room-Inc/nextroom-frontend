@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, PrimaryButton } from '../../../../components/Button';
 import Select from '../../../../components/Select';
-import { IMAGES } from '../../../../utils/constants/app-info.constant';
+import { IMAGES } from '@src/utils/constants/app-info.constant';
 import NewPropertyForm from './common/NewPropertyForm';
 
 
