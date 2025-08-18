@@ -21,6 +21,16 @@ export const baseQuery = fetchBaseQuery({
   validateStatus: (response, result) => {
     console.log("🚀 ~ response:", response);
     console.log("🚀 ~  result:", result);
+
+    if (response.status === 401) {
+      //remove token from localStorage and redirect to login
+      localStorage.removeItem("token");
+      // remove user data from localStorage and redirect to login
+      localStorage.removeItem("user");
+      // redirect to login page
+      window.location.assign("/login");
+    }
+
     return [201, 200].includes(response.status);
   },
 });
