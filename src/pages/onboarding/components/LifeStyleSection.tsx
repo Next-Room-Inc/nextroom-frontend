@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { LoaderComponent } from '../../../components/Loader';
 import { CustomSelect } from '../../../components/Select';
-import { useGetAllStudentInterestsQuery } from '@src/redux/services/onboarding.service';
-import { ICONS } from '@src/utils/constants/app-info.constant';
-import { Interest, InterestCategory } from '@src/utils/interfaces';
+import { useGetAllStudentInterestsQuery } from '../../../redux/services/onboarding.service';
+import { ICONS } from '../../../utils/constants/app-info.constant';
+import { Interest, InterestCategory } from '../../../utils/interfaces';
 import { NextButton, PrimaryButton, QuestionTitle, transitionVariants } from './CommonComponents';
 import { MultiSelectWithIds } from '../../../components/MultiSelect';
 const sectionName = 'LIFE_STYLE_SECTION'
@@ -185,30 +185,30 @@ const WhatDoYouEnjoySections: React.FC<{
     console.log("causesInOptions===>", causesInOptions)
     // const [selected, setSelected] = useState<string[]>(answers.SOCIAL || []);
 
-    const [selectedSocials, setSelectedSocials] = useState<string[]>(answers.SOCIAL || []);
-    const [selectedStayingIn, setSelectedStayingIn] = useState<string[]>(answers.STAYING_IN || []);
-    const [selectedCauses, setSelectedCauses] = useState<string[]>(answers.CAUSES || []);
-    const [selectedPersonal, setSelectedPersonal] = useState<string[]>(answers.PERSONAL || []);
+    const selectedSocials = answers.SOCIAL || []
+    const selectedStayingIn = answers.STAYING_IN || []
+    const selectedCauses = answers.CAUSES || []
+    const selectedPersonal = answers.PERSONAL || []
     // console.log("selectedSocials===>", selectedSocials)
 
 
     const nextStep = () => {
-        handleAnswer(sectionName, 'SOCIAL', selectedSocials);
-        handleAnswer(sectionName, 'STAYING_IN', selectedStayingIn);
-        handleAnswer(sectionName, 'CAUSES', selectedCauses);
-        handleAnswer(sectionName, 'PERSONAL', selectedPersonal);
-        console.log("ttt===>>>>>", selectedSocials,
-            selectedStayingIn,
-            selectedCauses,
-            selectedPersonal)
+        // handleAnswer(sectionName, 'SOCIAL', selectedSocials);
+        // handleAnswer(sectionName, 'STAYING_IN', selectedStayingIn);
+        // handleAnswer(sectionName, 'CAUSES', selectedCauses);
+        // handleAnswer(sectionName, 'PERSONAL', selectedPersonal);
+        // console.log("ttt===>>>>>", selectedSocials,
+        //     selectedStayingIn,
+        //     selectedCauses,
+        //     selectedPersonal)
         nextSectionHandler();
     };
 
     const sections = [
-        { title: 'Social', options: socialOptions, selected: selectedSocials, setSelected: setSelectedSocials, img: 'social.svg' },
-        { title: 'Staying In', options: stayingInOptions, selected: selectedStayingIn, setSelected: setSelectedStayingIn, img: 'staying_in.svg' },
-        { title: 'Causes', options: causesInOptions, selected: selectedCauses, setSelected: setSelectedCauses, img: 'causes.svg' },
-        { title: 'Personal', options: personalInOptions, selected: selectedPersonal, setSelected: setSelectedPersonal, img: 'personal.svg' }
+        { name: 'SOCIAL', title: 'Social', options: socialOptions, selected: selectedSocials, img: 'social.svg' },
+        { name: 'STAYING_IN', title: 'Staying In', options: stayingInOptions, selected: selectedStayingIn, img: 'staying_in.svg' },
+        { name: 'CAUSES', title: 'Causes', options: causesInOptions, selected: selectedCauses, img: 'causes.svg' },
+        { name: 'PERSONAL', title: 'Personal', options: personalInOptions, selected: selectedPersonal, img: 'personal.svg' }
     ];
 
     const [error, setError] = useState(false)
@@ -223,13 +223,14 @@ const WhatDoYouEnjoySections: React.FC<{
             section?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
-
+    console.log("sections=>", sections)
+    console.log("sections 2=>", answers)
     return (
         <div id="enjoy" className={`${error && disabled ? "bg-[#B3322F]/20" : ""}`}>
             <QuestionTitle>What Do You Enjoy?</QuestionTitle>
 
             <div className="flex flex-wrap justify-center gap-6 md:px-16 mt-10">
-                {sections.map(({ title, options, selected, setSelected, img }) => (
+                {sections.map(({ title, options, selected, name, img }) => (
                     <div id={title} key={title} className={`w-full sm:w-[45%] lg:w-[23%] rounded-2xl mx-1 md:px-2 px-10 py-5  `} >
                         <p className="justify-center items-center bg-[#B3322F] text-white rounded-full   mb-4 flex w-full">
                             <span className=' '>{title}  </span>
@@ -241,7 +242,7 @@ const WhatDoYouEnjoySections: React.FC<{
                                 idToValueMapping={interestNameToIdMap}
                                 options={options}
                                 selected={selected}
-                                setSelected={setSelected}
+                                setSelected={(newSelected) => handleAnswer(sectionName, name, newSelected)}
                             />}
                     </div>
                 ))}

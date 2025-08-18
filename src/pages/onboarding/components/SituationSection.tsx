@@ -342,7 +342,7 @@ const PartyAndMoneyConcernsSection: React.FC<{
 const AllSetSection: React.FC<{
     nextSectionHandler: () => void;
     submitOnboardingPreferencesHandler: () => void;
-}> = ({ submitOnboardingPreferencesHandler }) => {
+}> = ({ nextSectionHandler }) => {
 
     return (
         <>
@@ -364,7 +364,7 @@ const AllSetSection: React.FC<{
             <SkipNextQuestionSection />
 
             {/* Next button */}
-            <PrimaryButton onClick={submitOnboardingPreferencesHandler} selected={true} className='mx-auto bg-black mt-10 border'  >
+            <PrimaryButton onClick={nextSectionHandler} selected={true} className='mx-auto bg-black mt-10 border'  >
                 Find Me A Home <ArrowRightIcon className=' ml-2 mt-0.5 w-5' />
             </PrimaryButton>
 

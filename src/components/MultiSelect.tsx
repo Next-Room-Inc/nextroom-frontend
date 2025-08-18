@@ -84,16 +84,16 @@ interface MultiSelectWithIdsProps {
 
 export const MultiSelectWithIds: React.FC<MultiSelectWithIdsProps> = ({
     options,
-    selected,
+    selected = [],
     setSelected,
     placeholder = "No selection yet",
     idToValueMapping = {}
 }) => {
+    console.log("selected==> ", selected)
     const [showAll, setShowAll] = useState(false);
-    console.log("idToValueMapping===>", idToValueMapping)
     const filteredOptions = options.filter((item) => !selected.includes(item));
-    const onSelect = (item: string) => setSelected((prev: any) => [...prev, item]);
-    const onDeselect = (item: string) => setSelected((prev: any) => prev.filter((i: any) => i !== item));
+    const onSelect = (item: string) => setSelected([...selected, item]);
+    const onDeselect = (item: string) => setSelected(selected.filter((i) => i !== item));
 
     // Limit displayed options if showAll is false
     const displayOptions = showAll ? filteredOptions : filteredOptions.slice(0, 5);
