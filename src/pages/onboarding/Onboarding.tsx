@@ -207,7 +207,7 @@ const Onboarding = () => {
     if (nextIndex < sectionsList.length) {
       setSection(sectionsList[nextIndex]);
     } else {
-      navigate(ROUTES.STUDENTS_DASHBOARD);
+      navigate(ROUTES.SEARCH_PROPERTY);
     }
   };
 
