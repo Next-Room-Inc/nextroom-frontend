@@ -10,7 +10,7 @@ import OnboardingLayout from "@src/layouts/Onboarding.Layout";
 import {
     useGetSubmittedPreferencesByStudentIdQuery,
     useSubmitOnboardingPreferencesMutation,
-    useUpdateOnboardingStatusMutation,
+    // useUpdateOnboardingStatusMutation,
 } from "@src/redux/services/onboarding.service";
 import { ROUTES } from "@src/utils/constants";
 import { ICONS } from "@src/utils/constants/app-info.constant";
@@ -92,11 +92,11 @@ const sections = {
 
 const Onboarding = () => {
     const navigate = useNavigate();
-    const { user, handleUpdateUser } = useAuth();
+    const { user } = useAuth();
     const { studentId = "", firstName = "", lastName = "" } = user || {};
     const [submitOnboardingPreferences] =
         useSubmitOnboardingPreferencesMutation();
-    const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
+    // const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
 
     const [loader, setLoader] = useState(false);
     const [exitForm, setExitForm] = useState(false);
