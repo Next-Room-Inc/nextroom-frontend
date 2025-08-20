@@ -375,7 +375,7 @@ const StudentDetailsModal: React.FC<{ close: () => void }> = ({ close }) => {
     };
 
     const personalityData: PersonalityItem[] = [
-        { icon: "🥳", label: "Partier Level", score: 2 },
+        { icon: "", label: "Partier Level", score: 2 },
         { icon: "📖", label: "Study Focus Level", score: 5 },
         { icon: "🧹", label: "Cleanliness & Responsibility", score: 4 },
         { icon: "🤔", label: "Privacy & Independence", score: 1 },
