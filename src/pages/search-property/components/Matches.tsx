@@ -86,6 +86,7 @@ const Matches = () => {
                                     setSelected={setSelected}
                                     property={property}
                                     floorplan={floorplan}
+                                    section="matches"
                                 />
                             ))
                         )}

@@ -525,14 +525,6 @@ const ProfilePhotoUploader: React.FC<{
         fileInputRef.current?.click();
     };
 
-    // const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //   const file = e.target.files?.[0];
-    //   if (file) {
-    //     const imageUrl = URL.createObjectURL(file);
-    //     setProfileImage(imageUrl);
-    //   }
-    // };
-
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {

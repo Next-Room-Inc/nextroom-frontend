@@ -50,6 +50,7 @@ const Explore = () => {
                                 setSelected={setSelected}
                                 property={property}
                                 floorplan={floorplan}
+                                section="explore"
                             />
                         ))
                     )}

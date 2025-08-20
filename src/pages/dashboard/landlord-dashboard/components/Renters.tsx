@@ -1,5 +1,5 @@
 import { ArrowUpTrayIcon, CheckIcon } from '@heroicons/react/20/solid'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import React, { useRef, useState } from 'react'
 import { Button, PrimaryButton } from '../../../../components/Button'
 import { DropDownSelector } from '../../../../components/DropDownSelector'
@@ -7,41 +7,89 @@ import { ModalOverlay } from '../../../../components/ModalOverLay'
 import Chat from '../../../chat/Chat'
 
 const Renters = () => {
+    const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
+    const [selectedUnit, setSelectedUnit] = useState<number | null>(null);
 
+    const companies = [
+        {
+            name: "Alma",
+            imageDesktop: "/assets/img/events/event_1.png",
+            imageMobile: "/assets/img/events/event_1_mobile.png",
+            units: [304, 408],
+        },
+        {
+            name: "Theo",
+            imageDesktop: "/assets/img/events/event_1.png",
+            imageMobile: "/assets/img/events/event_1_mobile.png",
+            units: [408],
+        },
+    ];
 
     return (
         <div>
+            {companies?.map((company) => (
+                <div key={company.name}>
+                    {/* Company Card */}
+                    <PropertyCard
+                        onClick={() => {
+                            selectedCompany === company.name
+                                ? setSelectedCompany(null)
+                                : setSelectedCompany(company.name); setSelectedUnit(null)
+                        }
+                        }
+                        propertyName={company.name}
+                        imageDesktop={company.imageDesktop}
+                        imageMobile={company.imageMobile}
+                    />
 
-            <PropertyCard
-                propertyName={"Alma"}
-                imageDesktop={"/assets/img/events/event_1.png"}
-                imageMobile={"/assets/img/events/event_1_mobile.png"}
-            />
+                    {/* Animate Units when company is selected */}
+                    <AnimatePresence>
+                        {selectedCompany === company.name &&
+                            company.units.map((unit) => (
+                                <motion.div
+                                    key={unit}
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <UnitHeader
+                                        onClick={() =>
+                                            selectedUnit === unit
+                                                ? setSelectedUnit(null)
+                                                : setSelectedUnit(unit)
+                                        }
+                                    >
+                                        Unit {unit}
+                                    </UnitHeader>
 
-
-            <UnitHeader>Unit 304</UnitHeader>
-            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                {rentersData.map((renter) => <RenterStudentCard {...renter} />)}
-            </div>
-            <UnitHeader>Unit 408</UnitHeader>
-            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                {rentersData.map((renter) => <RenterStudentCard {...renter} />)}
-            </div>
-
-            <PropertyCard
-                propertyName={"Theo"}
-                imageDesktop={"/assets/img/events/event_1.png"}
-                imageMobile={"/assets/img/events/event_1_mobile.png"}
-            />
-
-            <UnitHeader>Unit 408</UnitHeader>
-            <div className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-                {rentersData.map((renter) => <RenterStudentCard {...renter} />)}
-            </div>
-
+                                    {/* Animate renters when unit is selected */}
+                                    <AnimatePresence>
+                                        {unit === selectedUnit && (
+                                            <motion.div
+                                                key={`renters-${unit}`}
+                                                initial={{ opacity: 0, y: -15 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                exit={{ opacity: 0, y: -15 }}
+                                                transition={{ duration: 0.4 }}
+                                                className="grid grid-cols-1 md:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6"
+                                            >
+                                                {rentersData.map((renter, idx) => (
+                                                    <RenterStudentCard key={idx} {...renter} />
+                                                ))}
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </motion.div>
+                            ))}
+                    </AnimatePresence>
+                </div>
+            ))}
         </div>
-    )
-}
+
+
+    );
+};
 
 export default Renters
 
@@ -118,9 +166,9 @@ const RenterStudentCard = ({
 };
 
 // Unit Header
-const UnitHeader = ({ children }: { children: React.ReactNode }) => {
+const UnitHeader = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => {
     return (
-        <div className="rounded-full bg-white shadow-md py-3 px-5 font-semibold my-10">
+        <div onClick={onClick} className="rounded-full bg-white shadow-md py-3 px-5 font-semibold my-10">
             {children}
         </div>
     );
@@ -130,14 +178,17 @@ const UnitHeader = ({ children }: { children: React.ReactNode }) => {
 const PropertyCard = ({
     propertyName,
     imageDesktop,
-    imageMobile
+    imageMobile,
+    onClick
 }: {
     propertyName: string;
     imageDesktop: string;
     imageMobile: string;
+    onClick: () => void
 }) => {
     return (
         <div
+            onClick={onClick}
             className='my-10 rounded-2xl md:rounded-xl shadow-md bg-white flex flex-col md:flex-row overflow-hidden'>
             <div className={` md:bg-[url('${imageDesktop}')] bg-[url('${imageMobile}')] bg-center bg-cover h-60 md:w-[50%] `}>
 
@@ -317,185 +368,50 @@ const ReportActionHandler: React.FC<{ close: () => void }> = ({ close }) => {
 
 
 const StudentDetailsModal: React.FC<{ close: () => void }> = ({ close }) => {
+    type PersonalityItem = {
+        icon: string;
+        label: string;
+        score: number; // 1 to 5
+    };
+
+    const personalityData: PersonalityItem[] = [
+        { icon: "🥳", label: "Partier Level", score: 2 },
+        { icon: "📖", label: "Study Focus Level", score: 5 },
+        { icon: "🧹", label: "Cleanliness & Responsibility", score: 4 },
+        { icon: "🤔", label: "Privacy & Independence", score: 1 },
+        { icon: "✌️", label: "Values & Boundaries", score: 5 },
+    ];
     return (
         <div className="md:px-5">
-            {/* Profile Image */}
-            <img
-                src="/assets/img/search-property/student_profile (2).png"
-                alt="loading"
-                className="w-30 rounded-full mx-auto"
-            />
+            <div className="p-4 rounded-2x">
+                <h2 className="text-center font-semibold text-lg mb-4">
+                    Personality Insights
+                </h2>
 
-            {/* Student Name & Unit */}
-            <div className="text-center text-black flex flex-col gap-1 my-8">
-                <p className="font-bold">Mike T.</p>
-                <p className="font-light">Alma - Unit 506</p>
-            </div>
-
-            {/* Details Section */}
-            <div className="my-8 flex flex-col md:flex-row gap-8 md:gap-0 items-center justify-center">
-                {/* Status timeline */}
-                <div className="w-full md:w-1/2 border-b-1 pb-8 md:pb-0 md:border-b-0 md:border-r-1 border-[#CCCCCC] md:px-8 md:mr-8">
-                    <StepComponent />
-                </div>
-
-                {/* Contact & Guarantors */}
-                <div className="w-full md:w-1/2 flex flex-col justify-between gap-8 md:px-8">
-                    <div>
-                        <h1 className="font-semibold text-lg">Email</h1>
-                        <p className="text-[#B3322F]">annag@uottawa.com</p>
-                    </div>
-
-                    <div>
-                        <h1 className="font-semibold text-lg">Phone Number</h1>
-                        <p className="text-[#B3322F]">613-123-4567</p>
-                    </div>
-
-                    <div>
-                        <h1 className="font-semibold text-lg">Guarantor(s)</h1>
-                        {[
-                            { name: "Rae E (Mother)" },
-                            { name: "John Doe (Father)" },
-                        ].map((guarantor, idx) => (
-                            <div
-                                key={idx}
-                                className="flex my-4 items-center gap-x-3 text-[#B3322F]"
-                            >
-                                <img
-                                    src="/assets/img/search-property/student_profile (1).png"
-                                    alt="loading..."
-                                    className="w-12 h-12 rounded-full"
-                                />
-                                {guarantor.name}
+                <div className="flex flex-col gap-4">
+                    {personalityData.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between">
+                            {/* Left side: Icon + Label */}
+                            <div className="flex items-center gap-2">
+                                <span className="text-xl">{item.icon}</span>
+                                <span className="text-gray-800">{item.label}</span>
                             </div>
-                        ))}
-                    </div>
+
+                            {/* Right side: Score (5 dots) */}
+                            <div className="flex gap-1">
+                                {Array.from({ length: 5 }).map((_, i) => (
+                                    <span
+                                        key={i}
+                                        className={`w-4 h-4 rounded-full ${i < item.score ? "bg-[#B3322F]" : "bg-gray-200"
+                                            }`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            </div>
-
-            {/* Review & Reports Section */}
-            <div className="my-8 flex flex-col md:flex-row gap-8 md:gap-0 font-semibold">
-                {/* Review */}
-                <div className="w-full md:w-1/2">
-                    <h1 className="font-semibold text-lg border-y-1 border-[#CCCCCC] py-2">
-                        Review
-                    </h1>
-                    <div className="w-full md:w-[80%]">
-                        <h1 className="font-semibold text-md my-5">From Landlord</h1>
-                        <ul className="flex flex-col gap-5">
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                        </ul>
-
-                        <h1 className="font-semibold text-md my-5">From Landlord</h1>
-                        <ul className="flex flex-col gap-5">
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                {/* Reports */}
-                <div className="w-full md:w-1/2">
-                    <h1 className="font-semibold text-lg border-y-1 border-[#CCCCCC] py-2">
-                        Review
-                    </h1>
-                    <div className="w-full md:w-[80%]">
-                        <h1 className="font-semibold text-md my-5">From Tenant</h1>
-                        <ul className="flex flex-col gap-5">
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                        </ul>
-
-                        <h1 className="font-semibold text-md my-5">From Tenant</h1>
-                        <ul className="flex flex-col gap-5">
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                            <li className="flex justify-between items-center">
-                                <p className="text-[#B3322F]">Alma - Unit 506</p>
-                                <p className="underline text-xs">View Details</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            {/* Landlord Comments Section */}
-            <hr className="text-gray-300" />
-            <div className="mt-8">
-                <p className="font-semibold mb-4">Landlord Comments</p>
-                <textarea
-                    className="bg-gray-100 text-sm text-gray-700 px-4 py-3 rounded-xl shadow-sm w-full resize-none focus:outline-none focus:ring-2 focus:ring-gray-300"
-                    placeholder="Start Typing..."
-                    rows={6}
-                />
-                <PrimaryButton
-                    color="red"
-                    className="w-full md:w-60 py-3 text-xs mt-4 mx-auto"
-                    onClick={close}
-                >
-                    Submit
-                </PrimaryButton>
             </div>
         </div>
     );
 };
 
-
-
-function StepComponent() {
-    const steps = [
-        { title: "Tour Booked", description: "Aug 5, 2025", completed: true },
-        { title: "Lease Signed", description: "September 1, 2025", completed: true },
-        { title: "Lease End Date", description: "September 1, 2026", completed: false }
-    ];
-
-    return (
-        <div className={`flex flex-col space-y-20`}>
-            {steps.map((step, index) => (
-                <div key={index} className="flex items-start relative">
-                    {/* Connector line */}
-                    {index !== steps.length - 1 && (
-                        <div className={`absolute left-[16px] top-8 h-25 w-[2px] bg-[#B3322F]`} />
-                    )}
-
-                    {/* Circle with check */}
-                    <div
-                        className={`flex items-center justify-center w-10 h-10 rounded-full border-2 ${step.completed
-                            ? "bg-[#B3322F] border-[#B3322F] text-white"
-                            : "bg-white border-[#B3322F] text-[#B3322F]"
-                            } z-10`}
-                    >
-                        <CheckIcon className='w-5' />
-                    </div>
-
-                    {/* Text content */}
-                    <div className="ml-6">
-                        <h3 className="font-medium text-black">{step.title}</h3>
-                        <p className="text-sm text-[#B3322F]">{step.description}</p>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
-};

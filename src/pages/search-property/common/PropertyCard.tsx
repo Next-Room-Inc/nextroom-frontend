@@ -15,6 +15,7 @@ export const PropertyCard: React.FC<{
     bgClass?: string; // Tailwind background class (e.g., bg-gradient-to-r from-red-500 to-red-800)
     selected?: boolean,
     setSelected: (value: number | null) => void
+    section: string | null
 }> = ({
     property,
     floorplan,
@@ -22,7 +23,8 @@ export const PropertyCard: React.FC<{
     statusText = 'Ready To Move In',
     bgClass = 'bg-gradient-to-r from-[#B3322F] to-[#4D1614]', // default if not provided
     selected = false,
-    setSelected
+    setSelected,
+    section = null
 }) => {
         const [viewDetails, setViewDetails] = useState(false)
         const [likedProperty, setLikedProperty] = useState(false)
@@ -109,7 +111,7 @@ export const PropertyCard: React.FC<{
                 </PulseHoverLayout>
                 {/* Buttons */}
                 <AnimatePresence>
-                    {selected && (
+                    {selected && section !== "my-housing" && (
                         <motion.div
                             initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
