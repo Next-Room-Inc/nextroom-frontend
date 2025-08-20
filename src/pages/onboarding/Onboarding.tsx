@@ -199,69 +199,6 @@ const Onboarding = () => {
     Object.values(section).some(
       (value) => value !== null && value !== undefined
     );
-  // for (const section in response) {
-  //   if (!isSectionComplete(response[section])) {
-  //     // return section;
-  //     setFormStep((prev: any) => ({
-  //       ...prev,
-  //       [section]:
-  //         section === "propertyPreference"
-  //           ? 0
-  //           : section === "lifestylePreference"
-  //           ? 1
-  //           : section === "roommatePreference"
-  //           ? 2
-  //           : section === "situationResponse" && 2,
-  //     }));
-  //   }
-  // }
-  // return null;
-  // }
-
-  // const isSectionComplete = (sectionData: any) => {
-  //   const values = Object.values(sectionData)
-  //  const isFound =  values.find(v => v !== null)
-  //  return isFound
-  // console.log("Section Data:", sectionData);
-  // const isComplete = sectionData.keys()[0];
-
-  // if (isComplete) {
-  //   return true;
-  // }
-
-  // return false;
-  // for (const key in sectionData) {
-  // const value = sectionData[key];
-
-  // // // Skip isCompleted if already added
-  // // if (key === "isCompleted") continue;
-  // if (
-  //   key === "customMoveInDate" ||
-  //   key === "customStayDuration" ||
-  //   key === "wantsAdditionalRoommates"
-  // ) {
-  //   continue;
-  // }
-
-  // if (value === null || value === undefined)
-  //   // Null or undefined
-  //   return false;
-
-  // // Empty string or empty array
-  // if (typeof value === "string" && value.trim() === "") return false;
-  // if (Array.isArray(value) && value.length === 0) return false;
-
-  // // Optionally, check for empty objects
-  // if (
-  //   typeof value === "object" &&
-  //   !Array.isArray(value) &&
-  //   Object.keys(value).length === 0
-  // )
-  //   return false;
-  // }
-  // return true;
-  // };
-  //
 
   const handleAnswer = (
     section: keyof AnswerSections,
@@ -272,7 +209,7 @@ const Onboarding = () => {
       ...prev,
       [section]: { ...prev[section], [field]: value },
     }));
-    console.log("---<>><><><>", section, field, value);
+    console.log("---<>><><><> 1212121212", section, field, value);
   };
 
   const changeStep = async (delta: number) => {
@@ -406,13 +343,6 @@ const Onboarding = () => {
       joinArrayFields(payload.propertyPreference, [
         "UNIT_AMENITIS",
         "COMUNITY_AMENITIS",
-      ]);
-      joinArrayFields(payload.lifestylePreference, [
-        "studyArea",
-        "SOCIAL",
-        "STAYING_IN",
-        "CAUSES",
-        "PERSONAL",
       ]);
 
       [
