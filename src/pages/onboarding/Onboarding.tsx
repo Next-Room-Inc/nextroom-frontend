@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import ReactConfetti from "react-confetti";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Loader from "../../components/Loader";
+import Loader, { LoaderComponent } from "../../components/Loader";
 import useAuth from "@src/custom-hooks/useAuth";
 import OnboardingLayout from "@src/layouts/Onboarding.Layout";
 import {
@@ -99,6 +99,8 @@ const Onboarding = () => {
   const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
 
   const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(true);
+
   const [exitForm, setExitForm] = useState(false);
   const [section, setSection] =
     useState<keyof AnswerSections>("PROPERTY_SECTION");
@@ -112,11 +114,14 @@ const Onboarding = () => {
   const [runConfetti, setRunConfetti] = useState(true);
 
   // const { data: preferncesStatus = [] } = useGetPrefercesStatusQuery(user?.studentId)
-  const { data: submittedPreferences = [] } =
+  const { data: submittedPreferences = null } =
     useGetSubmittedPreferencesByStudentIdQuery(studentId);
 
+  console.log("submittedPreferences==> ", submittedPreferences);
   //  Using useEffect to Assgin the already answerd questinos :
   useEffect(() => {
+    console.log("useEffect==> ", submittedPreferences);
+    // return;
     if (!submittedPreferences) return;
 
     // Destructure and remove unwanted fields before merging
@@ -157,7 +162,106 @@ const Onboarding = () => {
         ...submittedPreferences.situationResponse,
       },
     }));
+
+    //
+    //redirect user to incomplete section
+    console.log("submittedPreferences:", submittedPreferences);
+
+    getFirstIncompleteSection(submittedPreferences);
+    setLoading(false);
+
+    //
   }, [submittedPreferences, sections]);
+
+  //
+  function getFirstIncompleteSection(submittedPreferences: any) {
+    console.log("--->>>>", submittedPreferences);
+    const sections = [
+      { key: "propertyPreference", name: "PROPERTY_SECTION" },
+      { key: "lifestylePreference", name: "LIFE_STYLE_SECTION" },
+      { key: "roommatePreference", name: "ROOMMATES_SECTION" },
+      { key: "situationResponse", name: "SITUATION_BASED_SECTION" },
+    ];
+
+    for (const { key, name } of sections) {
+      const isIncompleteSection = !isSectionComplete(
+        submittedPreferences[key] || []
+      );
+      console.log("sec ==>", name, isIncompleteSection);
+      if (isIncompleteSection) {
+        return setSection(name);
+      }
+    }
+    setSection("SITUATION_BASED_SECTION");
+  }
+
+  const isSectionComplete = (section: any = []) =>
+    Object.values(section).some(
+      (value) => value !== null && value !== undefined
+    );
+  // for (const section in response) {
+  //   if (!isSectionComplete(response[section])) {
+  //     // return section;
+  //     setFormStep((prev: any) => ({
+  //       ...prev,
+  //       [section]:
+  //         section === "propertyPreference"
+  //           ? 0
+  //           : section === "lifestylePreference"
+  //           ? 1
+  //           : section === "roommatePreference"
+  //           ? 2
+  //           : section === "situationResponse" && 2,
+  //     }));
+  //   }
+  // }
+  // return null;
+  // }
+
+  // const isSectionComplete = (sectionData: any) => {
+  //   const values = Object.values(sectionData)
+  //  const isFound =  values.find(v => v !== null)
+  //  return isFound
+  // console.log("Section Data:", sectionData);
+  // const isComplete = sectionData.keys()[0];
+
+  // if (isComplete) {
+  //   return true;
+  // }
+
+  // return false;
+  // for (const key in sectionData) {
+  // const value = sectionData[key];
+
+  // // // Skip isCompleted if already added
+  // // if (key === "isCompleted") continue;
+  // if (
+  //   key === "customMoveInDate" ||
+  //   key === "customStayDuration" ||
+  //   key === "wantsAdditionalRoommates"
+  // ) {
+  //   continue;
+  // }
+
+  // if (value === null || value === undefined)
+  //   // Null or undefined
+  //   return false;
+
+  // // Empty string or empty array
+  // if (typeof value === "string" && value.trim() === "") return false;
+  // if (Array.isArray(value) && value.length === 0) return false;
+
+  // // Optionally, check for empty objects
+  // if (
+  //   typeof value === "object" &&
+  //   !Array.isArray(value) &&
+  //   Object.keys(value).length === 0
+  // )
+  //   return false;
+  // }
+  // return true;
+  // };
+  //
 
   const handleAnswer = (
     section: keyof AnswerSections,
@@ -444,39 +548,49 @@ const Onboarding = () => {
 
         {/* Main Layout */}
         <OnboardingLayout>
-          {exitForm ? (
-            <ExitConfirmationSection setExitForm={setExitForm} />
-          ) : (
-            <>
-              {formStep[section] !== 0 && (
-                <FormStepper
-                  {...{
-                    updateOnboardingStatusHandler,
-                    section,
-                    answers,
-                    setExitForm,
-                    setSection,
-                    formStep,
-                    changeStep,
-                  }}
-                />
-              )}
-              {/* <motion.div className="mt-15" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}> */}
-              {section === "PROPERTY_SECTION" && (
-                <PropertySection {...payload} />
-              )}
-              {section === "LIFE_STYLE_SECTION" && (
-                <LifeStyleSection {...payload} />
-              )}
-              {section === "ROOMMATES_SECTION" && (
-                <RoommateSection {...payload} />
-              )}
-              {section === "SITUATION_BASED_SECTION" && (
-                <SituationSection {...payload} />
-              )}
-              {/* </motion.div> */}
-            </>
-          )}
+          <>
+            {loading ? (
+              <div className=" h-[80vh] flex flex-grow items-center justify-center ">
+                <LoaderComponent />
+              </div>
+            ) : (
+              <>
+                {exitForm ? (
+                  <ExitConfirmationSection setExitForm={setExitForm} />
+                ) : (
+                  <>
+                    {formStep[section] !== 0 && (
+                      <FormStepper
+                        {...{
+                          updateOnboardingStatusHandler,
+                          section,
+                          answers,
+                          setExitForm,
+                          setSection,
+                          formStep,
+                          changeStep,
+                        }}
+                      />
+                    )}
+                    {/* <motion.div className="mt-15" variants={transitionVariants} initial="initial" animate="animate" exit="exit" transition={{ duration: 0.5 }}> */}
+                    {section === "PROPERTY_SECTION" && (
+                      <PropertySection {...payload} />
+                    )}
+                    {section === "LIFE_STYLE_SECTION" && (
+                      <LifeStyleSection {...payload} />
+                    )}
+                    {section === "ROOMMATES_SECTION" && (
+                      <RoommateSection {...payload} />
+                    )}
+                    {section === "SITUATION_BASED_SECTION" && (
+                      <SituationSection {...payload} />
+                    )}
+                    {/* </motion.div> */}
+                  </>
+                )}
+              </>
+            )}
+          </>
         </OnboardingLayout>
       </AnimatePresence>
     </>

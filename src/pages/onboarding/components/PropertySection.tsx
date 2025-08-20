@@ -1093,7 +1093,11 @@ const HowLongToStaySection: React.FC<{
           onClick={handleDateWrapperClick}
         >
           <input
-            value={answers?.stayDurationMonths}
+            value={
+              typeof answers?.stayDurationMonths === "string"
+                ? answers.stayDurationMonths
+                : ""
+            }
             onChange={(e) =>
               handleAnswer(
                 "PROPERTY_SECTION",
@@ -1190,7 +1194,9 @@ const WhenYouAreMovingSection: React.FC<{
           onClick={handleDateWrapperClick}
         >
           <input
-            value={answers?.moveInDate}
+            value={
+              typeof answers?.moveInDate === "string" ? answers?.moveInDate : ""
+            }
             onChange={(e) =>
               handleAnswer(
                 "PROPERTY_SECTION",
