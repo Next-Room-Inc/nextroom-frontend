@@ -41,7 +41,7 @@ export const CustomSelect: React.FC<{
                 {options.length > 5 && (
                     <button
                         onClick={() => setShowAll(!showAll)}
-                        className="text-[#B3322F] text-sm font-medium mt-2 underline hover:text-[#8a1d1b] transition cursor-pointer"
+                        className="text-[#B3322F] text-sm font-medium mt-2 underline hover:text-[#8a1d1b] transition "
                     >
                         {showAll ? "View Less" : "View More"}
                     </button>
@@ -81,7 +81,7 @@ export const Select: React.FC<SelectProps> = ({
             {/* Toggle Button */}
             <div
                 onClick={() => setIsDropdownOpen((open) => !open)}
-                className="text-center bg-white flex items-center justify-center text-[#B3322F] shadow-md md:w-fit w-full py-2 px-12 rounded-full text-sm font-medium cursor-pointer relative z-50 select-none"
+                className="text-center bg-white flex items-center justify-center text-[#B3322F] shadow-md md:w-fit w-full py-2 px-12 rounded-full text-sm font-medium  relative z-50 select-none"
             >
                 {options[selectedIndex]?.name}
                 <ChevronDownIcon className="h-7 ml-2 mt-1 text-[#B3322F]" />
@@ -101,7 +101,7 @@ export const Select: React.FC<SelectProps> = ({
                         {options.map((option, index) => (
                             <div
                                 key={option.value}
-                                className={`text-center flex items-center justify-center py-2 cursor-pointer hover:text-[#B3322F] ${index === selectedIndex
+                                className={`text-center flex items-center justify-center py-2  hover:text-[#B3322F] ${index === selectedIndex
                                     ? "text-[#B3322F] font-semibold"
                                     : "text-gray-900"
                                     }`}

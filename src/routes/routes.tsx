@@ -84,6 +84,11 @@ export const routes = createBrowserRouter([
     errorElement: <NotFoundErrorPage />,
   },
   {
+    path: ROUTES.SEARCH_PROPERTY_TABS,
+    element: <SearchProperty />,
+    errorElement: <NotFoundErrorPage />,
+  },
+  {
     path: ROUTES.STUDENT_EXPERIANCE_CENTER,
     element: <StudentExperianceCenter />,
     errorElement: <NotFoundErrorPage />,

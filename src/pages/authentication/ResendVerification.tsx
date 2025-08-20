@@ -12,7 +12,7 @@ import { ResendVerificationSchema } from "@src/utils/schemas/auth.schema";
 
 
 const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;
-const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full cursor-pointer`;
+const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full `;
 
 const ResendVerification = () => {
   const navigate = useNavigate();

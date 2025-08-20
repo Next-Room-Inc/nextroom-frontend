@@ -1,5 +1,6 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { baseUrl } from "./endpoints";
+import { toast } from "react-toastify";
 
 export const baseQuery = fetchBaseQuery({
   baseUrl,
@@ -23,10 +24,11 @@ export const baseQuery = fetchBaseQuery({
     console.log("🚀 ~  result:", result);
 
     if (response.status === 401) {
-      //remove token from localStorage and redirect to login
       localStorage.removeItem("token");
-      // remove user data from localStorage and redirect to login
       localStorage.removeItem("user");
+
+      toast.info("Session expired. Please log in.");
+
       // redirect to login page
       window.location.assign("/login");
     }

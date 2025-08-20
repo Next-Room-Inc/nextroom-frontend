@@ -147,7 +147,7 @@ const Footer = () => {
                         role="button"
                         tabIndex={0}
                         onClick={() => setSelectedLang(lang.code)}
-                        className={`cursor-pointer transition duration-300  ${selectedLang === lang.code
+                        className={` transition duration-300  ${selectedLang === lang.code
                           ? "underline underline-offset-4 font-bold"
                           : "hover:text-gray-300"
                           }`}

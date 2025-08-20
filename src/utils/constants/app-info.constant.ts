@@ -19,7 +19,10 @@ export const APP_INFO = {
 
 export const IMAGES = {
   FOOTER: "/assets/img/images/footer.svg",
-  NOT_FOUND: "https://demofree.sirv.com/nope-not-here.jpg",
+  FAILED_IMAGE: "/assets/img/images/no-image.png",
+  // FAILED_IMAGE:
+  //   "https://icons.veryicon.com/png/o/business/new-vision-2/picture-loading-failed-1.png",
+  NOT_FOUND: "/assets/img/images/failed-image.svg",
 };
 
 export const ICONS = {

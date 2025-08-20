@@ -29,13 +29,13 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({ images = [] }) => {
           onClick={prevSlide}
           className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow"
         >
-          <ChevronLeftIcon className="w-5 h-5 cursor-pointer" />
+          <ChevronLeftIcon className="w-5 h-5 " />
         </button>
         <button
           onClick={nextSlide}
           className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow"
         >
-          <ChevronRightIcon className="w-5 h-5 cursor-pointer" />
+          <ChevronRightIcon className="w-5 h-5 " />
         </button>
       </div>
 
@@ -47,11 +47,10 @@ export const ImageGallery: React.FC<ImageGalleryProps> = ({ images = [] }) => {
             src={img}
             alt={`Thumbnail ${index + 1}`}
             onClick={() => setCurrentIndex(index)}
-            className={`w-16 h-16 rounded-xl cursor-pointer object-cover border-2 transition-all duration-300 ease-in-out transform ${
-              currentIndex === index
+            className={`w-16 h-16 rounded-xl  object-cover border-2 transition-all duration-300 ease-in-out transform ${currentIndex === index
                 ? "border-blue-500 scale-110"
                 : "border-transparent"
-            }`}
+              }`}
           />
         ))}
       </div>

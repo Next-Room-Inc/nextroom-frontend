@@ -10,7 +10,7 @@ import OnboardingLayout from "@src/layouts/Onboarding.Layout";
 import {
   useGetSubmittedPreferencesByStudentIdQuery,
   useSubmitOnboardingPreferencesMutation,
-  useUpdateOnboardingStatusMutation,
+  // useUpdateOnboardingStatusMutation,
 } from "@src/redux/services/onboarding.service";
 import { ROUTES } from "@src/utils/constants";
 import { ICONS } from "@src/utils/constants/app-info.constant";
@@ -92,11 +92,11 @@ const sections = {
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const { user, handleUpdateUser } = useAuth();
+  const { user } = useAuth();
   const { studentId = "", firstName = "", lastName = "" } = user || {};
   const [submitOnboardingPreferences] =
     useSubmitOnboardingPreferencesMutation();
-  const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
+  // const [updateOnboardingStatus] = useUpdateOnboardingStatusMutation();
 
   const [loader, setLoader] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -331,6 +331,50 @@ const Onboarding = () => {
     situationResponse?: PreferenceObject;
   };
 
+  // const submitOnboardingPreferencesHandler = async (
+  //   section: keyof AnswerSections | null = null
+  // ) => {
+  //   setLoader(true);
+
+  //   const preparePayload = (payload: PayloadType): PayloadType => {
+  //     const joinArrayFields = (
+  //       obj: PreferenceObject | undefined,
+  //       fields: string[]
+  //     ): void => {
+  //       if (!obj) return;
+  //       fields.forEach((field: string) => {
+  //         if (Array.isArray(obj[field])) {
+  //           obj[field] = obj[field].join(",");
+  //         }
+  //       });
+  //     };
+
+  //     const normalizeBooleanFields = (
+  //       obj: PreferenceObject | undefined
+  //     ): void => {
+  //       if (!obj) return;
+  //       for (const key in obj) {
+  //         if (obj[key] === "Yes") obj[key] = true;
+  //         else if (obj[key] === "No") obj[key] = false;
+  //       }
+  //   };
+
+  //   const runConfettiHandler = () =>
+  //       setTimeout(() => {
+  //           setRunConfetti(false);
+  //       }, 10000);
+
+  //   runConfettiHandler();
+
+  //   type PreferenceObject = Record<string, any>; // Replace with more specific types if available
+
+  //   type PayloadType = {
+  //       propertyPreference?: PreferenceObject;
+  //       lifestylePreference?: PreferenceObject;
+  //       roommatePreference?: PreferenceObject;
+  //       situationResponse?: PreferenceObject;
+  //   };
+
   const submitOnboardingPreferencesHandler = async (
     section: keyof AnswerSections | null = null
   ) => {
@@ -480,30 +524,8 @@ const Onboarding = () => {
   const updateOnboardingStatusHandler = async (
     payload: interfaces.updateOnboardingStatusPayload
   ) => {
-    setLoader(true);
-    try {
-      const response = await updateOnboardingStatus(payload);
-
-      console.log("🚀 ~ updateOnboardingStatusHandler ~ response:", response);
-
-      if (response?.error) {
-        setLoader(false);
-        return toast.error(
-          (response.error as any)?.data || "Failed to update onboarding status"
-        );
-      }
-      handleUpdateUser(payload);
-      toast.success("Onboarding submission updated successfully!");
-      // Optionally navigate here
-      setLoader(false);
-      navigate(ROUTES.SEARCH_PROPERTY);
-    } catch (err) {
-      console.error(
-        "🚨 Unexpected error in updateOnboardingStatusHandler:",
-        err
-      );
-      toast.error("An unexpected error occurred. Please try again.");
-    }
+    console.log("payload==>", payload);
+    navigate(ROUTES.SEARCH_PROPERTY);
   };
 
   const payload = {
@@ -523,6 +545,28 @@ const Onboarding = () => {
     previousStepHandler,
     nextSectionHandler,
   };
+
+  // return (
+  //     <>
+  //         {loader && <Loader />}
+  //         <AnimatePresence>
+  //             {/* ReactConfetti */}
+  //             {((section === "PROPERTY_SECTION" &&
+  //                 formStep[section] === 0 &&
+  //                 runConfetti) ||
+  //                 (answers["PROPERTY_SECTION"]?.preferredArea === "Surprise Me" &&
+  //                     runConfetti)) && (
+  //                     <motion.div
+  //                         key="confetti"
+  //                         initial={{ opacity: 0 }}
+  //                         animate={{ opacity: 1 }}
+  //                         exit={{ opacity: 0 }}
+  //                         transition={{ duration: 0.5 }}
+  //                         className="fixed inset-0 z-50 pointer-events-none"
+  //                     >
+  //                         <ReactConfetti numberOfPieces={400} />
+  //                     </motion.div>
+  //                 )}
 
   return (
     <>
@@ -706,7 +750,7 @@ const FormStepper: React.FC<{
                       onboardingFormSkipped: true,
                     })
                   }
-                  className="cursor-pointer bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"
+                  className=" bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"
                 >
                   Start Housing Search Now
                 </motion.button>

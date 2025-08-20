@@ -100,5 +100,20 @@ export const API_URL = {
       URL: () => createApiUrl("/entrata/fetch/property"),
       METHOD: HttpMethod.GET,
     },
+    MATCHES: {
+      URL: (id: string) =>
+        createApiUrl(`/student/match-results?studentId=${id}`),
+      METHOD: HttpMethod.GET,
+    },
+    EXPLORE: {
+      URL: (query: string | null = null) =>
+        createApiUrl(`/explore${query ? query : ""}`),
+      METHOD: HttpMethod.GET,
+    },
+    ACCEPTED_PROPERTY: {
+      URL: (id: string) =>
+        createApiUrl(`/student/accepted-property?studentId=${id}`),
+      METHOD: HttpMethod.GET,
+    },
   },
 };

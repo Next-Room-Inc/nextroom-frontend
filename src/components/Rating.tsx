@@ -15,7 +15,7 @@ const Rating: React.FC<{
                     aria-label={`Rate ${i} star${i > 1 ? 's' : ''}`}
                 >
                     <img
-                        className="h-6 cursor-pointer hover:scale-110 transition-transform"
+                        className="h-6  hover:scale-110 transition-transform"
                         src={
                             i <= rating
                                 ? "/assets/img/search-property/star_fill.svg"

@@ -254,7 +254,7 @@ const ReportActionHandler: React.FC<{ close: () => void }> = ({ close }) => {
                     />
                     <div
                         onClick={handleFileClick}
-                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex  cursor-pointer rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
+                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex   rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
                     >
                         <ArrowUpTrayIcon className="h-5" />
                         <span>Upload</span>

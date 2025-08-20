@@ -75,7 +75,7 @@ const SelectCompaniesModal: React.FC<SelectCompaniesModalProps> = ({
                   type="button"
                   onClick={() => toggleSelection(mailingList.id)}
                   className={clsx(
-                    "group relative flex flex-col cursor-pointer rounded-lg border bg-red-800 p-4 shadow-xs focus:outline-none",
+                    "group relative flex flex-col  rounded-lg border bg-red-800 p-4 shadow-xs focus:outline-none",
                     isSelected
                       ? "border-red-400 ring-2 ring-red-400"
                       : "border-red-800 hover:border-red-800"

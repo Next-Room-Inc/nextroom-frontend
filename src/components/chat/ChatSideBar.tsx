@@ -44,7 +44,7 @@ export const ChatSideBar: React.FC<{
             <h2 className="text-lg font-semibold mb-4 flex gap-3">
                 <ArrowLeftIcon
                     onClick={closeChat}
-                    className={`w-6 text-black cursor-pointer transition-transform duration-200 ease-in-out hover:-translate-x-1 ${chatModal ? "flex" : "hidden"
+                    className={`w-6 text-black  transition-transform duration-200 ease-in-out hover:-translate-x-1 ${chatModal ? "flex" : "hidden"
                         }`}
                 />                Chats
             </h2>
@@ -65,7 +65,7 @@ export const ChatSideBar: React.FC<{
                             whileTap={{ scale: 0.95 }}
                             onClick={() => setSelectedChat(idx + 1)}
                             key={idx}
-                            className={`flex items-center gap-3 mb-3 p-2 rounded-lg cursor-pointer ${idx + 1 === selectedChat ? "bg-[#B3322F] text-white" : "hover:bg-gray-100"
+                            className={`flex items-center gap-3 mb-3 p-2 rounded-lg  ${idx + 1 === selectedChat ? "bg-[#B3322F] text-white" : "hover:bg-gray-100"
                                 }`}
                         >
                             <img
@@ -100,7 +100,7 @@ const ActiveChatBar: React.FC<{
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setSelectedChat(idx + 1)}
                         key={idx}
-                        className={`min-w-fit cursor-pointer`}
+                        className={`min-w-fit `}
                     >
                         <span className="relative inline-block border-1 border-green-400 rounded-full">
                             <img

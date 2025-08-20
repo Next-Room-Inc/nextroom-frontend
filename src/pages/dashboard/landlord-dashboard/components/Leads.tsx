@@ -108,7 +108,7 @@ const LeadsComponent = () => {
                                                         <li
                                                             onClick={() => actionHandler(action)}
                                                             key={actionIdx}
-                                                            className={`cursor-pointer ${action.includes("View Messages") ||
+                                                            className={` ${action.includes("View Messages") ||
                                                                 action.includes("Report") ||
                                                                 action.includes("Cancel")
                                                                 ? ""
@@ -230,7 +230,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange }) => {
         <div className="mb-6 text-center">
             <p className="font-semibold">{label}</p>
             <div
-                className="border border-white shadow-md mt-3 rounded-full mx-auto md:w-max text-center flex items-center justify-center cursor-pointer hover:shadow-lg transition"
+                className="border border-white shadow-md mt-3 rounded-full mx-auto md:w-max text-center flex items-center justify-center  hover:shadow-lg transition"
                 onClick={openPicker}
             >
                 <input
@@ -238,7 +238,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, value, onChange }) => {
                     type="date"
                     value={value || ""}
                     onChange={(e) => onChange(e.target.value)}
-                    className="input-white-calendar px-10 py-2 text-center mx-auto text-[#B3322F] focus:outline-none cursor-pointer bg-transparent"
+                    className="input-white-calendar px-10 py-2 text-center mx-auto text-[#B3322F] focus:outline-none  bg-transparent"
                 />
             </div>
         </div>
@@ -348,7 +348,7 @@ const ReportActionHandler: React.FC<{
                     />
                     <div
                         onClick={handleFileClick}
-                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex  cursor-pointer rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
+                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex   rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
                     >
                         <ArrowUpTrayIcon className="h-5" />
                         <span>Upload</span>

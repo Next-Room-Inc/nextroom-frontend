@@ -58,7 +58,7 @@ export const ChatButton = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 50 }}
                     transition={{ duration: 0.3 }}
-                    className={`flex items-center gap-2 duration-300 hover:scale-102 hover:opacity-90 cursor-pointer bg-white text-[#B3322F] font-medium shadow-md px-5 py-3 rounded-l-full border border-gray-200 hover:bg-gray-50 transition-all relative  `}
+                    className={`flex items-center gap-2 duration-300 hover:scale-102 hover:opacity-90  bg-white text-[#B3322F] font-medium shadow-md px-5 py-3 rounded-l-full border border-gray-200 hover:bg-gray-50 transition-all relative  `}
                 >
 
                     {chat ? (

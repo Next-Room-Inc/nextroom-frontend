@@ -23,7 +23,7 @@ export const DropDownSelector: React.FC<{
             <div className="relative">
                 <div
                     onClick={() => setIsDropdownOpen((prev) => !prev)}
-                    className={`${className}    shadow-md  rounded-full text-sm font-medium cursor-pointer`}
+                    className={`${className}    shadow-md  rounded-full text-sm font-medium `}
                 >
                     {selected ? selected : "Select option"}
                     {<ChevronDownIcon className="h-5 w-5 ml-2" />}
@@ -43,7 +43,7 @@ export const DropDownSelector: React.FC<{
                                 <div
                                     key={option}
                                     onClick={() => handleSelect(option)}
-                                    className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selected === option ? 'text-[#B3322F] font-semibold' : ''
+                                    className={`text-center py-2  hover:text-[#B3322F] ${selected === option ? 'text-[#B3322F] font-semibold' : ''
                                         }`}
                                 >
                                     {option}

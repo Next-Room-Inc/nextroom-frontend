@@ -103,7 +103,7 @@ export const ChatWindow: React.FC<{
             {/* Footer */}
             <div className="text-center text-sm text-gray-400 mb-2">
                 Automatic Translation Is On.{" "}
-                <span className="text-red-500 cursor-pointer">Turn Off</span>
+                <span className="text-red-500 ">Turn Off</span>
             </div>
             <hr className="w-[95%] mx-auto text-gray-300 shadow mb-4 hidden md:flex" />
 
@@ -113,25 +113,25 @@ export const ChatWindow: React.FC<{
                     <motion.div
                         whileHover={{ scale: 1.2, rotate: 5 }}
                         whileTap={{ scale: 0.95, rotate: -5 }}
-                        className="cursor-pointer"
+                        className=""
                     >
-                        <PhotoIcon className="w-4 md:w-6 text-[#B3322F] cursor-pointer" />
+                        <PhotoIcon className="w-4 md:w-6 text-[#B3322F] " />
                     </motion.div>
 
                     <motion.div
                         whileHover={{ scale: 1.2, rotate: 5 }}
                         whileTap={{ scale: 0.95, rotate: -5 }}
-                        className="cursor-pointer"
+                        className=""
                     >
-                        <PaperClipIcon className="w-4 md:w-6 text-[#B3322F] cursor-pointer" />
+                        <PaperClipIcon className="w-4 md:w-6 text-[#B3322F] " />
                     </motion.div>
 
                     <motion.div
                         whileHover={{ scale: 1.2, rotate: 5 }}
                         whileTap={{ scale: 0.95, rotate: -5 }}
-                        className="cursor-pointer"
+                        className=""
                     >
-                        <GlobeAltIcon className="w-4 md:w-6 text-[#B3322F] cursor-pointer" />
+                        <GlobeAltIcon className="w-4 md:w-6 text-[#B3322F] " />
                     </motion.div>
                 </div>
 
@@ -146,7 +146,7 @@ export const ChatWindow: React.FC<{
                     whileHover={{ scale: 0.9 }}
                     whileTap={{ scale: 0.8, rotate: -2 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    className="bg-[#B3322F] text-white p-2 rounded-full shadow-md cursor-pointer"
+                    className="bg-[#B3322F] text-white p-2 rounded-full shadow-md "
                 >
                     <PaperAirplaneIcon className="w-4 md:w-6 text-white" />
                 </motion.button>

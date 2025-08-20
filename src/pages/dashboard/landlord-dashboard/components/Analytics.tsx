@@ -20,7 +20,7 @@ const Analytics = () => {
                     {
                         options.map(option =>
                             <div
-                                className={`${selectedOption === option ? "bg-[#B3322F] text-white" : "text-black"} rounded-full px-4 py-2 my-2 cursor-pointer font-semibold`}
+                                className={`${selectedOption === option ? "bg-[#B3322F] text-white" : "text-black"} rounded-full px-4 py-2 my-2  font-semibold`}
                                 onClick={() => setsSelectedOption(option)}
                             >
                                 {option}</div>
@@ -32,7 +32,7 @@ const Analytics = () => {
                     {/* Toggle Button */}
                     <div
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="text-center flex items-center justify-center bg-[#B3322F] text-white shadow-md px-5 py-3 w-full rounded-full text-sm font-medium cursor-pointer relative"
+                        className="text-center flex items-center justify-center bg-[#B3322F] text-white shadow-md px-5 py-3 w-full rounded-full text-sm font-medium  relative"
                     >
                         {selectedOption} <ChevronDownIcon className='h-7 ml-2 mt-1 text-white' />
                     </div>
@@ -51,7 +51,7 @@ const Analytics = () => {
                                 {options.map((tab) => (
                                     <div
                                         key={tab}
-                                        className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedOption === tab ? "text-[#B3322F] font-semibold" : ""
+                                        className={`text-center py-2  hover:text-[#B3322F] ${selectedOption === tab ? "text-[#B3322F] font-semibold" : ""
                                             }`}
                                         onClick={() => {
                                             setsSelectedOption(tab);

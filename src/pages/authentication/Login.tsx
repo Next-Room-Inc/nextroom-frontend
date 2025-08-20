@@ -100,7 +100,7 @@ const Login = () => {
                   <PasswordEyeToggleIcon
                     onClick={() => setPasswordType(!passwordType)}
                     aria-hidden="true"
-                    className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
+                    className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500  z-10"
                   />
                 </div>
                 {formik.touched.password && formik.errors.password ? (

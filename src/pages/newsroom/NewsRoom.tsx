@@ -138,7 +138,7 @@ export const FlowSliderComponent = () => {
                         whileTap={{ scale: 0.97 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                         onClick={() => setSelected(true)}
-                        className="bg-[#B3322F] mt-4 text-white text-sm md:px-15 md:w-auto w-full py-3 rounded-full cursor-pointer mx-auto shadow-sm"
+                        className="bg-[#B3322F] mt-4 text-white text-sm md:px-15 md:w-auto w-full py-3 rounded-full  mx-auto shadow-sm"
                       >
                         Read More
                       </motion.button>

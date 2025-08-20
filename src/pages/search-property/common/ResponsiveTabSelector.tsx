@@ -1,9 +1,112 @@
+// import { ChevronDownIcon } from "@heroicons/react/20/solid";
+// import { AnimatePresence, motion } from "framer-motion";
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+
+// export const ResponsiveTabSelector: React.FC<{
+//     tabOptions: string[],
+//     tab: string,
+//     tabOptionsObject: any;
+// }> = ({ tabOptions, tab, tabOptionsObject }) => {
+//     const navigate = useNavigate();
+
+//     // const tabOptions = ["My Housing", "Matches", "Explore", "My Preferences"];
+//     // const [selectedTab, setSelectedTab] = useState("My Housing");
+//     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+
+//     // const handleSelectTab = (tab: string) => {
+//     //     setSelectedTab(tab);
+//     //     setIsDropdownOpen(false);
+//     // };
+
+//     const handleSelectTab = (tab: string) => {
+//         navigate(`/landlords-dashboard/${tab}`);
+//         if (isDropdownOpen) setIsDropdownOpen(false);
+//     }
+
+
+//     return (
+//         <>
+//             {/* Desktop View */}
+//             <div className="hidden lg:flex justify-between bg-white my-10 mx-10 shadow-md px-5 py-4 rounded-full text-sm font-medium">
+//                 {tabOptions.map((tab, idx) => (
+//                     <div
+//                         key={tab}
+//                         className={`w-[25%] text-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+//                             } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
+//                         onClick={() => setSelectedTab(tab)}
+//                     >
+//                         {tab}
+//                     </div>
+//                 ))}
+//             </div>
+
+//             {/* Mobile View */}
+//             <div className="lg:hidden py-6 px-6 relative z-50">
+//                 {/* Toggle Button */}
+//                 <div
+//                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+//                     className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium  relative z-50"
+//                 >
+//                     {selectedTab}
+//                 </div>
+
+//                 {/* Dropdown */}
+//                 <AnimatePresence>
+//                     {isDropdownOpen && (
+//                         <motion.div
+//                             key="dropdown"
+//                             initial={{ opacity: 0, y: -10 }}
+//                             animate={{ opacity: 1, y: 0 }}
+//                             exit={{ opacity: 0, y: -10 }}
+//                             transition={{ duration: 0.2 }}
+//                             className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+//                         >
+//                             {tabOptions.map((tab) => (
+//                                 <div
+//                                     key={tab}
+//                                     className={`text-center py-2  hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
+//                                         }`}
+//                                     onClick={() => handleSelectTab(tab)}
+//                                 >
+//                                     {tab}
+//                                 </div>
+//                             ))}
+//                         </motion.div>
+//                     )}
+//                 </AnimatePresence>
+
+
+
+//             </div>
+
+//             {selectedTab === "My Preferences" && <AnimatePresence>
+//                 {(
+//                     <motion.div
+//                         key="dropdown"
+//                         initial={{ opacity: 0, y: -10 }}
+//                         animate={{ opacity: 1, y: 0 }}
+//                         exit={{ opacity: 0, y: -10 }}
+//                         transition={{ duration: 0.2 }}
+//                         className="absolute left-0 right-0  mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+//                     >
+
+//                         <PropertyFilters />
+
+
+//                     </motion.div>
+//                 )}
+//             </AnimatePresence>}
+//         </>
+//     );
+// };
+
 import { Popover, PopoverButton } from '@headlessui/react';
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PropertyFilters from "../../../../components/PropertyFilters";
 
 export const ResponsiveTabSelector: React.FC<{
     tabOptions: string[],
@@ -15,14 +118,14 @@ export const ResponsiveTabSelector: React.FC<{
     const [filter, setFilter] = useState(false);
     // const [selectedProfileTab, setSelectedProfileTab] = useState("My Dashboard");
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [profileDropDownStatus, setProfileDropDownStatus] = useState(false);
+    // const [profileDropDownStatus, setProfileDropDownStatus] = useState(false);
 
     const handleSelectTab = (tab: string) => {
-        navigate(`/students-dashboard/${tab}`);
+        navigate(`/search-property/${tab}`);
         if (isDropdownOpen) setIsDropdownOpen(false);
 
-        if (tab === tabOptions[3]) setProfileDropDownStatus(!profileDropDownStatus)
-        else setProfileDropDownStatus(false)
+        // if (tab === tabOptions[3]) setProfileDropDownStatus(!profileDropDownStatus)
+        // else setProfileDropDownStatus(false)
     };
 
     return (
@@ -109,23 +212,6 @@ export const ResponsiveTabSelector: React.FC<{
                     </PopoverPanel> */}
                 </Popover>}
             </div>
-
-
-            {filter && <AnimatePresence>
-                {(
-                    <motion.div
-                        key="dropdown"
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute left-0 right-0 md:mt-2  mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
-                    >
-                        <PropertyFilters />
-
-                    </motion.div>)}
-            </AnimatePresence>}
-
 
 
 

@@ -61,14 +61,14 @@ export const HomeComponent = () => {
             <span className="font-extrabold italic"> So we rewrote it.</span> */}
             </p>
 
-            <button className="bg-[#000000] text-white font-medium px-8 py-3 rounded-full shadow-md cursor-pointer hover:bg-red-800 transition-all duration-300 ease-in-out ">
+            <button className="bg-[#000000] text-white font-medium px-8 py-3 rounded-full shadow-md  hover:bg-red-800 transition-all duration-300 ease-in-out ">
               Get Started— <span className="font-extrabold">It’s Free</span>
             </button>
           </div>
         </div>
 
         <div className="text-center z-100 bg-transparent sticky top-[97%]">
-          <button className="bg-[#B3322F] cursor-pointer hover:bg-black text-white font-medium py-3 w-[250px]  sm:w-[347px] md:w-[500px] mx-auto rounded-full shadow-md z-10 -top-5 relative -mt-10 transition-all duration-300 ease-in-out">
+          <button className="bg-[#B3322F]  hover:bg-black text-white font-medium py-3 w-[250px]  sm:w-[347px] md:w-[500px] mx-auto rounded-full shadow-md z-10 -top-5 relative -mt-10 transition-all duration-300 ease-in-out">
             Start Your Housing Search
           </button>
         </div>
@@ -187,7 +187,7 @@ export const HomeComponent = () => {
           <h1 className="text-[#B3322F] text-3xl md:text-5xl w-[80%] mx-auto text-center font-bold mb-10">
             Experience Next Room For Yourself
           </h1>
-          <button className=" transition-all duration-300 ease-in-out bg-[#000000] text-white font-medium px-15 md:px-15 py-3 rounded-full mx-auto mb-10 shadow-sm shadow-black cursor-pointer hover:bg-red-800">
+          <button className=" transition-all duration-300 ease-in-out bg-[#000000] text-white font-medium px-15 md:px-15 py-3 rounded-full mx-auto mb-10 shadow-sm shadow-black  hover:bg-red-800">
             Try It Now
           </button>
 
@@ -241,7 +241,7 @@ export const HomeComponent = () => {
               </p>
 
               <div>
-                <button className="bg-[#B3322F] text-white font-medium px-22 py-3 rounded-full shadow-md cursor-pointer hover:bg-black transition-all duration-300 ease-in-out">
+                <button className="bg-[#B3322F] text-white font-medium px-22 py-3 rounded-full shadow-md  hover:bg-black transition-all duration-300 ease-in-out">
                   Learn More
                 </button>
               </div>

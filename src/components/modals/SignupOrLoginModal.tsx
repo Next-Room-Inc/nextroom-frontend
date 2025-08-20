@@ -15,7 +15,7 @@ const SignupOrLoginModal: React.FC<{
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => navigate(ROUTES.LOGIN)}
-          className="bg-[#B3322F] text-sm mt-6 py-2 px-10 rounded-full w-fit mx-auto font-semibold text-white cursor-pointer"
+          className="bg-[#B3322F] text-sm mt-6 py-2 px-10 rounded-full w-fit mx-auto font-semibold text-white "
         >
           Sign Up / Login
         </motion.button>

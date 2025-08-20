@@ -61,7 +61,7 @@ export const FlowSlider = () => {
                 }}
               >
                 {/* Overlay */}
-                <div className="absolute inset-0  p-5 flex flex-col justify-end text-white cursor-pointer ">
+                <div className="absolute inset-0  p-5 flex flex-col justify-end text-white  ">
                   <div className="flex items-center gap-3 mb-2">
                     <div className=" bg-[#B3322F] p-5 rounded-full">
                       <img
