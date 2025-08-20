@@ -23,7 +23,7 @@ const Invite = () => {
                         whileHover={{ scale: 1.2, rotate: 90 }}
                         transition={{ duration: 0.6, ease: 'easeInOut' }}
                     >
-                        <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
+                        <ArrowPathIcon className="w-5 h-5 text-[#B3322F] " />
                     </motion.div>
                 </div > :
 

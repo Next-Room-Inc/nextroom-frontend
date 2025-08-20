@@ -14,7 +14,7 @@ export const Banner: React.FC<BannerProps> = ({ showModalHandler, submitted }) =
           }`}
       >
         <p
-          className="text-sm/6 text-white cursor-pointer w-full text-center"
+          className="text-sm/6 text-white  w-full text-center"
           onClick={() => {
             if (!submitted) {
               showModalHandler("rentFree", true);

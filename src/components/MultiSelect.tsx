@@ -40,7 +40,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                             exit={{ scale: 0.8, opacity: 0 }}
                         >
                             <span
-                                className="font-bold text-white cursor-pointer"
+                                className="font-bold text-white "
                                 onClick={() => onDeselect(item)}
                             >
                                 ×
@@ -65,7 +65,7 @@ export const MultiSelect: React.FC<MultiSelectProps> = ({
                 {filteredOptions.length > 5 && (
                     <button
                         onClick={() => setShowAll(!showAll)}
-                        className="text-[#B3322F] text-sm font-medium mt-2 underline hover:text-[#8a1d1b] transition cursor-pointer"
+                        className="text-[#B3322F] text-sm font-medium mt-2 underline hover:text-[#8a1d1b] transition "
                     >
                         {showAll ? 'View Less' : 'View More'}
                     </button>
@@ -115,7 +115,7 @@ export const MultiSelectWithIds: React.FC<MultiSelectWithIdsProps> = ({
                             exit={{ scale: 0.8, opacity: 0 }}
                         >
                             <span
-                                className="font-bold text-white cursor-pointer"
+                                className="font-bold text-white "
                                 onClick={() => onDeselect(item)}
                             >
                                 ×
@@ -140,7 +140,7 @@ export const MultiSelectWithIds: React.FC<MultiSelectWithIdsProps> = ({
                 {filteredOptions.length > 5 && (
                     <button
                         onClick={() => setShowAll(!showAll)}
-                        className="text-[#B3322F] text-sm font-medium mt-2 underline hover:text-[#8a1d1b] transition cursor-pointer"
+                        className="text-[#B3322F] text-sm font-medium mt-2 underline hover:text-[#8a1d1b] transition "
                     >
                         {showAll ? 'View Less' : 'View More'}
                     </button>

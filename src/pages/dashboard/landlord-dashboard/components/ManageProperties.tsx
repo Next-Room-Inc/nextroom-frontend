@@ -161,7 +161,7 @@ const ManageProperties = () => {
                         name="setting"
                         type="checkbox"
                         aria-label="Use setting"
-                        className="absolute inset-0 appearance-none cursor-pointer"
+                        className="absolute inset-0 appearance-none "
                     />
                 </div>
             </div>

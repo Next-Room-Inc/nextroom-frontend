@@ -118,7 +118,7 @@ export const AvailableUnitsModal: React.FC<{
                             {tabOptions.map((tab, idx) => (
                                 <div
                                     key={tab}
-                                    className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                                    className={`w-[25%] text-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
                                         } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
                                     onClick={() => setSelectedTab(tab)}
                                 >
@@ -132,7 +132,7 @@ export const AvailableUnitsModal: React.FC<{
                             {/* Toggle Button */}
                             <div
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                                className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium  relative z-50"
                             >
                                 {selectedTab}
                             </div>
@@ -151,7 +151,7 @@ export const AvailableUnitsModal: React.FC<{
                                         {tabOptions.map((tab) => (
                                             <div
                                                 key={tab}
-                                                className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
+                                                className={`text-center py-2  hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
                                                     }`}
                                                 onClick={() => handleSelectTab(tab)}
                                             >

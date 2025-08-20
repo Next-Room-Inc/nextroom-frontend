@@ -35,7 +35,7 @@ const StudentPreferences = () => {
                     {
                         options.map(option =>
                             <div
-                                className={`${selectedOption === option ? "bg-[#B3322F] text-white" : "text-black"} rounded-full px-4 py-2 my-2 cursor-pointer font-semibold`}
+                                className={`${selectedOption === option ? "bg-[#B3322F] text-white" : "text-black"} rounded-full px-4 py-2 my-2  font-semibold`}
                                 onClick={() => setsSelectedOption(option)}
                             >
                                 {option}</div>
@@ -47,7 +47,7 @@ const StudentPreferences = () => {
                     {/* Toggle Button */}
                     <div
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="text-center flex items-center justify-center bg-[#B3322F] text-white shadow-md px-5 py-3 w-full rounded-full text-sm font-medium cursor-pointer relative"
+                        className="text-center flex items-center justify-center bg-[#B3322F] text-white shadow-md px-5 py-3 w-full rounded-full text-sm font-medium  relative"
                     >
                         {selectedOption} <ChevronDownIcon className='h-7 ml-2 mt-1 text-white' />
                     </div>
@@ -66,7 +66,7 @@ const StudentPreferences = () => {
                                 {options.map((tab) => (
                                     <div
                                         key={tab}
-                                        className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedOption === tab ? "text-[#B3322F] font-semibold" : ""
+                                        className={`text-center py-2  hover:text-[#B3322F] ${selectedOption === tab ? "text-[#B3322F] font-semibold" : ""
                                             }`}
                                         onClick={() => {
                                             setsSelectedOption(tab);
@@ -248,9 +248,9 @@ const RoommatePreferences = () => {
                                 </div>
                                 <div>
                                     <ul className='flex text-[#B3322F] gap-x-2'>
-                                        <li onClick={() => setEditModal(true)} className='cursor-pointer'>Edit</li>
-                                        <li onClick={() => setRemoveModal(true)} className='border-r border-l px-2 cursor-pointer'>Remove</li>
-                                        <li className='cursor-pointer' onClick={() => setReportModal(true)}>Report</li>
+                                        <li onClick={() => setEditModal(true)} className=''>Edit</li>
+                                        <li onClick={() => setRemoveModal(true)} className='border-r border-l px-2 '>Remove</li>
+                                        <li className='' onClick={() => setReportModal(true)}>Report</li>
                                     </ul>
                                 </div>
                             </div>
@@ -277,7 +277,7 @@ const RoommatePreferences = () => {
                 </>
                 :
                 <>
-                    <div>                    <ArrowLeftIcon className={` w-6 text-[#B3322F] cursor-pointer`} onClick={backButtonHandler} /></div>
+                    <div>                    <ArrowLeftIcon className={` w-6 text-[#B3322F] `} onClick={backButtonHandler} /></div>
                     <h1 className='text-center font-semibold text-xl'>No Roommate(s) Yet? <br />
                         Invite Now!</h1>
                     <Invite />
@@ -441,9 +441,9 @@ const GuarantorPreferences = () => {
                         </div>
                         <div>
                             <ul className='flex text-[#B3322F] gap-x-2'>
-                                <li onClick={() => setEditModal(true)} className='cursor-pointer'>Edit</li>
-                                <li onClick={() => setRemoveModal(true)} className='border-r border-l px-2 cursor-pointer'>Remove</li>
-                                <li className='cursor-pointer' onClick={() => setReportModal(true)}>Report</li>
+                                <li onClick={() => setEditModal(true)} className=''>Edit</li>
+                                <li onClick={() => setRemoveModal(true)} className='border-r border-l px-2 '>Remove</li>
+                                <li className='' onClick={() => setReportModal(true)}>Report</li>
                             </ul>
                         </div>
                     </div>
@@ -553,8 +553,8 @@ const ProfilePhotoUploader: React.FC<{
                 src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.svg`}
                 className={`h-60 w-60 bg-[#CCCCCC] rounded-full p-5 mx-auto`}
             />
-            <Button onClick={handleButtonClick} className="text-[#B3322F]  hover:bg-gray-200 cursor-pointer  flex justify-center items-center shadow bg-white px-4 py-2 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px]">
-                <ArrowUpTrayIcon className="w-4 mr-2 text-[#B3322F]  cursor-pointer" />
+            <Button onClick={handleButtonClick} className="text-[#B3322F]  hover:bg-gray-200   flex justify-center items-center shadow bg-white px-4 py-2 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px]">
+                <ArrowUpTrayIcon className="w-4 mr-2 text-[#B3322F]  " />
                 Upload Profile Photo
             </Button>
 
@@ -738,7 +738,7 @@ const ChangeNameOrEmail = () => {
                     <div className="flex flex-col md:flex-row items-center justify-center">
                         <div
                             onClick={() => setUpdateForm("Name")}
-                            className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-md transition px-5"
+                            className="flex items-center gap-3  hover:bg-gray-100 p-2 rounded-md transition px-5"
                         >
                             <span className={`${updateForm === "Name" ? "bg-[#B3322F]" : "border-[#B3322F] border-2"}  w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}>
 
@@ -748,7 +748,7 @@ const ChangeNameOrEmail = () => {
 
                         <div
                             onClick={() => setUpdateForm("Email")}
-                            className="flex items-center gap-3 cursor-pointer hover:bg-gray-100 p-2 rounded-md transition px-5"
+                            className="flex items-center gap-3  hover:bg-gray-100 p-2 rounded-md transition px-5"
                         >
                             <span className={`${updateForm === "Email" ? "bg-[#B3322F]" : "border-[#B3322F] border-2"}  w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}>
 

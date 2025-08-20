@@ -2,6 +2,10 @@
 @import "swiper/css";
 @import "swiper/css/navigation";
 
+* {
+  cursor: default;
+}
+
 .swiper-button-prev:after,
 .swiper-button-next:after {
   color: white;
@@ -72,7 +76,7 @@ input[type="range"].custom-slider::-webkit-slider-thumb {
   background-color: #ffffff; /* White Thumb */
   border-radius: 50%;
   border: 2px solid #b3322f;
-  cursor: pointer;
+
   margin-top: -8px; /* aligns thumb vertically with track */
 }
 
@@ -83,7 +87,6 @@ input[type="range"].custom-slider::-moz-range-thumb {
   background-color: #ffffff; /* White Thumb */
   border-radius: 50%;
   border: 2px solid #b3322f;
-  cursor: pointer;
 }
 
 /* {
@@ -116,7 +119,6 @@ input[type="range"].custom-slider::-moz-range-thumb {
 .scrollbar {
   scrollbar-width: thicker;
   scrollbar-color: #b3322f;
-  cursor: pointer;
 }
 
 /* complete porkect scrollable setting */
@@ -144,5 +146,4 @@ input[type="range"].custom-slider::-moz-range-thumb {
 * {
   scrollbar-width: auto;
   scrollbar-color: #b3322f; /* thumb and track */
-  cursor: pointer;
 }

@@ -20,7 +20,7 @@ import 'react-advanced-cropper/dist/style.css'
 // import { motion } from "framer-motion";
 
 const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;
-const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full cursor-pointer`;
+const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-white rounded-full `;
 
 
 const Signup = () => {
@@ -112,7 +112,7 @@ const Signup = () => {
 
               >
                 <ArrowLeftIcon className="h-5 mr-2" />
-                <span className="cursor-pointer" onClick={() => prevStepHandler()}>Previous Step</span>
+                <span className="" onClick={() => prevStepHandler()}>Previous Step</span>
               </div>
             )}
             {formik.values.step <= 1 && <NameForm {...{ formik, nextStepHandler }} />}
@@ -253,7 +253,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
             <PasswordEyeToggleIcon
               onClick={() => setPasswordType(!passwordType)}
               aria-hidden="true"
-              className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
+              className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500  z-10"
             />
           </div>
           {formik.values.password && formik.touched.password && formik.values.password.length ? (
@@ -288,7 +288,7 @@ const PasswordForm: React.FC<PasswordFormProps> = ({ formik }) => {
             <ConfirmPasswordEyeToggleIcon
               onClick={() => setConfirmPasswordType(!confirmPasswordType)}
               aria-hidden="true"
-              className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500 cursor-pointer z-10"
+              className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500  z-10"
             />
           </div>
           {formik.values.confirmPassword && formik.touched.confirmPassword &&
@@ -348,7 +348,7 @@ const SchoolForm: React.FC<SchoolFormProps> = ({ formik, nextStepHandler }) => {
 
       <div className="grid gap-6 justify-center  grid-cols-2 md:grid-cols-2 lg:grid-cols-4 px-14 md:px-0">
         {schools.map((school, index) => (
-          <div key={index} className={`flex justify-center items-center rounded-full md:w-20 md:h-20  h-25 w-25 ${formik.values.university === school.name ? "bg-[#B3322F]" : "bg-[#C9C1C1]"} hover:cursor-pointer `}
+          <div key={index} className={`flex justify-center items-center rounded-full md:w-20 md:h-20  h-25 w-25 ${formik.values.university === school.name ? "bg-[#B3322F]" : "bg-[#C9C1C1]"} hover: `}
             onClick={() => formik.setFieldValue('university', school.name)} > <img src={`${APP_INFO.IMG_BASE_URL}icons/${school.icon}`}
               className={`md:w-20 md:h-20  h-25 w-25 md:p-4 p-5  `} alt={`School ${index}`} />
           </div>))}
@@ -677,8 +677,8 @@ const ProfilePhotoUploader: React.FC<{
         src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.svg`}
         className={`h-60 w-60 bg-[#CCCCCC] rounded-full p-5 mx-auto`}
       />
-      <button onClick={handleButtonClick} className="text-[#B3322F]  hover:bg-gray-200 cursor-pointer  flex justify-center items-center shadow bg-white px-4 py-2 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px]">
-        <ArrowUpTrayIcon className="w-4 mr-2 text-[#B3322F]  cursor-pointer" />
+      <button onClick={handleButtonClick} className="text-[#B3322F]  hover:bg-gray-200   flex justify-center items-center shadow bg-white px-4 py-2 rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[210px]">
+        <ArrowUpTrayIcon className="w-4 mr-2 text-[#B3322F]  " />
         Upload Profile Photo
       </button>
 

@@ -68,27 +68,27 @@ export default function Header({ darkMode = true }) {
     {
       name: <Link to={ROUTES.STUDENTS_DASHBOARD}>Student Dashboard</Link>,
       href: "#",
-      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+      class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : ""}`,
     },
     {
       name: <Link to={ROUTES.LANDLORDS_DASHBOARD}>Landlord Dashboard</Link>,
       href: "#",
-      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+      class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : ""}`,
     },
     {
       name: <Link to={ROUTES.ONBOARDING}>Onboarding</Link>,
       href: "#",
-      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+      class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : ""}`,
     },
     {
       name: <Link to={ROUTES.SEARCH_PROPERTY}>Search Property</Link>,
       href: "#",
-      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+      class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : ""}`,
     },
     {
       name: <div onClick={handleLogout}>Log Out</div>,
       href: "#",
-      class: `px-2 md:px-4 cursor-pointer ${!isLoggedIn ? "hidden" : ""}`,
+      class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : ""}`,
     },
     {
       name: <hr className="text-gray-300 w-full " />,
@@ -111,7 +111,7 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={`cursor-pointer transition duration-200 ${selectedLang === lang.code
+                className={` transition duration-200 ${selectedLang === lang.code
                   ? "underline underline-offset-4 text-red-500"
                   : "hover:text-red-800"
                   }`}
@@ -181,7 +181,7 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={`cursor-pointer transition-all duration-300 ease-in-out ${selectedLang === lang.code
+                className={` transition-all duration-300 ease-in-out ${selectedLang === lang.code
                   ? "underline underline-offset-4"
                   : "hover:text-gray-500"
                   }`}
@@ -215,7 +215,7 @@ export default function Header({ darkMode = true }) {
             </div>
             <span
 
-              className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
+              className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
                 ? " border-white text-black bg-white"
                 : "text-dark border-dark hover:text-white hover:bg-black"
                 }`}
@@ -229,7 +229,7 @@ export default function Header({ darkMode = true }) {
             {navbar.map((i, index) => (
               <span
                 key={index}
-                className={`${isStudentDashboard ? "hidden" : "flex"} border-1 px-3 py-1 rounded-full text-[10px] mx-2 cursor-pointer transition-all duration-300 ease-in-out ${darkMode
+                className={`${isStudentDashboard ? "hidden" : "flex"} border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
                   ? "text-white border-white hover:text-black hover:bg-white"
                   : "text-dark border-dark hover:text-white hover:bg-black"
                   }`}
@@ -242,7 +242,7 @@ export default function Header({ darkMode = true }) {
           {/* Pop Over Button for dropdown */}
           <Popover className="relative">
             <PopoverButton className="focus:outline-none inline-flex items-center gap-x-1 text-sm/6 font-semibold text-gray-900 ">
-              <div className=" flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100  py-2 px-7 rounded-full lg:-mt-2 mt-3 ml-2 cursor-pointer transition-all duration-300 ease-in-out">
+              <div className=" flex bg-white hover:bg-gray-200 shadow-lg border border-gray-100  py-2 px-7 rounded-full lg:-mt-2 mt-3 ml-2  transition-all duration-300 ease-in-out">
                 {/* <img
                   src={`${APP_INFO.IMG_BASE_URL}icons/menu_icon.svg`}
                   className={`h-3.2 bg-white mr-4 my-auto`}
@@ -262,7 +262,7 @@ export default function Header({ darkMode = true }) {
                 {solutions.map((item, index) => (
                   <motion.a
                     key={index}
-                    className={`${item.class} block py-0.5 px-3 text-gray-900 cursor-pointer`}
+                    className={`${item.class} block py-0.5 px-3 text-gray-900 `}
                     whileHover={{
                       scale: 1.05,
                       x: 5,
@@ -283,7 +283,7 @@ export default function Header({ darkMode = true }) {
                 Log in <span aria-hidden="true">&rarr;</span>
               </Link>
             ) : (
-              <span className="cursor-pointer" onClick={handleLogout}>
+              <span className="" onClick={handleLogout}>
                 Logout
               </span>
             )}

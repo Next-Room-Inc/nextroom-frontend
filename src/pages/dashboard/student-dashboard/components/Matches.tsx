@@ -5,7 +5,7 @@ import { ArrowPathIcon } from '@heroicons/react/20/solid';
 import { toast } from 'react-toastify';
 import { Property, PropertyDetails } from '@src/utils/interfaces';
 import { AnimatePresence, motion } from "framer-motion";
-import { AvailableUnitsModal } from '../../../search-property/components/AvailableUnitsModal';
+import { AvailableUnitsModal } from '../../../search-property/common/AvailableUnitsModal';
 import { IMAGES } from '@src/utils/constants/app-info.constant';
 import PulseHoverLayout from '@src/layouts/PulseHover.Layout';
 import { Button } from '../../../../components/Button';
@@ -40,7 +40,7 @@ const Matches = () => {
                                 whileHover={{ scale: 1.2, rotate: 90 }}
                                 transition={{ duration: 0.6, ease: 'easeInOut' }}
                             >
-                                <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
+                                <ArrowPathIcon className="w-5 h-5 text-[#B3322F] " />
                             </motion.div>
                         </div > : <>
 
@@ -107,7 +107,7 @@ export const MatchingHousingCard: React.FC<{
                         onClick={likedPropertyHandler}
                         src={`/assets/img/search-property/${likedProperty ? "heartinner.svg" : "heartouter.svg"}`}
                         alt="Like"
-                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 cursor-pointer"
+                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 "
 
                         // Animate on click (when state changes)
                         animate={{ scale: 1 }}

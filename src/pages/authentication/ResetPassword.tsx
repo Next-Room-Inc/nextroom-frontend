@@ -158,7 +158,7 @@ const ResetPassword = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
             className={`px-20 mt-5 rounded-full ${validationError ? "bg-[#b3312f5e]" : ""
-              } cursor-pointer bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
+              }  bg-[#B3322F] py-1.5 text-sm/6 font-semibold text-white shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600`}
           >
             Forgot Password
           </motion.button>

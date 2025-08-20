@@ -26,7 +26,7 @@ export const ResponsiveTab: React.FC<{
                     {tabOptions.map((t, idx) => (
                         <div
                             key={t}
-                            className={`w-full text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                            className={`w-full text-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
                                 } ${tab === t ? "text-[#B3322F] font-semibold" : ""}`}
                             onClick={() => { handleSelectTab(t) }}
                         >
@@ -41,7 +41,7 @@ export const ResponsiveTab: React.FC<{
                     {/* Toggle Button */}
                     <div
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative z-50"
                     >
                         {tab}
                         <ChevronDownIcon className='h-7 ml-2 mt-1 text-[#B3322F]' />
@@ -61,7 +61,7 @@ export const ResponsiveTab: React.FC<{
                                 {tabOptions.map((t, index: number) => (
                                     <div
                                         key={index}
-                                        className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
+                                        className={`text-center py-2  hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
                                             }`}
                                         onClick={() => { handleSelectTab(t) }}
                                     >
@@ -133,7 +133,7 @@ export const ResponsiveTab: React.FC<{
                             ].map((item, index) => (
                                 <motion.a
                                     key={index}
-                                    className={`block py-0.5 px-3 ${item === selectedProfileTab ? "text-[#B3322F]" : "text-gray-900"}  cursor-pointer`}
+                                    className={`block py-0.5 px-3 ${item === selectedProfileTab ? "text-[#B3322F]" : "text-gray-900"}  `}
                                     whileHover={{
                                         scale: 1.01,
                                         color: "#dc2626", // Tailwind's red-600

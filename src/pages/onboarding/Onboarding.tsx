@@ -592,7 +592,7 @@ const FormStepper: React.FC<{
                                             onboardingFormSkipped: true,
                                         })
                                     }
-                                    className="cursor-pointer bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"
+                                    className=" bg-[#B3322F] px-6 py-2 rounded-full text-white font-normal text-sm mt-2 mb-2"
                                 >
                                     Start Housing Search Now
                                 </motion.button>

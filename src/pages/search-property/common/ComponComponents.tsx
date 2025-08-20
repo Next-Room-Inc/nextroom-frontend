@@ -1,0 +1,52 @@
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
+import { AvailableUnitsModal } from './AvailableUnitsModal';
+import { toast } from 'react-toastify';
+import { IMAGES } from '@src/utils/constants/app-info.constant';
+import { Property, PropertyDetails } from '@src/utils/interfaces/property.interface';
+import { Button } from '../../../components/Button';
+
+
+export const PrimaryButton: React.FC<{
+    selected?: boolean;
+    children?: React.ReactNode;
+    onClick?: () => void;
+    icon?: string | null;
+    className?: string;
+    button?: boolean;
+    color?: 'red' | 'black'
+    // type?: "button" | "submit" | "reset";
+}
+> = ({
+    children = '',
+    onClick = () => { },
+    icon = null,
+    className = '',
+    color = 'red'
+}) => {
+        const buttonColors = {
+            'red': 'bg-[#B3322F] hover:bg-black',
+            'black': 'hover:bg-[#B3322F] bg-black'
+        }
+        const bgColor = buttonColors[color]
+
+        return (
+            <motion.button
+                onClick={onClick}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.03 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className={` ${className} px-10  text-center py-2 text-white rounded-full flex items-center justify-center ${bgColor} ${icon ? 'gap-2' : ''} `}
+            >
+                {children}
+                {icon && <img src={icon} alt="" className="h-3 mt-1.5" />}
+            </motion.button>
+        )
+    };
+
+
+
+
+

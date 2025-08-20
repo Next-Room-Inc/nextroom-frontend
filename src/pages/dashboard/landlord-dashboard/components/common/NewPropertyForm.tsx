@@ -452,7 +452,7 @@ const FloorPlanComponent = () => {
                 {/* Upload button */}
                 <div
                     onClick={handleFileClick}
-                    className="shadow-md bg-white border text-[#B3322F] border-transparent w-full md:w-60 flex justify-center cursor-pointer rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
+                    className="shadow-md bg-white border text-[#B3322F] border-transparent w-full md:w-60 flex justify-center  rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
                 >
                     <ArrowUpTrayIcon className="h-5" />
                     <span>{image ? "Update" : "Upload"}</span>
@@ -535,7 +535,7 @@ const UnitImagesComponent = () => {
                 {images.length < 4 && (
                     <div
                         onClick={handleFileClick}
-                        className="shadow-md bg-white border text-[#B3322F] border-transparent w-full md:w-60 flex justify-center cursor-pointer rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
+                        className="shadow-md bg-white border text-[#B3322F] border-transparent w-full md:w-60 flex justify-center  rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
                     >
                         <ArrowUpTrayIcon className="h-5" />
                         <span>Upload</span>

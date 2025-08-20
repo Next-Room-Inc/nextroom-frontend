@@ -77,7 +77,7 @@ const Home = () => {
                                     {card.items.map((item, index) => (
                                         <motion.span
                                             key={index}
-                                            className="font-semibold text-gray-900 cursor-pointer" // default text color, adjust as needed
+                                            className="font-semibold text-gray-900 " // default text color, adjust as needed
                                             whileHover={{ color: "#B3322F", zoom: 1.05 }}
                                             transition={{ duration: 0.3, ease: "easeInOut" }}
                                         >
@@ -89,7 +89,7 @@ const Home = () => {
                                     <motion.div
                                         whileHover={{ color: "#B3322F", zoom: 1.05 }}
                                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                                        className='text-[#B3322F] underline text-sm mt-2 cursor-pointer'
+                                        className='text-[#B3322F] underline text-sm mt-2 '
                                         onClick={() => setPaymentModal(true)}>
 
                                         Add/Update Credit Card Info
@@ -139,7 +139,7 @@ const PaymentDetailsForm: React.FC<{
     return (
         <div className="relative w-fit bg-white p-10 shadow-2xl rounded-2xl">
             <XMarkIcon
-                className="w-5 absolute right-5 top-5 cursor-pointer"
+                className="w-5 absolute right-5 top-5 "
                 onClick={() => setPaymentModal(false)}
             />
             <h1 className="text-center font-semibold text-xl mb-5">Payment Details</h1>

@@ -24,10 +24,11 @@ import { UNIT_DETAILS } from "@src/static-data";
 
 
 export const AvailableUnitsModal: React.FC<{
-    propertyDetails: PropertyDetails; property: Property;
+    floorplan: any; property: Property;
 }> = ({
-    propertyDetails, property
+    floorplan, property
 }) => {
+        console.log("floorplan=>", floorplan)
         const navigate = useNavigate()
         const tabOptions = ["Units", "Building", "History", "Reviews & History"];
         const [selectedTab, setSelectedTab] = useState("Units");
@@ -48,18 +49,18 @@ export const AvailableUnitsModal: React.FC<{
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         className="  mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40" >
                         {/* Image Gallery */}
-                        <MediaGallery />
+                        <MediaGallery property={property} images={floorplan?.photos} />
                         {/* section property details */}
                         <div className='flex justify-between flex-col md:flex-row'>
                             <div className='md:text-left text-center'>
-                                <h1 className='underline font-bold'>30 rue Jos-Montferrand, Gatineau</h1>
+                                <h1 className='underline font-bold'>{property?.drivingDirections}</h1>
                                 <div className='flex gap-5 my-2'>
                                     <p>2 tenants </p>
-                                    <p>{propertyDetails?.bedrooms} bed </p>
-                                    <p>{propertyDetails?.bathrooms} bath </p>
+                                    <p>{floorplan?.bedrooms} bed </p>
+                                    <p>{floorplan?.bathrooms} bath </p>
                                     <p className='flex'> <StarIcon className='w-5' /> 4.94 (78)</p>
                                 </div>
-                                <h1 className='text-[#B3322F] font-bold'>${propertyDetails.rentMin} - ${propertyDetails.rentMax} monthly</h1>
+                                <h1 className='text-[#B3322F] font-bold'>${floorplan.rentMin} - ${floorplan.rentMax} monthly</h1>
                             </div>
                             <div className='md:w-auto w-full'>
                                 <motion.button
@@ -89,7 +90,7 @@ export const AvailableUnitsModal: React.FC<{
                             {tabOptions.map((tab, idx) => (
                                 <div
                                     key={tab}
-                                    className={`w-[25%] text-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                                    className={`w-[25%] text-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
                                         } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
                                     onClick={() => setSelectedTab(tab)}
                                 >
@@ -103,7 +104,7 @@ export const AvailableUnitsModal: React.FC<{
                             {/* Toggle Button */}
                             <div
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                                className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium  relative z-50"
                             >
                                 {selectedTab}
                             </div>
@@ -122,7 +123,7 @@ export const AvailableUnitsModal: React.FC<{
                                         {tabOptions.map((tab) => (
                                             <div
                                                 key={tab}
-                                                className={`text-center py-2 cursor-pointer hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
+                                                className={`text-center py-2  hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
                                                     }`}
                                                 onClick={() => handleSelectTab(tab)}
                                             >
@@ -138,8 +139,8 @@ export const AvailableUnitsModal: React.FC<{
                         </div>
                         {/* Unit Details Section */}
                         <div>
-                            {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} propertyDetails={propertyDetails} property={property} />}
-                            {selectedTab === "Building" && <BuildingDetailSection propertyDetails={propertyDetails} />}
+                            {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} floorplan={floorplan} property={property} />}
+                            {selectedTab === "Building" && <BuildingDetailSection floorplan={floorplan} />}
                             {selectedTab === "History" && <HistoryDetailSection />}
                             {selectedTab === "Reviews & History" && <ReviewDetailSection />}
                         </div>
@@ -155,7 +156,7 @@ export const AvailableUnitsModal: React.FC<{
 
 
 const UnitDetailsSection: React.FC<{
-    propertyDetails: PropertyDetails;
+    floorplan: PropertyDetails;
     property: Property;
     title: string;
     imageUrl: string;
@@ -167,23 +168,25 @@ const UnitDetailsSection: React.FC<{
         alt: string;
     }[];
 }> = ({
-    propertyDetails,
+    floorplan,
     title,
     status,
     amenities,
 }) => {
-        console.log(propertyDetails)
+        console.log(floorplan)
+        const [selected, setSelected] = useState(null)
         // const [viewAllMatches, SetViewAllMatches] = useState(false)
         return (
             <>
 
                 {
-                    (propertyDetails?.availableUnits?.unit || []).map((unit) => <>
+                    (floorplan?.availableUnits?.unit || []).map((unit, index) => <>
                         <motion.div
+                            onClick={() => setSelected(index)}
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.4, ease: "easeOut" }}
-                            className="rounded-xl shadow-md overflow relative p-6 mx-5 mt-12 text-black bg-[#D9D9D9]">
+                            className={`rounded-xl shadow-md overflow relative p-6 mx-5 mt-5 text-black ${index === selected ? "bg-[#D9D9D9]" : "bg-white"}`}>
                             <div className="md:flex">
                                 {/* Image section */}
                                 <div className="relative w-full md:w-1/6">
@@ -194,7 +197,7 @@ const UnitDetailsSection: React.FC<{
                                 {/* Content section */}
                                 <div className="w-full md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
                                     <div className="flex md:justify-start justify-between items-start w-full">
-                                        <h2 className="md:text-2xl text-xl font-semibold">{propertyDetails?.bedrooms} Bedrooms</h2>
+                                        <h2 className="md:text-2xl text-xl font-semibold">{floorplan?.bedrooms} Bedrooms</h2>
                                         <div className="bg-[#B3322F] text-white px-3 py-0.5 text-center rounded-full text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
                                             {status}
                                         </div>
@@ -246,7 +249,7 @@ const UnitDetailsSection: React.FC<{
                             </div>
 
                             {/* Action Buttons */}
-                            <div className="flex flex-col md:flex-row gap-4 md:w-fit py-3">
+                            {index === selected && <div className="flex flex-col md:flex-row gap-4 md:w-fit py-3">
                                 <PrimaryButton
                                     className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
                                 >
@@ -262,7 +265,7 @@ const UnitDetailsSection: React.FC<{
                                 >
                                     Decline
                                 </PrimaryButton>
-                            </div>
+                            </div>}
 
 
                         </motion.div>
@@ -274,14 +277,20 @@ const UnitDetailsSection: React.FC<{
     };
 
 
-const MediaGallery = () => {
-    const imageList = [
-        { src: "/assets/img/search-property/demo_gallary_image_1.png", alt: "Bedroom" },
-        { src: "/assets/img/search-property/demo_gallary_image_2.png", alt: "Kitchen" },
-        { src: "/assets/img/search-property/demo_gallary_image_3.png", alt: "Living Room" },
-        { src: "/assets/img/search-property/demo_gallary_image_1.png", alt: "Bathroom" },
-        { src: "/assets/img/search-property/demo_gallary_image_2.png", alt: "Map" },
-    ];
+const MediaGallery = ({ property, images = [] }) => {
+    console.log("images===>", images)
+    // const imageList = [
+    //     { src: "/assets/img/search-property/demo_gallary_image_1.png", alt: "Bedroom" },
+    //     { src: "/assets/img/search-property/demo_gallary_image_2.png", alt: "Kitchen" },
+    //     { src: "/assets/img/search-property/demo_gallary_image_3.png", alt: "Living Room" },
+    //     { src: "/assets/img/search-property/demo_gallary_image_1.png", alt: "Bathroom" },
+    //     { src: "/assets/img/search-property/demo_gallary_image_2.png", alt: "Map" },
+    // ];
+
+
+    const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
+        event.currentTarget.src = IMAGES.FAILED_IMAGE;
+    };
     return (
         <div className="w-full py-5">
             {/* Mobile Slider */}
@@ -292,10 +301,10 @@ const MediaGallery = () => {
                     spaceBetween={16}
                     slidesPerView={1}
                 >
-                    {imageList.map((item, index) => (
+                    {images?.map((item, index) => (
                         <>
                             <SwiperSlide key={index}>
-                                {index < 4 ? <img src={item.src} alt={item.alt} className="w-full h-[250px] object-cover rounded-xl" /> : <GoogleMapComponent />}
+                                {index < 4 ? <img onError={handleImageError} src={item.uri} alt={item.alt} className="w-full h-[250px] object-cover rounded-xl" /> : <GoogleMapComponent latitude={property?.latitude} longitude={property?.longitude} />}
                             </SwiperSlide>
                         </>
                     ))}
@@ -308,8 +317,9 @@ const MediaGallery = () => {
                 {/* Left Large Image */}
                 <div className="w-1/2">
                     <img
-                        src={imageList[0].src}
-                        alt={imageList[0].alt}
+                        onError={handleImageError}
+                        src={images?.[0]?.uri || IMAGES.FAILED_IMAGE}
+                        alt={images?.[0]?.title || "No image found"}
                         className="w-full h-full object-cover rounded-xl"
                     />
                 </div>
@@ -318,15 +328,17 @@ const MediaGallery = () => {
                 <div className="w-1/2 flex flex-col gap-4">
 
                     <img
-                        src={imageList[1].src}
-                        alt={imageList[1].alt}
-                        className="w-full h-[120px] object-cover rounded-xl"
+                        onError={handleImageError}
+                        src={images?.[1]?.uri || IMAGES.FAILED_IMAGE}
+                        alt={images?.[0]?.title || "No image found"}
+                        className="w-full h-[145px]   rounded-xl"
                     />
 
                     <img
-                        src={imageList[3].src}
-                        alt={imageList[3].alt}
-                        className="w-full h-[120px] object-cover rounded-xl"
+                        onError={handleImageError}
+                        src={images?.[2]?.uri || IMAGES.FAILED_IMAGE}
+                        alt={images?.[0]?.title || "No image found"}
+                        className="w-full h-[145px]  rounded-xl"
                     />
 
                 </div>
@@ -336,7 +348,7 @@ const MediaGallery = () => {
                         alt={imageList[0].alt}
                         className="w-full h-full object-cover rounded-xl"
                     /> */}
-                    <GoogleMapComponent />
+                    <GoogleMapComponent latitude={property?.latitude} longitude={property?.longitude} />
                 </div>
 
             </div>
@@ -346,10 +358,10 @@ const MediaGallery = () => {
 
 
 const BuildingDetailSection: React.FC<{
-    propertyDetails: PropertyDetails
-}> = ({ propertyDetails }) => {
+    floorplan: PropertyDetails
+}> = ({ floorplan }) => {
     // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
-    const description = propertyDetails?.description || "No description Added yet"
+    const description = floorplan?.description || "No description Added yet"
     const yearBuilt = "2011"
     const houseRules = "To ensure a respectful and comfortable living environment for everyone, please follow these house rules. Keep noise levels down, especially during quiet hours (typically 10 PM – 7 AM). Guests are welcome, but overnight visitors should be discussed with roommates in advance. Maintain cleanliness in shared areas and dispose of garbage regularly. Smoking, vaping, and illegal substances are strictly prohibited inside the apartment. Be mindful of energy and water usage, and report any maintenance issues promptly. Above all, treat your roommates, neighbors, and the property with respect."
 

@@ -83,7 +83,7 @@ const HousingComponent = () => {
                                 whileHover={{ scale: 1.2, rotate: 90 }}
                                 transition={{ duration: 0.6, ease: 'easeInOut' }}
                             >
-                                <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
+                                <ArrowPathIcon className="w-5 h-5 text-[#B3322F] " />
                             </motion.div>
                         </div > : <>
 
@@ -162,7 +162,7 @@ export const MatchingHousingCard: React.FC<{
                         onClick={likedPropertyHandler}
                         src={`/assets/img/search-property/${likedProperty ? "heartinner.svg" : "heartouter.svg"}`}
                         alt="Like"
-                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 cursor-pointer"
+                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 "
 
                         // Animate on click (when state changes)
                         animate={{ scale: 1 }}
@@ -369,7 +369,7 @@ const MessageRoommateComponent = () => {
                 <div className='hidden md:flex flex-col    items-center  bg-white w-full md:w-1/4 rounded-2xl shadow md:p-4 py-8'>
                     <h1 className="font-bold text-sm text-center my-5">What Do You Need Help With?</h1>
                     {roommatesOptions.map((opt) => (
-                        <div className='flex items-center gap-3 justify-between w-3/4  cursor-pointer hover:bg-gray-100 px-8 py-2 rounded-2xl' onClick={() => setSelectedChat(opt)}>
+                        <div className='flex items-center gap-3 justify-between w-3/4   hover:bg-gray-100 px-8 py-2 rounded-2xl' onClick={() => setSelectedChat(opt)}>
                             {opt} <span className=" block size-3.5 rounded-full bg-[#B3322F] " />
 
                         </div>
@@ -424,7 +424,7 @@ const LeaveAReviewComponent = () => {
                         <div
                             key={label}
                             onClick={() => setReviewOption(label)}
-                            className="flex items-start gap-3 cursor-pointer hover:bg-gray-100 p-3 rounded-md transition"
+                            className="flex items-start gap-3  hover:bg-gray-100 p-3 rounded-md transition"
                         >
                             <span
                                 className={`${reviewOption === label
@@ -560,7 +560,7 @@ const RepairRequestComponent = () => {
                     />
                     <div
                         onClick={handleFileClick}
-                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex  cursor-pointer rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
+                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex   rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
                     >
                         <ArrowUpTrayIcon className="h-5" />
                         <span>Upload</span>
@@ -645,7 +645,7 @@ const ReportRoommateConcernComponent = () => {
                     />
                     <div
                         onClick={handleFileClick}
-                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex  cursor-pointer rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
+                        className="shadow-md bg-white border border-transparent w-full md:w-60 flex   rounded-full py-2 px-5 ml-4 items-center gap-2 hover:shadow-lg transition duration-150"
                     >
                         <ArrowUpTrayIcon className="h-5" />
                         <span>Upload</span>

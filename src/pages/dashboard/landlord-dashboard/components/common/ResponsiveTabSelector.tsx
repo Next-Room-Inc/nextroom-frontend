@@ -31,7 +31,7 @@ export const ResponsiveTabSelector: React.FC<{
                     {tabOptions.map((t, idx) => (
                         <div
                             key={t}
-                            className={`w-[25%] text-center flex items-center justify-center cursor-pointer ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                            className={`w-[25%] text-center flex items-center justify-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
                                 } ${tab === t ? "text-[#B3322F] font-semibold" : ""}`}
                             onClick={() => { handleSelectTab(t) }}
                         >
@@ -46,7 +46,7 @@ export const ResponsiveTabSelector: React.FC<{
                     {/* Toggle Button */}
                     <div
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium cursor-pointer relative z-50"
+                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative z-50"
                     >
                         {tabOptionsObject?.[tab]}
                         <ChevronDownIcon className='h-7 ml-2 mt-1 text-[#B3322F]' />
@@ -66,7 +66,7 @@ export const ResponsiveTabSelector: React.FC<{
                                 {tabOptions.map((t, index: number) => (
                                     <div
                                         key={index}
-                                        className={`text-center flex items-center justify-center py-2 cursor-pointer hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
+                                        className={`text-center flex items-center justify-center py-2  hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
                                             }`}
                                         onClick={() => { handleSelectTab(t) }}
                                     >

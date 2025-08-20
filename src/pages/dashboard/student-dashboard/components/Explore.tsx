@@ -39,7 +39,7 @@ const Explore = () => {
                                 whileHover={{ scale: 1.2, rotate: 90 }}
                                 transition={{ duration: 0.6, ease: 'easeInOut' }}
                             >
-                                <ArrowPathIcon className="w-5 h-5 text-[#B3322F] cursor-pointer" />
+                                <ArrowPathIcon className="w-5 h-5 text-[#B3322F] " />
                             </motion.div>
                         </div > : <>
 
@@ -105,7 +105,7 @@ export const ExploreHousingCard: React.FC<{
                         onClick={likedPropertyHandler}
                         src={`/assets/img/search-property/${likedProperty ? "heartinner.svg" : "heartouter.svg"}`}
                         alt="Like"
-                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 cursor-pointer"
+                        className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 "
 
                         // Animate on click (when state changes)
                         animate={{ scale: 1 }}

@@ -110,7 +110,7 @@ const PulseHoverLayout: React.FC<PulseHoverLayoutProps> = ({ children, size = 60
   }, [updateCursorPosition]);
 
   return (
-    <div ref={wrapperRef} className="relative group cursor-none">
+    <div ref={wrapperRef} className="relative group cursor-none" >
       {visible && (
         <div
           ref={cursorRef}

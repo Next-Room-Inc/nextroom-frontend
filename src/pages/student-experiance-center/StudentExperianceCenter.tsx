@@ -145,7 +145,7 @@ export const HousingCard: React.FC<{
               </p>
               <Button
                 onClick={() => selected ? setSelected(null) : setSelected(index)}
-                className='bg-[#B3322F]  mt-4 text-white text-sm px-10 py-1.5 rounded-full cursor-pointer'>View Report</Button>
+                className='bg-[#B3322F]  mt-4 text-white text-sm px-10 py-1.5 rounded-full '>View Report</Button>
             </div>
           </div>
         </div>

@@ -318,7 +318,7 @@ const RoommatesSection: React.FC<{
                         <motion.button
                             whileTap={{ scale: 0.85 }}
                             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                            className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
+                            className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full '
                             onClick={decrement}
                         >
                             -
@@ -341,7 +341,7 @@ const RoommatesSection: React.FC<{
                         <motion.button
                             whileTap={{ scale: 0.85 }}
                             transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                            className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer'
+                            className='bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full '
                             onClick={increment}
                         >
                             +
@@ -568,7 +568,7 @@ const WhereToBeLocatedSection: React.FC<{
                             </div> : <div>
                                 {suggestions?.length > 0 ?
                                     suggestions.map(searchString => (
-                                        <div className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.areaPreferenceType ? 'bg-gray-200' : ''}`}
+                                        <div className={` pl-4 pr-8 flex gap-2 py-1.5  text-left ${searchString === answers.areaPreferenceType ? 'bg-gray-200' : ''}`}
                                             onClick={() => handleAnswer('PROPERTY_SECTION', 'areaPreferenceType', searchString)} >
                                             <img alt="" className="h-3" src="assets/img/icons/location_logo.svg" />
                                             {searchString}
