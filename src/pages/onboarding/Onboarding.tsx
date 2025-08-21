@@ -395,11 +395,11 @@ const Onboarding = () => {
             : undefined,
         ...(selectedKey === "lifestylePreference"
           ? {
-            socialInterestIds: answers.LIFE_STYLE_SECTION.SOCIAL || [],
-            stayingInInterestIds: answers.LIFE_STYLE_SECTION.STAYING_IN || [],
-            causesInterestIds: answers.LIFE_STYLE_SECTION.CAUSES || [],
-            personalInterestIds: answers.LIFE_STYLE_SECTION.PERSONAL || [],
-          }
+              socialInterestIds: answers.LIFE_STYLE_SECTION.SOCIAL || [],
+              stayingInInterestIds: answers.LIFE_STYLE_SECTION.STAYING_IN || [],
+              causesInterestIds: answers.LIFE_STYLE_SECTION.CAUSES || [],
+              personalInterestIds: answers.LIFE_STYLE_SECTION.PERSONAL || [],
+            }
           : {}),
       };
     }
@@ -508,17 +508,17 @@ const Onboarding = () => {
           runConfetti) ||
           (answers["PROPERTY_SECTION"]?.preferredArea === "Surprise Me" &&
             runConfetti)) && (
-            <motion.div
-              key="confetti"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="fixed inset-0 z-50 pointer-events-none"
-            >
-              <ReactConfetti numberOfPieces={400} />
-            </motion.div>
-          )}
+          <motion.div
+            key="confetti"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="fixed inset-0 z-50 pointer-events-none"
+          >
+            <ReactConfetti numberOfPieces={400} />
+          </motion.div>
+        )}
 
         {/* Main Layout */}
         <OnboardingLayout>
@@ -573,8 +573,6 @@ const Onboarding = () => {
 
 export default Onboarding;
 
-
-
 const FormStepper: React.FC<{
   changeStep: (delta: number) => void;
   formStep: Record<string, number>;
@@ -608,13 +606,15 @@ const FormStepper: React.FC<{
 
   const totalQuestions = (sec: keyof AnswerSections) =>
     Object.keys(answers[sec]).filter((key) => {
-      const dep = questionDependencies[sec]?.[key as keyof typeof answers[typeof sec]];
+      const dep =
+        questionDependencies[sec]?.[key as keyof (typeof answers)[typeof sec]];
       return !dep || dep(answers[sec]);
     }).length || 1;
 
   const totalAnswered = (sec: keyof AnswerSections) =>
     Object.entries(answers[sec]).filter(([key, value]) => {
-      const dep = questionDependencies[sec]?.[key as keyof typeof answers[typeof sec]];
+      const dep =
+        questionDependencies[sec]?.[key as keyof (typeof answers)[typeof sec]];
       return (
         (!dep || dep(answers[sec])) &&
         value !== null &&
@@ -629,23 +629,13 @@ const FormStepper: React.FC<{
     { label: "Roommates", name: "ROOMMATES_SECTION" },
     { label: "Situation-Based", name: "SITUATION_BASED_SECTION" },
   ];
+
+  console.log("Current Section:", section);
   console.log("answers==>", answers);
   return (
     <>
       <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10 mt-10">
         {steps.map((step, index) => {
-          // let count = 0;
-          // if (
-          //   step.name === "PROPERTY_SECTION" &&
-          //   answers[step.name] &&
-          //   !answers[step.name].wantsRoommates
-          // ) {
-          //   count = -2; // or 2 depending on your logic
-          // }
-
-          // const total =
-          //   totalQuestions(step.name as keyof AnswerSections) + count;
-          // const answered = totalAnswered(step.name as keyof AnswerSections);
           const progress =
             (totalAnswered(step.name as keyof AnswerSections) /
               totalQuestions(step.name as keyof AnswerSections)) *
@@ -660,10 +650,15 @@ const FormStepper: React.FC<{
           return (
             <div
               key={step.label + index}
-              className={`${section === step.name ? "w-[70%]" : "w-[10%]"
-                } md:w-[25%] group`}
+              className={`${
+                section === step.name ? "w-[70%]" : "w-[10%]"
+              } md:w-[25%] group`}
             >
-              <motion.div className="text-black hidden md:block py-1 group-hover:opacity-100 opacity-0 shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white">
+              <motion.div
+                className={`text-black hidden md:block py-1 group-hover:opacity-100 ${
+                  step?.name === section ? "opacity-100" : "opacity-0"
+                }  shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white`}
+              >
                 {step.label}
               </motion.div>
               <motion.div

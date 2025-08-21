@@ -393,45 +393,55 @@ const RoommatesSection: React.FC<{
 
       {answers.wantsRoommates && (
         <>
-          <p className="text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto">
-            {" "}
-            How many roommates are joining you?{" "}
-          </p>
+          <div
+            id="roommateCount"
+            className={` rounded-2xl mx-1 py-10 ${
+              (error && answers.roommateCount === null) ||
+              answers.roommateCount === 0
+                ? "bg-[#B3322F]/20"
+                : ""
+            }`}
+          >
+            <p className="text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto">
+              {" "}
+              How many roommates are joining you?{" "}
+            </p>
 
-          <div className="flex justify-center items-center px-15">
-            <div className="flex gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-3 rounded-full shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-auto">
-              {/* Decrement Button */}
-              <motion.button
-                whileTap={{ scale: 0.85 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer"
-                onClick={decrement}
-              >
-                -
-              </motion.button>
-
-              {/* Animate the count change */}
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={count}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={{ duration: 0.1 }}
+            <div className="flex justify-center items-center px-15">
+              <div className="flex gap-6 justify-center items-center mt-5 text-md px-10 bg-white py-3 rounded-full shadow-[#D9D9D9] drop-shadow-xl shadow-md w-full md:w-auto">
+                {/* Decrement Button */}
+                <motion.button
+                  whileTap={{ scale: 0.85 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  className="bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer"
+                  onClick={decrement}
                 >
-                  {count}
-                </motion.span>
-              </AnimatePresence>
+                  -
+                </motion.button>
 
-              {/* Increment Button */}
-              <motion.button
-                whileTap={{ scale: 0.85 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer"
-                onClick={increment}
-              >
-                +
-              </motion.button>
+                {/* Animate the count change */}
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={count}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    transition={{ duration: 0.1 }}
+                  >
+                    {count}
+                  </motion.span>
+                </AnimatePresence>
+
+                {/* Increment Button */}
+                <motion.button
+                  whileTap={{ scale: 0.85 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  className="bg-[#B3322F] text-center pb-1 px-4 text-white rounded-full cursor-pointer"
+                  onClick={increment}
+                >
+                  +
+                </motion.button>
+              </div>
             </div>
           </div>
 
