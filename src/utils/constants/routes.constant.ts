@@ -1,5 +1,5 @@
 export const ROUTES = {
-  BAESPATH: "/",
+  BASE_PATH: "/",
   HOME: "/home",
   OFFERS: "/offers",
   LOGIN: "/login",

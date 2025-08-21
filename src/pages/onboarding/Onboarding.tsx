@@ -114,15 +114,18 @@ const Onboarding = () => {
   const [runConfetti, setRunConfetti] = useState(true);
 
   // const { data: preferncesStatus = [] } = useGetPrefercesStatusQuery(user?.studentId)
-  const { data: submittedPreferences = null } =
+  const { data: submittedPreferences = null, isError } =
     useGetSubmittedPreferencesByStudentIdQuery(studentId);
 
-  console.log("submittedPreferences==> ", submittedPreferences);
+  console.log("loading==> ", loading);
   //  Using useEffect to Assgin the already answerd questinos :
   useEffect(() => {
     console.log("useEffect==> ", submittedPreferences);
     // return;
-    if (!submittedPreferences) return;
+    if (!submittedPreferences) {
+      if (isError) setLoading(false);
+      return;
+    }
 
     // Destructure and remove unwanted fields before merging
     const {

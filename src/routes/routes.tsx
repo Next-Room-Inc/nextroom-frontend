@@ -29,14 +29,17 @@ export const routes = createBrowserRouter([
   },
   {
     path: ROUTES.ONBOARDING,
-    element:
-      <OnboardingValidation>
-        <Onboarding />
-      </OnboardingValidation>,
+    element: (
+      <IsLoginValidation>
+        <OnboardingValidation>
+          <Onboarding />
+        </OnboardingValidation>
+      </IsLoginValidation>
+    ),
     errorElement: <NotFoundErrorPage />,
   },
   {
-    path: ROUTES.BAESPATH || ROUTES.OFFERS,
+    path: ROUTES.BASE_PATH || ROUTES.OFFERS,
     element: (
       <IsLoginValidation>
         <Offers />
@@ -80,12 +83,20 @@ export const routes = createBrowserRouter([
   },
   {
     path: ROUTES.SEARCH_PROPERTY,
-    element: <SearchProperty />,
+    element: (
+      <IsLoginValidation>
+        <SearchProperty />
+      </IsLoginValidation>
+    ),
     errorElement: <NotFoundErrorPage />,
   },
   {
     path: ROUTES.SEARCH_PROPERTY_TABS,
-    element: <SearchProperty />,
+    element: (
+      <IsLoginValidation>
+        <SearchProperty />
+      </IsLoginValidation>
+    ),
     errorElement: <NotFoundErrorPage />,
   },
   {
@@ -110,22 +121,38 @@ export const routes = createBrowserRouter([
   },
   {
     path: ROUTES.STUDENTS_DASHBOARD,
-    element: <StudentsDashboard />,
+    element: (
+      <IsLoginValidation>
+        <StudentsDashboard />
+      </IsLoginValidation>
+    ),
     errorElement: <NotFoundErrorPage />,
   },
   {
     path: ROUTES.STUDENTS_DASHBOARD_TABS,
-    element: <StudentsDashboard />,
+    element: (
+      <IsLoginValidation>
+        <StudentsDashboard />
+      </IsLoginValidation>
+    ),
     errorElement: <NotFoundErrorPage />,
   },
   {
     path: ROUTES.LANDLORDS_DASHBOARD,
-    element: <LandLordsDashboard />,
+    element: (
+      <IsLoginValidation>
+        <LandLordsDashboard />
+      </IsLoginValidation>
+    ),
     errorElement: <NotFoundErrorPage />,
   },
   {
     path: ROUTES.LANDLORDS_DASHBOARD_TABS,
-    element: <LandLordsDashboard />,
+    element: (
+      <IsLoginValidation>
+        <LandLordsDashboard />
+      </IsLoginValidation>
+    ),
     errorElement: <NotFoundErrorPage />,
   },
   {

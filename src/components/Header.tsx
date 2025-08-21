@@ -3,31 +3,34 @@ import { Bars3Icon, BellIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Wave from 'react-wavify';
+import Wave from "react-wavify";
 import useAuth from "@src/custom-hooks/useAuth";
 import { APP_INFO, ROUTES } from "@src/utils/constants";
 
-
 export default function Header({ darkMode = true }) {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const isStudentDashboard = location.pathname === ROUTES.STUDENTS_DASHBOARD
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isStudentDashboard = location.pathname === ROUTES.STUDENTS_DASHBOARD;
 
   const { handleLogout, isLoggedIn } = useAuth();
   const [selectedLang, setSelectedLang] = useState("en");
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [headerColor, setHeaderColor] = useState('bg-black');
+  const [headerColor, setHeaderColor] = useState("bg-black");
 
-  const StudentDashboardIcons = () => <div className={`${isStudentDashboard ? "flex" : "hidden"} gap-2`}>
-    <span className="relative inline-block">
-      <BellIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
-      <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]" />
-    </span>
-    <PhoneIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
-    {/* <InformationCircleIcon className=" md:text-white md:bg-black text-black bg-white  h-8.5 -mt-0.5 -ml-1 rounded-full rotate-10" /> */}
-    <span className="md:text-black md:bg-white text-white bg-black text-lg   md:text-xl rounded-full h-7.5 w-7.5 text-center">𝓲</span>
-  </div>
+  const StudentDashboardIcons = () => (
+    <div className={`${isStudentDashboard ? "flex" : "hidden"} gap-2`}>
+      <span className="relative inline-block">
+        <BellIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
+        <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]" />
+      </span>
+      <PhoneIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
+      {/* <InformationCircleIcon className=" md:text-white md:bg-black text-black bg-white  h-8.5 -mt-0.5 -ml-1 rounded-full rotate-10" /> */}
+      <span className="md:text-black md:bg-white text-white bg-black text-lg   md:text-xl rounded-full h-7.5 w-7.5 text-center">
+        𝓲
+      </span>
+    </div>
+  );
 
   const languages = [
     { code: "en", label: "English" },
@@ -48,7 +51,7 @@ export default function Header({ darkMode = true }) {
     {
       name: <Link to={ROUTES.SEARCH_PROPERTY}>Search Property</Link>,
       href: "#",
-      class: `px-2 md:px-4 ${isLoggedIn ? "hidden" : ""}`,
+      class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : ""}`,
     },
     {
       name: <Link to={ROUTES.NEWSROOM}>Newsroom</Link>,
@@ -61,7 +64,9 @@ export default function Header({ darkMode = true }) {
       class: `px-2 md:px-4`,
     },
     {
-      name: <Link to={ROUTES.STUDENT_EXPERIANCE_CENTER}>Experience Centre</Link>,
+      name: (
+        <Link to={ROUTES.STUDENT_EXPERIANCE_CENTER}>Experience Centre</Link>
+      ),
       href: "#",
       class: `px-2 md:px-4`,
     },
@@ -102,8 +107,9 @@ export default function Header({ darkMode = true }) {
       name: (
         <>
           <div
-            className={`flex gap-1 font-semibold text-[14px]  ${darkMode ? "text-black" : "text-dark"
-              }`}
+            className={`flex gap-1 font-semibold text-[14px]  ${
+              darkMode ? "text-black" : "text-dark"
+            }`}
           >
             {languages.map((lang) => (
               <span
@@ -111,10 +117,11 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={` transition duration-200 ${selectedLang === lang.code
-                  ? "underline underline-offset-4 text-red-500"
-                  : "hover:text-red-800"
-                  }`}
+                className={` transition duration-200 ${
+                  selectedLang === lang.code
+                    ? "underline underline-offset-4 text-red-500"
+                    : "hover:text-red-800"
+                }`}
               >
                 {lang?.code?.toUpperCase()}
               </span>
@@ -133,7 +140,7 @@ export default function Header({ darkMode = true }) {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      console.log()
+      console.log();
       if (currentScrollY > lastScrollY && currentScrollY > 50) {
         // scrolling down
         setShowHeader(false);
@@ -142,9 +149,9 @@ export default function Header({ darkMode = true }) {
         setShowHeader(true);
       }
       if (currentScrollY > 10) {
-        setHeaderColor('bg-black/20')
+        setHeaderColor("bg-black/20");
       } else {
-        setHeaderColor('bg-black')
+        setHeaderColor("bg-black");
       }
       setLastScrollY(currentScrollY);
     };
@@ -155,25 +162,31 @@ export default function Header({ darkMode = true }) {
 
   return (
     <header
-      className={`fixed top-0 w-full z-1000 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
-        } ${darkMode ? headerColor : "bg-transparent"}`}
+      className={`fixed top-0 w-full z-1000 transition-transform duration-300 ${
+        showHeader ? "translate-y-0" : "-translate-y-full"
+      } ${darkMode ? headerColor : "bg-transparent"}`}
     >
       <nav
         aria-label="Global"
         className="mx-auto flex items-center justify-between  lg:px-8 pr-4 "
       >
         <div className="flex lg:flex-1">
-          <a onClick={() => navigate(ROUTES.BAESPATH)} className="">
+          <a onClick={() => navigate(ROUTES.BASE_PATH)} className="">
             <span className="sr-only">Nextroom.ca</span>
-            <img alt="" src={APP_INFO.PRIMARY_LOGO} className="h-25 w-auto -ml-2 md:ml-0" />
+            <img
+              alt=""
+              src={APP_INFO.PRIMARY_LOGO}
+              className="h-25 w-auto -ml-2 md:ml-0"
+            />
           </a>
         </div>
 
         <div className="mb-4 lg:mb-0 lg:flex lg:flex-1 lg:justify-end">
           {/* Languages */}
           <div
-            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${darkMode ? "text-white" : "text-dark"
-              }`}
+            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${
+              darkMode ? "text-white" : "text-dark"
+            }`}
           >
             {languages.map((lang) => (
               <span
@@ -181,10 +194,11 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={` transition-all duration-300 ease-in-out ${selectedLang === lang.code
-                  ? "underline underline-offset-4"
-                  : "hover:text-gray-500"
-                  }`}
+                className={` transition-all duration-300 ease-in-out ${
+                  selectedLang === lang.code
+                    ? "underline underline-offset-4"
+                    : "hover:text-gray-500"
+                }`}
               >
                 {lang.label}
               </span>
@@ -193,46 +207,51 @@ export default function Header({ darkMode = true }) {
           <div className=" ml-2 relative hidden lg:inline">
             <div className="absolute right-0 -top-4 rotate-10 bg-[#a53c3588] h-7 w-7 rounded-full font-semibold text-white text-lg overflow-hidden">
               <div className="relative w-full h-full">
-                <Wave fill='#A53D35'
+                <Wave
+                  fill="#A53D35"
                   paused={false}
                   // className="w-full h-full"
-                  style={{ height: '100%', }}
+                  style={{ height: "100%" }}
                   options={{
                     height: 2,
                     amplitude: 20,
-                    speed: 0.20,
-                    points: 2
+                    speed: 0.2,
+                    points: 2,
                   }}
-                >
-
-
-                </Wave>
+                ></Wave>
                 <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                   $
                 </p>
               </div>
-
             </div>
             <span
-
-              className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
-                ? " border-white text-black bg-white"
-                : "text-dark border-dark hover:text-white hover:bg-black"
-                }`}
+              className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${
+                darkMode
+                  ? " border-white text-black bg-white"
+                  : "text-dark border-dark hover:text-white hover:bg-black"
+              }`}
             >
               Refer & Earn
             </span>
-
           </div>
-          <div className={`hidden md:flex ${isStudentDashboard ? "flex" : "hidden"}`}><StudentDashboardIcons /></div>
+          <div
+            className={`hidden md:flex ${
+              isStudentDashboard ? "flex" : "hidden"
+            }`}
+          >
+            <StudentDashboardIcons />
+          </div>
           <div className=" hidden lg:inline">
             {navbar.map((i, index) => (
               <span
                 key={index}
-                className={`${isStudentDashboard ? "hidden" : "flex"} border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
-                  ? "text-white border-white hover:text-black hover:bg-white"
-                  : "text-dark border-dark hover:text-white hover:bg-black"
-                  }`}
+                className={`${
+                  isStudentDashboard ? "hidden" : "flex"
+                } border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${
+                  darkMode
+                    ? "text-white border-white hover:text-black hover:bg-white"
+                    : "text-dark border-dark hover:text-white hover:bg-black"
+                }`}
               >
                 {i.label}
               </span>
@@ -247,7 +266,9 @@ export default function Header({ darkMode = true }) {
                   src={`${APP_INFO.IMG_BASE_URL}icons/menu_icon.svg`}
                   className={`h-3.2 bg-white mr-4 my-auto`}
                 /> */}
-                <Bars3Icon className={`h-10 md:h-6 bg-none text-black mr-3 my-auto`} />
+                <Bars3Icon
+                  className={`h-10 md:h-6 bg-none text-black mr-3 my-auto`}
+                />
                 <img
                   src={`${APP_INFO.IMG_BASE_URL}icons/owl_icon.svg`}
                   className={`h-7 bg-[#B3322F] rounded-full p-1 mt-1.5 md:mt-0`}

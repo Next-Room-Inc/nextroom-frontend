@@ -31,9 +31,10 @@ export const baseQuery = fetchBaseQuery({
 
       // redirect to login page
       window.location.assign("/login");
-    } else if (response.status === 401) {
-      window.location.assign("/login");
     }
+    // else if (response.status === 401) {
+    //   window.location.assign("/login");
+    // }
 
     return [201, 200].includes(response.status);
   },

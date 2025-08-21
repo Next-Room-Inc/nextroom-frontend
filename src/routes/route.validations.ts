@@ -10,22 +10,32 @@ interface IsLoginValidationProps {
 export const IsLoginValidation: React.FC<IsLoginValidationProps> = ({
   children,
 }) => {
+  console.log("hit");
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate(); // Get navigate function
   const currentPath = window.location.pathname;
   const token = localStorage.getItem("token");
+  console.log("isLoggedIn", isLoggedIn);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log("token", token);
+    console.log("path", currentPath === ROUTES.BASE_PATH);
 
-    if (!token && currentPath === ROUTES.BAESPATH) {
+    if (!token && currentPath === ROUTES.BASE_PATH) {
+      console.log("1");
+
       navigate(ROUTES.SIGNUP);
     } else if (!token) {
-      navigate(currentPath); // Redirect to login page using navigate
+      console.log("2");
+
+      navigate(ROUTES.LOGIN); // Redirect to login page using navigate
     } else {
+      console.log("3");
+
       // If logged in and on the login page, redirect to the home page (or another page)
       if (currentPath === ROUTES.LOGIN) {
-        navigate(ROUTES.BAESPATH); // Redirect to home page
+        navigate(ROUTES.BASE_PATH); // Redirect to home page
       }
     }
   }, [isLoggedIn, navigate, currentPath, token]);
