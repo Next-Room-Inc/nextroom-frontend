@@ -1,4 +1,4 @@
-import { ArrowUpTrayIcon, CalendarDateRangeIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/20/solid';
+import { ArrowUpTrayIcon, CalendarDateRangeIcon, CheckCircleIcon, CheckIcon, XCircleIcon } from '@heroicons/react/20/solid';
 import { motion } from 'framer-motion';
 import React, { useRef, useState } from 'react';
 import { Button, PrimaryButton } from '../../../../components/Button';
@@ -51,7 +51,7 @@ const Leads = () => {
 
             {/* Screens */}
             {currentScreen === 'Welcome' && (<WelcomeComponent onClick={() => setCurrentScreen('Lead')} />)}
-            {currentScreen === 'Lead' && <LeadsComponent />}
+            {currentScreen === 'Lead' && <SearchLeadsComponent />}
 
         </div>
     )
@@ -448,4 +448,252 @@ const WelcomeComponent: React.FC<{
             Post My First Home
         </PrimaryButton>
     </div>
+}
+
+
+const SearchLeadsComponent = () => {
+    const [lead, setLead] = useState<string | number | null>('');
+
+    const ImageComponent = () => <img src="/assets/img/search-property/student_profile (1).png" alt={"loading..."} className="w-8 rounded-full" />
+
+    const roommatesOptions: any[] = [
+        <div className='flex items-center gap-4'> <ImageComponent /> Anna G</div>,
+        <div className='flex items-center gap-4'> <ImageComponent /> Rae L.</div>,
+        <div className='flex items-center gap-4'> <ImageComponent /> Sam H.</div>
+    ]
+
+    return (
+        <div>
+            <div className="  flex flex-col items-center justify-center md:justify-start gap-3 mb-6 font-semibold text-[#B3322F]">
+                <div className='w-full md:w-[80%]  '>
+
+                    <DropDownSelector
+                        options={roommatesOptions}
+                        selected={lead}
+                        onSelect={setLead}
+                        className="py-4 px-6 w-full bg-white text-[#B3322F] flex justify-between mx-auto items-center"
+                    />
+                </div>
+            </div>
+            {
+                lead &&
+                <div className="  flex flex-col items-center justify-center">
+                    <div className='bg-white w-full md:w-[80%] shadow rounded-2xl py-15 md:px-10 px-5'>
+                        <DetailsModal close={() => setLead(null)} />
+                    </div>
+                </div>
+            }
+        </div>
+    )
+}
+
+
+const DetailsModal: React.FC<{ close: () => void }> = ({ close }) => {
+    const actions = ["Message", "Accept", "Decline", "Report"];
+
+    return (
+        <div className="md:px-5">
+            {/* Profile Image */}
+            <img
+                src="/assets/img/search-property/student_profile (2).png"
+                alt="loading"
+                className="w-30 rounded-full mx-auto"
+            />
+
+            {/* Student Name & Unit */}
+            <div className="text-center text-black flex flex-col gap-1 my-8">
+                <p className="font-bold">Mike T.</p>
+                <p className="font-light">Alma - Unit 506</p>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex flex-col md:flex-row items-center justify-center w-full text-[#B3322F] font-medium">
+                {actions.map((action, index) => (
+                    <div key={index} className="flex items-center">
+                        <button className="px-4 py-2 hover:underline">{action}</button>
+
+                        {/* Divider */}
+                        {index !== actions.length - 1 && (
+                            <span className="hidden md:inline-block mx-2">|</span>
+                        )}
+                        {index !== actions.length - 1 && (
+                            <span className="md:hidden w-full h-[1px] bg-[#B3322F]"></span>
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            {/* Details Section */}
+            <div className="my-8 flex flex-col md:flex-row gap-8 md:gap-0 items-center justify-center">
+                {/* Status timeline */}
+                <div className="w-full  md:pb-0 md:border-b-0    md:px-8 md:mr-8">
+                    <StepComponent />
+                </div>
+
+            </div>
+
+            {/* Review & Reports Section */}
+            <div className="my-8 flex flex-col md:flex-row gap-8 md:gap-0 font-semibold">
+                {/* Review */}
+                <div className="w-full md:w-1/2">
+                    <h1 className="font-semibold text-lg border-y-1 border-[#CCCCCC] py-2">
+                        Review
+                    </h1>
+                    <div className="w-full md:w-[80%]">
+                        <h1 className="font-semibold text-md my-5">From Landlord</h1>
+                        <ul className="flex flex-col gap-5">
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                        </ul>
+
+                        <h1 className="font-semibold text-md my-5">From Landlord</h1>
+                        <ul className="flex flex-col gap-5">
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Reports */}
+                <div className="w-full md:w-1/2">
+                    <h1 className="font-semibold text-lg border-y-1 border-[#CCCCCC] py-2">
+                        Reports
+                    </h1>
+                    <div className="w-full md:w-[80%]">
+                        <h1 className="font-semibold text-md my-5">From Tenant</h1>
+                        <ul className="flex flex-col gap-5">
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                        </ul>
+
+                        <h1 className="font-semibold text-md my-5">From Tenant</h1>
+                        <ul className="flex flex-col gap-5">
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                            <li className="flex justify-between items-center">
+                                <p className="text-[#B3322F]">Alma - Unit 506</p>
+                                <p className="underline text-xs">View Details</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {/* Details */}
+            <hr className="text-gray-300" />
+            <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:px-8 py-10">
+                <div>
+                    <h1 className="font-semibold text-lg">Email</h1>
+                    <p className="text-[#B3322F] underline">annag@uottawa.com</p>
+                </div>
+
+                <div>
+                    <h1 className="font-semibold text-lg">Phone Number</h1>
+                    <p className="text-[#B3322F]">613-123-4567</p>
+                </div>
+
+                <div>
+                    <h1 className="font-semibold text-lg">Guarantor(s)</h1>
+                    {[
+                        { name: "Rae E (Mother)" },
+                        { name: "John Doe (Father)" },
+                    ].map((guarantor, idx) => (
+                        <div
+                            key={idx}
+                            className="flex my-4 items-center gap-x-3 text-[#B3322F]"
+                        >
+                            <img
+                                src="/assets/img/search-property/student_profile (1).png"
+                                alt="loading..."
+                                className="w-12 h-12 rounded-full"
+                            />
+                            {guarantor.name}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Landlord Comments Section */}
+            <hr className="text-gray-300" />
+            <div className="mt-8">
+                <p className="font-semibold mb-4">Landlord Comments</p>
+                <textarea
+                    className="bg-gray-100 text-sm text-gray-700 px-4 py-3 rounded-xl shadow-sm w-full resize-none focus:outline-none focus:ring-2 focus:ring-gray-300"
+                    placeholder="Start Typing..."
+                    rows={6}
+                />
+                <PrimaryButton
+                    color="red"
+                    className="w-full md:w-60 py-3 text-xs mt-4 mx-auto"
+                    onClick={close}
+                >
+                    Close
+                </PrimaryButton>
+            </div>
+        </div>
+    );
+};
+
+
+function StepComponent() {
+    const steps = [
+        { title: "Tour Booked", description: "Aug 5, 2025", completed: true },
+        { title: "Lease Signed", description: "September 1, 2025", completed: true },
+        { title: "Lease End Date", description: "September 1, 2026", completed: false }
+    ];
+
+    return (
+        <>
+            <div className="md:flex flex-col md:flex-row items-center justify-between w-full px-4">
+                {steps.map((step, index) => (
+                    <div key={index} className="flex-1 flex flex-col items-center relative">
+
+                        {/* Connector line */}
+                        {index !== steps.length - 1 && (
+                            <div className="absolute hidden md:block top-5 left-1/2 w-full h-[2px] bg-[#B3322F]" />
+                        )}
+                        {index !== steps.length - (steps.length) && (
+                            <div className={`   md:hidden block my-2 h-15 w-[2px]   bg-[#B3322F]`} />
+                        )}
+                        {/* Circle with check */}
+                        <div
+                            className={`flex items-center justify-center w-10 h-10 md:mt-0  rounded-full border-2 z-10 ${step.completed
+                                ? "bg-[#B3322F] border-[#B3322F] text-white"
+                                : "bg-white border-[#B3322F] text-[#B3322F]"
+                                }`}
+                        >
+                            <CheckIcon className="w-5" />
+                        </div>
+
+                        {/* Text content */}
+                        <div className="mt-3 text-center px-2">
+                            <h3 className="font-medium text-black text-sm md:text-base">{step.title}</h3>
+                            <p className="text-xs md:text-sm text-[#B3322F]">{step.description}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+        </>
+    );
 }
