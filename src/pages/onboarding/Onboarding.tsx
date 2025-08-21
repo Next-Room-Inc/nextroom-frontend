@@ -209,7 +209,7 @@ const Onboarding = () => {
       ...prev,
       [section]: { ...prev[section], [field]: value },
     }));
-    console.log("---<>><><><> 1212121212", section, field, value);
+    console.log("---<>><><><>", section, field, value);
   };
 
   const changeStep = async (delta: number) => {
@@ -573,6 +573,33 @@ const Onboarding = () => {
 
 export default Onboarding;
 
+//
+// const questionDependencies = {
+//   PROPERTY_SECTION: {
+//     // rentalType: (answers) => answers.rentalType ?? false,
+//     // moveInDate: answers.moveInDate ?? false,
+//     // stayDurationMonths: answers.stayDurationMonths ?? false,
+//     // budgetMin: answers.budgetMin ?? false,
+//     // budgetMax: answers.budgetMax ?? false,
+//     // campusDistanceKm: answers.campusDistanceKm ?? false,
+//     // preferredArea: answers.preferredArea ?? false,
+//     areaPreferenceTyp: (answers) => answers.preferredArea === "true",
+//     // accommodationType: answers.accommodationType ?? false,
+//     // wantsRoommates: answers.wantsRoommates === true,
+//     roommateCount: (answers) => answers.wantsRoommates === true,
+//     wantsRoommateMatching: (answers) => answers.wantsRoommates === true,
+//   },
+// };
+const questionDependencies = {
+  PROPERTY_SECTION: {
+    areaPreferenceType: (answers) => answers.preferredArea === "true",
+    roommateCount: (answers) => answers.wantsRoommates === true,
+    wantsRoommateMatching: (answers) => answers.wantsRoommates === true,
+  },
+};
+
+//
+
 const FormStepper: React.FC<{
   changeStep: (delta: number) => void;
   formStep: Record<string, number>;
@@ -588,10 +615,28 @@ const FormStepper: React.FC<{
     (answer) => answer !== null
   );
 
+  // const totalQuestions = (sec: keyof AnswerSections) =>
+  //   Object.keys(answers[sec]).length || 1;
+  // const totalAnswered = (sec: keyof AnswerSections) =>
+  //   Object.values(answers[sec]).filter((ans) => ans !== null).length;
+
   const totalQuestions = (sec: keyof AnswerSections) =>
-    Object.keys(answers[sec]).length || 1;
+    Object.keys(answers[sec]).filter(
+      (key) =>
+        !questionDependencies[sec]?.[key] ||
+        questionDependencies[sec][key](answers[sec])
+    ).length || 1;
+
   const totalAnswered = (sec: keyof AnswerSections) =>
-    Object.values(answers[sec]).filter((ans) => ans !== null).length;
+    Object.entries(answers[sec]).filter(
+      ([key, value]) =>
+        (!questionDependencies[sec]?.[key] ||
+          questionDependencies[sec][key](answers[sec])) &&
+        value !== null &&
+        value !== undefined &&
+        !(typeof value === "string" && value.trim() === "")
+    ).length;
+
   const steps = [
     { label: "Property", name: "PROPERTY_SECTION" },
     { label: "Lifestyle", name: "LIFE_STYLE_SECTION" },
@@ -603,6 +648,18 @@ const FormStepper: React.FC<{
     <>
       <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10 mt-10">
         {steps.map((step, index) => {
+          // let count = 0;
+          // if (
+          //   step.name === "PROPERTY_SECTION" &&
+          //   answers[step.name] &&
+          //   !answers[step.name].wantsRoommates
+          // ) {
+          //   count = -2; // or 2 depending on your logic
+          // }
+
+          // const total =
+          //   totalQuestions(step.name as keyof AnswerSections) + count;
+          // const answered = totalAnswered(step.name as keyof AnswerSections);
           const progress =
             (totalAnswered(step.name as keyof AnswerSections) /
               totalQuestions(step.name as keyof AnswerSections)) *
