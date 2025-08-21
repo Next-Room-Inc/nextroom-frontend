@@ -23,7 +23,7 @@ export const baseQuery = fetchBaseQuery({
     console.log("🚀 ~ response:", response);
     console.log("🚀 ~  result:", result);
 
-    if (response.status === 401) {
+    if (response.status === 401 && window.location.pathname !== "/login") {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
 
