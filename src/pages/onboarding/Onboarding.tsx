@@ -199,69 +199,6 @@ const Onboarding = () => {
     Object.values(section).some(
       (value) => value !== null && value !== undefined
     );
-  // for (const section in response) {
-  //   if (!isSectionComplete(response[section])) {
-  //     // return section;
-  //     setFormStep((prev: any) => ({
-  //       ...prev,
-  //       [section]:
-  //         section === "propertyPreference"
-  //           ? 0
-  //           : section === "lifestylePreference"
-  //           ? 1
-  //           : section === "roommatePreference"
-  //           ? 2
-  //           : section === "situationResponse" && 2,
-  //     }));
-  //   }
-  // }
-  // return null;
-  // }
-
-  // const isSectionComplete = (sectionData: any) => {
-  //   const values = Object.values(sectionData)
-  //  const isFound =  values.find(v => v !== null)
-  //  return isFound
-  // console.log("Section Data:", sectionData);
-  // const isComplete = sectionData.keys()[0];
-
-  // if (isComplete) {
-  //   return true;
-  // }
-
-  // return false;
-  // for (const key in sectionData) {
-  // const value = sectionData[key];
-
-  // // // Skip isCompleted if already added
-  // // if (key === "isCompleted") continue;
-  // if (
-  //   key === "customMoveInDate" ||
-  //   key === "customStayDuration" ||
-  //   key === "wantsAdditionalRoommates"
-  // ) {
-  //   continue;
-  // }
-
-  // if (value === null || value === undefined)
-  //   // Null or undefined
-  //   return false;
-
-  // // Empty string or empty array
-  // if (typeof value === "string" && value.trim() === "") return false;
-  // if (Array.isArray(value) && value.length === 0) return false;
-
-  // // Optionally, check for empty objects
-  // if (
-  //   typeof value === "object" &&
-  //   !Array.isArray(value) &&
-  //   Object.keys(value).length === 0
-  // )
-  //   return false;
-  // }
-  // return true;
-  // };
-  //
 
   const handleAnswer = (
     section: keyof AnswerSections,
@@ -406,13 +343,6 @@ const Onboarding = () => {
       joinArrayFields(payload.propertyPreference, [
         "UNIT_AMENITIS",
         "COMUNITY_AMENITIS",
-      ]);
-      joinArrayFields(payload.lifestylePreference, [
-        "studyArea",
-        "SOCIAL",
-        "STAYING_IN",
-        "CAUSES",
-        "PERSONAL",
       ]);
 
       [
@@ -643,6 +573,33 @@ const Onboarding = () => {
 
 export default Onboarding;
 
+//
+// const questionDependencies = {
+//   PROPERTY_SECTION: {
+//     // rentalType: (answers) => answers.rentalType ?? false,
+//     // moveInDate: answers.moveInDate ?? false,
+//     // stayDurationMonths: answers.stayDurationMonths ?? false,
+//     // budgetMin: answers.budgetMin ?? false,
+//     // budgetMax: answers.budgetMax ?? false,
+//     // campusDistanceKm: answers.campusDistanceKm ?? false,
+//     // preferredArea: answers.preferredArea ?? false,
+//     areaPreferenceTyp: (answers) => answers.preferredArea === "true",
+//     // accommodationType: answers.accommodationType ?? false,
+//     // wantsRoommates: answers.wantsRoommates === true,
+//     roommateCount: (answers) => answers.wantsRoommates === true,
+//     wantsRoommateMatching: (answers) => answers.wantsRoommates === true,
+//   },
+// };
+const questionDependencies = {
+  PROPERTY_SECTION: {
+    areaPreferenceType: (answers) => answers.preferredArea === "true",
+    roommateCount: (answers) => answers.wantsRoommates === true,
+    wantsRoommateMatching: (answers) => answers.wantsRoommates === true,
+  },
+};
+
+//
+
 const FormStepper: React.FC<{
   changeStep: (delta: number) => void;
   formStep: Record<string, number>;
@@ -658,10 +615,28 @@ const FormStepper: React.FC<{
     (answer) => answer !== null
   );
 
+  // const totalQuestions = (sec: keyof AnswerSections) =>
+  //   Object.keys(answers[sec]).length || 1;
+  // const totalAnswered = (sec: keyof AnswerSections) =>
+  //   Object.values(answers[sec]).filter((ans) => ans !== null).length;
+
   const totalQuestions = (sec: keyof AnswerSections) =>
-    Object.keys(answers[sec]).length || 1;
+    Object.keys(answers[sec]).filter(
+      (key) =>
+        !questionDependencies[sec]?.[key] ||
+        questionDependencies[sec][key](answers[sec])
+    ).length || 1;
+
   const totalAnswered = (sec: keyof AnswerSections) =>
-    Object.values(answers[sec]).filter((ans) => ans !== null).length;
+    Object.entries(answers[sec]).filter(
+      ([key, value]) =>
+        (!questionDependencies[sec]?.[key] ||
+          questionDependencies[sec][key](answers[sec])) &&
+        value !== null &&
+        value !== undefined &&
+        !(typeof value === "string" && value.trim() === "")
+    ).length;
+
   const steps = [
     { label: "Property", name: "PROPERTY_SECTION" },
     { label: "Lifestyle", name: "LIFE_STYLE_SECTION" },
@@ -673,6 +648,18 @@ const FormStepper: React.FC<{
     <>
       <div className="text-center flex items-end gap-3 md:px-30 px-10 mb-10 mt-10">
         {steps.map((step, index) => {
+          // let count = 0;
+          // if (
+          //   step.name === "PROPERTY_SECTION" &&
+          //   answers[step.name] &&
+          //   !answers[step.name].wantsRoommates
+          // ) {
+          //   count = -2; // or 2 depending on your logic
+          // }
+
+          // const total =
+          //   totalQuestions(step.name as keyof AnswerSections) + count;
+          // const answered = totalAnswered(step.name as keyof AnswerSections);
           const progress =
             (totalAnswered(step.name as keyof AnswerSections) /
               totalQuestions(step.name as keyof AnswerSections)) *

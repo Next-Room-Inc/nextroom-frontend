@@ -378,7 +378,9 @@ const RoommatesSection: React.FC<{
             Yes{" "}
           </PrimaryButton>
           <PrimaryButton
-            selected={!answers?.wantsRoommates}
+            selected={
+              answers?.wantsRoommates !== null && !answers?.wantsRoommates
+            }
             onClick={() =>
               handleAnswer("PROPERTY_SECTION", "wantsRoommates", false)
             }
@@ -460,7 +462,10 @@ const RoommatesSection: React.FC<{
                 Yes{" "}
               </PrimaryButton>
               <PrimaryButton
-                selected={!answers?.wantsRoommateMatching}
+                selected={
+                  answers?.wantsRoommateMatching !== null &&
+                  !answers?.wantsRoommateMatching
+                }
                 onClick={() =>
                   handleAnswer(
                     "PROPERTY_SECTION",
