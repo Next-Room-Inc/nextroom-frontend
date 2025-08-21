@@ -1,11 +1,10 @@
-import { IMAGES } from "@src/utils/constants/app-info.constant";
+import { Button } from "@src/components/Button";
+import PulseHoverLayout from "@src/layouts/PulseHover.Layout";
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { AnimatePresence, motion } from 'framer-motion';
-import { Button } from "@src/components/Button";
 import { AvailableUnitsModal } from "./AvailableUnitsModal";
 import { PropertyImagesSlider } from "./PropertyImagesSlider";
-import PulseHoverLayout from "@src/layouts/PulseHover.Layout";
 
 export const PropertyCard: React.FC<{
     property: any;

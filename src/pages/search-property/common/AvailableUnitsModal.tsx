@@ -1,4 +1,8 @@
 import { StarIcon } from "@heroicons/react/20/solid";
+import { UNIT_DETAILS } from "@src/static-data";
+import { ROUTES } from "@src/utils/constants";
+import { IMAGES } from "@src/utils/constants/app-info.constant";
+import { PropertyDetails } from "@src/utils/interfaces/property.interface";
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -13,18 +17,14 @@ import { Line } from 'react-chartjs-2';
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { ROUTES } from "@src/utils/constants";
-import { IMAGES } from "@src/utils/constants/app-info.constant";
-import { Property, PropertyDetails } from "@src/utils/interfaces/property.interface";
-import { PrimaryButton } from "./ComponComponents";
-import GoogleMapComponent from "../../../components/GoogleMap";
 import { Button } from "../../../components/Button";
-import { UNIT_DETAILS } from "@src/static-data";
+import GoogleMapComponent from "../../../components/GoogleMap";
+import { PrimaryButton } from "./ComponComponents";
 
 
 
 export const AvailableUnitsModal: React.FC<{
-    floorplan: any; property: Property;
+    floorplan: any; property: any;
 }> = ({
     floorplan, property
 }) => {
@@ -174,7 +174,7 @@ const UnitDetailsSection: React.FC<{
     amenities,
 }) => {
         console.log(floorplan)
-        const [selected, setSelected] = useState(null)
+        const [selected, setSelected] = useState<number | null>(null)
         // const [viewAllMatches, SetViewAllMatches] = useState(false)
         return (
             <>
@@ -277,20 +277,27 @@ const UnitDetailsSection: React.FC<{
     };
 
 
-const MediaGallery = ({ property, images = [] }) => {
-    console.log("images===>", images)
-    // const imageList = [
-    //     { src: "/assets/img/search-property/demo_gallary_image_1.png", alt: "Bedroom" },
-    //     { src: "/assets/img/search-property/demo_gallary_image_2.png", alt: "Kitchen" },
-    //     { src: "/assets/img/search-property/demo_gallary_image_3.png", alt: "Living Room" },
-    //     { src: "/assets/img/search-property/demo_gallary_image_1.png", alt: "Bathroom" },
-    //     { src: "/assets/img/search-property/demo_gallary_image_2.png", alt: "Map" },
-    // ];
+type Property = {
+    latitude?: number;
+    longitude?: number;
+};
 
+type ImageItem = {
+    uri: string;
+    alt?: string;
+    title?: string;
+};
 
+type MediaGalleryProps = {
+    property?: Property;
+    images?: ImageItem[];
+};
+
+const MediaGallery: React.FC<MediaGalleryProps> = ({ property, images = [] }) => {
     const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
         event.currentTarget.src = IMAGES.FAILED_IMAGE;
     };
+
     return (
         <div className="w-full py-5">
             {/* Mobile Slider */}
@@ -301,60 +308,25 @@ const MediaGallery = ({ property, images = [] }) => {
                     spaceBetween={16}
                     slidesPerView={1}
                 >
-                    {images?.map((item, index) => (
-                        <>
-                            <SwiperSlide key={index}>
-                                {index < 4 ? <img onError={handleImageError} src={item.uri} alt={item.alt} className="w-full h-[250px] object-cover rounded-xl" /> : <GoogleMapComponent latitude={property?.latitude} longitude={property?.longitude} />}
-                            </SwiperSlide>
-                        </>
+                    {images.map((item: ImageItem, index: number) => (   // 👈 explicitly type item
+                        <SwiperSlide key={index}>
+                            {index < 4 ? (
+                                <img
+                                    onError={handleImageError}
+                                    src={item.uri}
+                                    alt={item.alt || "Image"}
+                                    className="w-full h-[250px] object-cover rounded-xl"
+                                />
+                            ) : (
+                                <GoogleMapComponent latitude={property?.latitude} longitude={property?.longitude} />
+                            )}
+                        </SwiperSlide>
                     ))}
                 </Swiper>
             </div>
-
-
-            {/* Desktop Layout */}
-            <div className="hidden md:flex gap-4">
-                {/* Left Large Image */}
-                <div className="w-1/2">
-                    <img
-                        onError={handleImageError}
-                        src={images?.[0]?.uri || IMAGES.FAILED_IMAGE}
-                        alt={images?.[0]?.title || "No image found"}
-                        className="w-full h-full object-cover rounded-xl"
-                    />
-                </div>
-
-                {/* Right Grid */}
-                <div className="w-1/2 flex flex-col gap-4">
-
-                    <img
-                        onError={handleImageError}
-                        src={images?.[1]?.uri || IMAGES.FAILED_IMAGE}
-                        alt={images?.[0]?.title || "No image found"}
-                        className="w-full h-[145px]   rounded-xl"
-                    />
-
-                    <img
-                        onError={handleImageError}
-                        src={images?.[2]?.uri || IMAGES.FAILED_IMAGE}
-                        alt={images?.[0]?.title || "No image found"}
-                        className="w-full h-[145px]  rounded-xl"
-                    />
-
-                </div>
-                <div className="w-1/3">
-                    {/* <img
-                        src={imageList[0].src}
-                        alt={imageList[0].alt}
-                        className="w-full h-full object-cover rounded-xl"
-                    /> */}
-                    <GoogleMapComponent latitude={property?.latitude} longitude={property?.longitude} />
-                </div>
-
-            </div>
         </div>
-    );
-};
+    )
+}
 
 
 const BuildingDetailSection: React.FC<{

@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import { useGetEntrataPropertiesQuery } from '@src/redux/services/property.service';
-import { LoaderComponent } from '../../../../components/Loader';
 import { ArrowPathIcon } from '@heroicons/react/20/solid';
-import { toast } from 'react-toastify';
-import { Property, PropertyDetails } from '@src/utils/interfaces';
-import { AnimatePresence, motion } from "framer-motion";
-import { AvailableUnitsModal } from '../../../search-property/common/AvailableUnitsModal';
-import { IMAGES } from '@src/utils/constants/app-info.constant';
 import PulseHoverLayout from '@src/layouts/PulseHover.Layout';
+import { useGetEntrataPropertiesQuery } from '@src/redux/services/property.service';
+import { IMAGES } from '@src/utils/constants/app-info.constant';
+import { Property } from '@src/utils/interfaces';
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { Button } from '../../../../components/Button';
+import { LoaderComponent } from '../../../../components/Loader';
+import { AvailableUnitsModal } from '../../../search-property/common/AvailableUnitsModal';
 
 
 const demoDetails = {
@@ -44,11 +44,11 @@ const Matches = () => {
                             </motion.div>
                         </div > : <>
 
-                            {(data[0]?.floorplans || []).map((propertyDetails, index) => <MatchingHousingCard
+                            {(data[0]?.floorplans || []).map((floorplan, index) => <MatchingHousingCard
                                 index={index}
                                 selected={selected === index}
                                 setSelected={setSelected}
-                                propertyDetails={propertyDetails}
+                                floorplan={floorplan}
                                 property={data[0]}
                                 {...demoDetails}
                             />)}
@@ -66,7 +66,7 @@ export default Matches
 export const MatchingHousingCard: React.FC<{
     title: string;
     property: Property;
-    propertyDetails: PropertyDetails;
+    floorplan: any;
     location: string;
     type: string;
     priceRange: string;
@@ -78,7 +78,7 @@ export const MatchingHousingCard: React.FC<{
     index: number,
 }> = ({
     property,
-    propertyDetails,
+    floorplan,
     index,
     title,
     location,
@@ -136,7 +136,7 @@ export const MatchingHousingCard: React.FC<{
                     {/* Content section */}
                     <div className="w-full md:w-1/2 md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
                         <div className="flex md:justify-start justify-between items-start">
-                            <h2 className="md:text-2xl text-xl font-semibold">{propertyDetails.name} @{property.propertyName}</h2>
+                            <h2 className="md:text-2xl text-xl font-semibold">{floorplan.name} @{property.propertyName}</h2>
                             <div className="bg-[#57AF4F] text-white px-3 py-0.5 text-center rounded-md text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
                                 {matchPercent} MATCH
                             </div>
@@ -162,7 +162,7 @@ export const MatchingHousingCard: React.FC<{
                             </p>
                             <p className="flex items-start font-semibold">
 
-                                ${propertyDetails.rentMin} - ${propertyDetails.rentMax}
+                                ${floorplan.rentMin} - ${floorplan.rentMax}
                                 <span className="ml-1 font-normal">/month</span>
                             </p>
                         </div>
@@ -192,7 +192,7 @@ export const MatchingHousingCard: React.FC<{
                 </AnimatePresence>
 
                 {selected && viewDetails && <AvailableUnitsModal
-                    {...{ propertyDetails, property }}
+                    {...{ floorplan, property }}
                 />}
 
             </PulseHoverLayout>

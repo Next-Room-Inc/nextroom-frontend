@@ -41,7 +41,7 @@ const Explore = () => {
 
             {!isLoading && !isError && properties.length > 0 && (
                 <div className="grid gap-5 mx-5">
-                    {properties.map((property) =>
+                    {properties.map((property: any) =>
                         property.floorplans?.map((floorplan: Floorplan, idx: number) => (
                             <PropertyCard
                                 key={`${property.id}-${floorplan.id ?? idx}`} // ✅ stable key

@@ -11,18 +11,18 @@ type Floorplan = {
     // add other fields from your backend here
 }
 
-type Property = {
-    id: string | number
-    floorplans?: Floorplan[]
-    // add other fields from your backend here
-}
+// type Property = {
+//     id: string | number
+//     floorplans?: Floorplan[]
+//     // add other fields from your backend here
+// }
 
 const MyHousing = () => {
     const { user } = useAuth()
     const [selected, setSelected] = useState<number | null>(null)
 
     // API call
-    const { data: property = null, error, isLoading, isError, refetch } = useGetAcceptedPropertyQuery(user?.studentId ?? "")
+    const { data: property = null, isLoading, isError, refetch } = useGetAcceptedPropertyQuery(user?.studentId ?? "")
 
     return (
         <div className="py-10 md:mx-15">

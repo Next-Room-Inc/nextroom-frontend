@@ -1,6 +1,6 @@
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
 import { Button } from '@src/components/Button';
-import { ImageHandler, ProfilePhotoUploader } from '@src/components/ProfilePhotoUploader';
+import { ProfilePhotoUploader } from '@src/components/ProfilePhotoUploader';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 

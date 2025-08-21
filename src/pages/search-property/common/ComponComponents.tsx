@@ -1,10 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
-import { AvailableUnitsModal } from './AvailableUnitsModal';
-import { toast } from 'react-toastify';
-import { IMAGES } from '@src/utils/constants/app-info.constant';
-import { Property, PropertyDetails } from '@src/utils/interfaces/property.interface';
-import { Button } from '../../../components/Button';
+import { motion } from 'framer-motion';
 
 
 export const PrimaryButton: React.FC<{

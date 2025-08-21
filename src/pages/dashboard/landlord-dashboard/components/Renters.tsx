@@ -1,5 +1,5 @@
-import { ArrowUpTrayIcon, CheckIcon } from '@heroicons/react/20/solid'
-import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowUpTrayIcon } from '@heroicons/react/20/solid'
+import { AnimatePresence, motion } from 'framer-motion'
 import React, { useRef, useState } from 'react'
 import { Button, PrimaryButton } from '../../../../components/Button'
 import { DropDownSelector } from '../../../../components/DropDownSelector'
@@ -367,7 +367,7 @@ const ReportActionHandler: React.FC<{ close: () => void }> = ({ close }) => {
 }
 
 
-const StudentDetailsModal: React.FC<{ close: () => void }> = ({ close }) => {
+const StudentDetailsModal: React.FC<{ close: () => void }> = ({ }) => {
     type PersonalityItem = {
         icon: string;
         label: string;

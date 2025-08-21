@@ -31,7 +31,7 @@ const Matches = () => {
     const [ziplineModal, setZiplineModal] = useState(false);
 
     // API call
-    const { data: properties = [], error, isLoading, isError, refetch } = useGetPropertyMatchesQuery(user?.studentId ?? "")
+    const { data: properties = [], isLoading, isError, refetch } = useGetPropertyMatchesQuery(user?.studentId ?? "")
 
     useEffect(() => {
         const feedbackTimeout = setTimeout(() => setFeedBackForm(true), 10000); // 10 seconds

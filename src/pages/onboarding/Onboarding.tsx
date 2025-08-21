@@ -176,7 +176,7 @@ const Onboarding = () => {
   //
   function getFirstIncompleteSection(submittedPreferences: any) {
     console.log("--->>>>", submittedPreferences);
-    const sections = [
+    const sections: { key: string; name: keyof AnswerSections }[] = [
       { key: "propertyPreference", name: "PROPERTY_SECTION" },
       { key: "lifestylePreference", name: "LIFE_STYLE_SECTION" },
       { key: "roommatePreference", name: "ROOMMATES_SECTION" },
@@ -395,11 +395,11 @@ const Onboarding = () => {
             : undefined,
         ...(selectedKey === "lifestylePreference"
           ? {
-              socialInterestIds: answers.LIFE_STYLE_SECTION.SOCIAL || [],
-              stayingInInterestIds: answers.LIFE_STYLE_SECTION.STAYING_IN || [],
-              causesInterestIds: answers.LIFE_STYLE_SECTION.CAUSES || [],
-              personalInterestIds: answers.LIFE_STYLE_SECTION.PERSONAL || [],
-            }
+            socialInterestIds: answers.LIFE_STYLE_SECTION.SOCIAL || [],
+            stayingInInterestIds: answers.LIFE_STYLE_SECTION.STAYING_IN || [],
+            causesInterestIds: answers.LIFE_STYLE_SECTION.CAUSES || [],
+            personalInterestIds: answers.LIFE_STYLE_SECTION.PERSONAL || [],
+          }
           : {}),
       };
     }
@@ -508,17 +508,17 @@ const Onboarding = () => {
           runConfetti) ||
           (answers["PROPERTY_SECTION"]?.preferredArea === "Surprise Me" &&
             runConfetti)) && (
-          <motion.div
-            key="confetti"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-50 pointer-events-none"
-          >
-            <ReactConfetti numberOfPieces={400} />
-          </motion.div>
-        )}
+            <motion.div
+              key="confetti"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="fixed inset-0 z-50 pointer-events-none"
+            >
+              <ReactConfetti numberOfPieces={400} />
+            </motion.div>
+          )}
 
         {/* Main Layout */}
         <OnboardingLayout>
@@ -573,32 +573,7 @@ const Onboarding = () => {
 
 export default Onboarding;
 
-//
-// const questionDependencies = {
-//   PROPERTY_SECTION: {
-//     // rentalType: (answers) => answers.rentalType ?? false,
-//     // moveInDate: answers.moveInDate ?? false,
-//     // stayDurationMonths: answers.stayDurationMonths ?? false,
-//     // budgetMin: answers.budgetMin ?? false,
-//     // budgetMax: answers.budgetMax ?? false,
-//     // campusDistanceKm: answers.campusDistanceKm ?? false,
-//     // preferredArea: answers.preferredArea ?? false,
-//     areaPreferenceTyp: (answers) => answers.preferredArea === "true",
-//     // accommodationType: answers.accommodationType ?? false,
-//     // wantsRoommates: answers.wantsRoommates === true,
-//     roommateCount: (answers) => answers.wantsRoommates === true,
-//     wantsRoommateMatching: (answers) => answers.wantsRoommates === true,
-//   },
-// };
-const questionDependencies = {
-  PROPERTY_SECTION: {
-    areaPreferenceType: (answers) => answers.preferredArea === "true",
-    roommateCount: (answers) => answers.wantsRoommates === true,
-    wantsRoommateMatching: (answers) => answers.wantsRoommates === true,
-  },
-};
 
-//
 
 const FormStepper: React.FC<{
   changeStep: (delta: number) => void;
@@ -615,27 +590,38 @@ const FormStepper: React.FC<{
     (answer) => answer !== null
   );
 
-  // const totalQuestions = (sec: keyof AnswerSections) =>
-  //   Object.keys(answers[sec]).length || 1;
-  // const totalAnswered = (sec: keyof AnswerSections) =>
-  //   Object.values(answers[sec]).filter((ans) => ans !== null).length;
+  type QuestionDependencyFn<T> = (answers: T) => boolean;
+
+  type QuestionDependencies = {
+    [K in keyof AnswerSections]?: {
+      [Q in keyof AnswerSections[K]]?: QuestionDependencyFn<AnswerSections[K]>;
+    };
+  };
+
+  const questionDependencies: QuestionDependencies = {
+    PROPERTY_SECTION: {
+      areaPreferenceType: (answers: any) => answers.preferredArea === "true",
+      roommateCount: (answers: any) => answers.wantsRoommates === true,
+      wantsRoommateMatching: (answers: any) => answers.wantsRoommates === true,
+    },
+  };
 
   const totalQuestions = (sec: keyof AnswerSections) =>
-    Object.keys(answers[sec]).filter(
-      (key) =>
-        !questionDependencies[sec]?.[key] ||
-        questionDependencies[sec][key](answers[sec])
-    ).length || 1;
+    Object.keys(answers[sec]).filter((key) => {
+      const dep = questionDependencies[sec]?.[key as keyof typeof answers[typeof sec]];
+      return !dep || dep(answers[sec]);
+    }).length || 1;
 
   const totalAnswered = (sec: keyof AnswerSections) =>
-    Object.entries(answers[sec]).filter(
-      ([key, value]) =>
-        (!questionDependencies[sec]?.[key] ||
-          questionDependencies[sec][key](answers[sec])) &&
+    Object.entries(answers[sec]).filter(([key, value]) => {
+      const dep = questionDependencies[sec]?.[key as keyof typeof answers[typeof sec]];
+      return (
+        (!dep || dep(answers[sec])) &&
         value !== null &&
         value !== undefined &&
         !(typeof value === "string" && value.trim() === "")
-    ).length;
+      );
+    }).length;
 
   const steps = [
     { label: "Property", name: "PROPERTY_SECTION" },
@@ -674,9 +660,8 @@ const FormStepper: React.FC<{
           return (
             <div
               key={step.label + index}
-              className={`${
-                section === step.name ? "w-[70%]" : "w-[10%]"
-              } md:w-[25%] group`}
+              className={`${section === step.name ? "w-[70%]" : "w-[10%]"
+                } md:w-[25%] group`}
             >
               <motion.div className="text-black hidden md:block py-1 group-hover:opacity-100 opacity-0 shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white">
                 {step.label}
