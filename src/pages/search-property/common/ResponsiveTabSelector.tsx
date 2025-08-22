@@ -111,8 +111,9 @@ import { useNavigate } from "react-router-dom";
 export const ResponsiveTabSelector: React.FC<{
     tabOptions: string[],
     tab: string,
-    tabOptionsObject: any;
-}> = ({ tabOptions, tab, tabOptionsObject }) => {
+    tabOptionsObject: any,
+    navigations: any,
+}> = ({ tabOptions, tab, tabOptionsObject, navigations }) => {
     const navigate = useNavigate();
 
     const [filter, setFilter] = useState(false);
@@ -121,6 +122,12 @@ export const ResponsiveTabSelector: React.FC<{
     // const [profileDropDownStatus, setProfileDropDownStatus] = useState(false);
 
     const handleSelectTab = (tab: string) => {
+        //  Custom Provided Nvigations
+        const redirection = navigations[tab] || null
+        console.log("redirection=>", redirection)
+        if (redirection) return navigate(redirection);
+
+        //  Tab Navigation
         navigate(`/search-property/${tab}`);
         if (isDropdownOpen) setIsDropdownOpen(false);
 

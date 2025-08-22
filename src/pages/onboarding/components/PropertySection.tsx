@@ -10,13 +10,13 @@ import { updateOnboardingStatusPayload } from "@src/utils/interfaces";
 import {
   NextButton,
   PrimaryButton,
-  SkipNextQuestionSection,
   transitionVariants,
 } from "./CommonComponents";
 import { Button } from "../../../components/Button";
 import { comunityAmenities, unitAmenities } from "@src/static-data/index";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import Invite from "@src/components/Invite";
 
 interface PropertySectionParams {
   formStep: number;
@@ -230,9 +230,8 @@ const AmenitiesSection: React.FC<{
       </p>
       <div
         id="unitAmenities"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.unitAmenities === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.unitAmenities === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl  font-semibold w-full  px-10 text-center mx-auto">
           {" "}
@@ -263,9 +262,8 @@ const AmenitiesSection: React.FC<{
       </div>
       <div
         id="communityAmenities"
-        className={`rounded-2xl mx-1 py-10 ${
-          error && answers.communityAmenities === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`rounded-2xl mx-1 py-10 ${error && answers.communityAmenities === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl  font-semibold w-full  px-10 text-center mx-auto">
           {" "}
@@ -358,9 +356,8 @@ const RoommatesSection: React.FC<{
     <>
       <div
         id="wantsRoommates"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.wantsRoommates === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.wantsRoommates === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl text-[#B3322F] font-semibold w-full  px-10 text-center mx-auto">
           {" "}
@@ -395,12 +392,11 @@ const RoommatesSection: React.FC<{
         <>
           <div
             id="roommateCount"
-            className={` rounded-2xl mx-1 py-10 ${
-              (error && answers.roommateCount === null) ||
-              answers.roommateCount === 0
+            className={` rounded-2xl mx-1 py-10 ${(error && answers.roommateCount === null) ||
+                answers.roommateCount === 0
                 ? "bg-[#B3322F]/20"
                 : ""
-            }`}
+              }`}
           >
             <p className="text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto">
               {" "}
@@ -447,11 +443,10 @@ const RoommatesSection: React.FC<{
 
           <div
             id="wantsRoommateMatching"
-            className={` rounded-2xl mx-1 py-10 ${
-              error && answers.wantsRoommateMatching === null
+            className={` rounded-2xl mx-1 py-10 ${error && answers.wantsRoommateMatching === null
                 ? "bg-[#B3322F]/20"
                 : ""
-            }`}
+              }`}
           >
             <p className="text-2xl text-[#B3322F]   font-semibold w-full  px-10 text-center mx-auto">
               {" "}
@@ -496,7 +491,7 @@ const RoommatesSection: React.FC<{
                 {" "}
                 Skip the next questions, invite your friends now!{" "}
               </p>
-              <SkipNextQuestionSection />
+              <Invite />
             </div>
           ) : (
             ""
@@ -558,9 +553,8 @@ const LookingForSection: React.FC<{
     <>
       <div
         id="accommodationType"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.accommodationType === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.accommodationType === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto">
           {" "}
@@ -596,11 +590,10 @@ const LookingForSection: React.FC<{
                     rental.name
                   )
                 }
-                className={` border border-white ${
-                  answers.accommodationType === rental.name
+                className={` border border-white ${answers.accommodationType === rental.name
                     ? "bg-[#B3322F] hover:bg-[#b3312fa2]"
                     : "bg-[#D9D9D9] hover:bg-[#d9d9d9a4]"
-                }bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}
+                  }bg-[#B3322F] w-full md:w-[250px] text-sm text-center py-3 text-white  rounded-full flex justify-end items-center gap-2 px-2`}
               >
                 <div className="flex gap-2  w-full justify-center">
                   <img
@@ -650,191 +643,189 @@ const WhereToBeLocatedSection: React.FC<{
   setRunConfetti,
   previousStepHandler,
 }) => {
-  const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
-  console.log("area====>", answers);
-  const [search, setSearch] = useState(answers?.areaPreferenceType || "");
-  const [suggestions, setSuggestions] = useState<string[]>(
-    answers?.areaPreferenceType ? [answers?.areaPreferenceType] : []
-  );
-  const [loading, setLoading] = useState(false);
-  const [openSearchDropdown, setOpenSearchDropdown] = useState(false);
+    const GOOGLE_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY; // Replace this securely
+    console.log("area====>", answers);
+    const [search, setSearch] = useState(answers?.areaPreferenceType || "");
+    const [suggestions, setSuggestions] = useState<string[]>(
+      answers?.areaPreferenceType ? [answers?.areaPreferenceType] : []
+    );
+    const [loading, setLoading] = useState(false);
+    const [openSearchDropdown, setOpenSearchDropdown] = useState(false);
 
-  // const suggestions = [
-  //     "400 Rideau Street, Ottawa, ON",
-  //     "Rideau Canal, Ottawa, ON",
-  //     "Rideau Carleton Casino, Future Hard Rock, Ottawa, ON",
-  //     "Rideau Cottage, Sussex Drive, Ottawa, ON",
-  //     "Rideau Falls, Ottawa, ON",
-  // ];
+    // const suggestions = [
+    //     "400 Rideau Street, Ottawa, ON",
+    //     "Rideau Canal, Ottawa, ON",
+    //     "Rideau Carleton Casino, Future Hard Rock, Ottawa, ON",
+    //     "Rideau Cottage, Sussex Drive, Ottawa, ON",
+    //     "Rideau Falls, Ottawa, ON",
+    // ];
 
-  useEffect(() => {
-    if (answers?.areaPreferenceType === search) return;
+    useEffect(() => {
+      if (answers?.areaPreferenceType === search) return;
 
-    const delayDebounce = setTimeout(() => {
-      if (search.trim().length > 0) {
-        setOpenSearchDropdown(true);
-        fetchSuggestions(search);
-      }
-    }, 500);
-
-    return () => clearTimeout(delayDebounce);
-  }, [search]);
-
-  const fetchSuggestions = async (query: string) => {
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        `https://places.googleapis.com/v1/places:autocomplete`,
-        { input: query },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-Goog-Api-Key": GOOGLE_API_KEY,
-          },
+      const delayDebounce = setTimeout(() => {
+        if (search.trim().length > 0) {
+          setOpenSearchDropdown(true);
+          fetchSuggestions(search);
         }
-      );
-      const results = response.data.suggestions || [];
-      console.log("results==>", results);
-      const newSuggestions = results.map(
-        (place: any) => place?.placePrediction?.text?.text
-      );
-      console.log("newSuggestions==>", newSuggestions);
-      setSuggestions(newSuggestions);
-    } catch (error) {
-      console.error("Google Places API error:", error);
-      setSuggestions([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+      }, 500);
 
-  // console.log(loading)
+      return () => clearTimeout(delayDebounce);
+    }, [search]);
 
-  const [error, setError] = useState(false);
+    const fetchSuggestions = async (query: string) => {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          `https://places.googleapis.com/v1/places:autocomplete`,
+          { input: query },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "X-Goog-Api-Key": GOOGLE_API_KEY,
+            },
+          }
+        );
+        const results = response.data.suggestions || [];
+        console.log("results==>", results);
+        const newSuggestions = results.map(
+          (place: any) => place?.placePrediction?.text?.text
+        );
+        console.log("newSuggestions==>", newSuggestions);
+        setSuggestions(newSuggestions);
+      } catch (error) {
+        console.error("Google Places API error:", error);
+        setSuggestions([]);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const scrollHandler = () => {
-    setError(true);
-    if (answers.preferredArea === null) {
-      const section = document.getElementById("preferredArea");
-      section?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  };
+    // console.log(loading)
 
-  const disabled = answers.preferredArea === null;
+    const [error, setError] = useState(false);
 
-  return (
-    <>
-      <div
-        id="preferredArea"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.preferredArea === null ? "bg-[#B3322F]/20" : ""
-        }`}
-      >
-        <p className="text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto">
-          {" "}
-          Where would you like to be located?{" "}
-        </p>
+    const scrollHandler = () => {
+      setError(true);
+      if (answers.preferredArea === null) {
+        const section = document.getElementById("preferredArea");
+        section?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    };
 
-        <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10">
-          <PrimaryButton
-            selected={answers.preferredArea === "Surprise Me"}
-            onClick={() => {
-              setRunConfetti(true);
-              runConfettiHandler();
-              handleAnswer("PROPERTY_SECTION", "preferredArea", "Surprise Me");
-            }}
-          >
+    const disabled = answers.preferredArea === null;
+
+    return (
+      <>
+        <div
+          id="preferredArea"
+          className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.preferredArea === null ? "bg-[#B3322F]/20" : ""
+            }`}
+        >
+          <p className="text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto">
             {" "}
-            I Don’t Know Yet - Surprise Me{" "}
-          </PrimaryButton>
-          <PrimaryButton
-            selected={
-              answers.preferredArea !== "Surprise Me" &&
-              answers.preferredArea !== null
-            }
-            onClick={() =>
-              handleAnswer("PROPERTY_SECTION", "preferredArea", "Yes")
-            }
-          >
-            {" "}
-            I Have A Preferred Area{" "}
-          </PrimaryButton>
+            Where would you like to be located?{" "}
+          </p>
+
+          <div className="flex flex-col md:flex-row gap-6 justify-center items-center mt-20 text-md px-10">
+            <PrimaryButton
+              selected={answers.preferredArea === "Surprise Me"}
+              onClick={() => {
+                setRunConfetti(true);
+                runConfettiHandler();
+                handleAnswer("PROPERTY_SECTION", "preferredArea", "Surprise Me");
+              }}
+            >
+              {" "}
+              I Don’t Know Yet - Surprise Me{" "}
+            </PrimaryButton>
+            <PrimaryButton
+              selected={
+                answers.preferredArea !== "Surprise Me" &&
+                answers.preferredArea !== null
+              }
+              onClick={() =>
+                handleAnswer("PROPERTY_SECTION", "preferredArea", "Yes")
+              }
+            >
+              {" "}
+              I Have A Preferred Area{" "}
+            </PrimaryButton>
+          </div>
+
+          {answers.preferredArea !== "Surprise Me" &&
+            answers.preferredArea !== null && (
+              <div className="px-10 md:px-0 mt-12">
+                {/* Google Search */}
+                <div className="shadow-[#D9D9D9] mb-3  md:w-[50%] pl-4 pr-8 py-2 mx-auto rounded-full drop-shadow-md shadow-md bg-white mt-5 flex items-center  justify-center gap-3">
+                  <input
+                    onChange={(e) => {
+                      setLoading(true);
+                      setSearch(e.target.value);
+                    }}
+                    value={search}
+                    placeholder="Start searching for your preferred area or address (e.g. The Glebe or Rideau Centre)"
+                    className=" focus:outline-none  w-full px-2 py-2"
+                  />
+                  {/* <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" /> */}
+                  <MagnifyingGlassIcon className="h-8 text-[#B3322F] mt-1" />
+                </div>
+                {/* Google Suggestion */}
+                {search.length > 0 && openSearchDropdown && (
+                  <div className="shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs">
+                    {loading ? (
+                      <div>
+                        <LoaderComponent />
+                      </div>
+                    ) : (
+                      <div>
+                        {suggestions?.length > 0 ? (
+                          suggestions.map((searchString) => (
+                            <div
+                              className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${searchString === answers.areaPreferenceType
+                                  ? "bg-gray-200"
+                                  : ""
+                                }`}
+                              onClick={() => {
+                                setSearch(searchString);
+                                setOpenSearchDropdown(false);
+
+                                handleAnswer(
+                                  "PROPERTY_SECTION",
+                                  "areaPreferenceType",
+                                  searchString
+                                );
+                              }}
+                            >
+                              <img
+                                alt=""
+                                className="h-3"
+                                src="assets/img/icons/location_logo.svg"
+                              />
+                              {searchString}
+                            </div>
+                          ))
+                        ) : (
+                          <div className="py-5">
+                            Oops! We couldn't find a match. Try searching for
+                            another place.
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
         </div>
 
-        {answers.preferredArea !== "Surprise Me" &&
-          answers.preferredArea !== null && (
-            <div className="px-10 md:px-0 mt-12">
-              {/* Google Search */}
-              <div className="shadow-[#D9D9D9] mb-3  md:w-[50%] pl-4 pr-8 py-2 mx-auto rounded-full drop-shadow-md shadow-md bg-white mt-5 flex items-center  justify-center gap-3">
-                <input
-                  onChange={(e) => {
-                    setLoading(true);
-                    setSearch(e.target.value);
-                  }}
-                  value={search}
-                  placeholder="Start searching for your preferred area or address (e.g. The Glebe or Rideau Centre)"
-                  className=" focus:outline-none  w-full px-2 py-2"
-                />
-                {/* <img alt="" className="h-8 mt-1" src="assets/img/icons/google_logo.svg" /> */}
-                <MagnifyingGlassIcon className="h-8 text-[#B3322F] mt-1" />
-              </div>
-              {/* Google Suggestion */}
-              {search.length > 0 && openSearchDropdown && (
-                <div className="shadow-[#D9D9D9] mb-3 overflow-hidden md:w-[50%]  py-2 mx-auto rounded-3xl drop-shadow-md shadow-md bg-white mt-5 gap-3 text-xs">
-                  {loading ? (
-                    <div>
-                      <LoaderComponent />
-                    </div>
-                  ) : (
-                    <div>
-                      {suggestions?.length > 0 ? (
-                        suggestions.map((searchString) => (
-                          <div
-                            className={` pl-4 pr-8 flex gap-2 py-1.5 cursor-pointer text-left ${
-                              searchString === answers.areaPreferenceType
-                                ? "bg-gray-200"
-                                : ""
-                            }`}
-                            onClick={() => {
-                              setSearch(searchString);
-                              setOpenSearchDropdown(false);
-
-                              handleAnswer(
-                                "PROPERTY_SECTION",
-                                "areaPreferenceType",
-                                searchString
-                              );
-                            }}
-                          >
-                            <img
-                              alt=""
-                              className="h-3"
-                              src="assets/img/icons/location_logo.svg"
-                            />
-                            {searchString}
-                          </div>
-                        ))
-                      ) : (
-                        <div className="py-5">
-                          Oops! We couldn't find a match. Try searching for
-                          another place.
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-      </div>
-
-      <NextButton
-        onClick={disabled ? scrollHandler : nextStepHandler}
-        previousStepHandler={previousStepHandler}
-      />
-    </>
-  );
-};
+        <NextButton
+          onClick={disabled ? scrollHandler : nextStepHandler}
+          previousStepHandler={previousStepHandler}
+        />
+      </>
+    );
+  };
 
 const CloseToCampusSection: React.FC<{
   previousStepHandler: () => void;
@@ -868,9 +859,8 @@ const CloseToCampusSection: React.FC<{
     <>
       <div
         id="campusDistanceKm"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.campusDistanceKm === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.campusDistanceKm === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto">
           {" "}
@@ -963,9 +953,8 @@ const BudgetSection: React.FC<{
     <>
       <div
         id="budgetMax"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && disabled ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && disabled ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto">
           What is your monthly budget?
@@ -1043,9 +1032,8 @@ const HowLongToStaySection: React.FC<{
     <>
       <div
         id="stayDurationMonths"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.stayDurationMonths === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.stayDurationMonths === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto">
           {" "}
@@ -1095,15 +1083,14 @@ const HowLongToStaySection: React.FC<{
         </div>
         <div
           className={`border border-white 
-                ${
-                  answers.stayDurationMonths !== "4 Months" &&
-                  answers.stayDurationMonths !== "6 Months" &&
-                  answers.stayDurationMonths !== "8 Months" &&
-                  answers.stayDurationMonths !== "12 Months" &&
-                  answers.stayDurationMonths !== null
-                    ? "bg-[#B3322F]"
-                    : "bg-[#D9D9D9]"
-                }
+                ${answers.stayDurationMonths !== "4 Months" &&
+              answers.stayDurationMonths !== "6 Months" &&
+              answers.stayDurationMonths !== "8 Months" &&
+              answers.stayDurationMonths !== "12 Months" &&
+              answers.stayDurationMonths !== null
+              ? "bg-[#B3322F]"
+              : "bg-[#D9D9D9]"
+            }
                  mt-6 md:mt-10 rounded-full md:w-max mx-auto min-w-[248px] max-w-fit`}
           onClick={handleDateWrapperClick}
         >
@@ -1165,9 +1152,8 @@ const WhenYouAreMovingSection: React.FC<{
     <>
       <div
         id="moveInDate"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.moveInDate === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.moveInDate === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl text-[#B3322F] font-semibold w-[60%]  md:w-[80%] text-center mx-auto">
           {" "}
@@ -1198,13 +1184,12 @@ const WhenYouAreMovingSection: React.FC<{
         {/* <Button className='bg-[#B3322F] w-full md:w-[250px] text-center py-2 text-white  rounded-full mt-10'> May 1 </Button> */}
         <div
           className={`
-                ${
-                  answers.moveInDate !== "September 1" &&
-                  answers.moveInDate !== "May 1" &&
-                  answers.moveInDate !== null
-                    ? "bg-[#B3322F]"
-                    : "bg-[#D9D9D9] border-white border"
-                }
+                ${answers.moveInDate !== "September 1" &&
+              answers.moveInDate !== "May 1" &&
+              answers.moveInDate !== null
+              ? "bg-[#B3322F]"
+              : "bg-[#D9D9D9] border-white border"
+            }
                  mt-6 md:mt-10 rounded-full md:w-max mx-auto min-w-[248px] max-w-fit`}
           onClick={handleDateWrapperClick}
         >
@@ -1263,9 +1248,8 @@ const TypeOfRentalSection: React.FC<{
     <div className="text-center">
       <div
         id="rentalType"
-        className={`mt-10 rounded-2xl mx-1 py-10 ${
-          error && answers.rentalType === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-10 rounded-2xl mx-1 py-10 ${error && answers.rentalType === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <p className="text-2xl text-[#B3322F] font-semibold w-[60%] md:w-[80%] mx-auto ">
           What type of rental are you looking for?

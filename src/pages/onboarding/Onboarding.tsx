@@ -90,6 +90,14 @@ const sections = {
   },
 };
 
+const lastStep = {
+  PROPERTY_SECTION: 9,
+  LIFE_STYLE_SECTION: 5,
+  ROOMMATES_SECTION: 3,
+  SITUATION_BASED_SECTION: 4,
+}
+
+
 const Onboarding = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -192,9 +200,15 @@ const Onboarding = () => {
       );
       console.log("sec ==>", name, isIncompleteSection);
       if (isIncompleteSection) {
+        console.log("-=-=->>>???", lastStep[name], name)
+        // Last step to be displayed
+        setFormStep((prevState) => ({ ...prevState, [name]: lastStep[name], }));
+        // incomplete or last section to be displayed
         return setSection(name);
       }
     }
+    // Last step to be displayed
+    setFormStep((prevState) => ({ ...prevState, 'SITUATION_BASED_SECTION': lastStep['SITUATION_BASED_SECTION'] }));
     setSection("SITUATION_BASED_SECTION");
   }
 
@@ -251,7 +265,7 @@ const Onboarding = () => {
     if (nextIndex < sectionsList.length) {
       setSection(sectionsList[nextIndex]);
     } else {
-      navigate(ROUTES.SEARCH_PROPERTY);
+      navigate(`${ROUTES.SEARCH_PROPERTY}/matches`);
     }
   };
 
@@ -398,11 +412,11 @@ const Onboarding = () => {
             : undefined,
         ...(selectedKey === "lifestylePreference"
           ? {
-              socialInterestIds: answers.LIFE_STYLE_SECTION.SOCIAL || [],
-              stayingInInterestIds: answers.LIFE_STYLE_SECTION.STAYING_IN || [],
-              causesInterestIds: answers.LIFE_STYLE_SECTION.CAUSES || [],
-              personalInterestIds: answers.LIFE_STYLE_SECTION.PERSONAL || [],
-            }
+            socialInterestIds: answers.LIFE_STYLE_SECTION.SOCIAL || [],
+            stayingInInterestIds: answers.LIFE_STYLE_SECTION.STAYING_IN || [],
+            causesInterestIds: answers.LIFE_STYLE_SECTION.CAUSES || [],
+            personalInterestIds: answers.LIFE_STYLE_SECTION.PERSONAL || [],
+          }
           : {}),
       };
     }
@@ -511,17 +525,17 @@ const Onboarding = () => {
           runConfetti) ||
           (answers["PROPERTY_SECTION"]?.preferredArea === "Surprise Me" &&
             runConfetti)) && (
-          <motion.div
-            key="confetti"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-50 pointer-events-none"
-          >
-            <ReactConfetti numberOfPieces={400} />
-          </motion.div>
-        )}
+            <motion.div
+              key="confetti"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="fixed inset-0 z-50 pointer-events-none"
+            >
+              <ReactConfetti numberOfPieces={400} />
+            </motion.div>
+          )}
 
         {/* Main Layout */}
         <OnboardingLayout>
@@ -653,14 +667,12 @@ const FormStepper: React.FC<{
           return (
             <div
               key={step.label + index}
-              className={`${
-                section === step.name ? "w-[70%]" : "w-[10%]"
-              } md:w-[25%] group`}
+              className={`${section === step.name ? "w-[70%]" : "w-[10%]"
+                } md:w-[25%] group`}
             >
               <motion.div
-                className={`text-black hidden md:block py-1 group-hover:opacity-100 ${
-                  step?.name === section ? "opacity-100" : "opacity-0"
-                }  shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white`}
+                className={`text-black hidden md:block py-1 group-hover:opacity-100 ${step?.name === section ? "opacity-100" : "opacity-0"
+                  }  shadow-[#D9D9D9] mb-3 w-max px-6 mx-auto rounded-xl drop-shadow-md shadow-md bg-white`}
               >
                 {step.label}
               </motion.div>

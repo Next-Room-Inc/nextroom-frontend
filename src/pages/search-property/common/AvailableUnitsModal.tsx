@@ -1,4 +1,4 @@
-import { StarIcon } from "@heroicons/react/20/solid";
+import { PlusIcon, StarIcon } from "@heroicons/react/20/solid";
 import { UNIT_DETAILS } from "@src/static-data";
 import { ROUTES } from "@src/utils/constants";
 import { IMAGES } from "@src/utils/constants/app-info.constant";
@@ -20,6 +20,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../../../components/Button";
 import GoogleMapComponent from "../../../components/GoogleMap";
 import { PrimaryButton } from "./ComponComponents";
+import Image from "@src/components/Image";
 
 
 
@@ -28,7 +29,7 @@ export const AvailableUnitsModal: React.FC<{
 }> = ({
     floorplan, property
 }) => {
-        console.log("floorplan=>", floorplan)
+        console.log("property=>", property)
         const navigate = useNavigate()
         const tabOptions = ["Units", "Building", "History", "Reviews & History"];
         const [selectedTab, setSelectedTab] = useState("Units");
@@ -47,7 +48,7 @@ export const AvailableUnitsModal: React.FC<{
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -50 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="  mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40" >
+                        className="  mt-2   bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40" >
                         {/* Image Gallery */}
                         <MediaGallery property={property} images={floorplan?.photos} />
                         {/* section property details */}
@@ -140,7 +141,7 @@ export const AvailableUnitsModal: React.FC<{
                         {/* Unit Details Section */}
                         <div>
                             {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} floorplan={floorplan} property={property} />}
-                            {selectedTab === "Building" && <BuildingDetailSection floorplan={floorplan} />}
+                            {selectedTab === "Building" && <BuildingDetailSection floorplan={floorplan} property={property} />}
                             {selectedTab === "History" && <HistoryDetailSection />}
                             {selectedTab === "Reviews & History" && <ReviewDetailSection />}
                         </div>
@@ -175,7 +176,7 @@ const UnitDetailsSection: React.FC<{
 }) => {
         console.log(floorplan)
         const [selected, setSelected] = useState<number | null>(null)
-        // const [viewAllMatches, SetViewAllMatches] = useState(false)
+        const [viewAllMatches, SetViewAllMatches] = useState(false)
         return (
             <>
 
@@ -212,7 +213,7 @@ const UnitDetailsSection: React.FC<{
 
                                             <div className="md:mt-0 mt-2">
                                                 <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto"
-                                                // onClick={() => SetViewAllMatches(!viewAllMatches)}
+                                                    onClick={() => SetViewAllMatches(!viewAllMatches)}
                                                 >
                                                     View All Matches
                                                 </PrimaryButton>
@@ -220,7 +221,7 @@ const UnitDetailsSection: React.FC<{
 
                                             </div>
                                         </div>
-                                        {/* {viewAllMatches && <ViewAllMatchesComponent />} */}
+                                        {viewAllMatches && <ViewAllMatchesComponent compatibleRoommates={floorplan?.compatibleRoommates} />}
 
                                         {/* Amenities */}
                                         <div className="flex flex-col md:flex-row py-3 gap-3">
@@ -308,7 +309,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ property, images = [] }) =>
                     spaceBetween={16}
                     slidesPerView={1}
                 >
-                    {images.map((item: ImageItem, index: number) => (   // 👈 explicitly type item
+                    {images?.map((item: ImageItem, index: number) => (   // 👈 explicitly type item
                         <SwiperSlide key={index}>
                             {index < 4 ? (
                                 <img
@@ -330,12 +331,14 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({ property, images = [] }) =>
 
 
 const BuildingDetailSection: React.FC<{
-    floorplan: PropertyDetails
-}> = ({ floorplan }) => {
+    floorplan: any
+    property: any
+}> = ({ floorplan, property }) => {
+    console.log("property-->", property)
     // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
-    const description = floorplan?.description || "No description Added yet"
-    const yearBuilt = "2011"
-    const houseRules = "To ensure a respectful and comfortable living environment for everyone, please follow these house rules. Keep noise levels down, especially during quiet hours (typically 10 PM – 7 AM). Guests are welcome, but overnight visitors should be discussed with roommates in advance. Maintain cleanliness in shared areas and dispose of garbage regularly. Smoking, vaping, and illegal substances are strictly prohibited inside the apartment. Be mindful of energy and water usage, and report any maintenance issues promptly. Above all, treat your roommates, neighbors, and the property with respect."
+    const description = property?.shortDescription || "No description added yet"
+    const yearBuilt = "No built year added"
+    const houseRules = property?.longDescription || "No description added yet"
 
     return (
         <motion.div
@@ -381,8 +384,8 @@ const HistoryDetailSection = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, ease: "easeOut" }} >
-
-            <div className="flex flex-col md:flex-row gap-y-5 ">
+            <div className="flex justify-center items-center h-20">No history found</div>
+            {/* <div className="flex flex-col md:flex-row gap-y-5 ">
                 <div className="md:w-[50%] w-full">
                     <p className="text-center font-bold mb-3 text-[#B3322F] ">Price Changes Year Over Year <br className="md:hidden flex" /> (2021-2024)</p>
                     <div className="flex gap-3  justify-center mx-auto ">
@@ -450,7 +453,7 @@ const HistoryDetailSection = () => {
                     <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Request Tour </PrimaryButton>
                     <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Decline </PrimaryButton>
                 </div>
-            </div>
+            </div> */}
 
         </motion.div>)
 }
@@ -463,133 +466,134 @@ const ReviewDetailSection = () => {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, ease: "easeOut" }} >
+            {true ? <div className="flex justify-center items-center h-20">No review found</div> : <>
+                <div className=" mx-auto p-4 space-y-10 text-sm text-gray-800">
+                    {/* Reviews */}
+                    <section>
+                        <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Reviews</h2>
 
-            <div className=" mx-auto p-4 space-y-10 text-sm text-gray-800">
-                {/* Reviews */}
-                <section>
-                    <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Reviews</h2>
 
 
+                        <div className="flex flex-wrap gap-4 mb-4">
+                            <div className="flex items-center gap-2">
+                                <span className="font-medium">Filter By:</span>
+                                <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
+                                    <option>Newest</option>
+                                    <option>Oldest</option>
+                                </select>
+                            </div>
+                            <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
+                                <option>Highest Rating</option>
+                                <option>Lowest Rating</option>
+                            </select>
+                        </div>
 
-                    <div className="flex flex-wrap gap-4 mb-4">
-                        <div className="flex items-center gap-2">
+                        {/* review image */}
+                        <div className="flex gap-2">
+                            <img src="/assets/img/search-property/review_img_1.png" className="w-30 h-30 object-contain object-center" />
+                            <img src="/assets/img/search-property/review_img_2.png" className="w-30 h-30 object-contain object-center" />
+                        </div>
+
+
+                        {/* Review 1 */}
+                        <div className="space-y-2 border-b pb-4">
+                            <h3 className="font-bold">John D. <span className="text-yellow-500">★★★★☆</span></h3>
+                            <p>
+                                I've been living in this apartment for almost a year, and overall it's been a great experience. The location is super convenient—just a 10-minute walk to campus and right next to a grocery store and bus stop. The unit itself is modern and well-maintained, though the walls are a bit thin, so you can sometimes hear your neighbors. Maintenance responds pretty quickly to issues, which I really appreciate. It's a bit pricey for a student budget, but the convenience makes it worth it.
+                            </p>
+                        </div>
+
+                        {/* Review 2 */}
+                        <div className="space-y-2 mt-4">
+                            <h3 className="font-bold">Gail P. <span className="text-yellow-500">★★★☆☆</span></h3>
+                            <p>
+                                About two months into my lease, the heating stopped working in the middle of a cold snap. I submitted a repair request through the online portal, and to my surprise, the property manager got back to me the same day. A technician came by the next morning and had it fixed within an hour. I was honestly expecting a longer wait based on past rentals, so I was impressed. It's not a perfect apartment—noise can be an issue on weekends—but the quick response made me feel like the management actually cares.
+                            </p>
+                            <Button className="text-red-600 text-xs font-semibold mt-1">View More</Button>
+                        </div>
+                    </section>
+
+                    {/* Repair History */}
+                    <section>
+                        <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Repair History</h2>
+                        <p className="mb-2 font-medium">Number of repairs within 12 months: <span className="font-bold">19</span></p>
+
+                        <div className="flex gap-4 items-center mb-4">
                             <span className="font-medium">Filter By:</span>
                             <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
                                 <option>Newest</option>
                                 <option>Oldest</option>
                             </select>
                         </div>
-                        <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
-                            <option>Highest Rating</option>
-                            <option>Lowest Rating</option>
-                        </select>
-                    </div>
 
-                    {/* review image */}
-                    <div className="flex gap-2">
-                        <img src="/assets/img/search-property/review_img_1.png" className="w-30 h-30 object-contain object-center" />
-                        <img src="/assets/img/search-property/review_img_2.png" className="w-30 h-30 object-contain object-center" />
-                    </div>
-
-
-                    {/* Review 1 */}
-                    <div className="space-y-2 border-b pb-4">
-                        <h3 className="font-bold">John D. <span className="text-yellow-500">★★★★☆</span></h3>
-                        <p>
-                            I've been living in this apartment for almost a year, and overall it's been a great experience. The location is super convenient—just a 10-minute walk to campus and right next to a grocery store and bus stop. The unit itself is modern and well-maintained, though the walls are a bit thin, so you can sometimes hear your neighbors. Maintenance responds pretty quickly to issues, which I really appreciate. It's a bit pricey for a student budget, but the convenience makes it worth it.
-                        </p>
-                    </div>
-
-                    {/* Review 2 */}
-                    <div className="space-y-2 mt-4">
-                        <h3 className="font-bold">Gail P. <span className="text-yellow-500">★★★☆☆</span></h3>
-                        <p>
-                            About two months into my lease, the heating stopped working in the middle of a cold snap. I submitted a repair request through the online portal, and to my surprise, the property manager got back to me the same day. A technician came by the next morning and had it fixed within an hour. I was honestly expecting a longer wait based on past rentals, so I was impressed. It's not a perfect apartment—noise can be an issue on weekends—but the quick response made me feel like the management actually cares.
-                        </p>
-                        <Button className="text-red-600 text-xs font-semibold mt-1">View More</Button>
-                    </div>
-                </section>
-
-                {/* Repair History */}
-                <section>
-                    <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Repair History</h2>
-                    <p className="mb-2 font-medium">Number of repairs within 12 months: <span className="font-bold">19</span></p>
-
-                    <div className="flex gap-4 items-center mb-4">
-                        <span className="font-medium">Filter By:</span>
-                        <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
-                            <option>Newest</option>
-                            <option>Oldest</option>
-                        </select>
-                    </div>
-
-                    {/* review image */}
-                    <div className="flex gap-2">
-                        <img src="/assets/img/search-property/review_img_1.png" className="w-30 h-30 object-contain object-center" />
-                        <img src="/assets/img/search-property/review_img_2.png" className="w-30 h-30 object-contain object-center" />
-                    </div>
-
-                    {/* Repair Card */}
-                    <div className="  rounded-md  space-y-2">
-                        <div className="font-bold">uOttawa Student</div>
-                        <div><span className="font-semibold">Repair Type:</span> Urgent</div>
-                        <div><span className="font-semibold">Title:</span> Broken Washing Machine</div>
-                        <div>
-                            <span className="font-semibold">Details:</span>{" "}
-                            I wanted to let you know that the washing machine in our unit has stopped working — it won’t start even when plugged in and the cycle won’t begin. Could you please arrange for a repair as soon as possible? Let me know if you need any more details or if someone will be coming by.
+                        {/* review image */}
+                        <div className="flex gap-2">
+                            <img src="/assets/img/search-property/review_img_1.png" className="w-30 h-30 object-contain object-center" />
+                            <img src="/assets/img/search-property/review_img_2.png" className="w-30 h-30 object-contain object-center" />
                         </div>
 
-                        {/* Status timeline */}
-                        <div className="space-y-1">
-                            <div className="font-semibold">Status:</div>
-                            {/* <div className="flex items-center gap-2 text-xs">
+                        {/* Repair Card */}
+                        <div className="  rounded-md  space-y-2">
+                            <div className="font-bold">uOttawa Student</div>
+                            <div><span className="font-semibold">Repair Type:</span> Urgent</div>
+                            <div><span className="font-semibold">Title:</span> Broken Washing Machine</div>
+                            <div>
+                                <span className="font-semibold">Details:</span>{" "}
+                                I wanted to let you know that the washing machine in our unit has stopped working — it won’t start even when plugged in and the cycle won’t begin. Could you please arrange for a repair as soon as possible? Let me know if you need any more details or if someone will be coming by.
+                            </div>
+
+                            {/* Status timeline */}
+                            <div className="space-y-1">
+                                <div className="font-semibold">Status:</div>
+                                {/* <div className="flex items-center gap-2 text-xs">
                             <span className="w-3 h-3 bg-red-600 rounded-full"></span> Request Submitted
                             <span className="w-3 h-3 bg-gray-400 rounded-full"></span> Landlord Responded
                             <span className="w-3 h-3 bg-gray-400 rounded-full"></span> Closed Request
                         </div> */}
-                            <StepComponent />
+                                <StepComponent />
+                            </div>
+
+                            <Button className="text-red-600 text-xs font-semibold mt-2">View More</Button>
                         </div>
+                    </section>
 
-                        <Button className="text-red-600 text-xs font-semibold mt-2">View More</Button>
-                    </div>
-                </section>
+                    {/* Landlord Response Rate */}
 
-                {/* Landlord Response Rate */}
-
-                <section>
-                    <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Landlord Response Rate</h2>
-                    <div className="md:w-60 w-full">
+                    <section>
+                        <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Landlord Response Rate</h2>
+                        <div className="md:w-60 w-full">
 
 
-                        <div className="relative  w-full">
-                            <input
-                                disabled
-                                type="range"
-                                className="custom-slider   bg-gradient-to-r from-[#ED1111] to-[#5CE64C]   h-20 rounded-lg"
-                                style={{ background: "linear-gradient(to right, #ED1111, #5CE64C)", width: "100%", height: '10px', paddingTop: '10px', borderRadius: "12px", }}
-                                min={500}
-                                max={2000}
-                            />
+                            <div className="relative  w-full">
+                                <input
+                                    disabled
+                                    type="range"
+                                    className="custom-slider   bg-gradient-to-r from-[#ED1111] to-[#5CE64C]   h-20 rounded-lg"
+                                    style={{ background: "linear-gradient(to right, #ED1111, #5CE64C)", width: "100%", height: '10px', paddingTop: '10px', borderRadius: "12px", }}
+                                    min={500}
+                                    max={2000}
+                                />
+                            </div>
+                            <div className="flex justify-between text-black font-semibold mb-2">
+                                <p>Slow</p>
+                                <p>Fast</p>
+                            </div>
                         </div>
-                        <div className="flex justify-between text-black font-semibold mb-2">
-                            <p>Slow</p>
-                            <p>Fast</p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-
-
-
-            <hr className="my-8" />
-
-            <div className="w-full  pb-5 px-4">
-                <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center max-w-4xl mx-auto">
-                    <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Accept </PrimaryButton>
-                    <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Request Tour </PrimaryButton>
-                    <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Decline </PrimaryButton>
+                    </section>
                 </div>
-            </div>
+
+
+
+                <hr className="my-8" />
+
+                <div className="w-full  pb-5 px-4">
+                    <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center max-w-4xl mx-auto">
+                        <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Accept </PrimaryButton>
+                        <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Request Tour </PrimaryButton>
+                        <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Decline </PrimaryButton>
+                    </div>
+                </div>
+            </>}
         </motion.div>)
 }
 
@@ -736,167 +740,168 @@ const ChartComponent = () => {
 }
 
 
-// const ViewAllMatchesComponent = () => {
-//     const [selectedUser, setSelectedUser] = useState<boolean | null>(null);
+const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
+    console.log("compatibleRoommates=>", compatibleRoommates)
+    const [selectedUser, setSelectedUser] = useState<boolean | null>(null);
 
-//     const statusList = [
-//         { label: "Accepted", borderColor: "border-green-500" },
-//         { label: "Pending", borderColor: "border-yellow-400" },
-//         { label: "No Response", borderColor: "border-red-500" },
-//         { label: "Open", icon: "/assets/img/icons/owl_icon.svg" }, // gray icon (owl-like)
-//     ];
+    const statusList = [
+        { label: "Accepted", borderColor: "border-green-500" },
+        { label: "Pending", borderColor: "border-yellow-400" },
+        { label: "No Response", borderColor: "border-red-500" },
+        { label: "Open", icon: "/assets/img/icons/owl_icon.svg" }, // gray icon (owl-like)
+    ];
 
-//     const users = [
-//         "/assets/img/search-property/student_profile (1).png",
-//         "/assets/img/search-property/student_profile (2).png",
-//         "/assets/img/search-property/student_profile (3).png",
-//         "/assets/img/search-property/student_profile (4).png",
-//         "/assets/img/search-property/student_profile (5).png",
-//         "/assets/img/search-property/student_profile (2).png",
-//         "/assets/img/search-property/student_profile (3).png",
-//         "/assets/img/search-property/student_profile (4).png",
-//         "/assets/img/search-property/student_profile (5).png",
-//     ];
-//     const users2 = [
-//         "/assets/img/search-property/student_profile (1).png",
-//         "/assets/img/search-property/student_profile (2).png",
-//         "/assets/img/search-property/student_profile (3).png",
-//         "/assets/img/search-property/student_profile (4).png",
-//     ];
+    const users = [
+        "/assets/img/search-property/student_profile (1).png",
+        "/assets/img/search-property/student_profile (2).png",
+        "/assets/img/search-property/student_profile (3).png",
+        "/assets/img/search-property/student_profile (4).png",
+        "/assets/img/search-property/student_profile (5).png",
+        "/assets/img/search-property/student_profile (2).png",
+        "/assets/img/search-property/student_profile (3).png",
+        "/assets/img/search-property/student_profile (4).png",
+        "/assets/img/search-property/student_profile (5).png",
+    ];
+    const users2 = [
+        "/assets/img/search-property/student_profile (1).png",
+        "/assets/img/search-property/student_profile (2).png",
+        "/assets/img/search-property/student_profile (3).png",
+        "/assets/img/search-property/student_profile (4).png",
+    ];
 
-//     return (
-//         <motion.div
-//             key="dropdown"
-//             initial={{ opacity: 0, y: -10 }}
-//             animate={{ opacity: 1, y: 0 }}
-//             exit={{ opacity: 0, y: -10 }}
-//             transition={{ duration: 0.2 }}
-//             className="
-//             absolute
-//             left-1/2
-//             -translate-x-1/2
-//             md:left-auto md:right-0 md:translate-x-0
-//             mt-2 md:mx-4
-//             bg-red-100 shadow-xl rounded-2xl py-4 text-sm z-40
-//             w-[350px] md:w-[420px]
-//         "
-//         >
+    return (
+        <motion.div
+            key="dropdown"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="
+            absolute
+            left-1/2
+            -translate-x-1/2
+            md:left-auto md:right-0 md:translate-x-0
+            mt-2 md:mx-4
+             bg-white shadow-xl rounded-2xl py-4 text-sm z-40
+            w-[350px] md:w-[420px]
+        "
+        >
 
-//             <PrimaryButton className="mx-auto">
-//                 <PlusIcon className="h-4 mt-1 mr-2" />
-//                 Invite Roommates
-//             </PrimaryButton>
-//             {/* Staus Samples  */}
-//             {/* Status Circles */}
-//             <div className="flex justify-center gap-5 mb-6 my-8">
-//                 {statusList.map((status, idx) => (
-//                     <div key={idx} className="flex flex-col items-center text-sm">
-//                         {status.icon ? (
-//                             <div>
+            <PrimaryButton className="mx-auto">
+                <PlusIcon className="h-4 mt-1 mr-2" />
+                Invite Roommates
+            </PrimaryButton>
+            {/* Staus Samples  */}
+            {/* Status Circles */}
+            <div className="flex justify-center gap-5 mb-6 my-8">
+                {statusList.map((status, idx) => (
+                    <div key={idx} className="flex flex-col items-center text-sm">
+                        {status.icon ? (
+                            <div>
 
-//                                 <img src={status.icon} alt="Open" className="w-15 h-15  bg-[#D9D9D9] rounded-full p-2" />
-//                             </div>
-//                         ) : (
-//                             <div
-//                                 className={`w-15 h-15 rounded-full border-3 ${status.borderColor}`}
-//                             ></div>
-//                         )}
-//                         <span className="mt-2">{status.label}</span>
-//                     </div>
-//                 ))}
-//             </div>
-//             {/* Title */}
-//             <h2 className="text-xl font-semibold mb-6 text-center">Organize Your Matches</h2>
-//             {/* Profile Images */}
-//             <div className="w-full py-4 shadow-md px-4 mb-2">
-//                 <Swiper
-//                     spaceBetween={5}
-//                     slidesPerView={5}
-//                     breakpoints={{
-//                         640: { slidesPerView: 4 },
-//                         768: { slidesPerView: 4 },
-//                     }}
-//                 >
-//                     {users.map((src, idx) => (
-//                         <SwiperSlide key={idx}>
-//                             <img
-//                                 src={src}
-//                                 alt={`User ${idx + 1}`}
-//                                 className="w-15 h-15 rounded-full object-cover "
-//                                 onClick={() => setSelectedUser(!selectedUser)}
-//                             />
-//                         </SwiperSlide>
-//                     ))}
-//                 </Swiper>
-//             </div>
-//             {/*  */}
-//             <p className="text-center text-[12px]">Drag And Drop To Edit Roommate Options</p>
-//             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5 bg-[#B3322F] rounded-full my-5">
-//                 {users2.map((src, idx) => (
+                                <img src={status.icon} alt="Open" className="w-15 h-15  bg-[#D9D9D9] rounded-full p-2" />
+                            </div>
+                        ) : (
+                            <div
+                                className={`w-15 h-15 rounded-full border-3 ${status.borderColor}`}
+                            ></div>
+                        )}
+                        <span className="mt-2">{status.label}</span>
+                    </div>
+                ))}
+            </div>
+            {/* Title */}
+            <h2 className="text-xl font-semibold mb-6 text-center">Organize Your Matches</h2>
+            {/* Profile Images */}
+            <div className="w-full py-4 shadow px-4 mb-2">
+                <Swiper
+                    spaceBetween={5}
+                    slidesPerView={5}
+                    breakpoints={{
+                        640: { slidesPerView: 4 },
+                        768: { slidesPerView: 4 },
+                    }}
+                >
+                    {compatibleRoommates.map((roommate, idx) => (
+                        <SwiperSlide key={idx}>
+                            <Image
+                                src={roommate.profilePhoto}
+                                alt={`User ${idx + 1}`}
+                                className="w-15 h-15 rounded-full object-cover "
+                                onClick={() => setSelectedUser(!selectedUser)}
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+            {/*  */}
+            {/* <p className="text-center text-[12px]">Drag And Drop To Edit Roommate Options</p>
+            <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5 bg-[#B3322F] rounded-full my-5">
+                {users2.map((src, idx) => (
 
-//                     <img
-//                         src={src}
-//                         alt={`User ${idx + 1}`}
-//                         className="w-15 h-15 rounded-full object-cover "
-//                         onClick={() => setSelectedUser(!selectedUser)}
+                    <img
+                        src={src}
+                        alt={`User ${idx + 1}`}
+                        className="w-15 h-15 rounded-full object-cover "
+                        onClick={() => setSelectedUser(!selectedUser)}
 
-//                     />
-//                 ))}
-//             </div>
-//             {/* Title */}
-//             <h2 className="text-xl font-semibold mb-6 text-center">Rommate Options</h2>
-//             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
-//                 {users2.map((src, idx) => (
+                    />
+                ))}
+            </div> */}
+            {/* Title */}
+            {/* <h2 className="text-xl font-semibold mb-6 text-center">Rommate Options</h2>
+            <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
+                {users2.map((src, idx) => (
 
-//                     <img
-//                         src={src}
-//                         alt={`User ${idx + 1}`}
-//                         className="w-15 h-15 rounded-full object-cover "
-//                         onClick={() => setSelectedUser(!selectedUser)}
+                    <img
+                        src={src}
+                        alt={`User ${idx + 1}`}
+                        className="w-15 h-15 rounded-full object-cover "
+                        onClick={() => setSelectedUser(!selectedUser)}
 
-//                     />
-//                 ))}
-//             </div>
-//             <PrimaryButton className="mx-auto">
-//                 Group Chat
-//             </PrimaryButton>
-//             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
-//                 {users2.map((src, idx) => (
+                    />
+                ))}
+            </div>
+            <PrimaryButton className="mx-auto">
+                Group Chat
+            </PrimaryButton>
+            <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
+                {users2.map((src, idx) => (
 
-//                     <img
-//                         src={src}
-//                         alt={`User ${idx + 1}`}
-//                         className="w-15 h-15 rounded-full object-cover "
-//                         onClick={() => setSelectedUser(!selectedUser)}
+                    <img
+                        src={src}
+                        alt={`User ${idx + 1}`}
+                        className="w-15 h-15 rounded-full object-cover "
+                        onClick={() => setSelectedUser(!selectedUser)}
 
-//                     />
-//                 ))}
-//             </div>
-//             <PrimaryButton className="mx-auto">
-//                 Group Chat
-//             </PrimaryButton>
+                    />
+                ))}
+            </div>
+            <PrimaryButton className="mx-auto">
+                Group Chat
+            </PrimaryButton> */}
 
 
 
-//             {/*User Details  */}
-//             {selectedUser && (
-//                 <motion.div
-//                     key="feedback-modal"
-//                     initial={{ x: 100, opacity: 0 }}
-//                     animate={{ x: 0, opacity: 1 }}
-//                     exit={{ x: 100, opacity: 0 }}
-//                     transition={{ duration: 0.9, ease: "easeInOut" }}
-//                     className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg
-//                md:rounded-bl-xl md:rounded-tl-xl z-10
-//                md:rounded-br-none md:rounded-tr-none
-//                rounded-br-xl rounded-tr-xl"
-//                 >
-//                     <h2 className="text-xl font-semibold text-center">Amanda H.</h2>
-//                     <h2 className="text-base text-center mb-2">20 Years old</h2>
-//                     <PrimaryButton className="mx-auto">Chat</PrimaryButton>
-//                 </motion.div>
-//             )}
+            {/*User Details  */}
+            {/* {selectedUser && (
+                <motion.div
+                    key="feedback-modal"
+                    initial={{ x: 100, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: 100, opacity: 0 }}
+                    transition={{ duration: 0.9, ease: "easeInOut" }}
+                    className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg
+               md:rounded-bl-xl md:rounded-tl-xl z-10
+               md:rounded-br-none md:rounded-tr-none
+               rounded-br-xl rounded-tr-xl"
+                >
+                    <h2 className="text-xl font-semibold text-center">Amanda H.</h2>
+                    <h2 className="text-base text-center mb-2">20 Years old</h2>
+                    <PrimaryButton className="mx-auto">Chat</PrimaryButton>
+                </motion.div>
+            )} */}
 
-//         </motion.div>
-//     )
-// }
+        </motion.div>
+    )
+}

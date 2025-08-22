@@ -11,8 +11,10 @@ import { APP_INFO, ROUTES } from "@src/utils/constants";
 import { motion } from "framer-motion";
 import { blogsList } from "@src/static-data";
 import { useNavigate } from "react-router-dom";
+import useAuth from "@src/custom-hooks/useAuth";
 
 const Blogs = () => {
+  const { isLoggedIn } = useAuth()
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
@@ -68,8 +70,8 @@ const Blogs = () => {
                 src="https://v.ftcdn.net/04/59/59/49/700_F_459594974_4I9zM2soy7Pe8GmT7vdreiFmugErs6h7_ST.mp4"
                 controls
                 className="w-screen md:h-[90vh] h-[30vh] object-cover shadow-none rounded-4xl transition-all duration-700 ease-in-out"
-                // onPlay={handlePlay}
-                // onPause={handlePause}
+              // onPlay={handlePlay}
+              // onPause={handlePause}
               />
             </div>
             <p className="text-[#B3322F] font-bold text-md px-4 flex -ml-4">
@@ -110,8 +112,8 @@ const Blogs = () => {
                 src="https://v.ftcdn.net/04/59/59/49/700_F_459594974_4I9zM2soy7Pe8GmT7vdreiFmugErs6h7_ST.mp4"
                 controls
                 className="w-screen md:h-[90vh] h-[30vh] object-cover shadow-none rounded-4xl transition-all duration-700 ease-in-out"
-                // onPlay={handlePlay}
-                // onPause={handlePause}
+              // onPlay={handlePlay}
+              // onPause={handlePause}
               />
             </div>
             <div className="py-5 px-3 ">
@@ -124,7 +126,7 @@ const Blogs = () => {
           </div>
 
           {/* Button */}
-          <div className="  sticky bottom-4 z-30 -mt-6">
+          {!isLoggedIn && <div className="  sticky bottom-4 z-30 -mt-6">
             <motion.button
               onClick={() => navigate(ROUTES.LOGIN)}
               whileTap={{ scale: 0.95 }}
@@ -136,7 +138,7 @@ const Blogs = () => {
             >
               Sign-Up Or Login <ArrowRightIcon className="h-4 mt-1 ml-2" />
             </motion.button>
-          </div>
+          </div>}
         </div>
         {/* Cards */}
       </div>

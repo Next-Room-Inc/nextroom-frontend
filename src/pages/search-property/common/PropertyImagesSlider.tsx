@@ -19,7 +19,44 @@ export const PropertyImagesSlider: React.FC<PropertyImagesSliderProps> = ({
     };
 
     return (
-        <div className="w-full">
+        <>
+            <div className="w-full overflow-hidden ">
+                <Swiper
+                    slidesPerView={1}
+                    breakpoints={{
+                        640: { slidesPerView: 1 },
+                        768: { slidesPerView: 1 },
+                        1024: { slidesPerView: 1 },
+                    }}
+                    navigation
+                    pagination={{ clickable: true }}
+                    modules={[Navigation, Pagination]}
+                    className="w-full h-full "
+                >
+                    {images?.length > 0 ? (
+                        images?.map((image, index) => (
+                            <SwiperSlide key={index}>
+                                <img
+                                    src={image?.uri || IMAGES.NOT_FOUND}
+                                    onError={handleImageError}
+                                    alt={`${altText} ${index + 1}`}
+                                    className={`w-full ${height} object-cover rounded-2xl`}
+                                />
+                            </SwiperSlide>
+                        ))
+                    ) : (
+                        <SwiperSlide>
+                            <img
+                                src={IMAGES.NOT_FOUND}
+                                alt="No property images available"
+                                className={`w-full  ${height} object-cover rounded-2xl`}
+                            />
+                        </SwiperSlide>
+                    )}
+                </Swiper>
+
+            </div>
+            {/* <div className="w-full">
             <Swiper
                 spaceBetween={20}
                 slidesPerView={1}
@@ -40,7 +77,7 @@ export const PropertyImagesSlider: React.FC<PropertyImagesSliderProps> = ({
                                 src={image?.uri || IMAGES.NOT_FOUND}
                                 onError={handleImageError}
                                 alt={`${altText} ${index + 1}`}
-                                className={`w-full ${height} object-cover rounded-2xl`}
+                                className={` ${height} object-cover rounded-2xl`}
                             />
                         </SwiperSlide>
                     ))
@@ -49,11 +86,12 @@ export const PropertyImagesSlider: React.FC<PropertyImagesSliderProps> = ({
                         <img
                             src={IMAGES.NOT_FOUND}
                             alt="No property images available"
-                            className={`w-full ${height} object-cover rounded-2xl`}
+                            className={`  ${height} object-cover rounded-2xl`}
                         />
                     </SwiperSlide>
                 )}
             </Swiper>
-        </div>
+        </div> */}
+        </>
     );
 };

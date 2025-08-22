@@ -39,10 +39,10 @@ export const PropertyCard: React.FC<{
                     <div
                         style={{ cursor: 'none' }}
                         onClick={() => setSelected(index)}
-                        className={` cursor-move z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md cursor-none overflow-hidden relative p-6 text-white ${bgClass}`}
+                        className={`  cursor-move z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md cursor-none overflow-hidden relative p-6 text-white ${bgClass}`}
                     >
                         {/* Like Icon */}
-                        <motion.img
+                        {/* <motion.img
                             onClick={likedPropertyHandler}
                             src={`/assets/img/search-property/${likedProperty ? "heartinner.svg" : "heartouter.svg"}`}
                             alt="Like"
@@ -54,18 +54,12 @@ export const PropertyCard: React.FC<{
 
                             // Hover animation
                             whileHover={{ scale: 1.1 }}
-                        />
-                        {/* Image section */}
-                        <div className="relative w-full md:w-1/4">
-                            {/* <img
-                            src={imageUrl}
-                            alt={title}
-                            className="w-full h-48 object-cover rounded-2xl"
                         /> */}
-                            <div className="w-full h-48   rounded-2xl"                        >
-                                <PropertyImagesSlider images={floorplan?.photos} />
+                        {/* Image section */}
+                        <div className="relative rounded-2xl bg-green-100 md:w-1/4 overflow-hidden">
+                            <div className="h-48 w-full">
+                                <PropertyImagesSlider images={floorplan?.photos} height="h-48" />
                             </div>
-
 
                             <div className="absolute bottom-2 left-4 bg-[#B3322F]/80 text-white text-xs font-semibold px-3 py-1 rounded-sm shadow">
                                 {statusText}
@@ -116,7 +110,7 @@ export const PropertyCard: React.FC<{
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -20 }}
                             transition={{ duration: 0.3, ease: "easeInOut" }}
-                            className="bg-[#D9D9D9]/50 md:h-30 h-35 mx-5 -mt-5 pt-5 rounded-xl flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4"
+                            className="bg-[#D9D9D9]/50 md:h-30 h-35   -mt-5 pt-5 rounded-b-xl flex flex-col md:flex-row justify-center items-center gap-2 md:gap-4"
                         >
                             <Button
                                 className="bg-[#B3322F] text-white w-50 py-2 rounded-full"

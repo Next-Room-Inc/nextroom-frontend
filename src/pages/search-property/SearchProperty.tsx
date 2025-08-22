@@ -1,18 +1,25 @@
 import SearchPropertyLayout from '@src/layouts/SearchProperty.Layout'
+import { ROUTES } from '@src/utils/constants'
 import { JSX } from 'react'
 import { useParams } from 'react-router-dom'
 import { ResponsiveTabSelector } from './common/ResponsiveTabSelector'
 import Explore from './components/Explore'
 import Matches from './components/Matches'
 import MyHousing from './components/MyHousing'
-import ProfileAndPreferences from './components/ProfileAndPreferences'
 
 
 const tabOptionsObject = {
-    "my-housing": "My Housing",
-    "matches": "Matches",
-    "explore": "Explore",
-    "preferences": "Profile & Preferences"
+    "my-housing": <div className='flex items-center justify-center gap-2 h-10'>My Housing </div>,
+    "matches": <div className='flex items-center justify-center gap-2 h-10'>Matches</div>,
+    "explore": <div className='flex items-center justify-center gap-2 h-10'>Explore</div>,
+    "preferences": <div className='flex items-center justify-center gap-2'>
+        <img
+            src="/assets/img/search-property/student_profile (1).png"
+            alt={'loadig'}
+            className="w-10 h-10 rounded-full"
+        />
+        Profile & Preferences
+    </div>
 };
 
 // Components corresponding to each tab
@@ -20,8 +27,13 @@ const Components: Record<keyof typeof tabOptionsObject, JSX.Element> = {
     "my-housing": <MyHousing />,
     "matches": <Matches />,
     "explore": <Explore />,
-    "preferences": <ProfileAndPreferences />,
+    "preferences": <></>,
 };
+
+const navigations = {
+    "preferences": ROUTES.STUDENTS_DASHBOARD,
+
+}
 
 const SearchProperty = () => {
     const { tab = "my-housing" } = useParams(); // Default to "my-housing" if no tab is in the URL
@@ -36,7 +48,7 @@ const SearchProperty = () => {
 
             <SearchPropertyLayout>
                 {/* Filters */}
-                <ResponsiveTabSelector {...{ tabOptions, tab, tabOptionsObject }} />
+                <ResponsiveTabSelector {...{ tabOptions, tab, tabOptionsObject, navigations }} />
 
 
                 {/* properties */}

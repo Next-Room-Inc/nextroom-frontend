@@ -6,9 +6,9 @@ import {
   NextButton,
   PrimaryButton,
   QuestionTitle,
-  SkipNextQuestionSection,
   transitionVariants,
 } from "./CommonComponents";
+import Invite from "@src/components/Invite";
 const sectionName = "SITUATION_BASED_SECTION";
 
 interface Params {
@@ -149,9 +149,8 @@ const DisruptionHandlingSection: React.FC<{
     <>
       <div
         id="impairedRoommate"
-        className={`  rounded-2xl mx-1 py-10 ${
-          error && answers.impairedRoommate === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`  rounded-2xl mx-1 py-10 ${error && answers.impairedRoommate === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         {/* Question */}
         <QuestionTitle>
@@ -179,9 +178,8 @@ const DisruptionHandlingSection: React.FC<{
 
       <div
         id="lightsOn"
-        className={`mt-1  rounded-2xl mx-1 py-10 ${
-          error && answers.lightsOn === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.lightsOn === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         {/* Question */}
         <QuestionTitle>
@@ -245,9 +243,8 @@ const ConflictAndSafetySection: React.FC<{
 
       <div
         id="illicitSubstances"
-        className={`mt-1  rounded-2xl mx-1 py-10 ${
-          error && answers.illicitSubstances === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.illicitSubstances === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <QuestionTitle>
           What would you do if one of your roommates were involved with illicit
@@ -276,11 +273,10 @@ const ConflictAndSafetySection: React.FC<{
 
       <div
         id="verbalPhysicalAltercation"
-        className={`mt-1  rounded-2xl mx-1 py-10 ${
-          error && answers.verbalPhysicalAltercation === null
-            ? "bg-[#B3322F]/20"
-            : ""
-        }`}
+        className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.verbalPhysicalAltercation === null
+          ? "bg-[#B3322F]/20"
+          : ""
+          }`}
       >
         <QuestionTitle>
           What would you do if one of your roommates got into a verbal or
@@ -348,9 +344,8 @@ const PartyAndMoneyConcernsSection: React.FC<{
 
       <div
         id="loudParties"
-        className={`mt-1  rounded-2xl mx-1 py-10 ${
-          error && answers.loudParties === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.loudParties === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <QuestionTitle>
           What would you do if your roommates frequently threw loud or
@@ -379,9 +374,8 @@ const PartyAndMoneyConcernsSection: React.FC<{
 
       <div
         id="owedMoney"
-        className={`mt-1  rounded-2xl mx-1 py-10 ${
-          error && answers.owedMoney === null ? "bg-[#B3322F]/20" : ""
-        }`}
+        className={`mt-1  rounded-2xl mx-1 py-10 ${error && answers.owedMoney === null ? "bg-[#B3322F]/20" : ""
+          }`}
       >
         <QuestionTitle>
           What would you do if one of your roommates owed you money?
@@ -459,7 +453,7 @@ const AllSetSection: React.FC<{
         It’s not too late to invite your roommates!
       </p>
 
-      <SkipNextQuestionSection />
+      <Invite />
 
       {/* Next button */}
       <PrimaryButton

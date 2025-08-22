@@ -10,10 +10,17 @@ import { JSX } from "react";
 
 // Tab labels for display
 const tabOptionsObject = {
-  "my-housing": "My House Search",
-  "matches": "Matches",
-  "explore": "Explore",
-  "profile-and-preferences": "Profile And Preferences",
+  "my-housing": <div className='flex items-center justify-center gap-2 h-10'>My House Search</div>,
+  "matches": <div className='flex items-center justify-center gap-2 h-10'>Matches</div>,
+  "explore": <div className='flex items-center justify-center gap-2 h-10'>Explore</div>,
+  "profile-and-preferences": <div className='flex items-center justify-center gap-2'>
+    <img
+      src="/assets/img/search-property/student_profile (1).png"
+      alt={'loadig'}
+      className="w-10 h-10 rounded-full"
+    />
+    Profile & Preferences
+  </div>,
 };
 
 // Components corresponding to each tab

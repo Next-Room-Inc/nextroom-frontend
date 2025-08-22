@@ -41,48 +41,65 @@ export const ShareSection = ({ url = "", qrCodePath = "" }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [loader, setLoader] = useState(false)
     // const url = "nextroom.ca"
-    const handleShare = async () => {
+    // const handleShare = async () => {
 
-        if (!navigator.share || !navigator.canShare) {
+    //     if (!navigator.share || !navigator.canShare) {
+    //         alert("Sharing not supported on this device.");
+    //         return;
+    //     }
+
+    //     if (!inviteRef.current) return;
+
+    //     // Wait to ensure it's rendered
+    //     await new Promise((resolve) => setTimeout(resolve, 100));
+
+    //     const canvas = await html2canvas(inviteRef.current, {
+    //         backgroundColor: "#ffffff",
+    //         scale: 2,
+    //         useCORS: true,
+    //     });
+
+    //     // Convert canvas to blob
+    //     canvas.toBlob(async (blob) => {
+    //         if (!blob) {
+    //             console.error("Failed to create blob from canvas.");
+    //             return;
+    //         }
+
+    //         const file = new File([blob], "invite.png", { type: "image/png" });
+
+    //         // Check if the device can share this file
+    //         if (navigator.canShare({ files: [file] })) {
+    //             try {
+    //                 await navigator.share({
+    //                     title: "Join NextRoom",
+    //                     text: "Check this out!",
+    //                     files: [file],
+    //                 });
+    //             } catch (error) {
+    //                 console.error("Sharing failed", error);
+    //             }
+    //         } else {
+    //             alert("This device doesn't support sharing images.");
+    //         }
+    //     }, "image/png");
+    // };
+    const handleShare = async () => {
+        console.log("hitasdasda")
+        if (!navigator.share) {
             alert("Sharing not supported on this device.");
             return;
         }
 
-        if (!inviteRef.current) return;
-
-        // Wait to ensure it's rendered
-        await new Promise((resolve) => setTimeout(resolve, 100));
-
-        const canvas = await html2canvas(inviteRef.current, {
-            backgroundColor: "#ffffff",
-            scale: 2,
-            useCORS: true,
-        });
-
-        // Convert canvas to blob
-        canvas.toBlob(async (blob) => {
-            if (!blob) {
-                console.error("Failed to create blob from canvas.");
-                return;
-            }
-
-            const file = new File([blob], "invite.png", { type: "image/png" });
-
-            // Check if the device can share this file
-            if (navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        title: "Join NextRoom",
-                        text: "Check this out!",
-                        files: [file],
-                    });
-                } catch (error) {
-                    console.error("Sharing failed", error);
-                }
-            } else {
-                alert("This device doesn't support sharing images.");
-            }
-        }, "image/png");
+        try {
+            await navigator.share({
+                title: "Join NextRoom",
+                text: "Check this out!",
+                url: url,
+            });
+        } catch (error) {
+            console.error("Sharing failed", error);
+        }
     };
 
     const handleCopy = () => {
