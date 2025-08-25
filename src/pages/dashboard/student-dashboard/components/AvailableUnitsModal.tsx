@@ -359,7 +359,7 @@ const MediaGallery = () => {
             className="w-full h-[120px] object-cover rounded-xl"
           />
         </div>
-        <div className="w-1/3">
+        <div className="w-1/3 h-[250px]">
           {/* <img
                         src={imageList[0].src}
                         alt={imageList[0].alt}
