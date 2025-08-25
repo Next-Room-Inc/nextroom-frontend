@@ -1,4 +1,4 @@
-import { Popover, PopoverButton } from '@headlessui/react';
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/react';
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
@@ -101,12 +101,12 @@ export const ResponsiveTabSelector: React.FC<{
                             <ChevronDownIcon className="text-[#B3322F] w-6" />
                         </motion.div>
                     </PopoverButton>
-                    {/* <PopoverPanel className="absolute  top-35 left-7 md:-left-120 z-10 mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
+                    <PopoverPanel className="absolute  top-35 left-7 md:-left-120 z-10 mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in">
                         <div className="w-max px-3 shrink rounded-xl bg-white py-2 md:py-4 text-[14px] font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
                             <PropertyFilters />
 
                         </div>
-                    </PopoverPanel> */}
+                    </PopoverPanel>
                 </Popover>}
             </div>
 
