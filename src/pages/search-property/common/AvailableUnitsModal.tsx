@@ -22,6 +22,7 @@ import { Button } from "../../../components/Button";
 import MapBoxComponent from "@src/components/MapBox";
 import { PrimaryButton } from "./ComponComponents";
 import Image from "@src/components/Image";
+import { ModalOverlay } from "@src/components/ModalOverLay";
 
 export const AvailableUnitsModal: React.FC<{
   floorplan: any;
@@ -48,7 +49,7 @@ export const AvailableUnitsModal: React.FC<{
           className="  mt-2   bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
         >
           {/* Image Gallery */}
-          <MediaGallery property={property} images={floorplan?.photos} />
+          <MediaGallery property={property} images={floorplan?.photos || []} />
           {/* section property details */}
           <div className="flex justify-between flex-col md:flex-row">
             <div className="md:text-left text-center">
@@ -308,46 +309,211 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
   property,
   images = [],
 }) => {
-  const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    event.currentTarget.src = IMAGES.FAILED_IMAGE;
-  };
+  console.log("images", images);
+  const [showImages, setShowImages] = useState(false);
 
+  const showImagesHandler = () => {
+    setShowImages((prevState) => !prevState);
+  };
   return (
-    <div className="w-full py-5">
-      {/* Mobile Slider */}
-      <div className="block md:hidden">
-        <Swiper
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-          spaceBetween={16}
-          slidesPerView={1}
-        >
-          {images?.map(
-            (
-              item: ImageItem,
-              index: number // 👈 explicitly type item
-            ) => (
-              <SwiperSlide key={index}>
-                {index < 4 ? (
-                  <img
-                    onError={handleImageError}
-                    src={item.uri}
-                    alt={item.alt || "Image"}
-                    className="w-full h-[250px] object-cover rounded-xl"
-                  />
-                ) : (
-                  //   <GoogleMapComponent
+    <>
+      <div className="w-full py-5">
+        {/* Mobile Slider */}
+        <div className="block md:hidden">
+          <Swiper
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            spaceBetween={16}
+            slidesPerView={1}
+          >
+            {[...images, { uri: "" }]?.map(
+              (
+                item: ImageItem,
+                index: number // 👈 explicitly type item
+              ) => (
+                <SwiperSlide key={index}>
+                  {images.length + 1 === index ? (
+                    <Image
+                      src={item.uri}
+                      alt={item.alt || "Image"}
+                      className="w-full h-[250px] object-cover rounded-xl"
+                    />
+                  ) : (
+                    <>
+                      {/* //   <GoogleMapComponent
                   //     latitude={property?.latitude}
                   //     longitude={property?.longitude}
-                  //   />
-                  <MapBoxComponent />
-                )}
-              </SwiperSlide>
-            )
-          )}
-        </Swiper>
+                  //   /> */}
+                      <MapBoxComponent
+                        latitude={property?.latitude}
+                        longitude={property?.longitude}
+                      />
+                    </>
+                  )}
+                </SwiperSlide>
+              )
+            )}
+          </Swiper>
+        </div>
+        {/* Desktop Layout */}
+        <div className="hidden md:flex gap-4">
+          {/* Left Large Image */}
+          <div className="w-1/2">
+            <Image
+              onClick={showImagesHandler}
+              src={images?.[0]?.uri}
+              alt={images?.[0]?.alt}
+              className="w-full h-[260px] object-cover rounded-xl !cursor-pointer"
+            />
+          </div>
+
+          {/* Right Grid */}
+          <div className="w-1/2 flex flex-col gap-4">
+            <Image
+              onClick={showImagesHandler}
+              src={images?.[1]?.uri}
+              alt={images?.[1]?.alt}
+              className="w-full h-[120px] object-cover rounded-xl !cursor-pointer"
+            />
+
+            <Image
+              onClick={showImagesHandler}
+              src={images?.[3]?.uri}
+              alt={images?.[3]?.alt}
+              className="w-full h-[120px] object-cover rounded-xl !cursor-pointer"
+            />
+          </div>
+          <div className="w-1/3 h-[250px]">
+            {/* <img
+                        src={imageList[0].src}
+                        alt={imageList[0].alt}
+                        className="w-full h-full object-cover rounded-xl"
+                    /> */}
+            {/* <GoogleMapComponent /> */}
+            <MapBoxComponent
+              latitude={property?.latitude}
+              longitude={property?.longitude}
+            />
+          </div>
+        </div>
       </div>
-    </div>
+
+      {showImages && (
+        <ModalOverlay onClose={showImagesHandler}>
+          <div className="flex flex-col  gap-10">
+            <div className="flex flex-row gap-4">
+              <h1 className="text-base font-semibold text-[#B3322F] underline">
+                By Alma
+              </h1>
+              <h1 className="text-base font-normal">By Nextroom</h1>
+            </div>
+
+            <div className="flex flex-row gap-x-5 gap-y-4 flex-wrap">
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                All (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Floor Plan (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Videos (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Outdoor (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Live (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Indoor (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Rooftop (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Fitness (150)
+              </Button>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <h1 className=" text-base font-medium">Studio (35)</h1>
+
+              <div className="grid grid-rows-1 grid-cols-1 sm:grid-rows-2 sm:grid-cols-2 lg:grid-rows-3 lg:grid-cols-3 gap-x-[5%] gap-y-3">
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className=" h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className=" h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+              </div>
+            </div>
+          </div>
+        </ModalOverlay>
+      )}
+    </>
   );
 };
 
@@ -864,7 +1030,7 @@ const ChartComponent = () => {
 
 const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
   console.log("compatibleRoommates=>", compatibleRoommates);
-  const [selectedUser, setSelectedUser] = useState<boolean | null>(null);
+  const [selectedUser, setSelectedUser] = useState<any | null>(null);
 
   const statusList = [
     { label: "Accepted", borderColor: "border-green-500" },
@@ -873,24 +1039,24 @@ const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
     { label: "Open", icon: "/assets/img/icons/owl_icon.svg" }, // gray icon (owl-like)
   ];
 
-  const users = [
-    "/assets/img/search-property/student_profile (1).png",
-    "/assets/img/search-property/student_profile (2).png",
-    "/assets/img/search-property/student_profile (3).png",
-    "/assets/img/search-property/student_profile (4).png",
-    "/assets/img/search-property/student_profile (5).png",
-    "/assets/img/search-property/student_profile (2).png",
-    "/assets/img/search-property/student_profile (3).png",
-    "/assets/img/search-property/student_profile (4).png",
-    "/assets/img/search-property/student_profile (5).png",
-  ];
-  const users2 = [
-    "/assets/img/search-property/student_profile (1).png",
-    "/assets/img/search-property/student_profile (2).png",
-    "/assets/img/search-property/student_profile (3).png",
-    "/assets/img/search-property/student_profile (4).png",
-  ];
-
+  //   const users = [
+  //     "/assets/img/search-property/student_profile (1).png",
+  //     "/assets/img/search-property/student_profile (2).png",
+  //     "/assets/img/search-property/student_profile (3).png",
+  //     "/assets/img/search-property/student_profile (4).png",
+  //     "/assets/img/search-property/student_profile (5).png",
+  //     "/assets/img/search-property/student_profile (2).png",
+  //     "/assets/img/search-property/student_profile (3).png",
+  //     "/assets/img/search-property/student_profile (4).png",
+  //     "/assets/img/search-property/student_profile (5).png",
+  //   ];
+  //   const users2 = [
+  //     "/assets/img/search-property/student_profile (1).png",
+  //     "/assets/img/search-property/student_profile (2).png",
+  //     "/assets/img/search-property/student_profile (3).png",
+  //     "/assets/img/search-property/student_profile (4).png",
+  //   ];
+  console.log("selectedUser==>", selectedUser);
   return (
     <motion.div
       key="dropdown"
@@ -939,27 +1105,36 @@ const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
         Organize Your Matches
       </h2>
       {/* Profile Images */}
-      <div className="w-full py-4 shadow px-4 mb-2">
-        <Swiper
-          spaceBetween={5}
-          slidesPerView={5}
-          breakpoints={{
-            640: { slidesPerView: 4 },
-            768: { slidesPerView: 4 },
-          }}
-        >
-          {compatibleRoommates.map((roommate, idx) => (
-            <SwiperSlide key={idx}>
-              <Image
-                src={roommate.profilePhoto}
-                alt={`User ${idx + 1}`}
-                className="w-15 h-15 rounded-full object-cover "
-                onClick={() => setSelectedUser(!selectedUser)}
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+      {compatibleRoommates?.length ? (
+        <div className="w-full py-4 shadow px-4 mb-2">
+          <Swiper
+            spaceBetween={5}
+            slidesPerView={5}
+            breakpoints={{
+              640: { slidesPerView: 4 },
+              768: { slidesPerView: 4 },
+            }}
+          >
+            {compatibleRoommates.map((roommate, idx) => (
+              <SwiperSlide key={idx}>
+                <Image
+                  src={roommate.profilePhoto}
+                  alt={`User ${idx + 1}`}
+                  className="w-15 h-15 rounded-full object-cover mx-auto"
+                  onClick={() => setSelectedUser(roommate)}
+                />
+                <div className="text-center">
+                  {roommate?.firstName} {roommate?.lastName?.[0]}.
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      ) : (
+        <div className="text-center text-gray-400 py-4 shadow">
+          No Roommate found
+        </div>
+      )}
       {/*  */}
       {/* <p className="text-center text-[12px]">Drag And Drop To Edit Roommate Options</p>
             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5 bg-[#B3322F] rounded-full my-5">
@@ -1008,23 +1183,29 @@ const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
             </PrimaryButton> */}
 
       {/*User Details  */}
-      {/* {selectedUser && (
-                <motion.div
-                    key="feedback-modal"
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: 100, opacity: 0 }}
-                    transition={{ duration: 0.9, ease: "easeInOut" }}
-                    className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg
+      {selectedUser && (
+        <motion.div
+          key="feedback-modal"
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 100, opacity: 0 }}
+          transition={{ duration: 0.9, ease: "easeInOut" }}
+          className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg
                md:rounded-bl-xl md:rounded-tl-xl z-10
                md:rounded-br-none md:rounded-tr-none
                rounded-br-xl rounded-tr-xl"
-                >
-                    <h2 className="text-xl font-semibold text-center">Amanda H.</h2>
-                    <h2 className="text-base text-center mb-2">20 Years old</h2>
-                    <PrimaryButton className="mx-auto">Chat</PrimaryButton>
-                </motion.div>
-            )} */}
+        >
+          <h2 className="text-xl font-semibold text-center">
+            {selectedUser?.firstName} {selectedUser?.lastName}
+          </h2>
+          {/* <h2 className="text-base text-center mb-2">20 Years old</h2> */}
+          <h2 className="text-base text-center mb-2">
+            {selectedUser?.compatibilityLevel}
+          </h2>
+
+          <PrimaryButton className="mx-auto">Chat</PrimaryButton>
+        </motion.div>
+      )}
     </motion.div>
   );
 };
