@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { AvailableUnitsModal } from "./AvailableUnitsModal";
 import { PropertyImagesSlider } from "./PropertyImagesSlider";
+import { BuildingOfficeIcon, MapPinIcon } from "@heroicons/react/20/solid";
 
 export const PropertyCard: React.FC<{
     property: any;
@@ -15,23 +16,25 @@ export const PropertyCard: React.FC<{
     selected?: boolean,
     setSelected: (value: number | null) => void
     section: string | null
+    isLightTheme?: boolean
 }> = ({
     property,
     floorplan,
     index,
     statusText = 'Ready To Move In',
-    bgClass = 'bg-gradient-to-r from-[#B3322F] to-[#4D1614]', // default if not provided
+    bgClass = 'bg-gradient-to-r from-[#B3322F] to-[#4D1614] text-white', // default if not provided
     selected = false,
     setSelected,
-    section = null
+    section = null,
+    isLightTheme = false,
 }) => {
         const [viewDetails, setViewDetails] = useState(false)
-        const [likedProperty, setLikedProperty] = useState(false)
-        const likedPropertyHandler = () => {
-            const updatedState = !likedProperty;
-            setLikedProperty(updatedState);
-            toast.info(updatedState ? "Demo: Added to Favourites" : "Demo: Removed from Favourites");
-        };
+        // const [likedProperty, setLikedProperty] = useState(false)
+        // const likedPropertyHandler = () => {
+        //     const updatedState = !likedProperty;
+        //     setLikedProperty(updatedState);
+        //     toast.info(updatedState ? "Demo: Added to Favourites" : "Demo: Removed from Favourites");
+        // };
 
         return (
             <>
@@ -39,7 +42,7 @@ export const PropertyCard: React.FC<{
                     <div
                         style={{ cursor: 'none' }}
                         onClick={() => setSelected(index)}
-                        className={`  cursor-move z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md cursor-none overflow-hidden relative p-6 text-white ${bgClass}`}
+                        className={`  cursor-move z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md cursor-none overflow-hidden relative p-6  ${isLightTheme ? 'bg-white text-black ' : bgClass}`}
                     >
                         {/* Like Icon */}
                         {/* <motion.img
@@ -56,7 +59,7 @@ export const PropertyCard: React.FC<{
                             whileHover={{ scale: 1.1 }}
                         /> */}
                         {/* Image section */}
-                        <div className="relative rounded-2xl bg-green-100 md:w-1/4 overflow-hidden">
+                        <div className="relative rounded-2xl   md:w-1/4 overflow-hidden">
                             <div className="h-48 w-full">
                                 <PropertyImagesSlider images={floorplan?.photos} height="h-48" />
                             </div>
@@ -78,24 +81,29 @@ export const PropertyCard: React.FC<{
                             {/* Details */}
                             <div className="mt-5 space-y-2 md:text-lg text-md">
                                 <p className="flex items-start">
-                                    <img
+
+                                    {/* <img
                                         src="/assets/img/search-property/location_icon.svg"
                                         className="h-4 w-4 mt-1.5 mr-2"
                                         alt="Location Icon"
-                                    />
+                                    /> */}
+                                    <MapPinIcon className="h-5 w-5 mt-1.5 mr-2" />
+
                                     {property?.address} {property?.city} {property?.state} {property?.country}
                                 </p>
                                 <p className="flex items-start">
-                                    <img
+                                    {/* <img
                                         src="/assets/img/search-property/building_icon.svg"
                                         className="h-4 w-4 mt-1.5 mr-2"
                                         alt="Building Icon"
-                                    />
+                                    /> */}
+                                    <BuildingOfficeIcon className="h-5 w-5 mt-1.5 mr-2" />
+
                                     {property?.structureType}
                                 </p>
                                 <p className="flex items-start font-semibold">
 
-                                    ${floorplan.rentMin} - ${floorplan.rentMax}
+                                    <span className="font-bold ml-1 mr-1 h-5 w-5 text-xl">$</span> {floorplan.rentMin} - {floorplan.rentMax}
                                     <span className="ml-1 font-normal">/month</span>
                                 </p>
                             </div>
