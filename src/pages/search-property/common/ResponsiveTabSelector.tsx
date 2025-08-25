@@ -138,9 +138,8 @@ export const ResponsiveTabSelector: React.FC<{
           {tabOptions.map((t, idx) => (
             <div
               key={t}
-              className={`w-[25%] text-center  ${
-                idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
-              } ${tab === t ? "text-[#B3322F] font-semibold" : ""}`}
+              className={`w-[25%] text-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
+                } ${tab === t ? "text-[#B3322F] font-semibold" : ""}`}
               onClick={() => {
                 handleSelectTab(t);
               }}
@@ -153,11 +152,11 @@ export const ResponsiveTabSelector: React.FC<{
         </div>
 
         {/* Mobile View */}
-        <div className="lg:hidden   relative z-50 w-full">
+        <div className="lg:hidden   relative z-10 w-full">
           {/* Toggle Button */}
           <div
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative z-50"
+            className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative z-10"
           >
             {/* {tab === tabOptions[3] ? <>{tab} ({selectedProfileTab})</> : tab} */}
             {tabOptionsObject?.[tab]}
@@ -178,9 +177,8 @@ export const ResponsiveTabSelector: React.FC<{
                 {tabOptions.map((t, index: number) => (
                   <div
                     key={index}
-                    className={`text-center py-2  hover:text-[#B3322F] ${
-                      t === tab ? "text-[#B3322F] font-semibold" : ""
-                    }`}
+                    className={`text-center py-2  hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
+                      }`}
                     onClick={() => {
                       handleSelectTab(t);
                     }}

@@ -19,7 +19,7 @@ export const ModalOverlay: React.FC<ModalOverlayProps> = ({
         animate={{ opacity: 0.5 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.25 }}
-        className="fixed inset-0 bg-black z-40 "
+        className="fixed inset-0 bg-black z-99 "
         onClick={onClose}
       />
 

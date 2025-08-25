@@ -22,7 +22,7 @@ export default function Header({ darkMode = true }) {
     <div className={`${isStudentDashboard ? "flex" : "hidden"} gap-2`}>
       <span className="relative inline-block">
         <BellIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
-        <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]" />
+        <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]  " />
       </span>
       <PhoneIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
       {/* <InformationCircleIcon className=" md:text-white md:bg-black text-black bg-white  h-8.5 -mt-0.5 -ml-1 rounded-full rotate-10" /> */}
@@ -107,9 +107,8 @@ export default function Header({ darkMode = true }) {
       name: (
         <>
           <div
-            className={`flex gap-1 font-semibold text-[14px]  ${
-              darkMode ? "text-black" : "text-dark"
-            }`}
+            className={`flex gap-1 font-semibold text-[14px]  ${darkMode ? "text-black" : "text-dark"
+              }`}
           >
             {languages.map((lang) => (
               <span
@@ -117,11 +116,10 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={` transition duration-200 ${
-                  selectedLang === lang.code
+                className={` transition duration-200 ${selectedLang === lang.code
                     ? "underline underline-offset-4 text-red-500"
                     : "hover:text-red-800"
-                }`}
+                  }`}
               >
                 {lang?.code?.toUpperCase()}
               </span>
@@ -162,9 +160,8 @@ export default function Header({ darkMode = true }) {
 
   return (
     <header
-      className={`fixed top-0 w-full z-1000 transition-transform duration-300 ${
-        showHeader ? "translate-y-0" : "-translate-y-full"
-      } ${darkMode ? headerColor : "bg-transparent"}`}
+      className={`fixed top-0 w-full z-40 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
+        } ${darkMode ? headerColor : "bg-transparent"}`}
     >
       <nav
         aria-label="Global"
@@ -184,9 +181,8 @@ export default function Header({ darkMode = true }) {
         <div className="mb-4 lg:mb-0 lg:flex lg:flex-1 lg:justify-end">
           {/* Languages */}
           <div
-            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${
-              darkMode ? "text-white" : "text-dark"
-            }`}
+            className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${darkMode ? "text-white" : "text-dark"
+              }`}
           >
             {languages.map((lang) => (
               <span
@@ -194,11 +190,10 @@ export default function Header({ darkMode = true }) {
                 role="button"
                 tabIndex={0}
                 onClick={() => setSelectedLang(lang.code)}
-                className={` transition-all duration-300 ease-in-out ${
-                  selectedLang === lang.code
+                className={` transition-all duration-300 ease-in-out ${selectedLang === lang.code
                     ? "underline underline-offset-4"
                     : "hover:text-gray-500"
-                }`}
+                  }`}
               >
                 {lang.label}
               </span>
@@ -225,19 +220,17 @@ export default function Header({ darkMode = true }) {
               </div>
             </div>
             <span
-              className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${
-                darkMode
+              className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
                   ? " border-white text-black bg-white"
                   : "text-dark border-dark hover:text-white hover:bg-black"
-              }`}
+                }`}
             >
               Refer & Earn
             </span>
           </div>
           <div
-            className={`hidden md:flex ${
-              isStudentDashboard ? "flex" : "hidden"
-            }`}
+            className={`hidden md:flex ${isStudentDashboard ? "flex" : "hidden"
+              }`}
           >
             <StudentDashboardIcons />
           </div>
@@ -245,13 +238,11 @@ export default function Header({ darkMode = true }) {
             {navbar.map((i, index) => (
               <span
                 key={index}
-                className={`${
-                  isStudentDashboard ? "hidden" : "flex"
-                } border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${
-                  darkMode
+                className={`${isStudentDashboard ? "hidden" : "flex"
+                  } border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
                     ? "text-white border-white hover:text-black hover:bg-white"
                     : "text-dark border-dark hover:text-white hover:bg-black"
-                }`}
+                  }`}
               >
                 {i.label}
               </span>
