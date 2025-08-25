@@ -14,7 +14,6 @@
 //     // const [selectedTab, setSelectedTab] = useState("My Housing");
 //     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-
 //     // const handleSelectTab = (tab: string) => {
 //     //     setSelectedTab(tab);
 //     //     setIsDropdownOpen(false);
@@ -24,7 +23,6 @@
 //         navigate(`/landlords-dashboard/${tab}`);
 //         if (isDropdownOpen) setIsDropdownOpen(false);
 //     }
-
 
 //     return (
 //         <>
@@ -77,8 +75,6 @@
 //                     )}
 //                 </AnimatePresence>
 
-
-
 //             </div>
 
 //             {selectedTab === "My Preferences" && <AnimatePresence>
@@ -93,7 +89,6 @@
 //                     >
 
 //                         <PropertyFilters />
-
 
 //                     </motion.div>
 //                 )}
@@ -110,10 +105,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export const ResponsiveTabSelector: React.FC<{
-    tabOptions: string[],
-    tab: string,
-    tabOptionsObject: any,
-    navigations: any,
+    tabOptions: string[];
+    tab: string;
+    tabOptionsObject: any;
+    navigations: any;
 }> = ({ tabOptions, tab, tabOptionsObject, navigations }) => {
     const navigate = useNavigate();
 
@@ -124,8 +119,8 @@ export const ResponsiveTabSelector: React.FC<{
 
     const handleSelectTab = (tab: string) => {
         //  Custom Provided Nvigations
-        const redirection = navigations[tab] || null
-        console.log("redirection=>", redirection)
+        const redirection = navigations[tab] || null;
+        console.log("redirection=>", redirection);
         if (redirection) return navigate(redirection);
 
         //  Tab Navigation
@@ -140,21 +135,63 @@ export const ResponsiveTabSelector: React.FC<{
         <>
             {/* Desktop View */}
             <div className="flex justify-center items-center mt-10 mx-10 gap-2 pt-3  pb-6">
-
-
                 <div className="hidden lg:flex justify-between bg-white   shadow-md px-5 py-4 rounded-full text-sm font-medium w-full">
                     {tabOptions.map((t, idx) => (
                         <div
                             key={t}
                             className={`w-[25%] text-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
                                 } ${tab === t ? "text-[#B3322F] font-semibold" : ""}`}
-                            onClick={() => { handleSelectTab(t) }}
+                            onClick={() => {
+                                handleSelectTab(t);
+                            }}
                         >
                             {/* {idx === 3 ? <>{tabOptionsObject?.[t]} ({selectedProfileTab}) </> : tabOptionsObject?.[t]} */}
                             {tabOptionsObject?.[t]}
                         </div>
                     ))}
                     <div></div>
+                </div>
+
+                {/* Mobile View */}
+                <div className="lg:hidden   relative z-10 w-full">
+                    {/* Toggle Button */}
+                    <div
+                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative z-10"
+                    >
+                        {/* {tab === tabOptions[3] ? <>{tab} ({selectedProfileTab})</> : tab} */}
+                        {tabOptionsObject?.[tab]}
+                        <ChevronDownIcon className="h-7 ml-2 mt-1 text-[#B3322F]" />
+                    </div>
+
+                    {/* Dropdown */}
+                    <AnimatePresence>
+                        {isDropdownOpen && (
+                            <motion.div
+                                key="dropdown"
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-100"
+                            >
+                                {tabOptions.map((t, index: number) => (
+                                    <div
+                                        key={index}
+                                        className={`text-center py-2  hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
+                                            }`}
+                                        onClick={() => {
+                                            handleSelectTab(t);
+                                        }}
+                                    >
+                                        {/* {index === 3 ? selectedProfileTab : tab} */}
+                                        {/* {index === 3 ? <>{tabOptionsObject?.[t]} ({selectedProfileTab}) </> : tabOptionsObject?.[t]} */}
+                                        {tabOptionsObject?.[t]}
+                                    </div>
+                                ))}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
 
                 {/* Mobile View */}
@@ -221,8 +258,6 @@ export const ResponsiveTabSelector: React.FC<{
                 </Popover>}
             </div>
 
-
-
             {/* <AnimatePresence>
                 {profileDropDownStatus && (
                     <motion.div
@@ -259,8 +294,6 @@ export const ResponsiveTabSelector: React.FC<{
                     </motion.div>
                 )}
             </AnimatePresence> */}
-
-
         </>
     );
 };

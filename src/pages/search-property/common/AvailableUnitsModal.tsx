@@ -4,388 +4,585 @@ import { ROUTES } from "@src/utils/constants";
 import { IMAGES } from "@src/utils/constants/app-info.constant";
 import { PropertyDetails } from "@src/utils/interfaces/property.interface";
 import {
-    CategoryScale,
-    Chart as ChartJS,
-    LinearScale,
-    LineElement,
-    PointElement,
-    Tooltip
-} from 'chart.js';
+  CategoryScale,
+  Chart as ChartJS,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Tooltip,
+} from "chart.js";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import { Line } from 'react-chartjs-2';
+import { Line } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../../../components/Button";
-import GoogleMapComponent from "../../../components/GoogleMap";
+// import GoogleMapComponent from "../../../components/GoogleMap";
+import MapBoxComponent from "@src/components/MapBox";
 import { PrimaryButton } from "./ComponComponents";
 import Image from "@src/components/Image";
-
-
+import { ModalOverlay } from "@src/components/ModalOverLay";
 
 export const AvailableUnitsModal: React.FC<{
-    floorplan: any; property: any;
-}> = ({
-    floorplan, property
-}) => {
-        console.log("property=>", property)
-        const navigate = useNavigate()
-        const tabOptions = ["Units", "Building", "History", "Reviews & History"];
-        const [selectedTab, setSelectedTab] = useState("Units");
-        const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-        const handleSelectTab = (tab: string) => {
-            setSelectedTab(tab);
-            setIsDropdownOpen(false);
-        };
+  floorplan: any;
+  property: any;
+}> = ({ floorplan, property }) => {
+  console.log("property=>", property);
+  const navigate = useNavigate();
+  const tabOptions = ["Units", "Building", "History", "Reviews & History"];
+  const [selectedTab, setSelectedTab] = useState("Units");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const handleSelectTab = (tab: string) => {
+    setSelectedTab(tab);
+    setIsDropdownOpen(false);
+  };
 
-        return (
-            <>
-                <AnimatePresence>
+  return (
+    <>
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -50 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="  mt-2   bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+        >
+          {/* Image Gallery */}
+          <MediaGallery property={property} images={floorplan?.photos || []} />
+          {/* section property details */}
+          <div className="flex justify-between flex-col md:flex-row">
+            <div className="md:text-left text-center">
+              <h1 className="underline font-bold">
+                {property?.drivingDirections}
+              </h1>
+              <div className="flex gap-5 my-2">
+                <p>2 tenants </p>
+                <p>{floorplan?.bedrooms} bed </p>
+                <p>{floorplan?.bathrooms} bath </p>
+                <p className="flex">
+                  {" "}
+                  <StarIcon className="w-5" /> 4.94 (78)
+                </p>
+              </div>
+              <h1 className="text-[#B3322F] font-bold">
+                ${floorplan.rentMin} - ${floorplan.rentMax} monthly
+              </h1>
+            </div>
+            <div className="md:w-auto w-full">
+              <motion.button
+                onClick={() => navigate(ROUTES.CHAT)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="flex items-center gap-3 shadow-lg py-3 px-8 rounded-full mx-auto bg-white hover:bg-gray-100 text-gray-800 font-medium"
+              >
+                <img
+                  src="/assets/img/search-property/chaticon.svg"
+                  alt="Zibi Logo"
+                  className="h-5"
+                />
+                Chat With Property
+              </motion.button>
+            </div>
+          </div>
+          {/* line */}
+          <hr className="my-10 text-[#000000]" />
 
-                    <motion.div
-                        initial={{ opacity: 0, y: -50 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -50 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="  mt-2   bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40" >
-                        {/* Image Gallery */}
-                        <MediaGallery property={property} images={floorplan?.photos} />
-                        {/* section property details */}
-                        <div className='flex justify-between flex-col md:flex-row'>
-                            <div className='md:text-left text-center'>
-                                <h1 className='underline font-bold'>{property?.drivingDirections}</h1>
-                                <div className='flex gap-5 my-2'>
-                                    <p>2 tenants </p>
-                                    <p>{floorplan?.bedrooms} bed </p>
-                                    <p>{floorplan?.bathrooms} bath </p>
-                                    <p className='flex'> <StarIcon className='w-5' /> 4.94 (78)</p>
-                                </div>
-                                <h1 className='text-[#B3322F] font-bold'>${floorplan.rentMin} - ${floorplan.rentMax} monthly</h1>
-                            </div>
-                            <div className='md:w-auto w-full'>
-                                <motion.button
-                                    onClick={() => navigate(ROUTES.CHAT)}
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                    className="flex items-center gap-3 shadow-lg py-3 px-8 rounded-full mx-auto bg-white hover:bg-gray-100 text-gray-800 font-medium"
-                                >
-                                    <img
-                                        src="/assets/img/search-property/chaticon.svg"
-                                        alt="Zibi Logo"
-                                        className="h-5"
-                                    />
-                                    Chat With Property
-                                </motion.button>
-                            </div>
-                        </div>
-                        {/* line */}
-                        <hr className='my-10 text-[#000000]' />
+          {/* Tab Selector */}
+          {/* Desktop View */}
+          <div className="hidden lg:flex justify-between bg-white my-10 shadow-md px-5 py-4 rounded-full text-sm font-medium w-[60%]">
+            {tabOptions.map((tab, idx) => (
+              <div
+                key={tab}
+                className={`w-[25%] text-center  ${
+                  idx < tabOptions.length - 1
+                    ? "border-r-2 border-[#CCCCCC]"
+                    : ""
+                } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
+                onClick={() => setSelectedTab(tab)}
+              >
+                {tab}
+              </div>
+            ))}
+          </div>
 
-                        {/* Tab Selector */}
-                        {/* Desktop View */}
-                        <div className="hidden lg:flex justify-between bg-white my-10 shadow-md px-5 py-4 rounded-full text-sm font-medium w-[60%]">
-                            {tabOptions.map((tab, idx) => (
-                                <div
-                                    key={tab}
-                                    className={`w-[25%] text-center  ${idx < tabOptions.length - 1 ? "border-r-2 border-[#CCCCCC]" : ""
-                                        } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
-                                    onClick={() => setSelectedTab(tab)}
-                                >
-                                    {tab}
-                                </div>
-                            ))}
-                        </div>
+          {/* Mobile View */}
+          <div className="lg:hidden py-6 px-6 relative z-50">
+            {/* Toggle Button */}
+            <div
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium  relative z-50"
+            >
+              {selectedTab}
+            </div>
 
-                        {/* Mobile View */}
-                        <div className="lg:hidden py-6 px-6 relative z-50">
-                            {/* Toggle Button */}
-                            <div
-                                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                                className="text-center bg-white shadow-md px-5 py-2 rounded-full text-sm font-medium  relative z-50"
-                            >
-                                {selectedTab}
-                            </div>
-
-                            {/* Dropdown */}
-                            <AnimatePresence>
-                                {isDropdownOpen && (
-                                    <motion.div
-                                        key="dropdown"
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
-                                    >
-                                        {tabOptions.map((tab) => (
-                                            <div
-                                                key={tab}
-                                                className={`text-center py-2  hover:text-[#B3322F] ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""
-                                                    }`}
-                                                onClick={() => handleSelectTab(tab)}
-                                            >
-                                                {tab}
-                                            </div>
-                                        ))}
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-
-
-                        </div>
-                        {/* Unit Details Section */}
-                        <div>
-                            {selectedTab === "Units" && <UnitDetailsSection  {...UNIT_DETAILS} floorplan={floorplan} property={property} />}
-                            {selectedTab === "Building" && <BuildingDetailSection floorplan={floorplan} property={property} />}
-                            {selectedTab === "History" && <HistoryDetailSection />}
-                            {selectedTab === "Reviews & History" && <ReviewDetailSection />}
-                        </div>
-                    </motion.div>
-
-                </AnimatePresence>
-
-            </>
-        )
-    }
-
-
-
+            {/* Dropdown */}
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  key="dropdown"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-40"
+                >
+                  {tabOptions.map((tab) => (
+                    <div
+                      key={tab}
+                      className={`text-center py-2  hover:text-[#B3322F] ${
+                        selectedTab === tab
+                          ? "text-[#B3322F] font-semibold"
+                          : ""
+                      }`}
+                      onClick={() => handleSelectTab(tab)}
+                    >
+                      {tab}
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          {/* Unit Details Section */}
+          <div>
+            {selectedTab === "Units" && (
+              <UnitDetailsSection
+                {...UNIT_DETAILS}
+                floorplan={floorplan}
+                property={property}
+              />
+            )}
+            {selectedTab === "Building" && (
+              <BuildingDetailSection
+                floorplan={floorplan}
+                property={property}
+              />
+            )}
+            {selectedTab === "History" && <HistoryDetailSection />}
+            {selectedTab === "Reviews & History" && <ReviewDetailSection />}
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </>
+  );
+};
 
 const UnitDetailsSection: React.FC<{
-    floorplan: PropertyDetails;
-    property: Property;
-    title: string;
-    imageUrl: string;
-    status: string;
-    price: string;
-    amenities: {
-        label?: string;
-        icon: string;
-        alt: string;
-    }[];
-}> = ({
-    floorplan,
-    title,
-    status,
-    amenities,
-}) => {
-        console.log(floorplan)
-        const [selected, setSelected] = useState<number | null>(null)
-        const [viewAllMatches, SetViewAllMatches] = useState(false)
-        return (
-            <>
+  floorplan: PropertyDetails;
+  property: Property;
+  title: string;
+  imageUrl: string;
+  status: string;
+  price: string;
+  amenities: {
+    label?: string;
+    icon: string;
+    alt: string;
+  }[];
+}> = ({ floorplan, title, status, amenities }) => {
+  console.log(floorplan);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [viewAllMatches, SetViewAllMatches] = useState(false);
+  return (
+    <>
+      {(floorplan?.availableUnits?.unit || []).map((unit, index) => (
+        <>
+          <motion.div
+            onClick={() => setSelected(index)}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className={`rounded-xl shadow-md overflow relative p-6 mx-5 mt-5 text-black ${
+              index === selected ? "bg-[#D9D9D9]" : "bg-white"
+            }`}
+          >
+            <div className="md:flex">
+              {/* Image section */}
+              <div className="relative w-full md:w-1/6">
+                <img
+                  src={unit?.photos?.[0]?.uri || IMAGES.NOT_FOUND}
+                  alt={title}
+                  className="w-full h-48 object-center object-contain rounded-2xl"
+                />
+              </div>
 
-                {
-                    (floorplan?.availableUnits?.unit || []).map((unit, index) => <>
-                        <motion.div
-                            onClick={() => setSelected(index)}
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.4, ease: "easeOut" }}
-                            className={`rounded-xl shadow-md overflow relative p-6 mx-5 mt-5 text-black ${index === selected ? "bg-[#D9D9D9]" : "bg-white"}`}>
-                            <div className="md:flex">
-                                {/* Image section */}
-                                <div className="relative w-full md:w-1/6">
-                                    <img src={unit?.photos?.[0]?.uri || IMAGES.NOT_FOUND} alt={title} className="w-full h-48 object-center object-contain rounded-2xl" />
-                                </div>
+              {/* Content section */}
+              <div className="w-full md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
+                <div className="flex md:justify-start justify-between items-start w-full">
+                  <h2 className="md:text-2xl text-xl font-semibold">
+                    {floorplan?.bedrooms} Bedrooms
+                  </h2>
+                  <div className="bg-[#B3322F] text-white px-3 py-0.5 text-center rounded-full text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
+                    {status}
+                  </div>
+                </div>
 
+                {/* Details */}
+                <div className="mt-5 space-y-2 md:text-lg text-md">
+                  <div className="flex flex-col md:flex-row md:items-start justify-between">
+                    <div className="text-center">
+                      ${unit?.rentMin} - ${unit?.rentMax} monthly
+                    </div>
 
-                                {/* Content section */}
-                                <div className="w-full md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
-                                    <div className="flex md:justify-start justify-between items-start w-full">
-                                        <h2 className="md:text-2xl text-xl font-semibold">{floorplan?.bedrooms} Bedrooms</h2>
-                                        <div className="bg-[#B3322F] text-white px-3 py-0.5 text-center rounded-full text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
-                                            {status}
-                                        </div>
-                                    </div>
+                    <div className="md:mt-0 mt-2">
+                      <PrimaryButton
+                        className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto"
+                        onClick={() => SetViewAllMatches(!viewAllMatches)}
+                      >
+                        View All Matches
+                      </PrimaryButton>
+                    </div>
+                  </div>
+                  {viewAllMatches && (
+                    <ViewAllMatchesComponent
+                      compatibleRoommates={floorplan?.compatibleRoommates}
+                    />
+                  )}
 
-                                    {/* Details */}
-                                    <div className="mt-5 space-y-2 md:text-lg text-md">
-                                        <div className="flex flex-col md:flex-row md:items-start justify-between">
-                                            <div className="text-center">
-                                                ${unit?.rentMin} - ${unit?.rentMax}{" "}
-                                                monthly</div>
+                  {/* Amenities */}
+                  <div className="flex flex-col md:flex-row py-3 gap-3">
+                    <div className="grid grid-cols-3 md:grid-cols-6 gap-y-4 gap-x-3 justify-items-center md:justify-items-start py-3">
+                      {amenities.map((amenity, index) => (
+                        <div key={index} className="flex items-center gap-1">
+                          {amenity.label && <span>{amenity.label}</span>}
+                          <img
+                            src={amenity.icon}
+                            className="h-6 w-6"
+                            alt={amenity.alt}
+                          />
+                        </div>
+                      ))}
+                    </div>
 
-                                            <div className="md:mt-0 mt-2">
-                                                <PrimaryButton className="bg-[#B3322F] text-white px-8 py-2 text-center rounded-full text-xs mx-auto"
-                                                    onClick={() => SetViewAllMatches(!viewAllMatches)}
-                                                >
-                                                    View All Matches
-                                                </PrimaryButton>
+                    <div className="flex md:items-start justify-center">
+                      <PrimaryButton className="bg-[#B3322F] text-white px-3 py-2 text-center rounded-full text-xs mt-2">
+                        Explore Community Amenities
+                      </PrimaryButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-
-                                            </div>
-                                        </div>
-                                        {viewAllMatches && <ViewAllMatchesComponent compatibleRoommates={floorplan?.compatibleRoommates} />}
-
-                                        {/* Amenities */}
-                                        <div className="flex flex-col md:flex-row py-3 gap-3">
-
-                                            <div className="grid grid-cols-3 md:grid-cols-6 gap-y-4 gap-x-3 justify-items-center md:justify-items-start py-3">
-                                                {amenities.map((amenity, index) => (
-                                                    <div key={index} className="flex items-center gap-1">
-                                                        {amenity.label && <span>{amenity.label}</span>}
-                                                        <img
-                                                            src={amenity.icon}
-                                                            className="h-6 w-6"
-                                                            alt={amenity.alt}
-                                                        />
-                                                    </div>
-                                                ))}
-                                            </div>
-
-                                            <div className="flex md:items-start justify-center">
-                                                <PrimaryButton className="bg-[#B3322F] text-white px-3 py-2 text-center rounded-full text-xs mt-2">
-                                                    Explore Community Amenities
-                                                </PrimaryButton>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Action Buttons */}
-                            {index === selected && <div className="flex flex-col md:flex-row gap-4 md:w-fit py-3">
-                                <PrimaryButton
-                                    className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
-                                >
-                                    Accept
-                                </PrimaryButton>
-                                <PrimaryButton
-                                    className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
-                                >
-                                    Request Tour
-                                </PrimaryButton>
-                                <PrimaryButton
-                                    className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md"
-                                >
-                                    Decline
-                                </PrimaryButton>
-                            </div>}
-
-
-                        </motion.div>
-                    </>)
-                }
-
-            </>
-        );
-    };
-
+            {/* Action Buttons */}
+            {index === selected && (
+              <div className="flex flex-col md:flex-row gap-4 md:w-fit py-3">
+                <PrimaryButton className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md">
+                  Accept
+                </PrimaryButton>
+                <PrimaryButton className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md">
+                  Request Tour
+                </PrimaryButton>
+                <PrimaryButton className="mx-auto bg-black text-white w-45 py-2 rounded-full text-md">
+                  Decline
+                </PrimaryButton>
+              </div>
+            )}
+          </motion.div>
+        </>
+      ))}
+    </>
+  );
+};
 
 type Property = {
-    latitude?: number;
-    longitude?: number;
+  latitude?: number;
+  longitude?: number;
 };
 
 type ImageItem = {
-    uri: string;
-    alt?: string;
-    title?: string;
+  uri: string;
+  alt?: string;
+  title?: string;
 };
 
 type MediaGalleryProps = {
-    property?: Property;
-    images?: ImageItem[];
+  property?: Property;
+  images?: ImageItem[];
 };
 
-const MediaGallery: React.FC<MediaGalleryProps> = ({ property, images = [] }) => {
-    const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
-        event.currentTarget.src = IMAGES.FAILED_IMAGE;
-    };
+const MediaGallery: React.FC<MediaGalleryProps> = ({
+  property,
+  images = [],
+}) => {
+  console.log("images", images);
+  const [showImages, setShowImages] = useState(false);
 
-    return (
-        <div className="w-full py-5">
-            {/* Mobile Slider */}
-            <div className="block md:hidden">
-                <Swiper
-                    modules={[Pagination]}
-                    pagination={{ clickable: true }}
-                    spaceBetween={16}
-                    slidesPerView={1}
-                >
-                    {images?.map((item: ImageItem, index: number) => (   // 👈 explicitly type item
-                        <SwiperSlide key={index}>
-                            {index < 4 ? (
-                                <img
-                                    onError={handleImageError}
-                                    src={item.uri}
-                                    alt={item.alt || "Image"}
-                                    className="w-full h-[250px] object-cover rounded-xl"
-                                />
-                            ) : (
-                                <GoogleMapComponent latitude={property?.latitude} longitude={property?.longitude} />
-                            )}
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
+  const showImagesHandler = () => {
+    setShowImages((prevState) => !prevState);
+  };
+  return (
+    <>
+      <div className="w-full py-5">
+        {/* Mobile Slider */}
+        <div className="block md:hidden">
+          <Swiper
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            spaceBetween={16}
+            slidesPerView={1}
+          >
+            {[...images, { uri: "" }]?.map(
+              (
+                item: ImageItem,
+                index: number // 👈 explicitly type item
+              ) => (
+                <SwiperSlide key={index}>
+                  {images.length + 1 === index ? (
+                    <Image
+                      src={item.uri}
+                      alt={item.alt || "Image"}
+                      className="w-full h-[250px] object-cover rounded-xl"
+                    />
+                  ) : (
+                    <>
+                      {/* //   <GoogleMapComponent
+                  //     latitude={property?.latitude}
+                  //     longitude={property?.longitude}
+                  //   /> */}
+                      <MapBoxComponent
+                        latitude={property?.latitude}
+                        longitude={property?.longitude}
+                      />
+                    </>
+                  )}
+                </SwiperSlide>
+              )
+            )}
+          </Swiper>
         </div>
-    )
-}
+        {/* Desktop Layout */}
+        <div className="hidden md:flex gap-4">
+          {/* Left Large Image */}
+          <div className="w-1/2">
+            <Image
+              onClick={showImagesHandler}
+              src={images?.[0]?.uri}
+              alt={images?.[0]?.alt}
+              className="w-full h-[260px] object-cover rounded-xl !cursor-pointer"
+            />
+          </div>
 
+          {/* Right Grid */}
+          <div className="w-1/2 flex flex-col gap-4">
+            <Image
+              onClick={showImagesHandler}
+              src={images?.[1]?.uri}
+              alt={images?.[1]?.alt}
+              className="w-full h-[120px] object-cover rounded-xl !cursor-pointer"
+            />
+
+            <Image
+              onClick={showImagesHandler}
+              src={images?.[3]?.uri}
+              alt={images?.[3]?.alt}
+              className="w-full h-[120px] object-cover rounded-xl !cursor-pointer"
+            />
+          </div>
+          <div className="w-1/3 h-[250px]">
+            {/* <img
+                        src={imageList[0].src}
+                        alt={imageList[0].alt}
+                        className="w-full h-full object-cover rounded-xl"
+                    /> */}
+            {/* <GoogleMapComponent /> */}
+            <MapBoxComponent
+              latitude={property?.latitude}
+              longitude={property?.longitude}
+            />
+          </div>
+        </div>
+      </div>
+
+      {showImages && (
+        <ModalOverlay onClose={showImagesHandler}>
+          <div className="flex flex-col  gap-10">
+            <div className="flex flex-row gap-4">
+              <h1 className="text-base font-semibold text-[#B3322F] underline">
+                By Alma
+              </h1>
+              <h1 className="text-base font-normal">By Nextroom</h1>
+            </div>
+
+            <div className="flex flex-row gap-x-5 gap-y-4 flex-wrap">
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                All (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Floor Plan (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Videos (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Outdoor (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Live (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Indoor (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Rooftop (150)
+              </Button>
+
+              <Button className=" text-[#000000] border-[#000000] border-[1px] w-50 py-2 rounded-full !cursor-pointer">
+                Fitness (150)
+              </Button>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <h1 className=" text-base font-medium">Studio (35)</h1>
+
+              <div className="grid grid-rows-1 grid-cols-1 sm:grid-rows-2 sm:grid-cols-2 lg:grid-rows-3 lg:grid-cols-3 gap-x-[5%] gap-y-3">
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className=" h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className=" h-[160px] object-cover rounded-xl"
+                />
+
+                <Image
+                  //   onClick={showImagesHandler}
+                  src={images?.[0]?.uri}
+                  alt={images?.[0]?.alt}
+                  className="h-[160px] object-cover rounded-xl"
+                />
+              </div>
+            </div>
+          </div>
+        </ModalOverlay>
+      )}
+    </>
+  );
+};
 
 const BuildingDetailSection: React.FC<{
-    floorplan: any
-    property: any
+  floorplan: any;
+  property: any;
 }> = ({ floorplan, property }) => {
-    console.log("property-->", property)
-    // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
-    const description = property?.shortDescription || "No description added yet"
-    const yearBuilt = "No built year added"
-    const houseRules = property?.longDescription || "No description added yet"
+  console.log("property-->", property);
+  // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
+  const description = property?.shortDescription || "No description added yet";
+  const yearBuilt = "No built year added";
+  const houseRules = property?.longDescription || "No description added yet";
 
-    return (
-        <motion.div
-            className="mt-12"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }} >
-            <div>
-                <h1 className="font-bold mb-2">Description</h1>
-                <p className="md:w-[70%]">{description}</p>
-            </div>
+  return (
+    <motion.div
+      className="mt-12"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
+      <div>
+        <h1 className="font-bold mb-2">Description</h1>
+        <p className="md:w-[70%]">{description}</p>
+      </div>
 
-            <div className="my-6">
-                <h1 className="font-bold mb-2">Year Built</h1>
-                <p>{yearBuilt}</p>
-            </div>
+      <div className="my-6">
+        <h1 className="font-bold mb-2">Year Built</h1>
+        <p>{yearBuilt}</p>
+      </div>
 
-            <div>
-                <h1 className="font-bold mb-2">House Rules</h1>
-                <p>{houseRules}</p>
-            </div>
+      <div>
+        <h1 className="font-bold mb-2">House Rules</h1>
+        <p>{houseRules}</p>
+      </div>
 
-            <hr className="my-8" />
+      <hr className="my-8" />
 
-            <div className="w-full  pb-5 px-4">
-                <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center max-w-4xl mx-auto">
-                    <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Accept </PrimaryButton>
-                    <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Request Tour </PrimaryButton>
-                    <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Decline </PrimaryButton>
-                </div>
-            </div>
-        </motion.div>
-    )
-}
-
+      <div className="w-full  pb-5 px-4">
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center max-w-4xl mx-auto">
+          <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+            {" "}
+            Accept{" "}
+          </PrimaryButton>
+          <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+            {" "}
+            Request Tour{" "}
+          </PrimaryButton>
+          <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+            {" "}
+            Decline{" "}
+          </PrimaryButton>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const HistoryDetailSection = () => {
-
-    return (
-
-        <motion.div
-            className="mt-12"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }} >
-            <div className="flex justify-center items-center h-20">No history found</div>
-            {/* <div className="flex flex-col md:flex-row gap-y-5 ">
+  return (
+    <motion.div
+      className="mt-12"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
+      <div className="flex justify-center items-center h-20">
+        No history found
+      </div>
+      {/* <div className="flex flex-col md:flex-row gap-y-5 ">
                 <div className="md:w-[50%] w-full">
                     <p className="text-center font-bold mb-3 text-[#B3322F] ">Price Changes Year Over Year <br className="md:hidden flex" /> (2021-2024)</p>
                     <div className="flex gap-3  justify-center mx-auto ">
@@ -454,329 +651,420 @@ const HistoryDetailSection = () => {
                     <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Decline </PrimaryButton>
                 </div>
             </div> */}
-
-        </motion.div>)
-}
+    </motion.div>
+  );
+};
 
 const ReviewDetailSection = () => {
+  return (
+    <motion.div
+      className="mt-8"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
+      {true ? (
+        <div className="flex justify-center items-center h-20">
+          No review found
+        </div>
+      ) : (
+        <>
+          <div className=" mx-auto p-4 space-y-10 text-sm text-gray-800">
+            {/* Reviews */}
+            <section>
+              <h2 className="text-xl font-semibold text-[#B3322F] mb-3">
+                Reviews
+              </h2>
 
-    return (
-        <motion.div
-            className="mt-8"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut" }} >
-            {true ? <div className="flex justify-center items-center h-20">No review found</div> : <>
-                <div className=" mx-auto p-4 space-y-10 text-sm text-gray-800">
-                    {/* Reviews */}
-                    <section>
-                        <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Reviews</h2>
+              <div className="flex flex-wrap gap-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">Filter By:</span>
+                  <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
+                    <option>Newest</option>
+                    <option>Oldest</option>
+                  </select>
+                </div>
+                <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
+                  <option>Highest Rating</option>
+                  <option>Lowest Rating</option>
+                </select>
+              </div>
 
+              {/* review image */}
+              <div className="flex gap-2">
+                <img
+                  src="/assets/img/search-property/review_img_1.png"
+                  className="w-30 h-30 object-contain object-center"
+                />
+                <img
+                  src="/assets/img/search-property/review_img_2.png"
+                  className="w-30 h-30 object-contain object-center"
+                />
+              </div>
 
+              {/* Review 1 */}
+              <div className="space-y-2 border-b pb-4">
+                <h3 className="font-bold">
+                  John D. <span className="text-yellow-500">★★★★☆</span>
+                </h3>
+                <p>
+                  I've been living in this apartment for almost a year, and
+                  overall it's been a great experience. The location is super
+                  convenient—just a 10-minute walk to campus and right next to a
+                  grocery store and bus stop. The unit itself is modern and
+                  well-maintained, though the walls are a bit thin, so you can
+                  sometimes hear your neighbors. Maintenance responds pretty
+                  quickly to issues, which I really appreciate. It's a bit
+                  pricey for a student budget, but the convenience makes it
+                  worth it.
+                </p>
+              </div>
 
-                        <div className="flex flex-wrap gap-4 mb-4">
-                            <div className="flex items-center gap-2">
-                                <span className="font-medium">Filter By:</span>
-                                <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
-                                    <option>Newest</option>
-                                    <option>Oldest</option>
-                                </select>
-                            </div>
-                            <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
-                                <option>Highest Rating</option>
-                                <option>Lowest Rating</option>
-                            </select>
-                        </div>
+              {/* Review 2 */}
+              <div className="space-y-2 mt-4">
+                <h3 className="font-bold">
+                  Gail P. <span className="text-yellow-500">★★★☆☆</span>
+                </h3>
+                <p>
+                  About two months into my lease, the heating stopped working in
+                  the middle of a cold snap. I submitted a repair request
+                  through the online portal, and to my surprise, the property
+                  manager got back to me the same day. A technician came by the
+                  next morning and had it fixed within an hour. I was honestly
+                  expecting a longer wait based on past rentals, so I was
+                  impressed. It's not a perfect apartment—noise can be an issue
+                  on weekends—but the quick response made me feel like the
+                  management actually cares.
+                </p>
+                <Button className="text-red-600 text-xs font-semibold mt-1">
+                  View More
+                </Button>
+              </div>
+            </section>
 
-                        {/* review image */}
-                        <div className="flex gap-2">
-                            <img src="/assets/img/search-property/review_img_1.png" className="w-30 h-30 object-contain object-center" />
-                            <img src="/assets/img/search-property/review_img_2.png" className="w-30 h-30 object-contain object-center" />
-                        </div>
+            {/* Repair History */}
+            <section>
+              <h2 className="text-xl font-semibold text-[#B3322F] mb-3">
+                Repair History
+              </h2>
+              <p className="mb-2 font-medium">
+                Number of repairs within 12 months:{" "}
+                <span className="font-bold">19</span>
+              </p>
 
+              <div className="flex gap-4 items-center mb-4">
+                <span className="font-medium">Filter By:</span>
+                <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
+                  <option>Newest</option>
+                  <option>Oldest</option>
+                </select>
+              </div>
 
-                        {/* Review 1 */}
-                        <div className="space-y-2 border-b pb-4">
-                            <h3 className="font-bold">John D. <span className="text-yellow-500">★★★★☆</span></h3>
-                            <p>
-                                I've been living in this apartment for almost a year, and overall it's been a great experience. The location is super convenient—just a 10-minute walk to campus and right next to a grocery store and bus stop. The unit itself is modern and well-maintained, though the walls are a bit thin, so you can sometimes hear your neighbors. Maintenance responds pretty quickly to issues, which I really appreciate. It's a bit pricey for a student budget, but the convenience makes it worth it.
-                            </p>
-                        </div>
+              {/* review image */}
+              <div className="flex gap-2">
+                <img
+                  src="/assets/img/search-property/review_img_1.png"
+                  className="w-30 h-30 object-contain object-center"
+                />
+                <img
+                  src="/assets/img/search-property/review_img_2.png"
+                  className="w-30 h-30 object-contain object-center"
+                />
+              </div>
 
-                        {/* Review 2 */}
-                        <div className="space-y-2 mt-4">
-                            <h3 className="font-bold">Gail P. <span className="text-yellow-500">★★★☆☆</span></h3>
-                            <p>
-                                About two months into my lease, the heating stopped working in the middle of a cold snap. I submitted a repair request through the online portal, and to my surprise, the property manager got back to me the same day. A technician came by the next morning and had it fixed within an hour. I was honestly expecting a longer wait based on past rentals, so I was impressed. It's not a perfect apartment—noise can be an issue on weekends—but the quick response made me feel like the management actually cares.
-                            </p>
-                            <Button className="text-red-600 text-xs font-semibold mt-1">View More</Button>
-                        </div>
-                    </section>
+              {/* Repair Card */}
+              <div className="  rounded-md  space-y-2">
+                <div className="font-bold">uOttawa Student</div>
+                <div>
+                  <span className="font-semibold">Repair Type:</span> Urgent
+                </div>
+                <div>
+                  <span className="font-semibold">Title:</span> Broken Washing
+                  Machine
+                </div>
+                <div>
+                  <span className="font-semibold">Details:</span> I wanted to
+                  let you know that the washing machine in our unit has stopped
+                  working — it won’t start even when plugged in and the cycle
+                  won’t begin. Could you please arrange for a repair as soon as
+                  possible? Let me know if you need any more details or if
+                  someone will be coming by.
+                </div>
 
-                    {/* Repair History */}
-                    <section>
-                        <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Repair History</h2>
-                        <p className="mb-2 font-medium">Number of repairs within 12 months: <span className="font-bold">19</span></p>
-
-                        <div className="flex gap-4 items-center mb-4">
-                            <span className="font-medium">Filter By:</span>
-                            <select className="px-4   py-1 text-sm text-[#B3322F] font-semibold rounded-full shadow-md bg-white border border-transparent focus:outline-none focus:ring-2 focus:ring-[#B3322F] hover:shadow-lg transition duration-150">
-                                <option>Newest</option>
-                                <option>Oldest</option>
-                            </select>
-                        </div>
-
-                        {/* review image */}
-                        <div className="flex gap-2">
-                            <img src="/assets/img/search-property/review_img_1.png" className="w-30 h-30 object-contain object-center" />
-                            <img src="/assets/img/search-property/review_img_2.png" className="w-30 h-30 object-contain object-center" />
-                        </div>
-
-                        {/* Repair Card */}
-                        <div className="  rounded-md  space-y-2">
-                            <div className="font-bold">uOttawa Student</div>
-                            <div><span className="font-semibold">Repair Type:</span> Urgent</div>
-                            <div><span className="font-semibold">Title:</span> Broken Washing Machine</div>
-                            <div>
-                                <span className="font-semibold">Details:</span>{" "}
-                                I wanted to let you know that the washing machine in our unit has stopped working — it won’t start even when plugged in and the cycle won’t begin. Could you please arrange for a repair as soon as possible? Let me know if you need any more details or if someone will be coming by.
-                            </div>
-
-                            {/* Status timeline */}
-                            <div className="space-y-1">
-                                <div className="font-semibold">Status:</div>
-                                {/* <div className="flex items-center gap-2 text-xs">
+                {/* Status timeline */}
+                <div className="space-y-1">
+                  <div className="font-semibold">Status:</div>
+                  {/* <div className="flex items-center gap-2 text-xs">
                             <span className="w-3 h-3 bg-red-600 rounded-full"></span> Request Submitted
                             <span className="w-3 h-3 bg-gray-400 rounded-full"></span> Landlord Responded
                             <span className="w-3 h-3 bg-gray-400 rounded-full"></span> Closed Request
                         </div> */}
-                                <StepComponent />
-                            </div>
-
-                            <Button className="text-red-600 text-xs font-semibold mt-2">View More</Button>
-                        </div>
-                    </section>
-
-                    {/* Landlord Response Rate */}
-
-                    <section>
-                        <h2 className="text-xl font-semibold text-[#B3322F] mb-3">Landlord Response Rate</h2>
-                        <div className="md:w-60 w-full">
-
-
-                            <div className="relative  w-full">
-                                <input
-                                    disabled
-                                    type="range"
-                                    className="custom-slider   bg-gradient-to-r from-[#ED1111] to-[#5CE64C]   h-20 rounded-lg"
-                                    style={{ background: "linear-gradient(to right, #ED1111, #5CE64C)", width: "100%", height: '10px', paddingTop: '10px', borderRadius: "12px", }}
-                                    min={500}
-                                    max={2000}
-                                />
-                            </div>
-                            <div className="flex justify-between text-black font-semibold mb-2">
-                                <p>Slow</p>
-                                <p>Fast</p>
-                            </div>
-                        </div>
-                    </section>
+                  <StepComponent />
                 </div>
 
+                <Button className="text-red-600 text-xs font-semibold mt-2">
+                  View More
+                </Button>
+              </div>
+            </section>
 
+            {/* Landlord Response Rate */}
 
-                <hr className="my-8" />
-
-                <div className="w-full  pb-5 px-4">
-                    <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center max-w-4xl mx-auto">
-                        <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Accept </PrimaryButton>
-                        <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Request Tour </PrimaryButton>
-                        <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200"> Decline </PrimaryButton>
-                    </div>
+            <section>
+              <h2 className="text-xl font-semibold text-[#B3322F] mb-3">
+                Landlord Response Rate
+              </h2>
+              <div className="md:w-60 w-full">
+                <div className="relative  w-full">
+                  <input
+                    disabled
+                    type="range"
+                    className="custom-slider   bg-gradient-to-r from-[#ED1111] to-[#5CE64C]   h-20 rounded-lg"
+                    style={{
+                      background: "linear-gradient(to right, #ED1111, #5CE64C)",
+                      width: "100%",
+                      height: "10px",
+                      paddingTop: "10px",
+                      borderRadius: "12px",
+                    }}
+                    min={500}
+                    max={2000}
+                  />
                 </div>
-            </>}
-        </motion.div>)
-}
+                <div className="flex justify-between text-black font-semibold mb-2">
+                  <p>Slow</p>
+                  <p>Fast</p>
+                </div>
+              </div>
+            </section>
+          </div>
 
+          <hr className="my-8" />
 
+          <div className="w-full  pb-5 px-4">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 justify-center max-w-4xl mx-auto">
+              <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+                {" "}
+                Accept{" "}
+              </PrimaryButton>
+              <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+                {" "}
+                Request Tour{" "}
+              </PrimaryButton>
+              <PrimaryButton className="bg-black text-white px-6 py-2 md:w-45 rounded-full text-sm font-medium hover:bg-gray-800 transition duration-200">
+                {" "}
+                Decline{" "}
+              </PrimaryButton>
+            </div>
+          </div>
+        </>
+      )}
+    </motion.div>
+  );
+};
 
 const steps = [
-    { name: <p>Request <br /> Submitted</p>, description: 'Vitae sed mi luctus laoreet.', href: '#', status: 'complete' },
-    {
-        name: <p>Landlord <br /> Responded</p>,
-        description: 'Cursus semper viverra facilisis et et some more.',
-        href: '#',
-        status: 'complete',
-    },
-    { name: <p>Closed <br />Request</p>, description: 'Penatibus eu quis ante.', href: '#', status: 'upcoming' },
-]
-
+  {
+    name: (
+      <p>
+        Request <br /> Submitted
+      </p>
+    ),
+    description: "Vitae sed mi luctus laoreet.",
+    href: "#",
+    status: "complete",
+  },
+  {
+    name: (
+      <p>
+        Landlord <br /> Responded
+      </p>
+    ),
+    description: "Cursus semper viverra facilisis et et some more.",
+    href: "#",
+    status: "complete",
+  },
+  {
+    name: (
+      <p>
+        Closed <br />
+        Request
+      </p>
+    ),
+    description: "Penatibus eu quis ante.",
+    href: "#",
+    status: "upcoming",
+  },
+];
 
 function StepComponent() {
+  function classNames(
+    ...classes: (string | false | null | undefined)[]
+  ): string {
+    return classes.filter(Boolean).join(" ");
+  }
 
-    function classNames(...classes: (string | false | null | undefined)[]): string {
-        return classes.filter(Boolean).join(' ');
-    }
-
-    return (
-        <nav aria-label="Progress">
-            <ol role="list" className="flex items-center">
-                {steps.map((step, stepIdx) => (
-                    <li key={stepIdx} className={classNames(stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
-                        {step.status === 'complete' ? (
-                            <>
-                                <div aria-hidden="true" className="absolute inset-0 flex items-center">
-                                    <div className="h-0.5 w-full bg-[#B3322F]" />
-                                </div>
-                                <a
-
-                                    className="relative flex size-8 items-center justify-center rounded-full bg-[#B3322F] hover:bg-red-900"
-                                >
-                                </a>
-                                <span className="sr-only">{step.name}</span>
-
-                            </>
-                        ) : (
-                            <>
-                                <div aria-hidden="true" className="absolute inset-0 flex items-center">
-                                    <div className="h-0.5 w-full bg-gray-200" />
-                                </div>
-                                <a
-
-                                    className="group relative flex size-8 items-center justify-center rounded-full border-2 border-[#B3322F] bg-white  "
-                                >
-                                    <span aria-hidden="true" className="size-2.5 rounded-full bg-transparent group-hover:bg-[#B3322F]" />
-                                    <span className="sr-only">{step.name}</span>
-                                </a>
-                            </>
-                        )}
-                        {/* <p className="-mt-5  h-10 flex items-end bg-red-100">
+  return (
+    <nav aria-label="Progress">
+      <ol role="list" className="flex items-center">
+        {steps.map((step, stepIdx) => (
+          <li
+            key={stepIdx}
+            className={classNames(
+              stepIdx !== steps.length - 1 ? "pr-8 sm:pr-20" : "",
+              "relative"
+            )}
+          >
+            {step.status === "complete" ? (
+              <>
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 flex items-center"
+                >
+                  <div className="h-0.5 w-full bg-[#B3322F]" />
+                </div>
+                <a className="relative flex size-8 items-center justify-center rounded-full bg-[#B3322F] hover:bg-red-900"></a>
+                <span className="sr-only">{step.name}</span>
+              </>
+            ) : (
+              <>
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 flex items-center"
+                >
+                  <div className="h-0.5 w-full bg-gray-200" />
+                </div>
+                <a className="group relative flex size-8 items-center justify-center rounded-full border-2 border-[#B3322F] bg-white  ">
+                  <span
+                    aria-hidden="true"
+                    className="size-2.5 rounded-full bg-transparent group-hover:bg-[#B3322F]"
+                  />
+                  <span className="sr-only">{step.name}</span>
+                </a>
+              </>
+            )}
+            {/* <p className="-mt-5  h-10 flex items-end bg-red-100">
               {step.name}
               </p> */}
-                    </li>
-                ))}
-            </ol>
-            <ol role="list" className="flex items-center mt-5">
-                {steps.map((step, stepIdx) => (
-                    <li key={stepIdx} className={classNames(stepIdx !== steps.length - 1 ? 'pr-8 sm:pr-20' : '', 'relative')}>
+          </li>
+        ))}
+      </ol>
+      <ol role="list" className="flex items-center mt-5">
+        {steps.map((step, stepIdx) => (
+          <li
+            key={stepIdx}
+            className={classNames(
+              stepIdx !== steps.length - 1 ? "pr-8 sm:pr-20" : "",
+              "relative"
+            )}
+          >
+            <>
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 flex items-center"
+              >
+                <p className="-mt-5  h-10 flex items-end   text-[12px]">
+                  {step.name}
+                </p>
+              </div>
+              <a
+                href="#"
+                className="group relative flex size-8 items-center justify-center rounded-full    hover:border-gray-400"
+              ></a>
+            </>
 
-                        <>
-                            <div aria-hidden="true" className="absolute inset-0 flex items-center">
-                                <p className="-mt-5  h-10 flex items-end   text-[12px]">
-                                    {step.name}
-                                </p>
-                            </div>
-                            <a
-                                href="#"
-                                className="group relative flex size-8 items-center justify-center rounded-full    hover:border-gray-400"
-                            >
-
-                            </a>
-                        </>
-
-                        {/* <p className="-mt-5  h-10 flex items-end bg-red-100">
+            {/* <p className="-mt-5  h-10 flex items-end bg-red-100">
               {step.name}
               </p> */}
-                    </li>
-                ))}
-            </ol>
-        </nav>
-    )
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
 }
-
-
-
-
-
-
-
-
-
-
 
 const ChartComponent = () => {
-    ChartJS.register(
-        CategoryScale,
-        LinearScale,
-        PointElement,
-        LineElement,
-        // Title,
-        Tooltip,
-        // Legend
-    );
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    // Title,
+    Tooltip
+    // Legend
+  );
 
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'top' as const,
-            },
-            title: {
-                // display: true,
-                // text: 'Chart.js Line Chart',
-            },
-        },
-    };
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top" as const,
+      },
+      title: {
+        // display: true,
+        // text: 'Chart.js Line Chart',
+      },
+    },
+  };
 
-    const labels = ['2020', '2021', '2022', '2023', '2024'];
+  const labels = ["2020", "2021", "2022", "2023", "2024"];
 
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: 'Dataset 1',
-                data: [1000, 1200, 1500, 1600, 2000],
-                borderColor: 'rgb(255, 99, 132)',
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            },
-        ],
-    };
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "Dataset 1",
+        data: [1000, 1200, 1500, 1600, 2000],
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
+      },
+    ],
+  };
 
-
-    return (
-        <div className="md:h-65 w-auto mx-auto  p-5 flex justify-center items-center">
-            <Line options={options} data={data} />
-        </div>
-    )
-}
-
+  return (
+    <div className="md:h-65 w-auto mx-auto  p-5 flex justify-center items-center">
+      <Line options={options} data={data} />
+    </div>
+  );
+};
 
 const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
-    console.log("compatibleRoommates=>", compatibleRoommates)
-    const [selectedUser, setSelectedUser] = useState<boolean | null>(null);
+  console.log("compatibleRoommates=>", compatibleRoommates);
+  const [selectedUser, setSelectedUser] = useState<any | null>(null);
 
-    const statusList = [
-        { label: "Accepted", borderColor: "border-green-500" },
-        { label: "Pending", borderColor: "border-yellow-400" },
-        { label: "No Response", borderColor: "border-red-500" },
-        { label: "Open", icon: "/assets/img/icons/owl_icon.svg" }, // gray icon (owl-like)
-    ];
+  const statusList = [
+    { label: "Accepted", borderColor: "border-green-500" },
+    { label: "Pending", borderColor: "border-yellow-400" },
+    { label: "No Response", borderColor: "border-red-500" },
+    { label: "Open", icon: "/assets/img/icons/owl_icon.svg" }, // gray icon (owl-like)
+  ];
 
-    const users = [
-        "/assets/img/search-property/student_profile (1).png",
-        "/assets/img/search-property/student_profile (2).png",
-        "/assets/img/search-property/student_profile (3).png",
-        "/assets/img/search-property/student_profile (4).png",
-        "/assets/img/search-property/student_profile (5).png",
-        "/assets/img/search-property/student_profile (2).png",
-        "/assets/img/search-property/student_profile (3).png",
-        "/assets/img/search-property/student_profile (4).png",
-        "/assets/img/search-property/student_profile (5).png",
-    ];
-    const users2 = [
-        "/assets/img/search-property/student_profile (1).png",
-        "/assets/img/search-property/student_profile (2).png",
-        "/assets/img/search-property/student_profile (3).png",
-        "/assets/img/search-property/student_profile (4).png",
-    ];
-
-    return (
-        <motion.div
-            key="dropdown"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="
+  //   const users = [
+  //     "/assets/img/search-property/student_profile (1).png",
+  //     "/assets/img/search-property/student_profile (2).png",
+  //     "/assets/img/search-property/student_profile (3).png",
+  //     "/assets/img/search-property/student_profile (4).png",
+  //     "/assets/img/search-property/student_profile (5).png",
+  //     "/assets/img/search-property/student_profile (2).png",
+  //     "/assets/img/search-property/student_profile (3).png",
+  //     "/assets/img/search-property/student_profile (4).png",
+  //     "/assets/img/search-property/student_profile (5).png",
+  //   ];
+  //   const users2 = [
+  //     "/assets/img/search-property/student_profile (1).png",
+  //     "/assets/img/search-property/student_profile (2).png",
+  //     "/assets/img/search-property/student_profile (3).png",
+  //     "/assets/img/search-property/student_profile (4).png",
+  //   ];
+  console.log("selectedUser==>", selectedUser);
+  return (
+    <motion.div
+      key="dropdown"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.2 }}
+      className="
             absolute
             left-1/2
             -translate-x-1/2
@@ -785,57 +1073,70 @@ const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
              bg-white shadow-xl rounded-2xl py-4 text-sm z-40
             w-[350px] md:w-[420px]
         "
-        >
-
-            <PrimaryButton className="mx-auto">
-                <PlusIcon className="h-4 mt-1 mr-2" />
-                Invite Roommates
-            </PrimaryButton>
-            {/* Staus Samples  */}
-            {/* Status Circles */}
-            <div className="flex justify-center gap-5 mb-6 my-8">
-                {statusList.map((status, idx) => (
-                    <div key={idx} className="flex flex-col items-center text-sm">
-                        {status.icon ? (
-                            <div>
-
-                                <img src={status.icon} alt="Open" className="w-15 h-15  bg-[#D9D9D9] rounded-full p-2" />
-                            </div>
-                        ) : (
-                            <div
-                                className={`w-15 h-15 rounded-full border-3 ${status.borderColor}`}
-                            ></div>
-                        )}
-                        <span className="mt-2">{status.label}</span>
-                    </div>
-                ))}
-            </div>
-            {/* Title */}
-            <h2 className="text-xl font-semibold mb-6 text-center">Organize Your Matches</h2>
-            {/* Profile Images */}
-            <div className="w-full py-4 shadow px-4 mb-2">
-                <Swiper
-                    spaceBetween={5}
-                    slidesPerView={5}
-                    breakpoints={{
-                        640: { slidesPerView: 4 },
-                        768: { slidesPerView: 4 },
-                    }}
-                >
-                    {compatibleRoommates.map((roommate, idx) => (
-                        <SwiperSlide key={idx}>
-                            <Image
-                                src={roommate.profilePhoto}
-                                alt={`User ${idx + 1}`}
-                                className="w-15 h-15 rounded-full object-cover "
-                                onClick={() => setSelectedUser(!selectedUser)}
-                            />
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
-            {/*  */}
-            {/* <p className="text-center text-[12px]">Drag And Drop To Edit Roommate Options</p>
+    >
+      <PrimaryButton className="mx-auto">
+        <PlusIcon className="h-4 mt-1 mr-2" />
+        Invite Roommates
+      </PrimaryButton>
+      {/* Staus Samples  */}
+      {/* Status Circles */}
+      <div className="flex justify-center gap-5 mb-6 my-8">
+        {statusList.map((status, idx) => (
+          <div key={idx} className="flex flex-col items-center text-sm">
+            {status.icon ? (
+              <div>
+                <img
+                  src={status.icon}
+                  alt="Open"
+                  className="w-15 h-15  bg-[#D9D9D9] rounded-full p-2"
+                />
+              </div>
+            ) : (
+              <div
+                className={`w-15 h-15 rounded-full border-3 ${status.borderColor}`}
+              ></div>
+            )}
+            <span className="mt-2">{status.label}</span>
+          </div>
+        ))}
+      </div>
+      {/* Title */}
+      <h2 className="text-xl font-semibold mb-6 text-center">
+        Organize Your Matches
+      </h2>
+      {/* Profile Images */}
+      {compatibleRoommates?.length ? (
+        <div className="w-full py-4 shadow px-4 mb-2">
+          <Swiper
+            spaceBetween={5}
+            slidesPerView={5}
+            breakpoints={{
+              640: { slidesPerView: 4 },
+              768: { slidesPerView: 4 },
+            }}
+          >
+            {compatibleRoommates.map((roommate, idx) => (
+              <SwiperSlide key={idx}>
+                <Image
+                  src={roommate.profilePhoto}
+                  alt={`User ${idx + 1}`}
+                  className="w-15 h-15 rounded-full object-cover mx-auto"
+                  onClick={() => setSelectedUser(roommate)}
+                />
+                <div className="text-center">
+                  {roommate?.firstName} {roommate?.lastName?.[0]}.
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      ) : (
+        <div className="text-center text-gray-400 py-4 shadow">
+          No Roommate found
+        </div>
+      )}
+      {/*  */}
+      {/* <p className="text-center text-[12px]">Drag And Drop To Edit Roommate Options</p>
             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5 bg-[#B3322F] rounded-full my-5">
                 {users2.map((src, idx) => (
 
@@ -848,8 +1149,8 @@ const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
                     />
                 ))}
             </div> */}
-            {/* Title */}
-            {/* <h2 className="text-xl font-semibold mb-6 text-center">Rommate Options</h2>
+      {/* Title */}
+      {/* <h2 className="text-xl font-semibold mb-6 text-center">Rommate Options</h2>
             <div className=" w-fit mx-auto flex gap-3 py-4   px-4 mb-5   rounded-full my-5">
                 {users2.map((src, idx) => (
 
@@ -881,27 +1182,30 @@ const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
                 Group Chat
             </PrimaryButton> */}
 
-
-
-            {/*User Details  */}
-            {/* {selectedUser && (
-                <motion.div
-                    key="feedback-modal"
-                    initial={{ x: 100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    exit={{ x: 100, opacity: 0 }}
-                    transition={{ duration: 0.9, ease: "easeInOut" }}
-                    className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg
+      {/*User Details  */}
+      {selectedUser && (
+        <motion.div
+          key="feedback-modal"
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 100, opacity: 0 }}
+          transition={{ duration: 0.9, ease: "easeInOut" }}
+          className="absolute md:-ml-31 bottom-30  w-fit bg-white py-4 px-2 shadow-lg
                md:rounded-bl-xl md:rounded-tl-xl z-10
                md:rounded-br-none md:rounded-tr-none
                rounded-br-xl rounded-tr-xl"
-                >
-                    <h2 className="text-xl font-semibold text-center">Amanda H.</h2>
-                    <h2 className="text-base text-center mb-2">20 Years old</h2>
-                    <PrimaryButton className="mx-auto">Chat</PrimaryButton>
-                </motion.div>
-            )} */}
+        >
+          <h2 className="text-xl font-semibold text-center">
+            {selectedUser?.firstName} {selectedUser?.lastName}
+          </h2>
+          {/* <h2 className="text-base text-center mb-2">20 Years old</h2> */}
+          <h2 className="text-base text-center mb-2">
+            {selectedUser?.compatibilityLevel}
+          </h2>
 
+          <PrimaryButton className="mx-auto">Chat</PrimaryButton>
         </motion.div>
-    )
-}
+      )}
+    </motion.div>
+  );
+};

@@ -1,11 +1,10 @@
+import { BuildingOfficeIcon, MapPinIcon } from "@heroicons/react/20/solid";
 import { Button } from "@src/components/Button";
 import PulseHoverLayout from "@src/layouts/PulseHover.Layout";
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { AvailableUnitsModal } from "./AvailableUnitsModal";
 import { PropertyImagesSlider } from "./PropertyImagesSlider";
-import { BuildingOfficeIcon, MapPinIcon } from "@heroicons/react/20/solid";
 
 export const PropertyCard: React.FC<{
     property: any;
@@ -72,7 +71,9 @@ export const PropertyCard: React.FC<{
                         {/* Content section */}
                         <div className="w-full md:w-1/2 md:pl-6 md:mt-0 mt-6 flex flex-col justify-center">
                             <div className="flex md:justify-start justify-between items-start">
-                                <h2 className="md:text-2xl text-xl font-semibold">{property.propertyName} @{floorplan.name}</h2>
+                                <h2 className="md:text-2xl text-xl font-semibold">
+                                    {property.propertyName} @{floorplan.name}
+                                </h2>
                                 <div className="bg-[#57AF4F] text-white px-3 py-0.5 text-center rounded-md text-[10px] font-medium mt-3 w-[85px] ml-0 md:ml-5">
                                     {property?.matchPercentage} MATCH
                                 </div>

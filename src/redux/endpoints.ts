@@ -116,4 +116,24 @@ export const API_URL = {
       METHOD: HttpMethod.GET,
     },
   },
+  CHAT: {
+    CREATE_MESSAGE: {
+      URL: () => createApiUrl("/chat/fetch/property"),
+      METHOD: HttpMethod.GET,
+    },
+    GET_MESSAGE: {
+      URL: (id: string) => createApiUrl(`/chat/match-results?studentId=${id}`),
+      METHOD: HttpMethod.GET,
+    },
+    GET_SINGLE_CHAT_MESSAGES: {
+      URL: (query: string | null = null) =>
+        createApiUrl(`/chat${query ? query : ""}`),
+      METHOD: HttpMethod.GET,
+    },
+    GET_SINGLE_USER_MESSAGES: {
+      URL: (id: string) =>
+        createApiUrl(`/chat/accepted-property?studentId=${id}`),
+      METHOD: HttpMethod.GET,
+    },
+  },
 };
