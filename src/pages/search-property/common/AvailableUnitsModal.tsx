@@ -18,7 +18,8 @@ import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../../../components/Button";
-import GoogleMapComponent from "../../../components/GoogleMap";
+// import GoogleMapComponent from "../../../components/GoogleMap";
+import MapBoxComponent from "@src/components/MapBox";
 import { PrimaryButton } from "./ComponComponents";
 import Image from "@src/components/Image";
 
@@ -335,10 +336,11 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
                     className="w-full h-[250px] object-cover rounded-xl"
                   />
                 ) : (
-                  <GoogleMapComponent
-                    latitude={property?.latitude}
-                    longitude={property?.longitude}
-                  />
+                  //   <GoogleMapComponent
+                  //     latitude={property?.latitude}
+                  //     longitude={property?.longitude}
+                  //   />
+                  <MapBoxComponent />
                 )}
               </SwiperSlide>
             )
