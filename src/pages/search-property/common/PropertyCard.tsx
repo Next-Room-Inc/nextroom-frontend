@@ -5,6 +5,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { AvailableUnitsModal } from "./AvailableUnitsModal";
 import { PropertyImagesSlider } from "./PropertyImagesSlider";
+import { toast } from "react-toastify";
+import { useAddNewSavePropertyMutation, useDeleteSavePropertyMutation } from "@src/redux/services/property.service";
+import Loader, { LoaderComponent } from "@src/components/Loader";
 
 export const PropertyCard: React.FC<{
     property: any;
@@ -16,6 +19,8 @@ export const PropertyCard: React.FC<{
     setSelected: (value: number | null) => void
     section: string | null
     isLightTheme?: boolean
+    savedPropertyLoading?: boolean
+    savedProperties?: any
 }> = ({
     property,
     floorplan,
@@ -26,17 +31,36 @@ export const PropertyCard: React.FC<{
     setSelected,
     section = null,
     isLightTheme = false,
+    savedPropertyLoading = false,
+    savedProperties = {}
 }) => {
-        const [viewDetails, setViewDetails] = useState(false)
-        // const [likedProperty, setLikedProperty] = useState(false)
-        // const likedPropertyHandler = () => {
-        //     const updatedState = !likedProperty;
-        //     setLikedProperty(updatedState);
-        //     toast.info(updatedState ? "Demo: Added to Favourites" : "Demo: Removed from Favourites");
-        // };
+        const [addSaveProperty, { isLoading: isAdding }] = useAddNewSavePropertyMutation();
+        const [deleteSaveProperty, { isLoading: isDeleting }] = useDeleteSavePropertyMutation();
+        const [viewDetails, setViewDetails] = useState(false);
+
+        const isSaved = savedProperties[property.propertyId];
+        const isMutating = isAdding || isDeleting || savedPropertyLoading;
+
+        const likedPropertyHandler = async () => {
+            if (isMutating) return; // prevent double clicks while loading
+
+            try {
+                if (isSaved) {
+                    await deleteSaveProperty(property.propertyId).unwrap();
+                    toast.info("Removed from Favourites");
+                } else {
+                    await addSaveProperty(property.propertyId).unwrap();
+                    toast.success("Added to Favourites");
+                }
+            } catch (err) {
+                toast.error("Something went wrong");
+                console.error(err);
+            }
+        };
 
         return (
             <>
+                {isMutating && <Loader />}
                 <PulseHoverLayout>
                     <div
                         style={{ cursor: 'none' }}
@@ -44,9 +68,9 @@ export const PropertyCard: React.FC<{
                         className={`  cursor-move z-10 md:flex ${selected ? "rounded-tr-xl rounded-tl-xl " : "rounded-xl"} shadow-md cursor-none overflow-hidden relative p-6  ${isLightTheme ? 'bg-white text-black ' : bgClass}`}
                     >
                         {/* Like Icon */}
-                        {/* <motion.img
+                        {(section === "explore" || section === "matches") && <motion.img
                             onClick={likedPropertyHandler}
-                            src={`/assets/img/search-property/${likedProperty ? "heartinner.svg" : "heartouter.svg"}`}
+                            src={`/assets/img/search-property/${savedProperties[property?.propertyId] ? "heartinner.svg" : "heartouter.svg"}`}
                             alt="Like"
                             className="h-5 absolute md:top-4 md:right-5 right-10 top-10 z-50 "
 
@@ -56,7 +80,7 @@ export const PropertyCard: React.FC<{
 
                             // Hover animation
                             whileHover={{ scale: 1.1 }}
-                        /> */}
+                        />}
                         {/* Image section */}
                         <div className="relative rounded-2xl   md:w-1/4 overflow-hidden">
                             <div className="h-48 w-full">

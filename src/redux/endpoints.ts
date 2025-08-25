@@ -115,6 +115,18 @@ export const API_URL = {
         createApiUrl(`/student/accepted-property?studentId=${id}`),
       METHOD: HttpMethod.GET,
     },
+    GET_SAVED_PROPERTIES: {
+      URL: () => createApiUrl(`/student/saved-properties`),
+      METHOD: HttpMethod.GET,
+    },
+    ADD_NEW_SAVED_PROPERTY: {
+      URL: (id: string) => createApiUrl(`/student/saved-properties/${id}`),
+      METHOD: HttpMethod.POST,
+    },
+    DELETE_SAVED_PROPERTY: {
+      URL: (id: string) => createApiUrl(`/student/saved-properties/${id}`),
+      METHOD: HttpMethod.DELETE,
+    },
   },
   CHAT: {
     CREATE_MESSAGE: {

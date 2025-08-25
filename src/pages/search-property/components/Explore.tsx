@@ -1,5 +1,5 @@
 import { LoaderComponent } from "@src/components/Loader";
-import { useExplorePropertiesQuery } from "@src/redux/services/property.service";
+import { useExplorePropertiesQuery, useGetSavedPropertyIdsQuery } from "@src/redux/services/property.service";
 import { Floorplan } from "@src/utils/interfaces";
 import { useState } from "react";
 import { PropertyCard } from "../common/PropertyCard";
@@ -23,6 +23,10 @@ const Explore = () => {
     error,
   } = useExplorePropertiesQuery(null);
 
+  // API call
+  const { data: savedProperties = {}, isLoading: savedPropertyLoading } = useGetSavedPropertyIdsQuery(null);
+  console.log("savedProperties===>", savedProperties)
+  console.log("properties===>", properties)
   return (
     <div className="py-10 md:mx-15">
       {/* Main Property Data */}
@@ -67,6 +71,8 @@ const Explore = () => {
                 property={property}
                 floorplan={floorplan}
                 section="explore"
+                savedProperties={savedProperties}
+                savedPropertyLoading={savedPropertyLoading}
               />
             ))
           )}

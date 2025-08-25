@@ -31,6 +31,39 @@ export const PropertyServices = createApi({
         method: API_URL.PROPERTY.ACCEPTED_PROPERTY.METHOD,
       }),
     }),
+    getSavedProperties: builder.query<any, string>({
+      query: () => ({
+        url: API_URL.PROPERTY.GET_SAVED_PROPERTIES.URL(),
+        method: API_URL.PROPERTY.GET_SAVED_PROPERTIES.METHOD,
+      }),
+    }),
+    getSavedPropertyIds: builder.query<any, any>({
+      query: () => ({
+        url: API_URL.PROPERTY.GET_SAVED_PROPERTIES.URL(),
+        method: API_URL.PROPERTY.GET_SAVED_PROPERTIES.METHOD,
+      }),
+      transformResponse: (response: any) => {
+        return response?.reduce((acc: any, property: any) => {
+          acc[property.propertyId] = true; // collect IDs into array
+          return acc;
+        }, {});
+      },
+      providesTags: ["getSavedPropertyIds"],
+    }),
+    addNewSaveProperty: builder.mutation<any, string>({
+      query: (studentId: string) => ({
+        url: API_URL.PROPERTY.ADD_NEW_SAVED_PROPERTY.URL(studentId),
+        method: API_URL.PROPERTY.ADD_NEW_SAVED_PROPERTY.METHOD,
+      }),
+      invalidatesTags: ["getSavedPropertyIds"],
+    }),
+    deleteSaveProperty: builder.mutation<any, string>({
+      query: (studentId: string) => ({
+        url: API_URL.PROPERTY.DELETE_SAVED_PROPERTY.URL(studentId),
+        method: API_URL.PROPERTY.DELETE_SAVED_PROPERTY.METHOD,
+      }),
+      invalidatesTags: ["getSavedPropertyIds"],
+    }),
   }),
 });
 
@@ -39,4 +72,8 @@ export const {
   useGetEntrataPropertiesQuery,
   useGetAcceptedPropertyQuery,
   useExplorePropertiesQuery,
+  useGetSavedPropertiesQuery,
+  useGetSavedPropertyIdsQuery,
+  useAddNewSavePropertyMutation,
+  useDeleteSavePropertyMutation,
 } = PropertyServices;

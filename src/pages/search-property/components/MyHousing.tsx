@@ -1,6 +1,6 @@
 import { LoaderComponent } from "@src/components/Loader";
 import useAuth from "@src/custom-hooks/useAuth";
-import { useGetAcceptedPropertyQuery } from "@src/redux/services/property.service";
+import { useGetAcceptedPropertyQuery, useGetSavedPropertiesQuery } from "@src/redux/services/property.service";
 import { useState } from "react";
 import { PropertyCard } from "../common/PropertyCard";
 
@@ -91,11 +91,10 @@ const SavedUnits = () => {
 
   // API call
   const {
-    data: property = null,
+    data: properties = [null],
     isLoading,
     isError,
-  } = useGetAcceptedPropertyQuery(user?.studentId ?? "");
-  console.log("===>", property, isLoading, isError);
+  } = useGetSavedPropertiesQuery(user?.studentId ?? "");
   return (
     <div className="py-10 md:mx-15">
       <h1 className="text-xl font-semibold mx-5 mb-5">Saved Units</h1>
@@ -120,26 +119,28 @@ const SavedUnits = () => {
         </div>
       )} */}
 
-      {!isLoading && !property && (
+      {!isLoading && !properties.length && (
         <div className="text-center bg-white rounded-2xl  py-20">
-          <p>No matches found.</p>
+          <p>No saved record found.</p>
         </div>
       )}
 
-      {!isLoading && !isError && property && (
+      {!isLoading && !isError && properties && (
         <div className="grid gap-5 mx-5">
-          {property.floorplans?.map((floorplan: Floorplan, idx: number) => (
-            <PropertyCard
-              key={`${property.id}-${floorplan.id ?? idx}`} // ✅ stable key
-              index={floorplan.id}
-              selected={selected === floorplan.id}
-              setSelected={setSelected}
-              property={property}
-              floorplan={floorplan}
-              section="my-housing"
-              isLightTheme={true}
-            />
-          ))}
+          {properties.map((property: any) =>
+            property.floorplans?.map((floorplan: Floorplan, idx: number) => (
+              <PropertyCard
+                key={`${property.id}-${floorplan.id ?? idx}`} // ✅ stable key
+                index={floorplan.id}
+                selected={selected === floorplan.id}
+                setSelected={setSelected}
+                property={property}
+                floorplan={floorplan}
+                section="my-housing"
+                isLightTheme={true}
+              />
+            ))
+          )}
         </div>
       )}
     </div>
