@@ -445,68 +445,68 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
             <div className="flex flex-col gap-4">
               <h1 className=" text-base font-medium">Studio (35)</h1>
 
-              <div className="grid grid-rows-1 grid-cols-1 sm:grid-rows-2 sm:grid-cols-2 lg:grid-rows-3 lg:grid-cols-3 gap-x-[5%] gap-y-3">
+              <div className="grid grid-rows-1 grid-cols-1 sm:grid-rows-2 sm:grid-cols-2 lg:grid-rows-3 lg:grid-cols-3 gap-x-4 gap-y-3">
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className=" h-[160px] object-cover rounded-xl"
+                  className=" w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className="h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className="h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className="h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className="h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className="h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className="h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className=" h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
 
                 <Image
                   //   onClick={showImagesHandler}
                   src={images?.[0]?.uri}
                   alt={images?.[0]?.alt}
-                  className="h-[160px] object-cover rounded-xl"
+                  className="w-full h-[160px] object-cover rounded-xl"
                 />
               </div>
             </div>
