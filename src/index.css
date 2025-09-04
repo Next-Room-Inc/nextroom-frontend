@@ -1,0 +1,149 @@
+@import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+
+* {
+  cursor: default;
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+  color: white;
+}
+
+.input-white-calendar::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Makes icon white */
+}
+
+.mySwiper1 > .swiper-button-prev:after,
+.mySwiper1 > .swiper-button-next:after {
+  color: #b3322f;
+  font-size: 20px;
+  font-weight: bolder;
+}
+.blogSlider > .swiper-button-prev:after,
+.blogSlider > .swiper-button-next:after {
+  color: #b3322f;
+  font-size: 20px;
+  font-weight: bolder;
+}
+.blogSlider {
+  padding: 0 18px;
+}
+.blogSlider > .swiper-button-prev:after {
+  margin-right: 35px;
+}
+.blogSlider > .swiper-button-next:after {
+  margin-left: 35px;
+}
+/* .blur:hover {
+    backdrop-filter: blur(0px);
+    
+  }
+  
+  .blur {
+    background-color: red;
+    backdrop-filter: blur(6px);
+    transition: backdrop-filter 0.3s ease;
+  } */
+
+/* Range desgin onboarding screen */
+
+/* Custom Range Track and Thumb */
+input[type="range"].custom-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  background: #b3322f;
+  border-radius: 10px;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Track for Firefox */
+input[type="range"].custom-slider::-moz-range-track {
+  height: 8px;
+  background: #b3322f;
+  border-radius: 10px;
+}
+
+/* Thumb for Chrome/Edge */
+input[type="range"].custom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  background-color: #ffffff; /* White Thumb */
+  border-radius: 50%;
+  border: 2px solid #b3322f;
+
+  margin-top: -8px; /* aligns thumb vertically with track */
+}
+
+/* Thumb for Firefox */
+input[type="range"].custom-slider::-moz-range-thumb {
+  height: 24px;
+  width: 24px;
+  background-color: #ffffff; /* White Thumb */
+  border-radius: 50%;
+  border: 2px solid #b3322f;
+}
+
+/* {
+  cursor: url("/assets/gif/pulse.gif"), auto;
+} */
+
+/* Scrollbar css */
+
+/* For Chrome, Edge, and Safari */
+.scrollbar::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+/* .scrollbar::-webkit-scrollbar-track { */
+/* background: rgb(255, 255, 255); */
+/* border-radius: 0px; */
+/* } */
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #b3322f; /* Scrollbar color */
+  border-radius: 4px; /* Rounded edges */
+}
+
+/* Hide scrollbar arrows in WebKit browsers */
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* For Firefox */
+.scrollbar {
+  scrollbar-width: thicker;
+  scrollbar-color: #b3322f;
+}
+
+/* complete porkect scrollable setting */
+
+/* For Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+/* *::-webkit-scrollbar-track {
+  background: rgb(255, 255, 255);
+} */
+
+*::-webkit-scrollbar-thumb {
+  background-color: #b3322f;
+  border-radius: 5px;
+}
+
+/* Hide scrollbar arrows in WebKit browsers */
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #b3322f; /* thumb and track */
+}
