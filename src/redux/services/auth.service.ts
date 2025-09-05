@@ -36,10 +36,9 @@ export const AuthServices = createApi({
       }),
     }),
     verifyEmail: builder.mutation({
-      query: (dto: interfaces.VerifyEmailPayload) => ({
-        url: API_URL.AUTH.VERIFY_EMAIL.URL(),
+      query: ({ token }: interfaces.VerifyEmailPayload) => ({
+        url: API_URL.AUTH.VERIFY_EMAIL.URL(token),
         method: API_URL.AUTH.VERIFY_EMAIL.METHOD,
-        body: dto,
       }),
     }),
     resendVerification: builder.mutation({

@@ -22,8 +22,8 @@ export const MembershipCard = () => {
         await new Promise((resolve) => setTimeout(resolve, 100));
 
         const canvas = await html2canvas(cardRef.current, {
-            backgroundColor: '#ffffff', // or null if transparent background is needed
-            scale: 2,
+            backgroundColor: '#4D1614', // or null if transparent background is needed
+            // scale: 2,
             useCORS: true, // in case images are hosted remotely
 
         });
@@ -126,7 +126,7 @@ export const MembershipCardComponent: React.FC<{
 
                         alt={`profile`}
                         src={image}
-                        className="h-40 md:h-50 md:w-40 w-30   rounded-2xl"
+                        className="h-40 md:h-50 md:w-50 w-30   rounded-2xl"
                     />
 
                     {/* User Info */}
@@ -145,7 +145,7 @@ export const MembershipCardComponent: React.FC<{
                         </div>
 
                         {/* Registration + Expiry */}
-                        <div className="flex justify-between text-[10px] md:text-sm mt-4">
+                        <div className="flex justify-between text-[10px] md:text-sm mb-2 ">
                             {/* <div>
                                 <p className="opacity-70">Registration</p>
                                 <p className="font-medium">{registrationId}</p>

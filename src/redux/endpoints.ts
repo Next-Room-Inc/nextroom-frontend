@@ -42,8 +42,8 @@ export const API_URL = {
       METHOD: HttpMethod.POST,
     },
     VERIFY_EMAIL: {
-      URL: () => createApiUrl("/auth/verify-email"),
-      METHOD: HttpMethod.POST,
+      URL: (token: any) => createApiUrl(`/auth/verify-email?token=${token}`),
+      METHOD: HttpMethod.GET,
     },
     RESEND_VERIFICATION: {
       URL: () => createApiUrl("/auth/resend-verification"),

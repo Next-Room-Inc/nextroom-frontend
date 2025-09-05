@@ -35,9 +35,13 @@ export const EventCard = ({
             >
                 {/* Event image / date */}
                 <div
-                    className={`md:bg-[url('/assets/img/events/event_1.png')] 
-                      bg-[url('/assets/img/events/event_1_mobile.png')] 
-                      bg-center bg-cover h-60 md:w-[50%]`}
+                    className={`bg-center bg-cover h-60 md:w-[50%]`}
+                    style={{
+                        backgroundImage: `url(${event?.mainImageUrl || '/assets/fallback/no-image.png'})`,
+                    }}
+                // className={`md:bg-[url('/assets/img/events/event_1.png')] 
+                //   bg-[url('/assets/img/events/event_1_mobile.png')] 
+                //   bg-center bg-cover h-60 md:w-[50%]`}
                 >
                     <span className="inline-flex flex-col items-center leading-tight bg-white ml-4 mt-4 px-4 py-2 rounded-md shadow">
                         <span className="text-gray-600 text-xs font-semibold">
@@ -69,7 +73,7 @@ export const EventCard = ({
                         transition={{ duration: 0.2 }}
                         className="mt-2 bg-white shadow-xl rounded-2xl px-5 md:p-10 py-4 text-sm"
                     >
-                        <FlowSliderComponent />
+                        <FlowSliderComponent images={event.sliderImageUrls} />
                         <h1 className="text-[#B3322F] text-2xl font-bold">
                             {event.title}
                         </h1>
