@@ -9,12 +9,16 @@ export interface StudentSignupPayload {
 }
 export interface StudentUpdatePayload {
   age: string;
+  email?: string | null;
   phoneNumber?: string;
+  profilePhoto?: string;
+  skipProfilePhoto?: boolean;
+  skipAlternateContact?: boolean;
   tag?: string;
   gender?: string;
   role?: string;
   pronouns?: string;
-  step?: number;
+  profileCompletionStep?: number;
   alternativeEmail?: string;
   alternativePhoneNumber?: string;
 }
@@ -39,6 +43,8 @@ export interface ProfileProgressResponse {
   profileCompletionStep: number;
   launchWaitlist: string | null;
   membershipCardId: string;
+  skipAlternateContact?: any;
+  skipProfilePhoto?: any;
 }
 
 export interface ResendVerificationPayload {

@@ -1,4 +1,5 @@
 import { Button } from "@headlessui/react";
+import Image from "@src/components/Image";
 import Loader, { LoaderComponent } from "@src/components/Loader";
 import useAuth from "@src/custom-hooks/useAuth";
 import { useGetMembershipCardQuery } from "@src/redux/services/auth.service";
@@ -132,7 +133,7 @@ export const MembershipCardComponent: React.FC<{
                     {/* User Info */}
                     <div className="flex flex-col justify-between flex-1 pr-4 h-40 md:h-50 overflow-hidden text-wrap break-words">
                         <div className="h-1/2 ">
-                            <img
+                            <Image
                                 alt="Logo"
                                 src={logo}
                                 className="h-12 -ml-3"

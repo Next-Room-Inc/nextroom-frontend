@@ -5,8 +5,8 @@ interface ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
     src?: string;
     alt?: string;
 }
-
 const Image: React.FC<ImageProps> = ({ src, alt, className, ...rest }) => {
+
     const handleImageError = (event: React.SyntheticEvent<HTMLImageElement>) => {
         event.currentTarget.src = IMAGES.FAILED_IMAGE;
     };

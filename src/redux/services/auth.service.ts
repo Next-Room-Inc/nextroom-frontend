@@ -6,6 +6,7 @@ import { baseQuery } from "../functions";
 export const AuthServices = createApi({
   reducerPath: "auth",
   baseQuery: baseQuery,
+  tagTypes: ["ProfileProgress", "ProfilePhoto"], // ✅ define tags
   endpoints: (builder) => ({
     studentSignup: builder.mutation({
       query: (dto: interfaces.StudentSignupPayload) => ({
@@ -61,6 +62,7 @@ export const AuthServices = createApi({
         method: API_URL.AUTH.UPDATE_PROFILE_DETAILS.METHOD,
         body: dto,
       }),
+      invalidatesTags: ["ProfileProgress", "ProfilePhoto"], // ✅ refetch when cancel is called
     }),
 
     getMembershipCard: builder.query<any, number | null>({
@@ -76,6 +78,7 @@ export const AuthServices = createApi({
         method: API_URL.AUTH.GET_PROFILE_PROGRESS.METHOD,
       }),
       // invalidatesTags: ["getSavedPropertyIds"],
+      providesTags: ["ProfileProgress"], // ✅ add tag
     }),
     getProfilePhoto: builder.query<any, number | null>({
       query: (studentId) => ({
@@ -83,6 +86,7 @@ export const AuthServices = createApi({
         method: API_URL.AUTH.GET_PROFILE_PHOTO.METHOD,
       }),
       // invalidatesTags: ["getSavedPropertyIds"],
+      providesTags: ["ProfilePhoto"], // ✅ add tag
     }),
   }),
 });

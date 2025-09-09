@@ -14,6 +14,7 @@ import { useResendVerificationMutation, useStudentSignupMutation } from "@src/re
 import { APP_INFO } from "@src/utils/constants";
 import { StudentSignupPayload } from "@src/utils/interfaces";
 import { SignupSchema } from "@src/utils/schemas/auth.schema";
+import { generatePassword } from "@src/utils/functions";
 // import { motion } from "framer-motion";
 
 const steps = [
@@ -150,6 +151,15 @@ const PasswordForm: React.FC<{
     const PasswordEyeToggleIcon = passwordType ? EyeIcon : EyeSlashIcon;
     const ConfirmPasswordEyeToggleIcon = confirmPasswordType ? EyeIcon : EyeSlashIcon;
 
+
+    const passwordGenerateHandler = () => {
+        const password = generatePassword(20)
+        formik.setFieldValue("password", password);
+        formik.setFieldValue("confirmPassword", password);
+        setPasswordType(false)
+        setConfirmPasswordType(false)
+
+    }
     return (
         <div className="w-full md:w-[50%] lg:w-[40%] xl:w-[30%] mx-auto">
             {/* <h1 className="text-white text-2xl ml-2 mb-4 text-center ">Select a password </h1> */}
@@ -221,6 +231,9 @@ const PasswordForm: React.FC<{
             </div>
 
             <div className="text-center">
+                <button type="button" onClick={passwordGenerateHandler} className={`${buttonClass}`}    >
+                    Generate Password
+                </button>
                 <button type="submit" className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} disabled={isError}  >
                     Next
                 </button>

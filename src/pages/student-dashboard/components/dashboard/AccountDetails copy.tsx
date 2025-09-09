@@ -16,10 +16,10 @@ const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-whi
 
 
 export const AccountDetails = () => {
-    const { user } = useAuth()
+    // const { user } = useAuth()
 
     const userId = 281
-    const email = "alice1@uottawa.ca"
+    const email = "alice2@uottawa.ca"
     // const userId = 279
     // const email = "mekomi@uottawa.ca"
     const { data: profileProgress, isLoading: isloadingProfileProgress } = useGetProfileProgressQuery(userId);
@@ -28,15 +28,14 @@ export const AccountDetails = () => {
     // const { data: profileImage } = useGetProfilePhotoQuery(user?.userId ?? null);
     const [updateProfileDetails, { isLoading }] = useUpdateProfileDetailsMutation();
     const [section, setSection] = useState('Password')
-    // const [stepsComponent, setStepComponents] = useState<any[]>([]);
-    const [stepToAnswer, stepsToAnswer] = useState<any[]>([]);
+    const [stepsComponent, setStepComponents] = useState<any[]>([]);
     const [loader, setLoader] = useState<boolean>(true);
 
-    const steps = [
-        { label: "Image", name: "Image" },
-        { label: "General", name: "General" },
-        { label: "Contact", name: "Contact" },
-    ];
+    // const steps = [
+    //     { label: "Image", name: "Image" },
+    //     { label: "General", name: "General" },
+    //     { label: "Contact", name: "Contact" },
+    // ];
 
 
     const handleSubmit = async (values: Partial<StudentUpdatePayload>) => {
@@ -86,24 +85,17 @@ export const AccountDetails = () => {
 
     useEffect(() => {
         if (!profileProgress) return;
-
-        const { age, gender, pronouns, alternativeEmail, alternativePhoneNumber, profileCompletionStep = 0 } = profileProgress;
+        const { age, gender, pronouns, alternativeEmail, alternativePhoneNumber } = profileProgress;
         formik.setFieldValue("age", age || "");
         formik.setFieldValue("gender", gender || "");
         formik.setFieldValue("pronouns", pronouns || "");
         formik.setFieldValue("alternativeEmail", alternativeEmail || "");
         formik.setFieldValue("alternativePhoneNumber", alternativePhoneNumber || "");
-        formik.setFieldValue("step", profileCompletionStep || 0);
-
-        const slicedSteps = steps.slice((profileCompletionStep) - 4);
-        console.log(steps, "==>", profileCompletionStep, slicedSteps)
-
-        stepsToAnswer(slicedSteps)
     }, [profileProgress]);
 
-    // useEffect(() => {
-    //     buildSteps();
-    // }, [profileProgress, profileImage]);
+    useEffect(() => {
+        buildSteps();
+    }, [profileProgress, profileImage]);
 
     useEffect(() => {
         if (!isloadingProfileProgress && !isloadingProfilePhoto) setLoader(false)
@@ -113,47 +105,47 @@ export const AccountDetails = () => {
     const props = { formik, nextStepHandler, profileImage, profileProgress, handleSubmit, email };
 
 
-    // const buildSteps = () => {
+    const buildSteps = () => {
 
-    //     // console.log("profileProgress==>", profileProgress)
-    //     console.log("test 1 ==>", profileProgress?.alternativeEmail?.trim() !== "",)
-    //     console.log("test 2 ==>", profileProgress?.alternativePhoneNumber?.trim() !== "")
-    //     console.log("test 3 ==>", profileProgress?.skipAlternateContact)
+        // console.log("profileProgress==>", profileProgress)
+        console.log("test 1 ==>", profileProgress?.alternativeEmail?.trim() !== "",)
+        console.log("test 2 ==>", profileProgress?.alternativePhoneNumber?.trim() !== "")
+        console.log("test 3 ==>", profileProgress?.skipAlternateContact)
 
-    //     console.log("test==>", (profileProgress?.alternativeEmail?.trim() !== "" ||
-    //         profileProgress?.alternativePhoneNumber?.trim() !== "" ||
-    //         profileProgress?.skipAlternateContact))
+        console.log("test==>", (profileProgress?.alternativeEmail?.trim() !== "" ||
+            profileProgress?.alternativePhoneNumber?.trim() !== "" ||
+            profileProgress?.skipAlternateContact))
 
-    //     const steps = [
-    //         (profileProgress?.skipProfilePhoto || profileImage)
-    //             ? null : { label: "Image", name: "Image", component: ImageUploadComponent }
-    //         ,
+        const steps = [
+            (profileProgress?.skipProfilePhoto || profileImage)
+                ? null : { label: "Image", name: "Image", component: ImageUploadComponent }
+            ,
 
-    //         !profileProgress?.pronouns && !profileProgress?.gender && !profileProgress?.age
-    //             ? { label: "General", name: "General", component: NameForm }
-    //             : null,
+            !profileProgress?.pronouns && !profileProgress?.gender && !profileProgress?.age
+                ? { label: "General", name: "General", component: NameForm }
+                : null,
 
-    //         (!profileProgress?.alternativeEmail?.trim() &&
-    //             !profileProgress?.alternativePhoneNumber?.trim() &&
-    //             !profileProgress?.skipAlternateContact)
-    //             ? {
-    //                 label: "Contact",
-    //                 name: "Contact",
-    //                 component: AlternateContactInformation
-    //             }
-    //             : null
-    //         ,
-    //     ].filter(Boolean); // removes null entries
+            (!profileProgress?.alternativeEmail?.trim() &&
+                !profileProgress?.alternativePhoneNumber?.trim() &&
+                !profileProgress?.skipAlternateContact)
+                ? {
+                    label: "Contact",
+                    name: "Contact",
+                    component: AlternateContactInformation
+                }
+                : null
+            ,
+        ].filter(Boolean); // removes null entries
 
-    //     if (!steps.length) formik.setFieldValue("step", 1);
-    //     setStepComponents(steps);
+        if (!steps.length) formik.setFieldValue("step", 1);
+        setStepComponents(steps);
 
-    // };
+    };
 
 
-    // console.log("formik==>", formik.values)
+    console.log("formik==>", formik.values)
     // console.log("steps==>", stepsComponent)
-    // const CurrentStep = stepsComponent[formik.values.step - 1]?.component;
+    const CurrentStep = stepsComponent[formik.values.step - 1]?.component;
 
 
     return (
@@ -164,7 +156,7 @@ export const AccountDetails = () => {
                 {loader ? <Loading /> :
                     // {(isloadingProfileProgress || isloadingProfilePhoto) ? <Loading /> :
                     <form onSubmit={formik.handleSubmit}>
-                        {formik?.values?.step > 0 && formik?.values?.step < 4 && <FormStepper {...{ formik, section, setSection, steps: stepToAnswer }} />}
+                        {formik?.values?.step > 0 && formik?.values?.step <= stepsComponent.length && <FormStepper {...{ formik, section, setSection, steps: stepsComponent }} />}
                         {formik?.values?.step === 0 && <Welcome {...{ nextStepHandler }} />}
 
                         <div className="px-5 md:px-0 w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mx-auto mt-10">
@@ -173,7 +165,7 @@ export const AccountDetails = () => {
                             {/* {formik?.values?.step > 0 ? stepsComponent?.length ? stepsComponent[formik.values.step - 1]?.component || <></> : <div className="h-50 flex items-center justify-center">
                                 <p>You’ve also been successfully submmitted your details!</p>
                             </div> : ""} */}
-                            {/* <>
+                            <>
                                 {formik.values.step > 0 ? (
                                     CurrentStep ? (
                                         <CurrentStep {...props} />
@@ -183,14 +175,11 @@ export const AccountDetails = () => {
                                         </div>
                                     )
                                 ) : null}
-                            </> */}
+                            </>
 
-                            {formik.values.step === 1 && <ImageUploadComponent {...props} />}
-                            {formik.values.step === 2 && <NameForm {...props} />}
-                            {formik.values.step === 3 && <AlternateContactInformation {...props} />}
-                            {formik.values.step === 4 && <div className="h-50 flex items-center justify-center text-[#B3322F] text-xl text-center">
-                                <p>Thank you! We’ve already received your details.</p>
-                            </div>}
+                            {/* {formik.values.step === 1 && <ImageUploadComponent {...{ formik, nextStepHandler, profileImage, handleSubmit }} />}
+                            {formik.values.step === 2 && <NameForm {...{ formik, nextStepHandler, profileProgress, handleSubmit }} />}
+                            {formik.values.step === 3 && <AlternateContactInformation {...{ formik, handleSubmit }} />} */}
                         </div>
                     </form>}
             </div>
@@ -217,9 +206,9 @@ const AlternateContactInformation: React.FC<{ formik: any; handleSubmit: (values
 
     const submitHandler = () => {
         const { alternativeEmail, skipProfilePhoto } = formik.values
-        handleSubmit({ alternativeEmail, skipProfilePhoto, profileCompletionStep: 2 })
+        handleSubmit({ alternativeEmail, skipProfilePhoto })
     }
-    const skipHandler = () => handleSubmit({ skipAlternateContact: true, profileCompletionStep: 2 })
+    const skipHandler = () => handleSubmit({ skipAlternateContact: true })
 
     return (
         <div>
@@ -370,10 +359,10 @@ const ImageUploadComponent: React.FC<{
     const saveImageHandler = () => {
         if (!profileImage) return
         formik.setFieldValue("profilePhoto", profileImage);
-        handleSubmit({ profilePhoto: profileImage, skipProfilePhoto: false, email, profileCompletionStep: 2 })
+        handleSubmit({ profilePhoto: profileImage, skipProfilePhoto: false, email })
     }
 
-    const skipImageHandler = () => handleSubmit({ skipProfilePhoto: true, email, profileCompletionStep: 2 })
+    const skipImageHandler = () => handleSubmit({ skipProfilePhoto: true, email })
 
 
     return (
@@ -410,10 +399,10 @@ const NameForm: React.FC<{
     email: string; // ideally use Formik type
     handleSubmit: (values: Partial<StudentUpdatePayload>) => void;
 }> = ({ formik, handleSubmit, email }) => {
-    const isError = formik?.values?.pronouns?.trim() === "" || formik?.values?.gender?.trim() === "" || formik?.values?.age?.trim() === "";
+    const isError = formik?.values?.pronouns?.trim() === "" || formik?.values?.gender?.trim() === "" || formik?.values?.age?.trim() === ""
     const submit = () => {
         const { pronouns, gender, age } = formik.values
-        handleSubmit({ pronouns, gender, age, email, profileCompletionStep: 3 })
+        handleSubmit({ pronouns, gender, age, email })
     }
 
     return (

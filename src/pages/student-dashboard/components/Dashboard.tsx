@@ -7,7 +7,7 @@ import { ExclusiveOffersAndPrizes } from './dashboard/ExclusiveOffersAndPrizes';
 import { MembershipCard } from './dashboard/MembershipCard';
 
 const options = [
-    // "Account Details",
+    "Account Details",
     "Events",
     "Exclusive Offers & Prizes",
     "Membership Card",

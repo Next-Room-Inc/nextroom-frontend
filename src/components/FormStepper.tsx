@@ -18,7 +18,7 @@ export const FormStepper: React.FC<{
     setSection: (section: string) => void;
     steps: Step[];
     color?: string | null
-}> = ({ formik, section, setSection, steps, color = "B3322F" }) => {
+}> = ({ formik, section, steps, color = "B3322F" }) => {
     const totalSteps = steps.length;
 
     return (
@@ -35,12 +35,13 @@ export const FormStepper: React.FC<{
                         <div key={step.label + index}
                             className={className}
                         >
+
                             <motion.div
                                 whileHover={{ scale: 1.03 }}
                                 className="w-full bg-[#D9D9D9] rounded-full h-8 overflow-hidden cursor-pointer"
                                 role="button"
                                 tabIndex={0}
-                                onClick={() => setSection(step.name)}
+                            // onClick={() => setSection(step.name)}
                             >
                                 <motion.div
                                     className="w-full h-full"
@@ -62,8 +63,11 @@ export const FormStepper: React.FC<{
 
                             {/* Optional Step Label */}
                             {/* <div className={`text-sm mt-2 hidden md:block ${isActive ? "font-semibold text-[#B3322F]" : "text-gray-500"}`}    >
-                            {step.label}
-                        </div> */}
+                                {step.label}
+                            </div> */}
+                            {/* <div className={`text-sm mt-2 hidden md:block "text-gray-500`} >
+                                {step.label}
+                            </div> */}
                         </div>
                     );
                 })}
