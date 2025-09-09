@@ -16,6 +16,10 @@ export const ROUTES = {
   BLOGS: "/blogs",
   CHAT: "/chat",
 
+  PRIVACY_POLICY: "/privacy-policy",
+  TERMS_AND_CONDITIONS: "/terms-and-conditions",
+  SUPPORT: "/support",
+
   //search property
   SEARCH_PROPERTY: "/search-property",
   SEARCH_PROPERTY_TABS: "/search-property/:tab",

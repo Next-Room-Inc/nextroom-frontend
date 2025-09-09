@@ -14,6 +14,7 @@ export const APP_INFO = {
   FACEBOOK: "https://facebook.com/nextroom_ca",
   TIKTOK: "https://tiktok.com/nextroom.ca",
   EMAIL: "support@nextroom.ca",
+  NUMBER: "613-555-1234",
   JOIN_US: "clvdq@robot.zapier.com",
 };
 

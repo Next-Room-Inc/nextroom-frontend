@@ -13,8 +13,11 @@ import { UnderConstruction } from "@src/pages/error/UnderConstruction";
 import Home from "@src/pages/home/Home";
 import NewsRoom from "@src/pages/newsroom/NewsRoom";
 import Onboarding from "@src/pages/onboarding/Onboarding";
+import PrivacyPolicy from "@src/pages/privacy-policy/PrivacyPolicy";
 import SearchProperty from "@src/pages/search-property/SearchProperty";
 import StudentExperianceCenter from "@src/pages/student-experiance-center/StudentExperianceCenter";
+import SupportDetails from "@src/pages/support/SupportDetails";
+import TermsAndConditions from "@src/pages/terms-and-conditions/TermsAndConditions";
 import { ROUTES } from "@src/utils/constants";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { OnboardingValidation } from "./onboarding.validations";
@@ -36,6 +39,10 @@ const routeArray = [
   [ROUTES.LOGIN, <IsLoginValidation><Login /></IsLoginValidation>],
 
   // Misc
+  [ROUTES.PRIVACY_POLICY, <PrivacyPolicy />],
+  [ROUTES.TERMS_AND_CONDITIONS, <TermsAndConditions />],
+  [ROUTES.SUPPORT, <SupportDetails />],
+
   [ROUTES.STUDENT_EXPERIANCE_CENTER, <StudentExperianceCenter />],
   [ROUTES.NEWSROOM, <NewsRoom />],
   [ROUTES.BLOGS, <Blogs />],

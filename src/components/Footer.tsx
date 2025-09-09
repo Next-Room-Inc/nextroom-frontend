@@ -2,7 +2,8 @@ import { SVGProps, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import { APP_INFO, ROUTES } from "@src/utils/constants";
 import { IMAGES } from "@src/utils/constants/app-info.constant";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const footerNavigation = {
   partners: [
@@ -110,6 +111,7 @@ const footerNavigation = {
 };
 
 const Footer = () => {
+  const naviagte = useNavigate()
   const [companyOpen, setCompanyOpen] = useState(false);
   const [partnersOpen, setPartnersOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
@@ -269,8 +271,29 @@ const Footer = () => {
 
         {/* Base Footer */}
         <div className="mt-2 border-t border-[#B3322F] py-4 sm:mt-5 text-center flex flex-col md:flex-row gap-y-4">
-          <div className="flex-1">Terms of Service</div>
-          <div className="flex-1">Privacy Policy</div>
+          <motion.div
+            className="flex-1 cursor-pointer"
+            onClick={() => naviagte(ROUTES.TERMS_AND_CONDITIONS)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            Terms of Service
+          </motion.div>
+
+          <motion.div
+            className="flex-1 cursor-pointer"
+            onClick={() => naviagte(ROUTES.PRIVACY_POLICY)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            Privacy Policy
+          </motion.div>
           <div className=" flex-1">&copy; 2025 {APP_INFO.NAME}</div>
           <div className="flex-1">
             <p className="flex flex-wrap gap-x-2 gap-y-2 w-full md:order-2 justify-center md:justify-right">
