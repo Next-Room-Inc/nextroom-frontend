@@ -22,6 +22,7 @@ import { ROUTES } from "@src/utils/constants";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { OnboardingValidation } from "./onboarding.validations";
 import { IsLoginValidation } from "./route.validations";
+import Support from "@src/pages/support/Support";
 
 const errorElement = <NotFoundErrorPage />
 
@@ -41,7 +42,7 @@ const routeArray = [
   // Misc
   [ROUTES.PRIVACY_POLICY, <PrivacyPolicy />],
   [ROUTES.TERMS_AND_CONDITIONS, <TermsAndConditions />],
-  [ROUTES.SUPPORT, <SupportDetails />],
+  [ROUTES.SUPPORT, <Support />],
 
   [ROUTES.STUDENT_EXPERIANCE_CENTER, <StudentExperianceCenter />],
   [ROUTES.NEWSROOM, <NewsRoom />],

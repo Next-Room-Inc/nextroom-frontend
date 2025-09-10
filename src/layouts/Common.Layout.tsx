@@ -11,7 +11,7 @@ const CommonLayout: React.FC<{
     <div className="min-h-screen flex flex-col bg-[url('/assets/img/backgrounds/backgrounds_7.png')] bg-cover bg-no-repeat bg-fixed">
       <Header darkMode />
 
-      <main className="min-h-[100vh] border-b-4 border-[#B3322F] pt-30 pb-10">
+      <main className="min-h-[100vh] border-b-4 border-[#B3322F] pt-25 pb-10">
         <div className="w-full">{children}</div>
       </main>
     </div>

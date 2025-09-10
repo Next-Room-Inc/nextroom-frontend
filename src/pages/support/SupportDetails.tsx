@@ -4,9 +4,40 @@ import CommonLayout from '@src/layouts/Common.Layout'
 const SupportDetails = () => {
     return (
         <CommonLayout>
+            <div className="bg-gradient-to-b from-[#B3322F] to-[#4D1614] flex flex-col-reverse md:flex-row "   >
+
+                <div className="md:1/2  w-full flex items-end">
+                    <img src="/assets/img/images/support-page-girl.svg" className='h-full md:pt-30' />
+                </div>
+
+                <div className="md:1/2  w-full   flex items-center  my-10">
+                    <div>
+                        {/* Heading */}
+                        <h2 className="text-2xl w-[80%]   mx-auto md:mx-0   text-center md:text-left md:text-6xl font-bold text-white mb-4   ">
+                            Your Safety  Is
+
+                            <br className="inline" /> Our Priority.
+                            {/* <br className=" " /> Housing
+                        <br className="hidden md:inline" /> Starts Here. */}
+                        </h2>
+                        {/* Description */}
+                        <div className="w-[80%] md:w-[60%] mx-auto   md:mx-0   text-center md:text-left text-[#FFFFFF] ">
+
+                            <p
+                            >
+                                Every Day, We Protect Students From Scams,
+                                Roommate Disputes, And Unsafe
+                                Living Conditions.
+                            </p>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
 
             {/*  */}
-            <div className="bg-gradient-to-b from-[#4D1614] to-[#4D1614] py-15 px-5 text-white text-center w-full shadow-lg">
+            <div className="bg-gradient-to-b from-[#B3322F] to-[#4D1614] py-15 px-5 text-white text-center w-full shadow-lg">
                 <h1 className="font-bold text-3xl mb-10">Jump To...</h1>
 
                 <div className="flex flex-col gap-4">
