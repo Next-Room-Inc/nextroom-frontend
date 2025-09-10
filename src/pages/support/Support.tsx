@@ -2,6 +2,7 @@
 
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Button } from '@src/components/Button'
+import ChatSupport from '@src/components/chat/ChatSupport'
 import CommonLayout from '@src/layouts/Common.Layout'
 import { APP_INFO } from '@src/utils/constants'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -132,8 +133,10 @@ const Support = () => {
                 </div>
             </div>
 
-
-
+            {/* Chat Support */}
+            <div className='mx-5 md:mx-15 mt-10'>
+                <ChatSupport />
+            </div>
 
 
 
