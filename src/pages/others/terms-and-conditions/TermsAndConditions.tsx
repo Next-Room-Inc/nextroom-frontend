@@ -6,17 +6,16 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRef, useState } from 'react';
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
+import { LANGUAGES } from '@src/utils/constants/app-info.constant';
 
-const PrivacyPolicy = () => {
+const TermsAndConditions = () => {
     const printRef = useRef();
+    const { i18n } = useTranslation();
 
-    const [selectedLang, setSelectedLang] = useState("en");
     const [loader, setLoader] = useState(false);
 
-    const languages = [
-        { code: "en", label: "English" },
-        { code: "fr", label: "French" },
-    ];
+
 
     const handleDownloadPdf = async () => {
         setLoader(true)
@@ -44,18 +43,18 @@ const PrivacyPolicy = () => {
                 {/* Heading */}
                 <div className='my-5 flex  gap-2 md:flex-row flex-col-reverse'>
                     <div className=' w-full md:w-1/2 '>
-                        <h1 className='text-[#B3322F] font-semibold text-4xl'>Privacy Policy</h1>
+                        <h1 className='text-[#B3322F] font-semibold text-4xl'>Terms &  Conditions</h1>
                         <h5 className='italic font-semibold mt-2'>Last updated: January 07, 2025</h5>
                     </div>
                     <div className=' w-full md:w-1/2 flex justify-end '>
                         <div className='text-[#B3322F]'>
-                            {languages.map((lang) => (
+                            {LANGUAGES.map((lang) => (
                                 <span
                                     key={lang.code}
                                     role="button"
                                     tabIndex={0}
-                                    onClick={() => setSelectedLang(lang.code)}
-                                    className={` transition duration-300 mx-2  ${selectedLang === lang.code
+                                    onClick={() => i18n.changeLanguage(lang.code)}
+                                    className={` transition duration-300 mx-2  ${i18n.language === lang.code
                                         ? "underline underline-offset-4 font-bold"
                                         : ""
                                         }`}
@@ -89,26 +88,26 @@ const PrivacyPolicy = () => {
 
                 {/* Privacy & policies */}
                 <div className='bg-white shadow p-5 md:p-10 rounded-2xl my-7 ' ref={printRef}>
-                    {/* Interpretation and Definitions */}
-                    <h1 className='font-bold text-xl mb-2 text-[#B3322F]'>Interpretation and Definitions</h1>
-                    <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.
-                        Definitions</p>
+                    {/* 1.1 Interpretation and Definitions */}
+                    <h1 className='font-bold text-xl mb-2 text-[#B3322F]'>1.1 Interpretation and Definitions</h1>
+                    <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
+                    <p  >Definitions</p>
                     <p className='my-2'>For the purposes of this Privacy Policy:</p>
 
                     <ul className="list-disc pl-6 space-y-0">
-                        <li>Account means a unique account created for You to access our Service.</li>
-                        <li>Application refers to thirdspace, the software program provided by the Company.</li>
-                        <li>Company refers to Swibe Social Inc., 1233 Colonel By Drive Ottawa, Ontario Canada K1S 5B7.</li>
-                        <li>Country refers to: Ontario, Canada.</li>
-                        <li>Device means any device like a computer or cellphone that can access the Service.</li>
-                        <li>Personal Data is any information that relates to an identified or identifiable individual.</li>
-                        <li>Service refers to the Application.</li>
-                        <li>Service Provider means a third party that processes data on behalf of the Company.</li>
-                        <li>Usage Data refers to data collected automatically from the Service.</li>
-                        <li>You means the individual accessing the Service or on behalf of an organization.</li>
+                        <li>Account means a unique account created for You to access our Service.</li>
+                        <li>Application refers to thirdspace, the software program provided by the Company.</li>
+                        <li>Company refers to Swibe Social Inc., 1233 Colonel By Drive Ottawa, Ontario Canada K1S 5B7.</li>
+                        <li>Country refers to: Ontario, Canada.</li>
+                        <li>Device means any device like a computer or cellphone that can access the Service.</li>
+                        <li>Personal Data is any information that relates to an identified or identifiable individual.</li>
+                        <li>Service refers to the Application.</li>
+                        <li>Service Provider means a third party that processes data on behalf of the Company.</li>
+                        <li>Usage Data refers to data collected automatically from the Service.</li>
+                        <li>You means the individual accessing the Service or on behalf of an organization.</li>
                     </ul>
-                    {/* Collecting and Using Your Personal Data */}
-                    <h1 className='font-bold text-xl mb-2 text-[#B3322F] mt-3'>Collecting and Using Your Personal Data</h1>
+                    {/* 1.2 Collecting and Using Your Personal Data */}
+                    <h1 className='font-bold text-xl mb-2 text-[#B3322F] mt-3'>1.2 Collecting and Using Your Personal Data</h1>
                     <p className='font-semibold text-lg'>Personal Data</p>
                     <p className='my-2'>We may ask You to provide personally identifiable information, including:</p>
 
@@ -120,8 +119,8 @@ const PrivacyPolicy = () => {
                     </ul>
 
                     <p className='font-semibold mt-4 mb-2 text-lg'>Usage Data</p>
-                    <p>Usage Data is collected automatically when using the Service. It may include: IP address, browser type, pages visited, time spent, and device identifiers.
-                        When using the mobile app, we may collect info such as device type, OS, IP, and browser data.</p>
+                    <p>Usage Data is collected automatically when using the Service. It may include: IP address, browser type, pages visited, time spent, and device identifiers.</p>
+                    <p>When using the mobile app, we may collect info such as device type, OS, IP, and browser data.</p>
 
                     <p className='font-semibold mt-4 mb-2 text-lg'>Information Collected via App</p>
                     <p className='my-2'>With Your permission, we may collect:</p>
@@ -132,8 +131,8 @@ const PrivacyPolicy = () => {
                     </ul>
                     <p>This helps deliver features and personalize Your experience. You can manage access in your device settings.</p>
 
-                    {/* Use of Your Personal Data */}
-                    <h1 className='font-bold text-xl mb-2 text-[#B3322F] mt-3'>Use of Your Personal Data</h1>
+                    {/* 1.3 Use of Your Personal Data */}
+                    <h1 className='font-bold text-xl mb-2 text-[#B3322F] mt-3'>1.3 Use of Your Personal Data</h1>
                     <p className='my-2'>We use your data to:</p>
                     <ul className="list-disc pl-6 space-y-0">
                         <li>Provide and improve the Service</li>
@@ -144,7 +143,7 @@ const PrivacyPolicy = () => {
                         <li>Analyze and improve the Service</li>
                     </ul>
                     {/* Sharing Your Data */}
-                    <h1 className='font-bold text-xl mb-2 text-[#B3322F] mt-3'>Sharing Your Data</h1>
+                    <h1 className='font-bold text-xl mb-2 text-[#B3322F] mt-3'>1.4 Sharing Your Data</h1>
                     <p className='my-2'>We may share your info with:</p>
                     <ul className="list-disc pl-6 space-y-0">
                         <li>Service Providers</li>
@@ -162,7 +161,7 @@ const PrivacyPolicy = () => {
                     <p className='font-semibold mt-4 mb-2 text-lg'>Delete Your Data</p>
                     <p>You may request deletion of your data via account settings or by contacting us. Legal obligations may prevent full deletion in some cases.</p>
 
-                    <p className='font-semibold mt-4 mb-2 text-[#B3322F] text-lg'>Disclosure & Security</p>
+                    <p className='font-bold mt-4 mb-2 text-[#B3322F] text-xl'>1.5 Disclosure & Security</p>
                     <p>In legal cases or business transactions, your data may be shared appropriately. We strive to protect your data but cannot guarantee 100% security.</p>
 
                     <p className='font-semibold mt-4 mb-2 text-lg'>Children's Privacy </p>
@@ -188,4 +187,4 @@ const PrivacyPolicy = () => {
     )
 }
 
-export default PrivacyPolicy
+export default TermsAndConditions

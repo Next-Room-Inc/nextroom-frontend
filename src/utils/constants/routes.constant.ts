@@ -20,8 +20,9 @@ export const ROUTES = {
 
   PRIVACY_POLICY: "/privacy-policy",
   TERMS_AND_CONDITIONS: "/terms-and-conditions",
-  SUPPORT: "/support",
-  OUR_STORY: "/our-story",
+  CONTACT: "/contact",
+  SAFETY: "/saftey",
+  ABOUT_US: "/about-us",
 
   //search property
   SEARCH_PROPERTY: "/search-property",

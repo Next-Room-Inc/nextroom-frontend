@@ -4,11 +4,11 @@ import CommonLayout from '@src/layouts/Common.Layout';
 import { APP_INFO } from '@src/utils/constants';
 import { motion } from "framer-motion";
 import Wave from "react-wavify";
-import { Navigation, Pagination } from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 
-export const OurStory = () => {
+export const AboutUs = () => {
     const steps = [
         {
             title: "Built By Students, For Students",

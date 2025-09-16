@@ -6,17 +6,20 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Wave from "react-wavify";
 import useAuth from "@src/custom-hooks/useAuth";
 import { APP_INFO, ROUTES } from "@src/utils/constants";
+import { LANGUAGES } from "@src/utils/constants/app-info.constant";
+import { useTranslation } from "react-i18next";
 
 export default function Header({ darkMode = true }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { i18n } = useTranslation();
   const isStudentDashboard = location.pathname === ROUTES.STUDENTS_DASHBOARD;
 
   const { handleLogout, isLoggedIn } = useAuth();
-  const [selectedLang, setSelectedLang] = useState("en");
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [headerColor, setHeaderColor] = useState("bg-black");
+
 
   const StudentDashboardIcons = () => (
     <div className={`${isStudentDashboard ? "flex" : "hidden"} gap-2`}>
@@ -32,10 +35,6 @@ export default function Header({ darkMode = true }) {
     </div>
   );
 
-  const languages = [
-    { code: "en", label: "English" },
-    { code: "fr", label: "French" },
-  ];
 
   const solutions = [
     {
@@ -110,15 +109,15 @@ export default function Header({ darkMode = true }) {
             className={`flex gap-1 font-semibold text-[14px]  ${darkMode ? "text-black" : "text-dark"
               }`}
           >
-            {languages.map((lang) => (
+            {LANGUAGES.map((lang) => (
               <span
                 key={lang.code}
                 role="button"
                 tabIndex={0}
-                onClick={() => setSelectedLang(lang.code)}
-                className={` transition duration-200 ${selectedLang === lang.code
-                    ? "underline underline-offset-4 text-red-500"
-                    : "hover:text-red-800"
+                onClick={() => i18n.changeLanguage(lang.code)}
+                className={` transition duration-200 ${i18n.language === lang.code
+                  ? "underline underline-offset-4 text-red-500"
+                  : "hover:text-red-800"
                   }`}
               >
                 {lang?.code?.toUpperCase()}
@@ -184,15 +183,15 @@ export default function Header({ darkMode = true }) {
             className={`hidden lg:flex gap-2 font-semibold text-[12px] mt-1 ${darkMode ? "text-white" : "text-dark"
               }`}
           >
-            {languages.map((lang) => (
+            {LANGUAGES.map((lang) => (
               <span
                 key={lang.code}
                 role="button"
                 tabIndex={0}
-                onClick={() => setSelectedLang(lang.code)}
-                className={` transition-all duration-300 ease-in-out ${selectedLang === lang.code
-                    ? "underline underline-offset-4"
-                    : "hover:text-gray-500"
+                onClick={() => i18n.changeLanguage(lang.code)}
+                className={` transition-all duration-300 ease-in-out ${i18n.language === lang.code
+                  ? "underline underline-offset-4"
+                  : "hover:text-gray-500"
                   }`}
               >
                 {lang.label}
@@ -221,8 +220,8 @@ export default function Header({ darkMode = true }) {
             </div>
             <span
               className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
-                  ? " border-white text-black bg-white"
-                  : "text-dark border-dark hover:text-white hover:bg-black"
+                ? " border-white text-black bg-white"
+                : "text-dark border-dark hover:text-white hover:bg-black"
                 }`}
             >
               Refer & Earn

@@ -6,6 +6,7 @@ import { routes } from "./routes/routes";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import './i18n';
 
 function App() {
   return (

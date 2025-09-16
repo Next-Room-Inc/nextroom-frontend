@@ -22,7 +22,7 @@ const roles = [
     "Others",
 ]
 
-const Support = () => {
+const Contact = () => {
     const [selectedTopic, setSelectedTopic] = useState(topics[0])
     const [selectedRole, setSelectedRole] = useState(roles[0])
     const [isDropdownOpen, setIsDropdownOpen] = useState(true);
@@ -144,7 +144,7 @@ const Support = () => {
     )
 }
 
-export default Support
+export default Contact
 
 
 

@@ -1,7 +1,7 @@
 import { Button } from '@src/components/Button'
 import CommonLayout from '@src/layouts/Common.Layout'
 
-const SupportDetails = () => {
+const Saftey = () => {
     return (
         <CommonLayout>
             <div className="bg-gradient-to-b from-[#B3322F] to-[#4D1614] flex flex-col-reverse md:flex-row "   >
@@ -114,4 +114,4 @@ const SupportDetails = () => {
     )
 }
 
-export default SupportDetails
+export default Saftey

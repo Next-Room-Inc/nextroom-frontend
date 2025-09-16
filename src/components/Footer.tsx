@@ -1,9 +1,10 @@
 import { SVGProps, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import { APP_INFO, ROUTES } from "@src/utils/constants";
-import { IMAGES } from "@src/utils/constants/app-info.constant";
+import { IMAGES, LANGUAGES } from "@src/utils/constants/app-info.constant";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const footerNavigation = {
   partners: [
@@ -14,15 +15,15 @@ const footerNavigation = {
   ],
   support: [
     { name: "Help & FAQ", href: ROUTES.UNDER_CONSTRUCTION },
-    { name: "Contact", href: ROUTES.UNDER_CONSTRUCTION },
+    { name: "Contact", href: ROUTES.CONTACT },
   ],
   company: [
-    { name: "About Us", href: ROUTES.UNDER_CONSTRUCTION },
+    { name: "About Us", href: ROUTES.ABOUT_US },
     { name: "Services", href: ROUTES.UNDER_CONSTRUCTION },
     { name: "Ambassadors", href: ROUTES.UNDER_CONSTRUCTION },
     { name: "Affiliate Program", href: ROUTES.UNDER_CONSTRUCTION },
     { name: "Blog", href: ROUTES.UNDER_CONSTRUCTION },
-    { name: "Safety", href: ROUTES.UNDER_CONSTRUCTION },
+    { name: "Safety", href: ROUTES.SAFETY },
   ],
 
   social: [
@@ -112,16 +113,20 @@ const footerNavigation = {
 
 const Footer = () => {
   const naviagte = useNavigate()
+  const { i18n } = useTranslation();
   const [companyOpen, setCompanyOpen] = useState(false);
   const [partnersOpen, setPartnersOpen] = useState(false);
   const [supportOpen, setSupportOpen] = useState(false);
 
-  const [selectedLang, setSelectedLang] = useState("en");
+  // const [selectedLang, setSelectedLang] = useState("en");
 
-  const languages = [
-    { code: "en", label: "English" },
-    { code: "fr", label: "French" },
-  ];
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang); // switch between 'en' and 'fr'
+  };
+
+
+
+  console.log("i18n==>", i18n.language)
   return (
     <>
       {/* Footer */}
@@ -143,13 +148,13 @@ const Footer = () => {
 
                   {/* Languages */}
                   <div className="flex gap-2 text-[#B3322F] text-[20px]  md:font-semibold md:text-[12px] ">
-                    {languages.map((lang) => (
+                    {LANGUAGES.map((lang) => (
                       <span
                         key={lang.code}
                         role="button"
                         tabIndex={0}
-                        onClick={() => setSelectedLang(lang.code)}
-                        className={` transition duration-300  ${selectedLang === lang.code
+                        onClick={() => changeLanguage(lang.code)}
+                        className={` transition duration-300  ${i18n.language === lang.code
                           ? "underline underline-offset-4 font-bold"
                           : "hover:text-gray-300"
                           }`}
