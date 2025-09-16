@@ -24,6 +24,8 @@ import { OnboardingValidation } from "./onboarding.validations";
 import { IsLoginValidation } from "./route.validations";
 import Support from "@src/pages/support/Support";
 import { OurStory } from "@src/pages/our-story/OurStory";
+import LandlordSignUp from "@src/pages/landlord-signup/LandlordSignUp";
+import Landlord from "@src/pages/landlord/Landlord";
 
 const errorElement = <NotFoundErrorPage />
 
@@ -48,6 +50,8 @@ const routeArray = [
 
   [ROUTES.STUDENT_EXPERIANCE_CENTER, <StudentExperianceCenter />],
   [ROUTES.NEWSROOM, <NewsRoom />],
+  [ROUTES.LANDLORD, <Landlord />],
+  [ROUTES.LANDLORD_SIGNUP, <LandlordSignUp />],
   [ROUTES.BLOGS, <Blogs />],
   [ROUTES.CHAT, <Chat />],
   [ROUTES.UNDER_CONSTRUCTION, <UnderConstruction />],

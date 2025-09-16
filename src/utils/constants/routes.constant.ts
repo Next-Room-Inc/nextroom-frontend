@@ -12,6 +12,8 @@ export const ROUTES = {
   RESEND_VERIFICATION: "/resend-verification",
   UNDER_CONSTRUCTION: "/under-construction",
   NEWSROOM: "/newsroom",
+  LANDLORD: "/landlord",
+  LANDLORD_SIGNUP: "/landlord-signup",
   STUDENT_EXPERIANCE_CENTER: "/student-experiance-center",
   BLOGS: "/blogs",
   CHAT: "/chat",

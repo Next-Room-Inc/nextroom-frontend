@@ -101,6 +101,7 @@ const lastStep = {
 const Onboarding = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  console.log("user==>",user)
   const { studentId = "", firstName = "", lastName = "" } = user || {};
   const [submitOnboardingPreferences] =
     useSubmitOnboardingPreferencesMutation();

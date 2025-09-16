@@ -59,7 +59,7 @@ const MyHousing = () => {
 
         {!isLoading && !isError && property && (
           <div className="grid gap-5 mx-5">
-            {property.floorplans?.map((floorplan: Floorplan, idx: number) => (
+            {property.length && property.floorplans?.map((floorplan: Floorplan, idx: number) => (
               <PropertyCard
                 key={`${property.id}-${floorplan.id ?? idx}`} // ✅ stable key
                 index={floorplan.id}
@@ -127,8 +127,8 @@ const SavedUnits = () => {
 
       {!isLoading && !isError && properties && (
         <div className="grid gap-5 mx-5">
-          {properties.map((property: any) =>
-            property.floorplans?.map((floorplan: Floorplan, idx: number) => (
+          {properties.length && properties.map((property: any) =>
+            property?.floorplans?.map((floorplan: Floorplan, idx: number) => (
               <PropertyCard
                 key={`${property.id}-${floorplan.id ?? idx}`} // ✅ stable key
                 index={floorplan.id}
