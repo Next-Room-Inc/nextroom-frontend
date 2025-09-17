@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { CheckIcon } from "@heroicons/react/20/solid";
 import { PrimaryButton } from "@src/components/Button";
+import { useState } from "react";
 
 interface EmailVerificationFormProps {
   formik: any;
@@ -48,9 +47,8 @@ export const EmailVerification: React.FC<EmailVerificationFormProps> = ({
         className="flex gap-3 hover:bg-gray-100 p-2 rounded-md transition px-5 mt-6"
       >
         <span
-          className={`${
-            alternativeDetails ? "bg-[#B3322F]" : "border-[#B3322F] border-2"
-          } mt-1 w-7 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
+          className={`${alternativeDetails ? "bg-[#B3322F]" : "border-[#B3322F] border-2"
+            } mt-1 w-7 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
         ></span>
         <span className="text-[#040404] text-[16px]">
           I wish to receive notifications via an alternative email address or
@@ -62,11 +60,10 @@ export const EmailVerification: React.FC<EmailVerificationFormProps> = ({
         {alternativeDetails && (
           <>
             <div
-              className={`mt-6 ${inputClass} ${
-                formik.touched.email && formik.errors.email
+              className={`mt-6 ${inputClass} ${formik.touched.email && formik.errors.email
                   ? "outline-1 outline-red-600"
                   : "outline-1 outline-gray-300"
-              }`}
+                }`}
             >
               <input
                 placeholder="Email Address"
@@ -76,11 +73,10 @@ export const EmailVerification: React.FC<EmailVerificationFormProps> = ({
                 value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none ${
-                  formik.touched.email && formik.errors.email
+                className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none ${formik.touched.email && formik.errors.email
                     ? "outline-red-600"
                     : "outline-white"
-                }`}
+                  }`}
               />
               {formik.touched.email && formik.errors.email && (
                 <div className="text-sm text-red-600 ml-3 mt-2">
@@ -89,11 +85,10 @@ export const EmailVerification: React.FC<EmailVerificationFormProps> = ({
               )}
             </div>
             <div
-              className={`mt-6 ${inputClass} ${
-                formik.touched.email && formik.errors.email
+              className={`mt-6 ${inputClass} ${formik.touched.email && formik.errors.email
                   ? "outline-1 outline-red-600"
                   : "outline-1 outline-gray-300"
-              }`}
+                }`}
             >
               <input
                 placeholder="Phone Number"
@@ -103,11 +98,10 @@ export const EmailVerification: React.FC<EmailVerificationFormProps> = ({
                 value={formik.values.phoneNumber}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none ${
-                  formik.touched.phoneNumber && formik.errors.phoneNumber
+                className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none ${formik.touched.phoneNumber && formik.errors.phoneNumber
                     ? "outline-red-600"
                     : "outline-white"
-                }`}
+                  }`}
               />
             </div>
           </>

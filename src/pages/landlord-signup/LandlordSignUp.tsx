@@ -23,7 +23,7 @@ const LandlordSignUp = () => {
       step: 1,
     },
     validationSchema: "",
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
 
   const currentStep = formik.values.step;
@@ -63,11 +63,10 @@ const LandlordSignUp = () => {
                   <div className="absolute hidden md:block top-5 left-1/2 w-full h-[2px] bg-[#B3322F]" />
                 )}
                 <div
-                  className={`flex items-center justify-center w-10 h-10 md:mt-0 rounded-full border-2 z-10 ${
-                    currentStep > stepNum
+                  className={`flex items-center justify-center w-10 h-10 md:mt-0 rounded-full border-2 z-10 ${currentStep > stepNum
                       ? "bg-[#B3322F] border-[#B3322F] text-white"
                       : "bg-white border-[#B3322F] text-[#B3322F]"
-                  }`}
+                    }`}
                 >
                   <CheckIcon className="w-5" />
                 </div>

@@ -37,6 +37,8 @@ export const AboutUs = () => {
         "paramount.png",
     ]
 
+
+
     return (
         <CommonLayout>
             {/* Banner */}
@@ -56,14 +58,12 @@ export const AboutUs = () => {
             </div>
 
             {/* Platform Details */}
-
             <div className="bg-gradient-to-b from-[#B3322F] to-[#4D1614] p-6 pt-15 text-center text-white w-full ">
                 {/*  info*/}
                 <p className='italic text-xl  md:text-3xl leading-relaxed font-semibold'>
                     “We Started Because We Saw A Problem. Students Couldn't Find <br className='hidden md:inline' />
                     Housing, And Landlords Couldn't Find Qualified Renters. <br className='hidden md:inline' />
                     We Saw An Opportunity To Change This.”
-
                 </p>
 
                 <p className='font-semibold mt-8'> Aidan Fitzmaurice</p>
@@ -138,6 +138,12 @@ export const AboutUs = () => {
                 <Button className='bg-black text-white rounded-full w-full py-3'>Find Your Next Home</Button>
                 <Button className='bg-black text-white rounded-full w-full py-3'>List Your Property</Button>
                 <Button className='bg-black text-white rounded-full w-full py-3'>Partner With Us</Button>
+            </div>
+
+            {/* test */}
+            <div className='h-[100vh] gradientBackground'>
+
+
             </div>
         </CommonLayout>
     )
