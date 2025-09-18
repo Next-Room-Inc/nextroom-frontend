@@ -168,8 +168,9 @@ const PasswordForm: React.FC<{
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none}`}
+                            className={`block w-full pr-40 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none}`}
                         />
+                        <span className="absolute right-11 text-[#B3322F] font-semibold underline text-[10px]  top-1/2 -translate-y-1/2   z-10" >Generate Password For Me</span>
                         <PasswordEyeToggleIcon
                             onClick={() => setPasswordType(!passwordType)}
                             aria-hidden="true"
@@ -302,14 +303,16 @@ const Email: React.FC<{
     prevStepHandler: () => void
     nextStepHandler: () => void
 }> = ({ formik, prevStepHandler, nextStepHandler }) => {
-    const universityDomains: Record<string, string> = {
-        "The University of Ottawa": "uottawa.ca",
-        "Carleton University": "carleton.ca",
-        "Algonquin College": "algonquinlive.ca",
-        "Collège La Cité": "collegelacite.ca",
+    const universityDomains: Record<string, Array<string>> = {
+        "The University of Ottawa": ["uottawa.ca"],
+        "Carleton University": ["carleton.ca", "cmail.carleton.ca", "cunet.carleton.ca"],
+        "Algonquin College": ["algonquinlive.ca"],
+        "Collège La Cité": ["collegelacite.ca"],
     };
 
-    const isValidEmail = formik.values.email.split("@")[1]?.toLowerCase() === universityDomains[formik.values.university]
+    const emailDomain = formik.values.email.split("@")[1]?.toLowerCase();
+
+    const isValidEmail = universityDomains[formik.values.university]?.includes(emailDomain);
     // const isValidEmail = true
     const isError = !isValidEmail || !formik.touched.email || formik.errors.university || formik.errors.email
 
@@ -360,7 +363,14 @@ const Email: React.FC<{
 
                 {!isValidEmail && !formik.errors.email ? (
                     <div className="text-sm text-white pl-5 pt-2">
-                        Email domain must match your selected university (e.g. uottawa.ca carleton.ca algonquinlive.ca collegelacite.ca for University of Ottawa)
+                        Email domain must match your selected university (e.g. {Object.values(universityDomains)
+                            .flat()
+                            .map((domain, index, arr) => (
+                                <span key={domain} className="font-semibold">
+                                    {domain}
+                                    {index < arr.length - 1 && ", "}
+                                </span>
+                            ))} for University of Ottawa)
                     </div>
                 ) : null}
             </div>

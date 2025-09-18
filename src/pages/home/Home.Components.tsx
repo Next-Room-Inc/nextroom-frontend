@@ -55,7 +55,7 @@ export const HomeComponent: React.FC<{
                 element.scrollIntoView({ behavior: "smooth" });
               }
             }}
-            className=" bg-black text-white font-medium py-3 w-[320px]   md:w-[500px] mx-auto rounded-full shadow-md z-10  -top-3 relative -mt-10 transition-all duration-300 ease-in-out">
+            className=" bg-black text-white font-medium py-3 w-[320px]  md:w-[500px] mx-auto rounded-full shadow-md z-10  -top-3 relative -mt-10 transition-all duration-300 ease-in-out">
             Join The Student Housing Revolution
           </button>
         </div>
