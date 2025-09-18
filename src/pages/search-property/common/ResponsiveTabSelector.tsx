@@ -153,11 +153,11 @@ export const ResponsiveTabSelector: React.FC<{
                 </div>
 
                 {/* Mobile View */}
-                <div className="lg:hidden   relative z-10 w-full">
+                <div className="lg:hidden   relative  w-full">
                     {/* Toggle Button */}
                     <div
                         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative z-10"
+                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative "
                     >
                         {/* {tab === tabOptions[3] ? <>{tab} ({selectedProfileTab})</> : tab} */}
                         {tabOptionsObject?.[tab]}
@@ -173,7 +173,7 @@ export const ResponsiveTabSelector: React.FC<{
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
                                 transition={{ duration: 0.2 }}
-                                className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-100"
+                                className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-10"
                             >
                                 {tabOptions.map((t, index: number) => (
                                     <div
@@ -195,47 +195,7 @@ export const ResponsiveTabSelector: React.FC<{
                 </div>
 
                 {/* Mobile View */}
-                <div className="lg:hidden   relative z-50 w-full">
-                    {/* Toggle Button */}
-                    <div
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="text-center bg-white flex items-center justify-center  text-[#B3322F] shadow-md  w-full py-3 rounded-full text-sm font-medium  relative z-50"
-                    >
-                        {/* {tab === tabOptions[3] ? <>{tab} ({selectedProfileTab})</> : tab} */}
-                        {tabOptionsObject?.[tab]}
-                        <ChevronDownIcon className='h-7 ml-2 mt-1 text-[#B3322F]' />
-                    </div>
 
-                    {/* Dropdown */}
-                    <AnimatePresence>
-                        {isDropdownOpen && (
-                            <motion.div
-                                key="dropdown"
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.2 }}
-                                className="absolute left-0 right-0 mt-2 mx-6 bg-white shadow-xl rounded-2xl px-5 py-4 text-sm z-100"
-                            >
-                                {tabOptions.map((t, index: number) => (
-                                    <div
-                                        key={index}
-                                        className={`text-center py-2  hover:text-[#B3322F] ${t === tab ? "text-[#B3322F] font-semibold" : ""
-                                            }`}
-                                        onClick={() => { handleSelectTab(t) }}
-                                    >
-                                        {/* {index === 3 ? selectedProfileTab : tab} */}
-                                        {/* {index === 3 ? <>{tabOptionsObject?.[t]} ({selectedProfileTab}) </> : tabOptionsObject?.[t]} */}
-                                        {tabOptionsObject?.[t]}
-                                    </div>
-                                ))}
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-
-
-
-                </div>
 
                 {(tab === "matches" || tab === "explore") && <Popover className="relative">
                     <PopoverButton className="focus:outline-none items-center gap-x-1 text-sm/6 font-semibold text-gray-900 mt-3">

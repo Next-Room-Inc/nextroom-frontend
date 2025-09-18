@@ -267,7 +267,7 @@ export default function Header({ darkMode = true }) {
             </PopoverButton>
             <PopoverPanel
               transition
-              className="absolute  left-14 md:left-13 z-10  mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
+              className="absolute  left-14 md:left-13 z-40 mt-1 flex w-screen max-w-min -translate-x-1/2 px-4 transition data-closed:translate-y-1 data-closed:opacity-0 data-enter:duration-200 data-enter:ease-out data-leave:duration-150 data-leave:ease-in"
             >
               <div className="w-35 md:w-40 shrink rounded-xl bg-white py-2 md:py-4  text-[14px] font-semibold text-gray-900 shadow-lg ring-1 ring-gray-900/5">
                 {solutions.map((item, index) => (
