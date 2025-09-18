@@ -125,9 +125,9 @@ const SavedUnits = () => {
         </div>
       )}
 
-      {!isLoading && !isError && properties && (
+      {!isLoading && !isError && (
         <div className="grid gap-5 mx-5">
-          {properties.length && properties.map((property: any) =>
+          {properties?.map((property: any) =>
             property?.floorplans?.map((floorplan: Floorplan, idx: number) => (
               <PropertyCard
                 key={`${property.id}-${floorplan.id ?? idx}`} // ✅ stable key
