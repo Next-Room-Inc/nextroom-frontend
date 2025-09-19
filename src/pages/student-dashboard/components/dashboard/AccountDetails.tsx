@@ -89,7 +89,7 @@ export const AccountDetails = () => {
 
         // const { age, gender, pronouns, alternativeEmail, alternativePhoneNumber, profileCompletionStep = 0 } = profileProgress;
         const { age, gender, pronouns, alternativeEmail, alternativePhoneNumber, } = profileProgress;
-        const profileCompletionStep = 2
+        const profileCompletionStep = 0
         formik.setFieldValue("age", age || "");
         formik.setFieldValue("gender", gender || "");
         formik.setFieldValue("pronouns", pronouns || "");
@@ -367,12 +367,31 @@ const ImageUploadComponent: React.FC<{
 }> = ({ formik, handleSubmit, profileImage: image, email }) => {
     const [profileImage, setProfileImage] = useState<string | null>(image || null);
 
-    // console.log("-->", profileImage)
+    console.log("-->", profileImage)
 
-    const saveImageHandler = () => {
+    // Helper: Convert image URL to base64
+    const urlToBase64 = async (url: string): Promise<string> => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob); // converts to base64 string
+        });
+    };
+
+    const saveImageHandler = async () => {
         if (!profileImage) return
-        formik.setFieldValue("profilePhoto", profileImage);
-        handleSubmit({ profilePhoto: profileImage, skipProfilePhoto: false, email, profileCompletionStep: 2 })
+        let imagePayload = profileImage
+        // If the initial image (from props) is a URL, convert it to base64
+        if (image && image.startsWith("http")) {
+            imagePayload = await urlToBase64(image);
+        }
+
+        formik.setFieldValue("profilePhoto", imagePayload);
+        handleSubmit({ profilePhoto: imagePayload, skipProfilePhoto: false, email, profileCompletionStep: 2 })
     }
 
     const skipImageHandler = () => handleSubmit({ skipProfilePhoto: true, email, profileCompletionStep: 2 })

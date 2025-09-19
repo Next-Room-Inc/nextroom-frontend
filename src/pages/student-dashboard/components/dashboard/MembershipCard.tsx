@@ -69,7 +69,7 @@ export const MembershipCard: React.FC<{
     //   pdf.save("membership-card.pdf");
     // };
 
-    const isPorfileImageUploaded = !membershipCard?.profilePhotoUrl
+    const isPorfileImageUploaded = membershipCard?.profilePhotoUrl
 
     return (<>
         <div className="py-10 px-2">
@@ -79,7 +79,7 @@ export const MembershipCard: React.FC<{
             </div> : !isPorfileImageUploaded ? <div>
                 <div className="flex flex-col   items-center justify-center gap-4 py-10  mx-10">
                     <p>Upload an image to view and download your membership card</p>
-                    <Button onClick={onImageHandler} className="bg-[#B3322F] text-white w-full md:w-50 py-2 rounded-full">Upload</Button>
+                    <Button onClick={onImageHandler} className="bg-[#B3322F] text-white w-full md:w-50 py-2 rounded-full">Upload Profile</Button>
                 </div >
             </div> : <div ref={cardRef} className="w-fit mx-auto ">
                 <MembershipCardComponent
