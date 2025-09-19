@@ -1,5 +1,5 @@
 import { Button } from "@src/components/Button";
-import Loader from "@src/components/Loader";
+import Loader, { LoaderComponent } from "@src/components/Loader";
 // import { ProfilePhotoUploader } from "@src/components/ProfilePhotoUploader";
 import { ProfilePhotoUploader } from "@src/components/ProfilePhotoUploader";
 import useAuth from "@src/custom-hooks/useAuth";
@@ -17,11 +17,21 @@ const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-whi
 
 export const AccountDetails = () => {
     const { user } = useAuth()
-
-    const { data: profileProgress } = useGetProfileProgressQuery(user?.userId ?? null);
-    const { data: profileImage } = useGetProfilePhotoQuery(user?.userId ?? null);
+    // console.log("==>", user)
+    const userId = user?.userId
+    const email = user?.email
+    // const userId = 279
+    // const email = "mekomi@uottawa.ca"
+    const { data: profileProgress, isLoading: isloadingProfileProgress } = useGetProfileProgressQuery(userId);
+    const { data: profileImage, isLoading: isloadingProfilePhoto } = useGetProfilePhotoQuery(userId);
+    // const { data: profileProgress, isLoading: isloadingProfileProgress } = useGetProfileProgressQuery(user?.userId ?? null);
+    // const { data: profileImage } = useGetProfilePhotoQuery(user?.userId ?? null);
     const [updateProfileDetails, { isLoading }] = useUpdateProfileDetailsMutation();
     const [section, setSection] = useState('Password')
+    // const [stepsComponent, setStepComponents] = useState<any[]>([]);
+    const [stepToAnswer, stepsToAnswer] = useState<any[]>([]);
+    const [loader, setLoader] = useState<boolean>(true);
+
     const steps = [
         { label: "Image", name: "Image" },
         { label: "General", name: "General" },
@@ -29,31 +39,21 @@ export const AccountDetails = () => {
     ];
 
 
-    const handleSubmit = async (values: StudentUpdatePayload) => {
-
+    const handleSubmit = async (values: Partial<StudentUpdatePayload>) => {
+        console.log('handleSubmit hit')
         try {
-            const payload = {
-                ...values,
-                email: user?.email || ""
-            }
+            const payload = { ...values, email }
             const res = await updateProfileDetails(payload);
-            const errorMessage = (res.error as any)?.data ?? "Account Updation Failed";
 
-            if (res.error) toast.error(errorMessage);
+            if (res.error) {
+                const errorMessage = (res.error as any)?.data ?? "Account Updation Failed";
+                toast.error(errorMessage);
+            }
             else {
-
+                console.log('res', res)
                 const message = res.data || "Account Updated Successfully"
                 toast.success(message);
-                // formik.setValues({ ...formik.values, step: 3 });
-                // setOpen(true);
-                // setAuth({
-                //     email: values.email,
-                //     lastName: values.lastName,
-                //     firstName: values.firstName,
-                // });
-                // setResponse(res?.data?.token);
-                // await handleLogin(response)
-                // nextStepHandler()
+                nextStepHandler()
             }
         } catch (err) {
             console.error("Unexpected error:", err);
@@ -73,47 +73,128 @@ export const AccountDetails = () => {
             profilePhoto: "",
             step: 0,
         },
-        // validationSchema: toFormikValidationSchema(),
         onSubmit: handleSubmit,
     });
 
 
     const nextStepHandler = () => {
         const { step } = formik.values;
-        const nextStep = step <= 3 ? step + 1 : step;
+        const nextStep = step < 4 ? step + 1 : step;
+        console.log(formik.values, 'next step handler', step, nextStep)
         formik.setValues({ ...formik.values, step: nextStep });
     };
 
-    // const prevStepHandler = () => {
-    //     const { step } = formik.values;
-    //     const nextStep = step > 1 ? step - 1 : step;
-    //     formik.setValues({ ...formik.values, step: nextStep });
-    // };
+    useEffect(() => {
+        if (!profileProgress) return;
+
+        // const { age, gender, pronouns, alternativeEmail, alternativePhoneNumber, profileCompletionStep = 0 } = profileProgress;
+        const { age, gender, pronouns, alternativeEmail, alternativePhoneNumber, } = profileProgress;
+        const profileCompletionStep = 2
+        formik.setFieldValue("age", age || "");
+        formik.setFieldValue("gender", gender || "");
+        formik.setFieldValue("pronouns", pronouns || "");
+        formik.setFieldValue("alternativeEmail", alternativeEmail || "");
+        formik.setFieldValue("alternativePhoneNumber", alternativePhoneNumber || "");
+        formik.setFieldValue("step", profileCompletionStep || 0);
+
+        const slicedSteps = steps.slice((profileCompletionStep) - 4);
+        console.log(steps, "==>", profileCompletionStep, slicedSteps)
+
+        stepsToAnswer(slicedSteps)
+    }, [profileProgress]);
+
+    // useEffect(() => {
+    //     buildSteps();
+    // }, [profileProgress, profileImage]);
 
     useEffect(() => {
-        formik.setFieldValue("gender", profileProgress?.age || "");
-        formik.setFieldValue("gender", profileProgress?.gender || "");
-        formik.setFieldValue("pronouns", profileProgress?.pronouns || "");
-        formik.setFieldValue("alternativeEmail", profileProgress?.alternativeEmail || "");
-        formik.setFieldValue("alternativePhoneNumber", profileProgress?.alternativePhoneNumber || "");
-    }, [profileProgress])
+        if (!isloadingProfileProgress && !isloadingProfilePhoto) setLoader(false)
+    }, [isloadingProfileProgress, isloadingProfilePhoto]);
+
+
+    const props = { formik, nextStepHandler, profileImage, profileProgress, handleSubmit, email };
+
+
+    // const buildSteps = () => {
+
+    //     // console.log("profileProgress==>", profileProgress)
+    //     console.log("test 1 ==>", profileProgress?.alternativeEmail?.trim() !== "",)
+    //     console.log("test 2 ==>", profileProgress?.alternativePhoneNumber?.trim() !== "")
+    //     console.log("test 3 ==>", profileProgress?.skipAlternateContact)
+
+    //     console.log("test==>", (profileProgress?.alternativeEmail?.trim() !== "" ||
+    //         profileProgress?.alternativePhoneNumber?.trim() !== "" ||
+    //         profileProgress?.skipAlternateContact))
+
+    //     const steps = [
+    //         (profileProgress?.skipProfilePhoto || profileImage)
+    //             ? null : { label: "Image", name: "Image", component: ImageUploadComponent }
+    //         ,
+
+    //         !profileProgress?.pronouns && !profileProgress?.gender && !profileProgress?.age
+    //             ? { label: "General", name: "General", component: NameForm }
+    //             : null,
+
+    //         (!profileProgress?.alternativeEmail?.trim() &&
+    //             !profileProgress?.alternativePhoneNumber?.trim() &&
+    //             !profileProgress?.skipAlternateContact)
+    //             ? {
+    //                 label: "Contact",
+    //                 name: "Contact",
+    //                 component: AlternateContactInformation
+    //             }
+    //             : null
+    //         ,
+    //     ].filter(Boolean); // removes null entries
+
+    //     if (!steps.length) formik.setFieldValue("step", 1);
+    //     setStepComponents(steps);
+
+    // };
+
+
+    // console.log("formik==>", formik.values)
+    // console.log("steps==>", stepsComponent)
+    // const CurrentStep = stepsComponent[formik.values.step - 1]?.component;
+
 
     return (
         <>
             {isLoading && <Loader />}
 
             <div className="md:py-10 pb-10 px-10">
-                <form onSubmit={formik.handleSubmit}>
-                    {formik?.values?.step > 0 && <FormStepper {...{ formik, section, setSection, steps }} />}
-                    {formik?.values?.step === 0 && <Welcome {...{ nextStepHandler }} />}
+                {loader ? <Loading /> :
+                    // {(isloadingProfileProgress || isloadingProfilePhoto) ? <Loading /> :
+                    <form onSubmit={formik.handleSubmit}>
+                        {formik?.values?.step > 0 && formik?.values?.step < 4 && <FormStepper {...{ formik, section, setSection, steps: stepToAnswer }} />}
+                        {formik?.values?.step === 0 && <Welcome {...{ nextStepHandler }} />}
 
-                    <div className="px-5 md:px-0 w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mx-auto mt-10">
-                        {/* {formik.values.step === 1 && <PasswordForm {...{ formik, nextStepHandler, handleSubmit }} />} */}
-                        {formik.values.step === 1 && <ImageUploadComponent {...{ formik, nextStepHandler, profileImage }} />}
-                        {formik.values.step === 2 && <NameForm {...{ formik, nextStepHandler, profileProgress }} />}
-                        {formik.values.step === 3 && <AlternateContactInformation {...{ formik, handleSubmit }} />}
-                    </div>
-                </form>
+                        <div className="px-5 md:px-0 w-full md:w-[80%] lg:w-[60%] xl:w-[50%] mx-auto mt-10">
+                            {/* {formik.values.step === 1 && <PasswordForm {...{ formik, nextStepHandler, handleSubmit }} />} */}
+
+                            {/* {formik?.values?.step > 0 ? stepsComponent?.length ? stepsComponent[formik.values.step - 1]?.component || <></> : <div className="h-50 flex items-center justify-center">
+                                <p>You’ve also been successfully submmitted your details!</p>
+                            </div> : ""} */}
+                            {/* <>
+                                {formik.values.step > 0 ? (
+                                    CurrentStep ? (
+                                        <CurrentStep {...props} />
+                                    ) : (
+                                        <div className="h-50 flex items-center justify-center text-[#B3322F] text-xl text-center">
+                                            <p>Thank you! We’ve already received your details.</p>
+                                        </div>
+                                    )
+                                ) : null}
+                            </> */}
+
+                            {formik.values.step === 1 && <ImageUploadComponent {...props} />}
+                            {formik.values.step === 2 && <NameForm {...props} />}
+                            {formik.values.step === 3 && <AlternateContactInformation {...props} />}
+                            {formik.values.step === 4 && <div className="h-50 flex items-center justify-center text-[#B3322F] text-xl text-center">
+                                <p>Thank you! We’ve already received your details.</p>
+                            </div>}
+                        </div>
+                    </form>}
             </div>
         </>
     )
@@ -132,9 +213,16 @@ export const Welcome: React.FC<{
 
 
 
-const AlternateContactInformation: React.FC<{ formik: any; }> = ({ formik }) => {
+const AlternateContactInformation: React.FC<{ formik: any; handleSubmit: (values: Partial<StudentUpdatePayload>) => void; }> = ({ formik, handleSubmit }) => {
 
     const isError = false
+
+    const submitHandler = () => {
+        const { alternativeEmail, skipProfilePhoto } = formik.values
+        handleSubmit({ alternativeEmail, skipProfilePhoto, profileCompletionStep: 2 })
+    }
+    const skipHandler = () => handleSubmit({ skipAlternateContact: true, profileCompletionStep: 2 })
+
     return (
         <div>
             <div className="flex items-start gap-3  mx-auto mt-3">
@@ -171,10 +259,10 @@ const AlternateContactInformation: React.FC<{ formik: any; }> = ({ formik }) => 
             </div>
 
             <div className="text-center flex  gap-0 md:gap-5 flex-col md:flex-row">
-                <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} type="submit">
+                <button type="button" className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={submitHandler}>
                     Submit
                 </button>
-                <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`}  >
+                <button type="button" className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={skipHandler} >
                     Skip
                 </button>
             </div>
@@ -273,17 +361,22 @@ const AlternateContactInformation: React.FC<{ formik: any; }> = ({ formik }) => 
 
 const ImageUploadComponent: React.FC<{
     formik: any; // ideally use Formik type
-    nextStepHandler: () => void;
+    handleSubmit: (values: Partial<StudentUpdatePayload>) => void;
     profileImage: string | null
-}> = ({ formik, nextStepHandler, profileImage: image }) => {
-
+    email?: string | null
+}> = ({ formik, handleSubmit, profileImage: image, email }) => {
     const [profileImage, setProfileImage] = useState<string | null>(image || null);
 
-    const saveImageHandler = () => {
+    // console.log("-->", profileImage)
 
+    const saveImageHandler = () => {
+        if (!profileImage) return
         formik.setFieldValue("profilePhoto", profileImage);
-        nextStepHandler()
+        handleSubmit({ profilePhoto: profileImage, skipProfilePhoto: false, email, profileCompletionStep: 2 })
     }
+
+    const skipImageHandler = () => handleSubmit({ skipProfilePhoto: true, email, profileCompletionStep: 2 })
+
 
     return (
         <>
@@ -305,7 +398,7 @@ const ImageUploadComponent: React.FC<{
                 {/* Button */}
 
                 <div className="text-center">
-                    <button type="button" className={` ${buttonClass}`} onClick={profileImage ? saveImageHandler : nextStepHandler} >
+                    <button type="button" className={` ${buttonClass}`} onClick={profileImage ? saveImageHandler : skipImageHandler} >
                         {profileImage ? "Done" : "Skip"}
                     </button>
                 </div>
@@ -316,9 +409,14 @@ const ImageUploadComponent: React.FC<{
 
 const NameForm: React.FC<{
     formik: any; // ideally use Formik type
-    nextStepHandler: () => void;
-}> = ({ formik, nextStepHandler }) => {
-    const isError = formik?.values?.pronouns?.trim() === "" || formik?.values?.gender?.trim() === "" || formik?.values?.age?.trim() === ""
+    email: string; // ideally use Formik type
+    handleSubmit: (values: Partial<StudentUpdatePayload>) => void;
+}> = ({ formik, handleSubmit, email }) => {
+    const isError = formik?.values?.pronouns?.trim() === "" || formik?.values?.gender?.trim() === "" || formik?.values?.age?.trim() === "";
+    const submit = () => {
+        const { pronouns, gender, age } = formik.values
+        handleSubmit({ pronouns, gender, age, email, profileCompletionStep: 3 })
+    }
 
     return (
         <>
@@ -425,7 +523,7 @@ const NameForm: React.FC<{
             </div>
             {/* Button */}
             <div className="text-center">
-                <button className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={nextStepHandler} disabled={isError}>
+                <button type="button" className={`${isError ? "bg-gray-300 hover:bg-gray-300 " : ""} ${buttonClass}`} onClick={submit} disabled={isError}>
                     Next
                 </button>
             </div>
@@ -436,3 +534,12 @@ const NameForm: React.FC<{
         </>
     )
 };
+
+
+const Loading = () => {
+    return (
+        <div className="flex items-center justify-center h-50">
+            <LoaderComponent />
+        </div>
+    )
+}
