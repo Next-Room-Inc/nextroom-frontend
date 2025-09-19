@@ -141,10 +141,10 @@ export const AboutUs = () => {
             </div>
 
             {/* test */}
-            <div className='h-[100vh] gradientBackground'>
+            {/* <div className='h-[100vh] gradientBackground'>
 
 
-            </div>
+            </div> */}
         </CommonLayout>
     )
 }
