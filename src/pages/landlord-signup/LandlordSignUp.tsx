@@ -4,7 +4,7 @@ import { LandlordSignUpAuth } from "./components/LandlordSignUpAuth";
 import { BasicDetails } from "./components/BasicDetails";
 import { EmailVerification } from "./components/EmailVerification";
 import { IdentityVerification } from "./components/IdentityVerification";
-import { AIVerification } from "./components/AiVerification";
+import { AIVerification } from "./components/AIVerification";
 import { CheckIcon } from "@heroicons/react/20/solid";
 
 const LandlordSignUp = () => {
@@ -64,8 +64,8 @@ const LandlordSignUp = () => {
                 )}
                 <div
                   className={`flex items-center justify-center w-10 h-10 md:mt-0 rounded-full border-2 z-10 ${currentStep > stepNum
-                      ? "bg-[#B3322F] border-[#B3322F] text-white"
-                      : "bg-white border-[#B3322F] text-[#B3322F]"
+                    ? "bg-[#B3322F] border-[#B3322F] text-white"
+                    : "bg-white border-[#B3322F] text-[#B3322F]"
                     }`}
                 >
                   <CheckIcon className="w-5" />

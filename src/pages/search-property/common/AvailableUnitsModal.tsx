@@ -227,7 +227,8 @@ const UnitDetailsSection: React.FC<{
                   </div>
                   {viewAllMatches && (
                     <ViewAllMatchesComponent
-                      compatibleRoommates={floorplan?.compatibleRoommates || null}
+                      compatibleRoommates={(floorplan as any)?.compatibleRoommates || null}
+
                     />
                   )}
 

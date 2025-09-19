@@ -8,7 +8,6 @@ interface AIVerificationFormProps {
 }
 
 export const AIVerification: React.FC<AIVerificationFormProps> = ({
-  formik,
   onNext,
 }) => {
   const [updateFormTerms, setUpdateFormTerms] = useState(false);
@@ -71,11 +70,10 @@ export const AIVerification: React.FC<AIVerificationFormProps> = ({
           className="flex items-center gap-2  hover:bg-gray-100 p-2 rounded-md transition px-5"
         >
           <span
-            className={`${
-              updateFormTerms
+            className={`${updateFormTerms
                 ? "bg-[#B3322F]"
                 : "border-[#B3322F] border-2"
-            }  w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
+              }  w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
           ></span>
           <span className="text-[#040404] font-normal text-[14px]">I have read and accept the Next Room Terms & Conditions</span>
         </div>
@@ -84,11 +82,10 @@ export const AIVerification: React.FC<AIVerificationFormProps> = ({
           className="flex items-center gap-3  hover:bg-gray-100 p-2 rounded-md transition px-5"
         >
           <span
-            className={`${
-              updateFormPolicy
+            className={`${updateFormPolicy
                 ? "bg-[#B3322F]"
                 : "border-[#B3322F] border-2"
-            }  w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
+              }  w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
           ></span>
           <span className="text-[#040404] font-normal text-[14px]">I have read and accept the Next Room Privacy Policy</span>
         </div>

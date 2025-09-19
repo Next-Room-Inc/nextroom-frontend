@@ -10,7 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { LANGUAGES } from '@src/utils/constants/app-info.constant';
 
 const TermsAndConditions = () => {
-    const printRef = useRef();
+    const printRef = useRef<HTMLDivElement | null>(null);
+
+
     const { i18n } = useTranslation();
 
     const [loader, setLoader] = useState(false);

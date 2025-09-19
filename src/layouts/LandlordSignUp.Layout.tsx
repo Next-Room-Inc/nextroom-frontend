@@ -3,7 +3,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 const LandlordSignupLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [initialStep, setInitialStep] = useState(true)
+  const [initialStep, _] = useState(true)
 
 
 

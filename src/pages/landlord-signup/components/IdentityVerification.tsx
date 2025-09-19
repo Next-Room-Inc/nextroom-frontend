@@ -8,7 +8,6 @@ interface IdentityVerificationFormProps {
 }
 
 export const IdentityVerification: React.FC<IdentityVerificationFormProps> = ({
-  formik,
   onNext,
 }) => {
   const [updateForm, setUpdateForm] = useState("passport");
@@ -96,18 +95,17 @@ export const IdentityVerification: React.FC<IdentityVerificationFormProps> = ({
             className="flex items-center gap-2 hover:bg-gray-100 p-2 rounded-md transition px-5 cursor-pointer"
           >
             <span
-              className={`${
-                updateForm === type
+              className={`${updateForm === type
                   ? "bg-[#B3322F]"
                   : "border-[#B3322F] border-2"
-              } w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
+                } w-4 h-4 rounded-full flex items-center justify-center text-white font-bold text-lg`}
             ></span>
             <span className="text-gray-800 font-medium">
               {type === "driverLicense"
                 ? "Driver’s License"
                 : type === "idCard"
-                ? "ID Card"
-                : "Passport"}
+                  ? "ID Card"
+                  : "Passport"}
             </span>
           </div>
         ))}

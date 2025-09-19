@@ -56,7 +56,7 @@ const routeArray = [
   [ROUTES.BLOGS, <Blogs />],
   [ROUTES.CHAT, <Chat />],
   [ROUTES.UNDER_CONSTRUCTION, <UnderConstruction />],
-] as [string, JSX.Element][];
+] as [string, React.ReactElement][];
 
 // ************************* Routes ************************** //
 export const routes = createBrowserRouter([

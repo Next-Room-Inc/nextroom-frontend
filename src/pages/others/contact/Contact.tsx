@@ -186,7 +186,7 @@ export const RelatedArticles = () => {
         <>
             <div className="  py-10  mx-5 md:mx-15">
                 <h1 className='text-4xl font-semibold text-[#B3322F]'>Related Articles</h1>
-                {slidersList.map((feature, index) => (
+                {slidersList.map((feature) => (
                     <>  <div
 
                         className={`z-10 md:flex  overflow-hidden relative  bg-white my-5 shadow-lg p-5 rounded-2xl`}

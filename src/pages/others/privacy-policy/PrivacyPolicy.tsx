@@ -10,14 +10,16 @@ import { LANGUAGES } from '@src/utils/constants/app-info.constant';
 import { useTranslation } from 'react-i18next';
 
 const PrivacyPolicy = () => {
-    const printRef = useRef();
+    const printRef = useRef<HTMLDivElement | null>(null);
     const { i18n } = useTranslation();
     const [loader, setLoader] = useState(false);
 
 
     const handleDownloadPdf = async () => {
         setLoader(true)
-        const element = printRef.current;
+        const element: HTMLDivElement | null = printRef.current;
+        if (!element) return;
+
         const canvas = await html2canvas(element);
         const data = canvas.toDataURL("image/png");
 
