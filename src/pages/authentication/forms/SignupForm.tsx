@@ -15,7 +15,7 @@ import { StudentSignupPayload } from "@src/utils/interfaces";
 import { SignupSchema } from "@src/utils/schemas/auth.schema";
 import { generatePassword } from "@src/utils/functions";
 // import { motion } from "framer-motion";
-import { Popover } from 'react-tiny-popover'
+// import { Popover } from 'react-tiny-popover'
 
 
 const steps = [

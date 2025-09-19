@@ -9,6 +9,7 @@ export interface StudentSignupPayload {
 }
 export interface StudentUpdatePayload {
   age: string;
+  email?: string | null;
   phoneNumber?: string;
   tag?: string;
   gender?: string;
@@ -17,6 +18,10 @@ export interface StudentUpdatePayload {
   step?: number;
   alternativeEmail?: string;
   alternativePhoneNumber?: string;
+  profileCompletionStep?: any;
+  skipProfilePhoto?: any;
+  skipAlternateContact?: any;
+  profilePhoto?: any;
 }
 export interface ForgotPasswordPayload {
   email: string;

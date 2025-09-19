@@ -17,6 +17,8 @@ const Dashboard = () => {
     const [selectedOption, setsSelectedOption] = useState(options[0])
     const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
+
+
     return (
         <div>
             <h1 className='text-[#B3322F] text-2xl font-bold ml-3'>Dashboard</h1>
@@ -78,7 +80,7 @@ const Dashboard = () => {
                             {selectedOption === "Account Details" && <AccountDetails />}
                             {selectedOption === "Events" && <Events />}
                             {selectedOption === "Exclusive Offers & Prizes" && <ExclusiveOffersAndPrizes />}
-                            {selectedOption === "Membership Card" && <MembershipCard />}
+                            {selectedOption === "Membership Card" && <MembershipCard onImageHandler={() => setsSelectedOption(options[0])} />}
                         </div>
                     </div>
                 </>

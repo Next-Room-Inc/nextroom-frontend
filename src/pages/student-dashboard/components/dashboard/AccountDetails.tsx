@@ -18,7 +18,7 @@ const buttonClass = `w-[100%] bg-[#B3322F] hover:bg-[#C94541] mt-5 py-2 text-whi
 export const AccountDetails = () => {
     const { user } = useAuth()
     // console.log("==>", user)
-    const userId = user?.userId
+    const userId = user?.userId || null
     const email = user?.email
     // const userId = 279
     // const email = "mekomi@uottawa.ca"
@@ -409,7 +409,7 @@ const ImageUploadComponent: React.FC<{
 
 const NameForm: React.FC<{
     formik: any; // ideally use Formik type
-    email: string; // ideally use Formik type
+    email: any; // ideally use Formik type
     handleSubmit: (values: Partial<StudentUpdatePayload>) => void;
 }> = ({ formik, handleSubmit, email }) => {
     const isError = formik?.values?.pronouns?.trim() === "" || formik?.values?.gender?.trim() === "" || formik?.values?.age?.trim() === "";

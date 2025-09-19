@@ -5,7 +5,9 @@ import { useGetMembershipCardQuery } from "@src/redux/services/auth.service";
 import html2canvas from "html2canvas";
 import React, { useRef, useState } from "react";
 
-export const MembershipCard = () => {
+export const MembershipCard: React.FC<{
+    onImageHandler: () => void
+}> = ({ onImageHandler }) => {
     const { user } = useAuth()
     const { data: membershipCard, isLoading } = useGetMembershipCardQuery(user?.userId ?? null);
     const cardRef = useRef<HTMLDivElement>(null);
@@ -67,12 +69,18 @@ export const MembershipCard = () => {
     //   pdf.save("membership-card.pdf");
     // };
 
+    const isPorfileImageUploaded = !membershipCard?.profilePhotoUrl
 
     return (<>
         <div className="py-10 px-2">
             {loading && <Loader />}
             {isLoading ? <div className="h-40 md:h-50 flex justify-center items-center" >
                 <LoaderComponent />
+            </div> : !isPorfileImageUploaded ? <div>
+                <div className="flex flex-col   items-center justify-center gap-4 py-10  mx-10">
+                    <p>Upload an image to view and download your membership card</p>
+                    <Button onClick={onImageHandler} className="bg-[#B3322F] text-white w-full md:w-50 py-2 rounded-full">Upload</Button>
+                </div >
             </div> : <div ref={cardRef} className="w-fit mx-auto ">
                 <MembershipCardComponent
                     name={`${membershipCard?.firstName} ${membershipCard?.lastName}`}
@@ -85,10 +93,10 @@ export const MembershipCard = () => {
 
 
             {/*  Buttons */}
-            <div className="flex flex-col md:flex-row items-center justify-center gap-4 py-10  mx-10">
+            {isPorfileImageUploaded && <div className="flex flex-col md:flex-row items-center justify-center gap-4 py-10  mx-10">
                 {/* <Button className="bg-[#B3322F] text-white w-full md:w-50 py-2 rounded-full">Print</Button> */}
                 <Button onClick={handleDownload} className="bg-[#B3322F] text-white w-full md:w-50 py-2 rounded-full">Download</Button>
-            </div >
+            </div >}
         </div>
 
     </>)

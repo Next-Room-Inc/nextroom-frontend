@@ -1,5 +1,5 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { Bars3Icon, BellIcon, PhoneIcon } from "@heroicons/react/20/solid";
+import { Bars3Icon } from "@heroicons/react/20/solid";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -21,19 +21,19 @@ export const Header: React.FC<{
   const [lastScrollY, setLastScrollY] = useState(0);
   const [headerColor, setHeaderColor] = useState("bg-black");
 
-  const StudentDashboardIcons = () => (
-    <div className={`${isLoggedIn ? "flex" : "hidden"} gap-2`}>
-      <span className="relative inline-block">
-        <BellIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
-        <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]  " />
-      </span>
-      <PhoneIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
-      {/* <InformationCircleIcon className=" md:text-white md:bg-black text-black bg-white  h-8.5 -mt-0.5 -ml-1 rounded-full rotate-10" /> */}
-      <span className="md:text-black md:bg-white text-white bg-black text-lg   md:text-xl rounded-full h-7.5 w-7.5 text-center">
-        𝓲
-      </span>
-    </div>
-  );
+  // const StudentDashboardIcons = () => (
+  //   <div className={`${isLoggedIn ? "flex" : "hidden"} gap-2`}>
+  //     <span className="relative inline-block">
+  //       <BellIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
+  //       <span className="absolute top-0 right-0 block size-1.5 rounded-full bg-[#B3322F] ring-2 ring-[#B3322F]  " />
+  //     </span>
+  //     <PhoneIcon className=" md:text-black md:bg-white text-white bg-black p-1.5 h-7 rounded-full" />
+  //     {/* <InformationCircleIcon className=" md:text-white md:bg-black text-black bg-white  h-8.5 -mt-0.5 -ml-1 rounded-full rotate-10" /> */}
+  //     <span className="md:text-black md:bg-white text-white bg-black text-lg   md:text-xl rounded-full h-7.5 w-7.5 text-center">
+  //       𝓲
+  //     </span>
+  //   </div>
+  // );
 
   // const languages = [
   //   { code: "en", label: "English" },
