@@ -4,7 +4,6 @@ import * as motion from "motion/react-client";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-
 import { ChevronLeftIcon, EyeIcon } from "@heroicons/react/20/solid";
 import { FormStepper } from "@src/components/FormStepper";
 import Loader from "@src/components/Loader";
@@ -14,7 +13,10 @@ import { useResendVerificationMutation, useStudentSignupMutation } from "@src/re
 import { APP_INFO } from "@src/utils/constants";
 import { StudentSignupPayload } from "@src/utils/interfaces";
 import { SignupSchema } from "@src/utils/schemas/auth.schema";
+import { generatePassword } from "@src/utils/functions";
 // import { motion } from "framer-motion";
+import { Popover } from 'react-tiny-popover'
+
 
 const steps = [
     { label: "name", name: "name" },
@@ -150,11 +152,21 @@ const PasswordForm: React.FC<{
     const PasswordEyeToggleIcon = passwordType ? EyeIcon : EyeSlashIcon;
     const ConfirmPasswordEyeToggleIcon = confirmPasswordType ? EyeIcon : EyeSlashIcon;
 
+    const passwordGenerateHandler = () => {
+        const password = generatePassword(20)
+        formik.setFieldValue("password", password);
+        formik.setFieldValue("confirmPassword", password);
+        setPasswordType(false)
+        setConfirmPasswordType(false)
+
+    }
+
     return (
         <div className="w-full md:w-[50%] lg:w-[40%] xl:w-[30%] mx-auto">
             {/* <h1 className="text-white text-2xl ml-2 mb-4 text-center ">Select a password </h1> */}
             <h1 className="text-4xl text-center mb-10">Select a password</h1>
             {/* Password */}
+
             <div className="mb-2">
                 <div className="mt-2">
                     <div className={`${inputClass} relative ${formik.values.password && formik.touched.password && formik.errors.password
@@ -170,13 +182,21 @@ const PasswordForm: React.FC<{
                             onBlur={formik.handleBlur}
                             className={`block w-full pr-40 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none}`}
                         />
-                        <span className="absolute right-11 text-[#B3322F] font-semibold underline text-[10px]  top-1/2 -translate-y-1/2   z-10" >Generate Password For Me</span>
+
+                        <span className="absolute right-11 text-[#B3322F] font-semibold underline text-[10px] top-1/2 -translate-y-1/2 z-10 group cursor-pointer" onClick={passwordGenerateHandler}>
+                            Generate Password For Me
+                            <span className="absolute font-light bottom-full mb-2 left-1/2 -translate-x-1/2 w-70 bg-white text-black rounded-md shadow-md text-[10px] leading-tight px-3 py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                By using this tool, a secure password will be generated for you. Save it in a password manager — we do not store or recover passwords.
+                            </span>
+                        </span>
+
                         <PasswordEyeToggleIcon
                             onClick={() => setPasswordType(!passwordType)}
                             aria-hidden="true"
                             className="absolute right-5 top-1/2 -translate-y-1/2 size-5 text-gray-500  z-10"
                         />
                     </div>
+
                     {formik.values.password && formik.touched.password && formik.values.password.length ? (
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
@@ -188,6 +208,7 @@ const PasswordForm: React.FC<{
                     ) : null}
                 </div>
             </div>
+
 
             {/* Confirm Password */}
             <div className="mb-2">

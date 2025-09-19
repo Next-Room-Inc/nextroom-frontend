@@ -32,22 +32,14 @@ export const HomeComponent: React.FC<{
                 src="/assets/gif/downarrow.gif"
                 className="h-20 md:h-30 w-auto mx-auto"
               />
-              <p
-                className="font-bold text-2xl md:text-3xl text-transparent absolute md:top-8 top-4 text-center   w-full"
-                style={{
-                  WebkitTextStroke: "1px red",
-                  WebkitTextFillColor: "white", // fill color inside text
-                }}
-              >
-                Join the movement below.
-              </p>
+              <p className="font-bold text-2xl md:text-3xl text-center w-full absolute md:top-8 top-4 text-white" style={{ textShadow: ` 0 0 5px #ff1a1a, 0 0 10px #ff1a1a, 0 0 20px #ff1a1a, 0 0 40px #ff1a1a `, }} > Join the movement below. </p>
             </div>
 
 
           </div>
         </div>
 
-        <div className="text-center z-100 bg-transparent sticky bottom-0 top-8 ">
+        <div className="text-center z-100 bg-transparent sticky top-[95%] ">
           <button
             onClick={() => {
               const element = document.getElementById("loginAndSignupForm");
@@ -55,7 +47,7 @@ export const HomeComponent: React.FC<{
                 element.scrollIntoView({ behavior: "smooth" });
               }
             }}
-            className=" bg-black text-white font-medium py-3 w-[320px]  md:w-[500px] mx-auto rounded-full shadow-md z-10  -top-3 relative -mt-10 transition-all duration-300 ease-in-out">
+            className=" bg-black text-white font-medium py-3 w-[320px]   md:w-[500px] mx-auto rounded-full shadow-md z-10  -top-3 relative -mt-10 transition-all duration-300 ease-in-out">
             Join The Student Housing Revolution
           </button>
         </div>

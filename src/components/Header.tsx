@@ -135,8 +135,8 @@ export const Header: React.FC<{
     //   href: "#",
     //   class: "py-2 md:hidden",
     // },
-    { name: <StudentDashboardIcons />, href: "#", class: "px-2 md:hidden" },
-    { name: "Refer & Earn", href: "#", class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : "md:hidden"}`, },
+    // { name: <StudentDashboardIcons />, href: "#", class: "px-2 md:hidden" },
+    // { name: "Refer & Earn", href: "#", class: `px-2 md:px-4  ${!isLoggedIn ? "hidden" : "md:hidden"}`, },
     // { name: "List Your Property", href: "#", class: "px-2 md:hidden" },
     // {
     //   name: (
@@ -256,21 +256,21 @@ export const Header: React.FC<{
                 </p>
               </div>
             </div> */}
-            {isLoggedIn && <span
+            {/* {isLoggedIn && <span
               className={`border-1 px-3 py-1 rounded-full text-[10px] mx-2  transition-all duration-300 ease-in-out ${darkMode
                 ? " border-white text-white bg-black"
                 : "text-dark border-dark hover:text-white hover:bg-black"
                 }`}
             >
               Refer & Earn
-            </span>}
+            </span>} */}
           </div>
-          <div
+          {/* <div
             className={`hidden md:flex ${isLoggedIn ? "flex" : "hidden"
               }`}
           >
             <StudentDashboardIcons />
-          </div>
+          </div> */}
           <div className=" hidden lg:inline">
             {navbar.map((i, index) => (
               <span

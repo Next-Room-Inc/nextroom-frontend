@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { motion } from "framer-motion";
+import { Autoplay } from "swiper/modules";
 
 
 export const WhyJoinNextRoom = () => {
@@ -98,49 +99,6 @@ const features = [
 
 const WhyJoinNextRoomSlider = () => {
     return (
-        <div className="w-full mx-auto px-10 py-10">
-            <Swiper
-                loop
-                spaceBetween={60}
-                slidesPerView={1}
-                breakpoints={{
-                    640: { slidesPerView: 1 },
-                    768: { slidesPerView: 2 },
-                    1024: { slidesPerView: 4 },
-                }}
-                // navigation
-                pagination={{ clickable: true }}
-                // modules={[Navigation, Pagination]}
-                className="mySwiper"
-            >
-                {features.map((feature, index) => (
-                    <SwiperSlide key={index}>
-                        <div
-                            className=" z-0 relative h-120 rounded-xl overflow-hidden bg-white py-25 px-10"
-                        >
-                            <div className="flex flex-col items-center justify-between   h-full ">
-
-
-                                <h3 className="text-2xl font-bold   text-center mx-auto text-[#B3322F] w-[100%] mb-8">
-                                    {feature.title}
-                                </h3>
-                                <div className="flex items-center gap-3 mb-2">
-
-
-                                    <img
-                                        src={`/assets/images/${feature.image}`}
-                                        alt=""
-                                        className={'h-40 mx-auto'}
-                                    />
-
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </div>
+        <div className="w-full mx-auto px-10 py-10"> <Swiper autoplay={{ delay: 500, disableOnInteraction: false, }} loop modules={[Autoplay]} spaceBetween={60} slidesPerView={1} breakpoints={{ 640: { slidesPerView: 1 }, 768: { slidesPerView: 2 }, 1024: { slidesPerView: 4 }, }} pagination={{ clickable: true }} className="mySwiper" > {features.map((feature, index) => (<SwiperSlide key={index}> <div className="relative z-0 h-120 rounded-xl overflow-hidden bg-white py-25 px-10"> <div className="flex flex-col items-center justify-between h-full"> <h3 className="mb-8 w-full text-center text-2xl font-bold text-[#B3322F]"> {feature.title} </h3> <div className="mb-2 flex items-center gap-3"> <img src={`/assets/images/${feature.image}`} alt={feature.title || "Feature Image"} className="mx-auto h-40" /> </div> </div> </div> </SwiperSlide>))} </Swiper> </div>
     )
 }

@@ -147,3 +147,13 @@ input[type="range"].custom-slider::-moz-range-thumb {
   scrollbar-width: auto;
   scrollbar-color: #b3322f; /* thumb and track */
 }
+
+/* tooltip */
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+}
+.has-tooltip:hover .tooltip {
+  visibility: visible;
+  z-index: 100;
+}
