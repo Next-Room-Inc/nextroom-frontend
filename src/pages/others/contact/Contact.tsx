@@ -25,7 +25,7 @@ const roles = [
 const Contact = () => {
     const [selectedTopic, setSelectedTopic] = useState(topics[0])
     const [selectedRole, setSelectedRole] = useState(roles[0])
-    const [isDropdownOpen, setIsDropdownOpen] = useState(true);
+    const [isDropdownOpen, _] = useState(true);
 
     return (
         <CommonLayout>

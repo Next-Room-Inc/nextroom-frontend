@@ -6,7 +6,14 @@ import { motion } from "framer-motion";
 
 const inputClass = `block w-full rounded-full  drop-shadow-md shadow-lg bg-white px-3 py-2 text-base text-gray-900 outline  placeholder:text-gray-400 sm:text-sm/6`;
 
-function StepCard({ title, waveStyle, delay, number }) {
+type StepCardProps = {
+  title: string;
+  waveStyle?: React.CSSProperties;
+  delay?: number;
+  number: number | string;
+};
+
+function StepCard({ title, waveStyle, delay = 0, number }: StepCardProps) {
   return (
     <motion.div
       className="flex gap-3 flex-col items-center justify-center mt-20"
@@ -14,7 +21,7 @@ function StepCard({ title, waveStyle, delay, number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay }}
     >
-      {/* Circle with Wave + Check */}
+      {/* Circle with Wave + Number */}
       <div className="w-70">
         <div className="rotate-180 bg-white h-40 w-40 rounded-full overflow-hidden mx-auto relative shadow-lg">
           <Wave
@@ -42,13 +49,14 @@ function StepCard({ title, waveStyle, delay, number }) {
   );
 }
 
+
 const Landlord = () => {
   const formik = useFormik({
     initialValues: {
       email: "",
     },
     validationSchema: "",
-    onSubmit: () => {},
+    onSubmit: () => { },
   });
 
   const steps = [
@@ -79,11 +87,10 @@ const Landlord = () => {
         <div className="w-140 flex flex-col items-center justify-center px-20 py-20 bg-[rgba(179,50,47,0.5)] rounded-md">
           <h3 className="text-[28px] text-white">Let’s Get Started</h3>
           <div
-            className={`mt-8 ${inputClass} ${
-              formik.touched.email && formik.errors.email
+            className={`mt-8 ${inputClass} ${formik.touched.email && formik.errors.email
                 ? "outline-1 outline-red-600"
                 : "outline-1 outline-gray-300"
-            }`}
+              }`}
           >
             <input
               placeholder="Email Address"
@@ -93,11 +100,10 @@ const Landlord = () => {
               value={formik.values.email}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none ${
-                formik.touched.email && formik.errors.email
+              className={`block w-full pr-10 rounded-md bg-white py-0.5  pl-3 text-base text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none ${formik.touched.email && formik.errors.email
                   ? "outline-red-600"
                   : "outline-white"
-              }`}
+                }`}
             />
             {formik.touched.email && formik.errors.email && (
               <div className="text-sm text-red-600 ml-3 mt-2">

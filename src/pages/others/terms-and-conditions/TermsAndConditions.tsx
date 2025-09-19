@@ -19,8 +19,9 @@ const TermsAndConditions = () => {
 
     const handleDownloadPdf = async () => {
         setLoader(true)
-        const element = printRef.current;
-        const canvas = await html2canvas(element);
+        if (!printRef.current) return; // guard clause
+
+        const canvas = await html2canvas(printRef.current);
         const data = canvas.toDataURL("image/png");
 
         const pdf = new jsPDF("p", "mm", "a4");

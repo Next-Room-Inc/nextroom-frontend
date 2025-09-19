@@ -150,7 +150,26 @@ export const AboutUs = () => {
 }
 
 
-function StepCard({ title, waveStyle, delay }) {
+type StepCardProps = {
+    title: string;
+    waveStyle?: React.CSSProperties;
+    delay?: number;
+    icon?: string | React.ReactNode; // e.g. ✓, number, or JSX
+    waveOptions?: {
+        height: number;
+        amplitude: number;
+        speed: number;
+        points: number;
+    };
+};
+
+function StepCard({
+    title,
+    waveStyle,
+    delay = 0,
+    icon = "✓",
+    waveOptions = { height: 2, amplitude: 20, speed: 0.2, points: 2 },
+}: StepCardProps) {
     return (
         <motion.div
             className="flex gap-6 flex-col md:flex-row items-center justify-center mt-20"
@@ -158,28 +177,18 @@ function StepCard({ title, waveStyle, delay }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay }}
         >
-            {/* Circle with Wave + Check */}
+            {/* Circle with Wave + Icon */}
             <div className="w-60">
                 <div className="rotate-180 bg-white h-40 w-40 rounded-full overflow-hidden mx-auto relative shadow-lg">
-                    <Wave
-                        fill="#57AF4F"
-                        paused={false}
-                        style={waveStyle}
-                        options={{
-                            height: 2,
-                            amplitude: 20,
-                            speed: 0.2,
-                            points: 2,
-                        }}
-                    />
-                    <p className="absolute top-1/2 rotate-180 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-7xl drop-shadow-lg  ">
-                        ✓
-                    </p>
+                    <Wave fill="#57AF4F" paused={false} style={waveStyle} options={waveOptions} />
+                    <div className="absolute top-1/2 rotate-180 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-7xl drop-shadow-lg">
+                        {icon}
+                    </div>
                 </div>
             </div>
 
             {/* Text */}
-            <div className="text-xl md:text-3xl font-bold text-white md:text-left  text-center md:w-150 px-5 md:px-0">
+            <div className="text-xl md:text-3xl font-bold text-white md:text-left text-center md:w-150 px-5 md:px-0">
                 {title}
             </div>
         </motion.div>
@@ -203,7 +212,7 @@ export const FlowSlider = () => {
                     modules={[Navigation]}
                     className="mySwiper"
                 >
-                    {[1, 2, 3, 4, 5].map((feature, index) => (
+                    {[1, 2, 3, 4, 5].map((_, index) => (
                         <SwiperSlide key={index}>
                             <div
                                 className=" rounded-xl overflow-hidden bg-[#6D0813]"

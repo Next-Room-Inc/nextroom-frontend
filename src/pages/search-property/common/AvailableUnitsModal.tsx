@@ -3,26 +3,17 @@ import { UNIT_DETAILS } from "@src/static-data";
 import { ROUTES } from "@src/utils/constants";
 import { IMAGES } from "@src/utils/constants/app-info.constant";
 import { PropertyDetails } from "@src/utils/interfaces/property.interface";
-import {
-  CategoryScale,
-  Chart as ChartJS,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Tooltip,
-} from "chart.js";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
-import { Line } from "react-chartjs-2";
 import { useNavigate } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Button } from "../../../components/Button";
 // import GoogleMapComponent from "../../../components/GoogleMap";
-import MapBoxComponent from "@src/components/MapBox";
-import { PrimaryButton } from "./ComponComponents";
 import Image from "@src/components/Image";
+import MapBoxComponent from "@src/components/MapBox";
 import { ModalOverlay } from "@src/components/ModalOverLay";
+import { PrimaryButton } from "./ComponComponents";
 
 export const AvailableUnitsModal: React.FC<{
   floorplan: any;
@@ -97,11 +88,10 @@ export const AvailableUnitsModal: React.FC<{
             {tabOptions.map((tab, idx) => (
               <div
                 key={tab}
-                className={`w-[25%] text-center  ${
-                  idx < tabOptions.length - 1
-                    ? "border-r-2 border-[#CCCCCC]"
-                    : ""
-                } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
+                className={`w-[25%] text-center  ${idx < tabOptions.length - 1
+                  ? "border-r-2 border-[#CCCCCC]"
+                  : ""
+                  } ${selectedTab === tab ? "text-[#B3322F] font-semibold" : ""}`}
                 onClick={() => setSelectedTab(tab)}
               >
                 {tab}
@@ -133,11 +123,10 @@ export const AvailableUnitsModal: React.FC<{
                   {tabOptions.map((tab) => (
                     <div
                       key={tab}
-                      className={`text-center py-2  hover:text-[#B3322F] ${
-                        selectedTab === tab
-                          ? "text-[#B3322F] font-semibold"
-                          : ""
-                      }`}
+                      className={`text-center py-2  hover:text-[#B3322F] ${selectedTab === tab
+                        ? "text-[#B3322F] font-semibold"
+                        : ""
+                        }`}
                       onClick={() => handleSelectTab(tab)}
                     >
                       {tab}
@@ -196,9 +185,8 @@ const UnitDetailsSection: React.FC<{
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className={`rounded-xl shadow-md overflow relative p-6 mx-5 mt-5 text-black ${
-              index === selected ? "bg-[#D9D9D9]" : "bg-white"
-            }`}
+            className={`rounded-xl shadow-md overflow relative p-6 mx-5 mt-5 text-black ${index === selected ? "bg-[#D9D9D9]" : "bg-white"
+              }`}
           >
             <div className="md:flex">
               {/* Image section */}
@@ -239,7 +227,7 @@ const UnitDetailsSection: React.FC<{
                   </div>
                   {viewAllMatches && (
                     <ViewAllMatchesComponent
-                      compatibleRoommates={floorplan?.compatibleRoommates}
+                      compatibleRoommates={floorplan?.compatibleRoommates || null}
                     />
                   )}
 
@@ -520,7 +508,7 @@ const MediaGallery: React.FC<MediaGalleryProps> = ({
 const BuildingDetailSection: React.FC<{
   floorplan: any;
   property: any;
-}> = ({ floorplan, property }) => {
+}> = ({ property }) => {
   console.log("property-->", property);
   // const description = "Modern, premium studio apartments offer everything you need for a comfortable and convenient living experience. Fully-furnished with stylish, high-quality furniture, including a comfortable bed, desk, and storage solutions, this space is designed to make your daily life as easy and enjoyable as possible."
   const description = property?.shortDescription || "No description added yet";
@@ -983,52 +971,52 @@ function StepComponent() {
   );
 }
 
-const ChartComponent = () => {
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    // Title,
-    Tooltip
-    // Legend
-  );
+// const ChartComponent = () => {
+//   ChartJS.register(
+//     CategoryScale,
+//     LinearScale,
+//     PointElement,
+//     LineElement,
+//     // Title,
+//     Tooltip
+//     // Legend
+//   );
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top" as const,
-      },
-      title: {
-        // display: true,
-        // text: 'Chart.js Line Chart',
-      },
-    },
-  };
+//   const options = {
+//     responsive: true,
+//     plugins: {
+//       legend: {
+//         position: "top" as const,
+//       },
+//       title: {
+//         // display: true,
+//         // text: 'Chart.js Line Chart',
+//       },
+//     },
+//   };
 
-  const labels = ["2020", "2021", "2022", "2023", "2024"];
+//   const labels = ["2020", "2021", "2022", "2023", "2024"];
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: "Dataset 1",
-        data: [1000, 1200, 1500, 1600, 2000],
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-    ],
-  };
+//   const data = {
+//     labels,
+//     datasets: [
+//       {
+//         label: "Dataset 1",
+//         data: [1000, 1200, 1500, 1600, 2000],
+//         borderColor: "rgb(255, 99, 132)",
+//         backgroundColor: "rgba(255, 99, 132, 0.5)",
+//       },
+//     ],
+//   };
 
-  return (
-    <div className="md:h-65 w-auto mx-auto  p-5 flex justify-center items-center">
-      <Line options={options} data={data} />
-    </div>
-  );
-};
+//   return (
+//     <div className="md:h-65 w-auto mx-auto  p-5 flex justify-center items-center">
+//       <Line options={options} data={data} />
+//     </div>
+//   );
+// };
 
-const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
+const ViewAllMatchesComponent: React.FC<{ compatibleRoommates: any }> = ({ compatibleRoommates }) => {
   console.log("compatibleRoommates=>", compatibleRoommates);
   const [selectedUser, setSelectedUser] = useState<any | null>(null);
 
@@ -1115,7 +1103,7 @@ const ViewAllMatchesComponent = ({ compatibleRoommates }) => {
               768: { slidesPerView: 4 },
             }}
           >
-            {compatibleRoommates.map((roommate, idx) => (
+            {compatibleRoommates.map((roommate: any, idx: any) => (
               <SwiperSlide key={idx}>
                 <Image
                   src={roommate.profilePhoto}

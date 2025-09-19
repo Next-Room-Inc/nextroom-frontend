@@ -6,6 +6,8 @@ import { baseQuery } from "../functions";
 export const PropertyServices = createApi({
   reducerPath: "property",
   baseQuery: baseQuery,
+  tagTypes: ["getSavedPropertyIds"],
+
   endpoints: (builder) => ({
     getEntrataProperties: builder.query<EntrataProperty[], void>({
       query: () => ({

@@ -1,13 +1,13 @@
 import { BuildingOfficeIcon, MapPinIcon } from "@heroicons/react/20/solid";
 import { Button } from "@src/components/Button";
+import Loader from "@src/components/Loader";
 import PulseHoverLayout from "@src/layouts/PulseHover.Layout";
+import { useAddNewSavePropertyMutation, useDeleteSavePropertyMutation } from "@src/redux/services/property.service";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { AvailableUnitsModal } from "./AvailableUnitsModal";
 import { PropertyImagesSlider } from "./PropertyImagesSlider";
-import { toast } from "react-toastify";
-import { useAddNewSavePropertyMutation, useDeleteSavePropertyMutation } from "@src/redux/services/property.service";
-import Loader, { LoaderComponent } from "@src/components/Loader";
 
 export const PropertyCard: React.FC<{
     property: any;
