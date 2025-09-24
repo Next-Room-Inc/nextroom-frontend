@@ -1,11 +1,11 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import * as interfaces from "@src/utils/interfaces";
 import { API_URL } from "../endpoints";
-import { baseQuery } from "../functions";
+import { baseQueryAuth } from "../functions";
 
 export const AuthServices = createApi({
   reducerPath: "auth",
-  baseQuery: baseQuery,
+  baseQuery: baseQueryAuth,
   tagTypes: ["ProfileProgress", "ProfilePhoto"], // ✅ define tags
   endpoints: (builder) => ({
     studentSignup: builder.mutation({
