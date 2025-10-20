@@ -1,10 +1,15 @@
 runtime: nodejs20
 
 handlers:
+  # Serve all static assets (JS, CSS, images)
   - url: /(.*\..+)$
     static_files: dist/\1
     upload: dist/(.*\..+)$
 
+  # Serve the SPA entry point
   - url: /.*
     static_files: dist/index.html
     upload: dist/index.html
+    secure: always
+    redirect_http_response_code: 301
+    
