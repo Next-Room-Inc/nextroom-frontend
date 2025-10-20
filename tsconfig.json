@@ -1,17 +1,7 @@
 {
-  "compilerOptions": {
-    "jsx": "react-jsx",      // for React 17+ with new JSX transform
-    // "jsx": "react"         // for React 16 or older
-    "module": "esnext",
-    "moduleResolution": "node",
-    "esModuleInterop": true, // solves default-import issues like 'import React from "react"'
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "strict": true,
-    "baseUrl": "./src",      // if using absolute imports like '@src/...'
-    "paths": {
-      "@src/*": ["*"]        // your alias for absolute imports
-    }
-  },
-  "include": ["src"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }
