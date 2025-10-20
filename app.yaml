@@ -1,15 +1,10 @@
 runtime: nodejs20
 
 handlers:
-  # Serve all static assets (JS, CSS, images, etc.)
   - url: /(.*\..+)$
     static_files: dist/\1
     upload: dist/(.*\..+)$
 
-  # All other requests go through index.html
   - url: /.*
     static_files: dist/index.html
     upload: dist/index.html
-
-# Enforce HTTPS globally
-secure: always
