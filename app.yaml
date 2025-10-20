@@ -3,6 +3,12 @@ handlers:
 - url: /(.*\..+)$
   static_files: dist/\1
   upload: dist/(.*\..+)$
+  secure: always   # Forces HTTPS
+  http_headers:
+    Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
 - url: /.*
   static_files: dist/index.html
   upload: dist/index.html
+  secure: always   # Forces HTTPS
+  http_headers:
+    Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
