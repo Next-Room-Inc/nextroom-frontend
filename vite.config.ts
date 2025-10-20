@@ -1,20 +1,22 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { resolve } from "path";
+import path from "path";
 import { fileURLToPath } from "url";
 
+// Fix for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = resolve(__filename, "..");
+const __dirname = path.dirname(__filename);
 
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  server: {
+    port: 5000,
+  },
   resolve: {
     alias: {
-      "@src": resolve(__dirname, "src/"),
+      "@src": path.resolve(__dirname, "src"),
     },
   },
-  build: {
-    outDir: "dist",   // <-- MUST be "dist" for App Engine
-  },
+  plugins: [react(), tailwindcss()],
 });
