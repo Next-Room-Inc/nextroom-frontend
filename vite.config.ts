@@ -1,3 +1,12 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import { resolve } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = resolve(__filename, "..");
+
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
@@ -6,6 +15,6 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "dist" // <-- make sure this is set
-  }
+    outDir: "dist",   // <-- MUST be "dist" for App Engine
+  },
 });
