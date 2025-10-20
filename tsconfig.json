@@ -1,8 +1,10 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "types": ["node"]
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "types": ["node"],
+    "skipLibCheck": true
   },
-  "include": ["vite.config.ts", "src/**/*"]
+  "include": ["vite.config.ts"]
 }
