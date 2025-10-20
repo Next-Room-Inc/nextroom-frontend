@@ -1,17 +1,12 @@
 runtime: nodejs20
 
 handlers:
-- url: /.*
-  script: auto
-  secure: always
-  redirect_http_response_code: 301
-  condition: request.host == "nextroom.ca"
+  - url: /(.*\..+)$
+    static_files: dist/\1
+    upload: dist/(.*\..+)$
 
-- url: /(.*\..+)$
-  static_files: dist/\1
-  upload: dist/(.*\..+)$
-
-- url: /.*
-  static_files: dist/index.html
-  upload: dist/index.html
-  secure: always
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
+    secure: always
+    redirect_http_response_code: 301
